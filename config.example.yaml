@@ -1,0 +1,18 @@
+﻿# nbrag 配置示例
+# 复制为 nbrag_config.yaml 放在项目根目录，或 ~/.config/nbrag/config.yaml
+
+embedding:
+  api_key: ${NBRAG_API_KEY}     # 支持环境变量引用，或直接填写 API Key
+  base_url: https://api.siliconflow.cn/v1
+  model: BAAI/bge-m3             # SiliconFlow 免费 embedding 模型
+
+rerank:
+  model: BAAI/bge-reranker-v2-m3 # SiliconFlow 免费 rerank 模型
+
+storage:
+  db_path: ./rag_db              # ChromaDB 向量数据库存储路径
+  raw_files_path: ""             # 原始文件快照路径（默认 db_path/raw_files）
+
+chunking:
+  chunk_size: 1500               # 分块大小（字符数），推荐 1000-2000
+  chunk_overlap: 200             # 分块重叠（字符数）
