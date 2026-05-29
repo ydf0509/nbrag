@@ -1,4 +1,4 @@
-﻿[project]
+[project]
 name = "nbrag"
 version = "0.2.0"
 description = "Agentic RAG MCP Server — 12 tools for AI-driven multi-round code retrieval that outperforms naive single-shot RAG"
