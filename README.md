@@ -152,22 +152,25 @@ batch_ingest(
 ### Skill 指南（教 AI 打组合拳）
 
 12 个工具暴露给 AI 后，AI 只知道"能调什么"，不知道"按什么顺序调"。
-项目附带一个 `skills/rag-workflow/SKILL.md` 文件，把最佳检索流程写成 AI 能读懂的指南。
+项目附带一个 Skill 文件，打包在 `nbrag` 包内，把最佳检索流程写成 AI 能读懂的指南。
 
-**使用方法**：复制到你项目的 Skills 目录，AI 就自动学会多轮检索策略。
+**使用方法**：从 pip 安装路径复制到你项目的 Skills 目录，AI 就自动学会多轮检索策略。
 
 ```bash
+# 先获取 skill 路径
+SKILL_PATH=$(python -c "import nbrag, os; print(os.path.join(os.path.dirname(nbrag.__file__), 'skills', 'nbrag-workflow'))")
+
 # Cursor
-cp -r skills/rag-workflow/ .cursor/skills/
+cp -r $SKILL_PATH .cursor/skills/
 
 # Claude Code
-cp -r skills/rag-workflow/ .claude/skills/
+cp -r $SKILL_PATH .claude/skills/
 
 # nb_agent
-cp -r skills/rag-workflow/ .nb_agent/skills/
+cp -r $SKILL_PATH .nb_agent/skills/
 
-# OpenAI Codex / Gemini CLI（跨平台标准）
-cp -r skills/rag-workflow/ .agents/skills/
+# OpenAI Codex / Gemini CLI /nb_agent（跨平台标准）
+cp -r $SKILL_PATH .agents/skills/
 ```
 
 Skill 内容包括：发现（nbrag_stats）→ 检索（4 种策略选择）→ 深入（4 种上下文获取方式）→ 多轮重试策略。

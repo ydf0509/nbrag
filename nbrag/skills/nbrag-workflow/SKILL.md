@@ -1,14 +1,20 @@
 ﻿---
 name: nbrag-workflow
+version: "1.0.0"
 description: >-
-  使用 nbrag 知识库进行多轮智能检索。当用户询问代码实现、
-  查找函数定义、理解项目结构、搜索文档内容、或提到"知识库""搜索代码"时使用。
-  ai要注意，这里面的函数指的是nbrag mcp自身的函数名字，当mcp被接入其他agent时候，暴露给ai的function名字会加一些前缀，比如举个例子 nbrag_search 工具 可能会变成 mcp__my_rag__nbrag_search暴露给ai，ai要根据实际请求中的fucntion的名字为准，不要死搬硬套用这个skill中的描述的函数名。
+  Multi-round intelligent retrieval using nbrag knowledge base.
+  Activates when searching code implementations, finding function/class definitions,
+  understanding project structure, browsing documentation, or when terms like
+  "knowledge base", "code search", "find definition" appear in the user request.
 ---
 
 # RAG 知识库检索工作流
 
 nbrag 提供 12 个 MCP 工具，核心分三类：**发现 → 检索 → 深入**。
+
+> **注意**：本文档中的函数名（如 `nbrag_search`）是 nbrag MCP 自身的函数名。
+> 当 nbrag 被接入其他 Agent 框架时，函数名会带前缀（如变成 mcp__xxx__nbrag_search），
+> AI 应以实际接收到的 function 名称为准，不要死记本文档中的具体函数名。
 
 
 ## 前提
@@ -61,7 +67,7 @@ nbrag_grep(keyword="UserService", collection_name="xxx")
 
 - 关键词/正则匹配，搜索 raw cache 文件（非向量库）
 - 适合搜索确切的类名、函数名、变量名、错误信息
-- 可选：`max_results=10`（默认）、`case_sensitive=True`（默认 False）、`filter_filename="core.py"`、`context_lines=10`（默认 10）
+- 可选：`max_results=10`（默认）、`case_sensitive=True`（默认 False）、`filter_filename="core.py"`、`context_lines=10`（默认 10，匹配行前后各 N 行，即总共约 2N+1 行）
 - 返回匹配行及上下文，`>>>` 标记匹配行
 
 ### 策略 C：符号查找
@@ -71,7 +77,7 @@ nbrag_find_definition(symbol="get_by_id", collection_name="xxx")
 ```
 
 - **Python 文件**：AST 精确解析，返回 class/function 完整定义 + class 方法签名列表。AST 解析失败（语法错误）的文件会被静默跳过。
-- **非 Python 文件**：正则匹配，`symbol_type` 为 `unknown`，每个文件最多返回 1 处匹配，仅约 23 行上下文（前 3 行 + 后 20 行），非完整定义。
+- **非 Python 文件**：正则匹配，`symbol_type` 为 `unknown`，每个文件最多返回 1 处匹配，仅约 24 行上下文（匹配行前 3 行 + 匹配行 + 后 20 行），非完整定义。
 - 可选 `max_results=5`（默认）
 - 支持 qualified name：`symbol="MyClass.__init__"`
 
@@ -149,13 +155,36 @@ nbrag_get_raw_file()                   # 4. 看完整源码（无 overlap，无 
 跨文件追踪：遇到未知符号 → 重复 2-4
 ```
 
+## 对话示例
+
+### 示例：用户问"这个项目怎么处理并发的？"
+
+```
+1. nbrag_stats()                              → 发现 collection 名
+2. nbrag_search(query="并发处理", ...)         → 语义搜索找到相关文件
+3. nbrag_grep(keyword="ThreadPool", ...)       → 精确定位类名（补语义搜索漏掉的）
+4. nbrag_find_definition(symbol="ThreadPool", ...) → 获取完整类定义 + 方法列表
+5. nbrag_get_raw_file(file_path="...", ...)    → 读完整源码验证细节
+6. 总结回答用户
+```
+
+### 示例：用户问"get_by_id 函数在哪里定义的？"
+
+```
+1. nbrag_find_definition(symbol="get_by_id", ...) → AST 精确查找
+   ↓ 如果没找到
+2. nbrag_grep(keyword="get_by_id", ...)            → 正则 fallback
+   ↓ 找到位置后
+3. nbrag_get_raw_file(file_path="...", ...)        → 读完整源码
+```
+
 ## 多轮检索策略
 
 如果第一轮搜索结果不理想：
 
 1. **换关键词**：用同义词或更具体/更宽泛的词重新 `nbrag_search`
 2. **换策略**：语义搜索不行就试 `nbrag_grep` 精确搜索
-3. **缩小范围**：用 `filter_filename` 限定文件（仅 `nbrag_search` / `nbrag_grep` 支持）
+3. **缩小范围**：用 `filter_filename` 限定文件（仅 `nbrag_search` / `nbrag_grep` 支持），**精确匹配文件名**（需含后缀，如 `"core.py"` 而非 `"core"`，不支持模糊匹配或路径）
 4. **查定义**：找到了引用但不知道定义在哪 → `nbrag_find_definition`
 5. **跨 collection**：不同知识库可能有不同内容
 
@@ -196,6 +225,14 @@ nbrag_get_raw_file()                   # 4. 看完整源码（无 overlap，无 
 | `Document not found: 'xxx'` | 文档 ID 不存在 | 用 `nbrag_list` 查看有效 doc_id |
 | `No chunks matching line range ...` | 行号范围内无 chunk | 调整行号或用 `nbrag_get_raw_file` |
 | `[path] excerpt failed` | 自动抓取源码失败 | 改用 `nbrag_get_raw_file` 手动抓取 |
+
+## 能力边界
+
+- ❌ 此 Skill 只负责检索和读取已有代码，不生成新代码
+- ❌ 不导入文档（`nbrag_add_document` 由用户手动在终端执行脚本完成）
+- ❌ 不删除文档（`nbrag_delete` 由用户手动操作）
+- ❌ 不修改任何文件，只读取和搜索
+- ✅ 如果用户问的问题超出检索范围（如需要联网搜索），应如实告知能力限制
 
 ## 不需要 AI 调用的工具
 
