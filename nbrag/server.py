@@ -75,7 +75,7 @@ def nbrag_add_document(
 @mcp.tool()
 def nbrag_search(
     query: str = Field(description="Search query (natural language question or keywords)"),
-    collection_name: str = Field(description="Collection name (required, use nbrag_stats to see available collections)"),
+    collection_name: str = Field(description="Collection name (required, use nbrag_stats to see available collections),collection_name对应你的中文就是知识库名字"),
     top_k: int = Field(default=5, description="Number of results to return"),
     use_rerank: bool = Field(default=True, description="Enable reranker for better accuracy (recommended)"),
     filter_filename: str = Field(default="", description="Optional: filter by filename only (e.g. 'constant.py', not full path)"),
@@ -528,7 +528,9 @@ def nbrag_delete(
 
 @mcp.tool()
 def nbrag_stats() -> str:
-    """Get RAG overview: all collection names, doc/chunk counts, and config.
+    """
+    nbrag_stats 获取所有知识库的统计信息，英文术语`collection` 就是中文的`知识库`
+    Get RAG overview: all collection names, doc/chunk counts, and config.
     Call this FIRST to discover available collection_name values for other tools.
     Glossary: collection = knowledge base, doc = imported file, chunk = vector-embedded text segment."""
     cfg = get_config()

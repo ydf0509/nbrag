@@ -101,6 +101,11 @@ python -m nbrag --transport streamable-http --port 9101
 }
 ```
 
+#### 在openwebui 中配置nbrag mcp，通过rag知识库学习 langchain框架，截图如下：
+
+nbrag是标准mcp，所以配置在任何个人agent和任意agent产品里面
+![alt text](image109.png)
+
 ### 4. 导入知识库
 
 #### 方式 A: 让 AI 自动导入
@@ -260,7 +265,7 @@ nbrag --config ./my_config.yaml     # 指定配置文件
 
 ### 为什么 chunk_size = 1500？
 
-BGE-M3 的最佳召回区间是 700-3000 字符。如果 chunk_size 设太小（如 500），一个 8000 字符的大类会被切成 40+ 块，语义搜索碎片化严重、召回率下降。1500 是实测平衡点，大多数函数/类能完整落入 1-2 个 chunk 内。
+BGE-M3 的最佳召回区间是 700-3000 字符。如果 chunk_size 设太小（如 500），一个 8000 字符的大类会被切成 20+ 块，语义搜索碎片化严重、召回率下降。1500 是实测平衡点，大多数函数/类能完整落入 1-2 个 chunk 内。
 
 即使 chunk 切分不完美，Agentic RAG 也不会像 Naive RAG 那样只用碎片凑答案。AI 会自主判断当前 chunk 信息不足，然后调用 `nbrag_get_raw_file` 读完整源码、用 `nbrag_find_definition` 精确定位类/函数定义、用 `nbrag_grep` 全文搜索关键词，多轮组合直到信息充分。这正是 "检索是 Agent 的能力" 而非固定管道的意义。
 
