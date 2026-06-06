@@ -138,7 +138,7 @@ def _get_http_client():
     return _http_client
 
 
-def embed(texts, max_retries=3):
+def embed(texts, max_retries=3, sleep_interval=0.0, verbose=False):
     """调用 Embedding API，自动分批，失败自动重试。"""
     cfg = _cfg()
     api_key = cfg.embedding.api_key
@@ -149,8 +149,16 @@ def embed(texts, max_retries=3):
     import time as _time
     client = _get_http_client()
     all_embeddings = []
-    for i in range(0, len(texts), EMBEDDING_BATCH_SIZE):
+    total_chunks = len(texts)
+    num_batches = (total_chunks + EMBEDDING_BATCH_SIZE - 1) // EMBEDDING_BATCH_SIZE
+    
+    for batch_idx, i in enumerate(range(0, total_chunks, EMBEDDING_BATCH_SIZE)):
+        if i > 0 and sleep_interval > 0:
+            _time.sleep(sleep_interval)
         batch = texts[i:i + EMBEDDING_BATCH_SIZE]
+        if verbose:
+            processed = min(i + EMBEDDING_BATCH_SIZE, total_chunks)
+            print(f"  [embed {batch_idx + 1:>4}/{num_batches}] {processed}/{total_chunks} chunks")
         for attempt in range(max_retries):
             try:
                 resp = client.post(
@@ -275,9 +283,9 @@ def _delete_raw_files_collection(collection_name):
 
 # ─── 高级操作 ─────────────────────────────────────────────
 
-def _prepare_file(file_path, chunk_size=DEFAULT_CHUNK_SIZE,
-                  chunk_overlap=DEFAULT_CHUNK_OVERLAP):
-    """阶段 1：读取 + 切分 + Embedding（无 DB 操作，可并行）。"""
+def prepare_file_no_embed(file_path, chunk_size=DEFAULT_CHUNK_SIZE,
+                          chunk_overlap=DEFAULT_CHUNK_OVERLAP):
+    """阶段 1a：读取 + 切分 + Enrichment（无 Embedding，无 DB 操作，可并行）。"""
     try:
         with open(file_path, "r", encoding="utf-8", errors="replace") as f:
             text = f.read()
@@ -289,6 +297,7 @@ def _prepare_file(file_path, chunk_size=DEFAULT_CHUNK_SIZE,
 
     file_ext = os.path.splitext(file_path)[1]
     abs_path = _normalize_path(file_path)
+    file_mtime = os.path.getmtime(file_path)
     raw_chunks = chunk_text(text, chunk_size, chunk_overlap, file_ext=file_ext)
     if not raw_chunks:
         return {"ok": False, "skipped": True, "reason": f"No chunks after split: {os.path.basename(file_path)}"}
@@ -297,18 +306,90 @@ def _prepare_file(file_path, chunk_size=DEFAULT_CHUNK_SIZE,
         raw_chunks, text, file_path=abs_path, file_ext=file_ext,
     )
 
-    embeddings = embed(enriched_chunks)
-
     filename = os.path.basename(file_path)
     doc_id = hashlib.md5(abs_path.encode()).hexdigest()[:12]
 
     return {
         "ok": True, "filename": filename, "file_ext": file_ext,
         "text": text, "abs_path": abs_path, "doc_id": doc_id,
-        "enriched_chunks": enriched_chunks, "embeddings": embeddings,
+        "enriched_chunks": enriched_chunks,
         "line_ranges": line_ranges, "scopes": scopes,
         "chars": len(text), "chunks": len(enriched_chunks),
+        "file_mtime": file_mtime,
     }
+
+
+def batch_embed_prepared(prepared_list, sleep_interval=0.0, verbose=False):
+    """阶段 1b：批量调用 Embedding API，跨文件合并 chunks 减少 API 调用。
+
+    Args:
+        prepared_list: 来自 prepare_file_no_embed 的结果列表
+        sleep_interval: API 调用之间的间隔（秒）
+        verbose: 是否输出详细日志
+
+    Returns:
+        更新后的 prepared_list，每个 ok 的结果会新增 "embeddings" 字段
+    """
+    all_chunks = []
+    chunk_refs = []
+
+    for file_idx, p in enumerate(prepared_list):
+        if not p.get("ok"):
+            continue
+        for chunk_idx, chunk in enumerate(p["enriched_chunks"]):
+            all_chunks.append(chunk)
+            chunk_refs.append((file_idx, chunk_idx))
+
+    if not all_chunks:
+        return prepared_list
+
+    all_embeddings = embed(all_chunks, sleep_interval=sleep_interval, verbose=verbose)
+
+    for ref_idx, (file_idx, chunk_idx) in enumerate(chunk_refs):
+        p = prepared_list[file_idx]
+        if "embeddings" not in p:
+            p["embeddings"] = [None] * len(p["enriched_chunks"])
+        p["embeddings"][chunk_idx] = all_embeddings[ref_idx]
+
+    return prepared_list
+
+
+def _prepare_file(file_path, chunk_size=DEFAULT_CHUNK_SIZE,
+                  chunk_overlap=DEFAULT_CHUNK_OVERLAP,
+                  sleep_interval=0.0):
+    """阶段 1：读取 + 切分 + Embedding（无 DB 操作，可并行）。
+
+    保持兼容性：内部调用 prepare_file_no_embed + embed。
+    """
+    prepared = prepare_file_no_embed(file_path, chunk_size, chunk_overlap)
+    if not prepared["ok"]:
+        return prepared
+    prepared["embeddings"] = embed(prepared["enriched_chunks"], sleep_interval=sleep_interval)
+    return prepared
+
+
+def check_file_cache(file_path, collection_name="default"):
+    """检查文件是否已缓存且未修改。"""
+    abs_path = _normalize_path(file_path)
+    doc_id = hashlib.md5(abs_path.encode()).hexdigest()[:12]
+    try:
+        file_mtime = os.path.getmtime(file_path)
+    except Exception:
+        return False, None
+
+    try:
+        col = get_collection(collection_name)
+        result = col.get(
+            where={"doc_id": doc_id},
+            include=["metadatas"]
+        )
+        if result and result["metadatas"]:
+            stored_mtime = result["metadatas"][0].get("file_mtime")
+            if stored_mtime is not None and abs(stored_mtime - file_mtime) < 1e-6:
+                return True, doc_id
+    except Exception:
+        pass
+    return False, doc_id
 
 
 def _write_to_db(prepared, collection_name="default"):
@@ -325,6 +406,7 @@ def _write_to_db(prepared, collection_name="default"):
     embeddings = prepared["embeddings"]
     line_ranges = prepared["line_ranges"]
     scopes = prepared["scopes"]
+    file_mtime = prepared.get("file_mtime")
 
     _cache_raw_file(text, collection_name, doc_id, file_ext)
 
@@ -348,6 +430,7 @@ def _write_to_db(prepared, collection_name="default"):
             "line_start": line_ranges[i][0],
             "line_end": line_ranges[i][1],
             "scope": scopes[i],
+            "file_mtime": file_mtime,
         }
         for i in range(len(enriched_chunks))
     ]
@@ -368,9 +451,28 @@ def _write_to_db(prepared, collection_name="default"):
 
 def ingest_file(file_path, collection_name="default",
                 chunk_size=DEFAULT_CHUNK_SIZE,
-                chunk_overlap=DEFAULT_CHUNK_OVERLAP):
+                chunk_overlap=DEFAULT_CHUNK_OVERLAP,
+                sleep_interval=0.0,
+                use_cache=True,
+                verbose=False):
     """导入单个文件到知识库，返回结果 dict（串行版本，兼容旧调用）。"""
-    prepared = _prepare_file(file_path, chunk_size, chunk_overlap)
+    if use_cache:
+        is_cached, _ = check_file_cache(file_path, collection_name)
+        if is_cached:
+            abs_path = _normalize_path(file_path)
+            doc_id = hashlib.md5(abs_path.encode()).hexdigest()[:12]
+            if verbose:
+                name = os.path.basename(file_path)
+                print(f"  [cache] {name} (skipped, unchanged)")
+            return {
+                "ok": True,
+                "filename": os.path.basename(file_path),
+                "chars": 0,
+                "chunks": 0,
+                "doc_id": doc_id,
+                "_cached": True,
+            }
+    prepared = _prepare_file(file_path, chunk_size, chunk_overlap, sleep_interval=sleep_interval)
     if not prepared["ok"]:
         return prepared
     return _write_to_db(prepared, collection_name)
@@ -379,7 +481,10 @@ def ingest_file(file_path, collection_name="default",
 def ingest_path(path, collection_name="default",
                 chunk_size=DEFAULT_CHUNK_SIZE,
                 chunk_overlap=DEFAULT_CHUNK_OVERLAP,
-                file_extensions=None):
+                file_extensions=None,
+                sleep_interval=0.0,
+                use_cache=True,
+                verbose=False):
     """导入文件或目录到知识库。返回 (results_list, errors_list, skipped_count)。"""
     path = os.path.expanduser(path)
     if not os.path.exists(path):
@@ -394,11 +499,12 @@ def ingest_path(path, collection_name="default",
     skipped = []
     for fp in files:
         try:
-            r = ingest_file(fp, collection_name, chunk_size, chunk_overlap)
+            r = ingest_file(fp, collection_name, chunk_size, chunk_overlap, sleep_interval=sleep_interval, use_cache=use_cache, verbose=verbose)
         except Exception as e:
             r = {"ok": False, "error": f"{os.path.basename(fp)}: {type(e).__name__}: {e}"}
         if r["ok"]:
-            results.append(r)
+            if not r.get("_cached"):
+                results.append(r)
         elif r.get("skipped"):
             skipped.append(r["reason"])
         else:
@@ -414,6 +520,7 @@ def batch_ingest(paths, collection_name="default",
                  delete_first=False, on_progress=None,
                  verbose=False, max_workers=1,
                  sleep_interval=0.01,
+                 use_cache=True,
                  ):
     """批量导入多个路径到知识库（一站式封装）。
 
@@ -431,13 +538,14 @@ def batch_ingest(paths, collection_name="default",
         chunk_size: 分块大小（字符数），默认 1500。
         chunk_overlap: 分块重叠（字符数），默认 200。
         file_extensions: 可选后缀过滤列表（如 [".py", ".md"]），None 表示全部文本文件。
-        delete_first: 是否先清空旧数据再导入（适用于全量重建）。
+        delete_first: 是否先清空旧数据再导入（适用于全量重建）。优先级高于 use_cache。
         on_progress: 可选回调 fn(current, total, file_path, result)，用于自定义进度展示。
         verbose: 是否打印详细日志。
         max_workers: Embedding 并发线程数。
                      1 = 串行（默认，兼容旧行为）；
                      2-4 = 并行读取+Embedding，串行写入 ChromaDB。
                      不建议超过 4，避免触发 Embedding API 频率限制。
+        use_cache: 是否启用文件缓存检查（基于 mtime）。默认 True，未修改的文件会被跳过。
     """
     import time as _time
     from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -449,6 +557,7 @@ def batch_ingest(paths, collection_name="default",
 
     if delete_first:
         deleted_col = False
+        raw_files_deleted = False
         try:
             delete_collection(collection_name)
             deleted_col = True
@@ -456,11 +565,12 @@ def batch_ingest(paths, collection_name="default",
             pass
         try:
             _delete_raw_files_collection(collection_name)
+            raw_files_deleted = True
         except Exception:
             pass
         if verbose:
             print(f"[rag] Deleted old collection: {collection_name}"
-                  f" (collection={'ok' if deleted_col else 'not found'}, raw_files=cleaned)")
+                  f" (collection={'ok' if deleted_col else 'not found'}, raw_files={'ok' if raw_files_deleted else 'not found'})")
 
     all_files = []
     for p in paths:
@@ -472,9 +582,26 @@ def batch_ingest(paths, collection_name="default",
                 print(f"[rag] {p} -> {len(found)} files{ext_info}")
             all_files.extend(found)
 
+    # 缓存检查
+    files_to_process = []
+    cached_count = 0
+    if use_cache and not delete_first:
+        for fp in all_files:
+            is_cached, _ = check_file_cache(fp, collection_name)
+            if is_cached:
+                cached_count += 1
+                if verbose:
+                    name = os.path.basename(fp)
+                    print(f"  [cache] {name} (skipped, unchanged)")
+            else:
+                files_to_process.append(fp)
+    else:
+        files_to_process = all_files
+
     if verbose:
         mode_str = f"parallel(workers={max_workers})" if max_workers > 1 else "sequential"
-        print(f"[rag] Total {len(all_files)} files, mode: {mode_str}, starting Embedding...\n")
+        cache_note = f", cache: {cached_count} skipped" if cached_count > 0 else ""
+        print(f"[rag] Total {len(all_files)} files ({len(files_to_process)} to process{cache_note}), mode: {mode_str}, starting...\n")
 
     results = []
     errors = []
@@ -483,7 +610,7 @@ def batch_ingest(paths, collection_name="default",
     total_chunks = 0
     large_files = []
 
-    for fp in all_files:
+    for fp in files_to_process:
         file_size = os.path.getsize(fp)
         if file_size > 100 * 1024:
             large_files.append((fp, file_size))
@@ -492,10 +619,9 @@ def batch_ingest(paths, collection_name="default",
 
     if max_workers <= 1:
         prepared_list = []
-        for i, fp in enumerate(all_files):
-            _time.sleep(sleep_interval)
+        for i, fp in enumerate(files_to_process):
             try:
-                p = _prepare_file(fp, chunk_size, chunk_overlap)
+                p = prepare_file_no_embed(fp, chunk_size, chunk_overlap)
             except Exception as e:
                 p = {"ok": False, "error": f"{os.path.basename(fp)}: {type(e).__name__}: {e}", "_fp": fp}
             p["_fp"] = fp
@@ -504,17 +630,16 @@ def batch_ingest(paths, collection_name="default",
             if verbose:
                 name = os.path.basename(fp)
                 if p["ok"]:
-                    print(f"  [embed {i + 1:>4}/{len(all_files)}] {name} ({p['chunks']} chunks)")
+                    print(f"  [prepare {i + 1:>4}/{len(files_to_process)}] {name} ({p['chunks']} chunks)")
                 elif p.get("skipped"):
-                    print(f"  [embed {i + 1:>4}/{len(all_files)}] - {name}  (skipped)")
+                    print(f"  [prepare {i + 1:>4}/{len(files_to_process)}] - {name}  (skipped)")
     else:
-        prepared_list = [None] * len(all_files)
+        prepared_list = [None] * len(files_to_process)
         done_count = 0
         with ThreadPoolExecutor(max_workers=max_workers) as pool:
             future_to_idx = {}
-            for i, fp in enumerate(all_files):
-                _time.sleep(sleep_interval)
-                fut = pool.submit(_prepare_file, fp, chunk_size, chunk_overlap)
+            for i, fp in enumerate(files_to_process):
+                fut = pool.submit(prepare_file_no_embed, fp, chunk_size, chunk_overlap)
                 future_to_idx[fut] = (i, fp)
 
             for fut in as_completed(future_to_idx):
@@ -530,39 +655,51 @@ def batch_ingest(paths, collection_name="default",
                 if verbose:
                     name = os.path.basename(fp)
                     if p["ok"]:
-                        print(f"  [embed {done_count:>4}/{len(all_files)}] {name} ({p['chunks']} chunks)")
+                        print(f"  [prepare {done_count:>4}/{len(files_to_process)}] {name} ({p['chunks']} chunks)")
                     elif p.get("skipped"):
-                        print(f"  [embed {done_count:>4}/{len(all_files)}] - {name}  (skipped)")
+                        print(f"  [prepare {done_count:>4}/{len(files_to_process)}] - {name}  (skipped)")
 
-    if verbose:
-        embed_elapsed = _time.time() - t0
-        print(f"\n[rag] Embedding done in {embed_elapsed:.1f}s, writing to ChromaDB...\n")
+    if verbose and files_to_process:
+        prepare_elapsed = _time.time() - t0
+        total_chunks_to_embed = sum(p["chunks"] for p in prepared_list if p.get("ok"))
+        print(f"\n[rag] Prepare done in {prepare_elapsed:.1f}s, batch embedding {total_chunks_to_embed} chunks...\n")
 
-    for i, p in enumerate(prepared_list):
-        fp = p.get("_fp", "?")
-        try:
-            r = _write_to_db(p, collection_name) if p["ok"] else p
-        except Exception as e:
-            r = {"ok": False, "error": f"{os.path.basename(fp)}: {type(e).__name__}: {e}"}
+    if files_to_process:
+        prepared_list = batch_embed_prepared(prepared_list, sleep_interval=sleep_interval, verbose=verbose)
 
-        if r["ok"]:
-            results.append(r)
-            total_chars += r["chars"]
-            total_chunks += r["chunks"]
-        elif r.get("skipped"):
-            skipped.append(r.get("reason", ""))
-        else:
-            errors.append(r.get("error", "unknown error"))
+        if verbose:
+            embed_elapsed = _time.time() - t0
+            print(f"\n[rag] Embedding done in {embed_elapsed:.1f}s, writing to ChromaDB...\n")
 
-        if on_progress:
-            on_progress(i + 1, len(all_files), fp, r)
-        elif verbose:
-            idx = i + 1
-            name = os.path.basename(fp)
+        for i, p in enumerate(prepared_list):
+            fp = p.get("_fp", "?")
+            try:
+                r = _write_to_db(p, collection_name) if p["ok"] else p
+            except Exception as e:
+                r = {"ok": False, "error": f"{os.path.basename(fp)}: {type(e).__name__}: {e}"}
+
             if r["ok"]:
-                print(f"  [write {idx:>4}/{len(all_files)}] {name} ({r['chunks']} chunks)")
-            elif not r.get("skipped"):
-                print(f"  [write {idx:>4}/{len(all_files)}] X {name}  ({r.get('error', '')})")
+                results.append(r)
+                total_chars += r["chars"]
+                total_chunks += r["chunks"]
+            elif r.get("skipped"):
+                skipped.append(r.get("reason", ""))
+            else:
+                errors.append(r.get("error", "unknown error"))
+
+            if on_progress:
+                on_progress(i + 1, len(all_files), fp, r)
+            elif verbose:
+                idx = i + 1
+                name = os.path.basename(fp)
+                if r["ok"]:
+                    print(f"  [write {idx:>4}/{len(all_files)}] {name} ({r['chunks']} chunks)")
+                elif not r.get("skipped"):
+                    print(f"  [write {idx:>4}/{len(all_files)}] X {name}  ({r.get('error', '')})")
+    else:
+        # 没有文件需要处理，直接返回成功
+        if verbose:
+            print("\n[rag] No files to process (all cached).\n")
 
     elapsed = _time.time() - t0
     stats = {
