@@ -13,6 +13,7 @@ RAG 核心逻辑 —— 供 MCP 服务和独立脚本共同复用。
 import os
 import hashlib
 
+
 import httpx
 import chromadb
 from nbrag.config import get_config
@@ -411,7 +412,9 @@ def batch_ingest(paths, collection_name="default",
                  chunk_overlap=DEFAULT_CHUNK_OVERLAP,
                  file_extensions=None,
                  delete_first=False, on_progress=None,
-                 verbose=False, max_workers=1):
+                 verbose=False, max_workers=1,
+                 sleep_interval=0.01,
+                 ):
     """批量导入多个路径到知识库（一站式封装）。
 
     两阶段流水线设计：
@@ -490,6 +493,7 @@ def batch_ingest(paths, collection_name="default",
     if max_workers <= 1:
         prepared_list = []
         for i, fp in enumerate(all_files):
+            _time.sleep(sleep_interval)
             try:
                 p = _prepare_file(fp, chunk_size, chunk_overlap)
             except Exception as e:
@@ -509,6 +513,7 @@ def batch_ingest(paths, collection_name="default",
         with ThreadPoolExecutor(max_workers=max_workers) as pool:
             future_to_idx = {}
             for i, fp in enumerate(all_files):
+                _time.sleep(sleep_interval)
                 fut = pool.submit(_prepare_file, fp, chunk_size, chunk_overlap)
                 future_to_idx[fut] = (i, fp)
 
