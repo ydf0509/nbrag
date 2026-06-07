@@ -7,13 +7,15 @@ import git_nbrag
 
 # sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+python = sys.executable
+
 t_start = time.time()
-os.system("python -m build")
+os.system(f'"{python}" -m build')
 t_end = time.time()
 print(f"build time: {t_end - t_start}")
 
 t_start = time.time()
-os.system("twine upload dist/*")
+os.system(f'"{python}" -m twine upload dist/*')
 t_end = time.time()
 print(f"upload time: {t_end - t_start}")
 
