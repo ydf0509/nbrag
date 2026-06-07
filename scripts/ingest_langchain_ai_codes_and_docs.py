@@ -30,5 +30,5 @@ batch_ingest(
     verbose=True,
     chunk_size=1500,
     chunk_overlap=200,
-    sleep_interval=1, 
+    sleep_interval=0.1, 
 )

@@ -84,7 +84,11 @@ def nbrag_search(
     IMPORTANT: If you don't know the collection_name, call nbrag_stats() first to see all available knowledge bases.
     collection_name = knowledge base name = 知识库名字 (e.g. user says "查funboost知识库" → collection_name="funboost").
 
-    Result format: [1/5] filename chunk:X/Y line:N-M scope:xxx doc_id:xxx dist:0.1234
+    TIP: Don't pass the user's raw long question directly. Rewrite it into focused search terms.
+    e.g. user asks "试用期干了5个月不转正，1年合同合法吗" → query="试用期 最长期限 1年合同"
+    Then do a second search: query="违法约定试用期 赔偿" to find penalty clauses.
+
+    Result format: [1/5] filename chunk:X/Y line:N-M scope:xxx doc_id:xxx dist:0.1234 score:0.9876
     Key fields for follow-up: file_path (for nbrag_get_raw_file), doc_id + chunk_index (for nbrag_get_adjacent_chunks).
 
     After search, use these follow-up tools to dig deeper:

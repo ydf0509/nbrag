@@ -248,7 +248,7 @@ def _get_http_client():
     return _http_client
 
 
-def embed(texts, max_retries=3, sleep_interval=0.0, verbose=False):
+def embed(texts, max_retries=10, sleep_interval=0.0, verbose=False):
     """调用 Embedding API，自动分批，失败自动重试。"""
     cfg = _cfg()
     api_key = cfg.embedding.api_key
