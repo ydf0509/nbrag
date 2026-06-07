@@ -2,7 +2,9 @@
 
 ## 项目概览
 
-Agentic RAG MCP Server。Python 3.11+，FastMCP，ChromaDB，SiliconFlow Embedding/Rerank。
+**通用知识库 Agentic RAG MCP Server** — 不限于编程，支持代码、文档、法律条文、医学指南、技术手册等任何文本。
+
+Python 3.11+，FastMCP，ChromaDB，SiliconFlow Embedding/Rerank。
 
 架构：4 个核心模块，扁平包布局（无 `src/` 目录）。
 
@@ -32,14 +34,19 @@ mypy nbrag/
 python -m pytest tests/ -x -v
 ```
 
+## nbrag要确保对ai友好
+
+`D:\codes\nbrag\nbrag\server.py` 和 `D:\codes\nbrag\nbrag\skills\nbrag-workflow\SKILL.md` 中的函数 和 skills要符合mcp和skills的最佳实践。让ai能正确 何时以及如何调用相关的函数， 不要指望用户一定会复制 skill.md 到他的项目下，mcp自身的函数注释说明就要能让ai知道何时以及如何调用，skill只是锦上添花，不要指望用户一定会安装这个skills。
+
 ## 代码规范
 
 ### 必须
 
 - 数据导入函数使用 `ingest_` 前缀（不用 `import_`，避免与 Python 关键字混淆）。
 - `core.py` 所有公开函数必须有文档字符串。
-- MCP 工具描述必须用英文（AI 解析英文工具文档更准确）。
+- MCP 工具描述混合中英文（关键概念保留中英双语映射，如"知识库 = collection"）。
 - MCP 工具文档字符串必须包含"后续工具"或"典型工作流"提示。
+- MCP 工具的 docstring 是 AI 理解工具用法的"第一道防线"，必须自解释完备（不依赖 SKILL.md）。
 - 配置优先级：CLI 参数 > 环境变量 > YAML 文件 > 硬编码默认值。
 - 存入 ChromaDB metadata 前，文件路径必须通过 `_normalize_path()` 统一格式。
 - `chunker.py` 不允许依赖 ChromaDB 或 config 模块 —— 它只做文本处理。
@@ -48,7 +55,7 @@ python -m pytest tests/ -x -v
 
 - 禁止硬编码 API 密钥或敏感信息。
 - 禁止使用 `import_` 作为函数前缀（用 `ingest_` 代替）。
-- 禁止在文档字符串或 README 中使用 funboost 专属示例 —— 使用通用示例。
+- 禁止在文档字符串或 README 中使用 funboost 专属示例 —— 使用通用示例（涵盖代码和非代码场景）。
 - 禁止向 `FastMCP()` 构造函数传 `port` 参数 —— 用 `mcp.settings.port` 动态设置。
 - 禁止创建大而全的 MCP 工具加 `mode` 参数 —— 每个工具职责单一。
 - 禁止从 `learn_agent` 导入任何内容 —— 本项目完全独立。
@@ -56,7 +63,7 @@ python -m pytest tests/ -x -v
 ### 风格
 
 - 可使用 Python 3.11+ 语法（match/case、`Self` 类型等）。
-- 文档字符串：模块级用中文，MCP 工具描述用英文。
+- 文档字符串：模块级用中文，MCP 工具描述中英混合（确保 AI 能理解"知识库"="collection"等映射）。
 - 配置结构用 `dataclass`（不用 Pydantic，保持简洁）。
 - MCP 工具参数用 `pydantic.Field`（FastMCP 要求）。
 
@@ -82,11 +89,14 @@ RRF 使用 k=60（SIGIR 2009 标准值），只看排名不看分数。
 一个大而全的 `rag_query(mode=...)` 会导致 AI 在参数选择上产生幻觉。
 新增工具时遵循同样的模式：清晰的命名、聚焦的功能、文档字符串中的工作流提示。
 
-### AST 作用域注入
+### AST 作用域注入（仅 Python 文件）
 
-Python 文件的 chunk 在 embedding 前注入 `[File:] [Scope:] [Sig:] [Lines:]` 头部。
+Python `.py` 文件的 chunk 在 embedding 前注入 `[File:] [Scope:] [Sig:] [Lines:]` 头部。
 这显著提升了代码查询的搜索精度。
 逻辑在 `chunker.py` 中 —— 不要混入 `core.py`。
+
+非 Python 文件（`.md`、`.txt` 等）只注入 `[File:]` 头部，不做 AST 解析。
+`nbrag_find_definition` 对非 `.py` 文件使用 regex 回退（效果有限），此时应引导 AI 改用 `nbrag_grep`。
 
 ### Metadata 字段
 
@@ -108,8 +118,22 @@ nbrag/          # 包根目录
 scripts/                 # 用户便捷脚本（不属于包）
   start_http_rag_mcp.py  # 快速启动 HTTP 服务
   ingest_project.py      # 批量导入模板
-  ingest_funboost.py     # 示例：导入 funboost 项目
+  ingest_funboost.py     # 示例：导入 funboost 项目（代码场景）
+  ingest_ex1/            # 示例：导入《民法典》全文（通用知识场景）
+  ingest_ex2_marriage_law/ # 示例：导入婚姻家庭法司法解释
 ```
+
+## 内容类型与功能对照
+
+| 导入内容 | 语义搜索 | BM25/grep | find_definition | AST scope |
+|----------|:--------:|:---------:|:---------------:|:---------:|
+| `.py` Python 源码 | ✅ | ✅ | ✅ AST 精确解析 | ✅ 自动注入 |
+| `.md`/`.txt` 文档 | ✅ | ✅ | ⚠️ regex 回退 | ❌ 仅 File 头 |
+
+对于非代码内容（法律、医学、技术手册等），推荐的检索策略：
+1. `nbrag_search` — 语义搜索找到相关章节
+2. `nbrag_grep` — 精确匹配条文编号、专业术语
+3. `nbrag_get_raw_file` / `nbrag_get_adjacent_chunks` — 扩展上下文
 
 ## 新增 MCP 工具步骤
 
