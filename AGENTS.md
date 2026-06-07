@@ -62,11 +62,19 @@ python -m pytest tests/ -x -v
 
 ## 架构决策
 
-### 双存储
+### 三存储
 
 ChromaDB 存向量化 chunks（有 overlap），用于语义搜索。
 `raw_files/` 存原始文件快照（无 overlap），用于精确行号读取。
-两者缺一不可，不要移除任何一个。
+`bm25_index/` 存 BM25 稀疏索引（bm25s 持久化），用于关键词检索。
+三者缺一不可，不要移除任何一个。
+
+### 混合检索（BM25 + RRF）
+
+`search()` 执行三层混合检索：Vector + BM25 并行召回 → RRF 融合 → Reranker 精排。
+BM25 使用 bm25s 库，索引在 `batch_ingest` 完成后自动构建并持久化到 `bm25_index/` 目录。
+分词器针对代码做了 camelCase/snake_case 拆分和 chunk header 去除。
+RRF 使用 k=60（SIGIR 2009 标准值），只看排名不看分数。
 
 ### 12 个工具，不是 3 个
 
@@ -95,7 +103,7 @@ nbrag/          # 包根目录
   __main__.py            # python -m 入口
   config.py              # dataclass 配置 + YAML 加载
   chunker.py             # 文本切分 + AST（无存储依赖）
-  core.py                # ChromaDB + Embedding + Rerank + ingest
+  core.py                # ChromaDB + Embedding + Rerank + BM25 + RRF + ingest
   server.py              # 12 个 MCP 工具 + CLI main()
 scripts/                 # 用户便捷脚本（不属于包）
   start_http_rag_mcp.py  # 快速启动 HTTP 服务
@@ -119,6 +127,7 @@ scripts/                 # 用户便捷脚本（不属于包）
 | `mcp` | FastMCP 服务框架 | >=1.0.0 |
 | `httpx` | Embedding/Rerank HTTP 客户端 | >=0.24.0 |
 | `chromadb` | 本地向量数据库 | >=0.4.0 |
+| `bm25s[full]` | BM25 稀疏检索（混合检索用） | >=0.2.0 |
 | `langchain-text-splitters` | 代码感知文本切分 | >=0.2.0 |
 | `pydantic` | MCP 工具参数校验 | >=2.0.0 |
 | `pyyaml` | YAML 配置文件解析 | >=6.0 |

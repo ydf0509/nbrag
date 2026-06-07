@@ -78,15 +78,16 @@ def nbrag_search(
     collection_name: str = Field(description="Collection name (required, use nbrag_stats to see available collections),collection_name对应你的中文就是知识库名字"),
     top_k: int = Field(default=5, description="Number of results to return"),
     use_rerank: bool = Field(default=True, description="Enable reranker for better accuracy (recommended)"),
-    filter_filename: str = Field(default="", description="Optional: filter by filename only (e.g. 'constant.py', not full path)"),
+    use_bm25: bool = Field(default=True, description="Enable BM25 hybrid search + RRF fusion (recommended). Combines vector semantic search with BM25 keyword matching for better recall"),
+    filter_filename: str = Field(default="", description="Optional: filter by filename only (e.g. 'constant.py', not full path). Note: BM25 is disabled when filter_filename is set"),
 ) -> str:
-    """Semantic search in RAG collection. Vector recall + Rerank. Call nbrag_stats first to see available collections.
+    """Hybrid search in RAG collection: Vector + BM25 → RRF fusion → Rerank. Call nbrag_stats first to see available collections.
 
     Each result contains: file_path (full path), chunk:X/Y, line:N-M, scope, doc_id, dist (cosine distance, lower=more similar).
 
     Recommended deep-analysis workflow (use multiple tools, not just search):
-      1. nbrag_search → find relevant files and rough location
-      2. nbrag_grep → pinpoint exact class/method/constant names (what semantic search may miss)
+      1. nbrag_search → find relevant files and rough location (hybrid: semantic + keyword matching)
+      2. nbrag_grep → pinpoint exact class/method/constant names (line-level precision)
       3. nbrag_find_definition → get complete class/function source with inheritance chain
       4. nbrag_get_raw_file → read full source code to verify details
       5. Cross-file tracing: when you see unknown symbols in code, repeat steps 2-4 to trace references
@@ -99,8 +100,9 @@ def nbrag_search(
       - nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name) → chunks covering line range"""
     cfg = get_config()
     fname_filter = filter_filename if filter_filename else None
-    documents, metadatas, distances, rerank_used, total = search(
+    documents, metadatas, distances, rerank_used, total, rerank_scores = search(
         query, collection_name, top_k, use_rerank,
+        use_bm25=use_bm25,
         filter_filename=fname_filter,
     )
 
@@ -119,7 +121,8 @@ def nbrag_search(
         return f"No results (collection has {total} chunks, filter: {filter_filename or 'none'})"
 
     rerank_str = cfg.rerank.model if rerank_used else "off"
-    header = f"[{collection_name}] {total} chunks | rerank: {rerank_str}"
+    bm25_str = "on" if (use_bm25 and not fname_filter) else "off"
+    header = f"[{collection_name}] {total} chunks | hybrid(bm25+vector): {bm25_str} | rerank: {rerank_str}"
     if filter_filename:
         header += f" | filter: {filter_filename}"
     lines = [header, ""]
@@ -142,9 +145,9 @@ def nbrag_search(
         if scope:
             meta_parts.append(f"scope:{scope}")
         meta_parts.append(f"doc_id:{doc_id}")
-        score = max(0.0, 1.0 - dist)
         meta_parts.append(f"dist:{dist:.4f}")
-        meta_parts.append(f"score:{score:.2f}")
+        if rerank_scores and i < len(rerank_scores):
+            meta_parts.append(f"score:{rerank_scores[i]:.4f}")
 
         lines.append(f"[{i + 1}/{len(documents)}] {meta.get('filename', '?')} {' '.join(meta_parts)}")
         lines.append(f"file_path: {src}")
@@ -169,8 +172,8 @@ def nbrag_search_and_fetch(
     Same doc_id appearing in multiple results is fetched only once with merged line range."""
     cfg = get_config()
     fname_filter = filter_filename if filter_filename else None
-    documents, metadatas, distances, rerank_used, total = search(
-        query, collection_name, top_k, True, filter_filename=fname_filter,
+    documents, metadatas, distances, rerank_used, total, rerank_scores = search(
+        query, collection_name, top_k, True, use_bm25=True, filter_filename=fname_filter,
     )
 
     if total == 0:
@@ -211,9 +214,9 @@ def nbrag_search_and_fetch(
         if scope:
             meta_parts.append(f"scope:{scope}")
         meta_parts.append(f"doc_id:{doc_id}")
-        score = max(0.0, 1.0 - dist)
         meta_parts.append(f"dist:{dist:.4f}")
-        meta_parts.append(f"score:{score:.2f}")
+        if rerank_scores and i < len(rerank_scores):
+            meta_parts.append(f"score:{rerank_scores[i]:.4f}")
 
         lines.append(f"[{i + 1}/{len(documents)}] {meta.get('filename', '?')} {' '.join(meta_parts)}")
         lines.append(f"file_path: {src}")

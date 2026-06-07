@@ -38,7 +38,8 @@ batch_ingest(
     ],
     collection_name="funboost",
     file_extensions=[".py", ".md",".html"],
-    max_workers = 10,
+    max_workers = 1,
     delete_first=True,
     verbose=True,
+    sleep_interval=1,
 )

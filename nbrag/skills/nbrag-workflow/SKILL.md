@@ -43,16 +43,18 @@ nbrag_stats()
 
 ## 第二步：检索
 
-### 策略 A：语义搜索（推荐首选）
+### 策略 A：混合搜索（推荐首选）
 
 ```
 nbrag_search(query="用户的问题", collection_name="xxx", top_k=5)
 ```
 
-- 向量召回 + rerank 精排（rerank 需配置且召回数 > top_k 才生效，失败静默降级）
+- **混合检索**：Vector 语义搜索 + BM25 关键词匹配 → RRF 融合 → Rerank 精排
+- BM25 补充语义搜索的盲区：精确类名/函数名/常量名等关键词查询
+- 可选 `use_bm25=False` 禁用 BM25（退回纯向量模式）
 - 可选 `use_rerank=False` 禁用 rerank
-- 适合自然语言提问："这个项目怎么处理并发？"
-- 可选 `filter_filename="core.py"` 缩小搜索范围（仅匹配文件名，非完整路径）
+- 适合自然语言提问："这个项目怎么处理并发？"；也适合精确关键词："BrokerEnum"
+- 可选 `filter_filename="core.py"` 缩小搜索范围（仅匹配文件名，非完整路径；设定后 BM25 自动禁用）
 - 返回每条结果包含两行：
   - 标题行：`[1/5] filename chunk:X/Y line:N-M scope:xxx doc_id:xxx dist:0.1234`
   - 路径行：`file_path: /absolute/path/to/file`

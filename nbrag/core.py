@@ -11,17 +11,20 @@ RAG 核心逻辑 —— 供 MCP 服务和独立脚本共同复用。
 """
 
 import os
+import re
+import json
 import hashlib
 
 
 import httpx
 import chromadb
+import bm25s
 from nbrag.config import get_config
 from nbrag.chunker import (
     chunk_text, enrich_chunks, collect_files,
     DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP,
 )
-
+from nbrag.loggers import logger
 
 def _cfg():
     return get_config()
@@ -56,6 +59,112 @@ CHROMA_UPSERT_BATCH = 5000
 
 _doc_id_cache = {}
 _doc_id_cache_ts = {}
+
+_bm25_cache = {}  # collection_name -> (bm25s.BM25, chunk_ids_list)
+
+
+# ─── BM25 混合检索 ─────────────────────────────────────────
+
+_CAMEL_SPLIT_RE = re.compile(r'([a-z])([A-Z])')
+_CAMEL_UPPER_RE = re.compile(r'([A-Z]+)([A-Z][a-z])')
+_HEADER_RE = re.compile(r'^#\s*\[File:.*$', re.MULTILINE)
+
+
+def _preprocess_for_bm25(text):
+    """预处理文本供 BM25 分词：去 chunk header、拆 camelCase/snake_case、小写化。"""
+    text = _HEADER_RE.sub('', text)
+    text = _CAMEL_SPLIT_RE.sub(r'\1 \2', text)
+    text = _CAMEL_UPPER_RE.sub(r'\1 \2', text)
+    text = text.replace('_', ' ')
+    return text.lower()
+
+
+def _bm25_index_dir(collection_name):
+    return os.path.join(_cfg().storage.db_path, "bm25_index", collection_name)
+
+
+def build_bm25_index(collection_name, documents, chunk_ids):
+    """构建 BM25 索引并持久化到磁盘。"""
+    if not documents:
+        return
+    preprocessed = [_preprocess_for_bm25(doc) for doc in documents]
+    corpus_tokens = bm25s.tokenize(preprocessed)
+
+    retriever = bm25s.BM25()
+    retriever.index(corpus_tokens)
+
+    index_dir = _bm25_index_dir(collection_name)
+    os.makedirs(index_dir, exist_ok=True)
+    retriever.save(index_dir)
+    with open(os.path.join(index_dir, "chunk_ids.json"), "w") as f:
+        json.dump(chunk_ids, f)
+
+    _bm25_cache[collection_name] = (retriever, chunk_ids)
+
+
+def _load_bm25_index(collection_name):
+    """从磁盘加载 BM25 索引到内存缓存。"""
+    if collection_name in _bm25_cache:
+        return _bm25_cache[collection_name]
+
+    index_dir = _bm25_index_dir(collection_name)
+    if not os.path.isdir(index_dir):
+        return None, None
+
+    ids_path = os.path.join(index_dir, "chunk_ids.json")
+    if not os.path.isfile(ids_path):
+        return None, None
+
+    try:
+        retriever = bm25s.BM25.load(index_dir, mmap=False)
+        with open(ids_path, "r") as f:
+            chunk_ids = json.load(f)
+        _bm25_cache[collection_name] = (retriever, chunk_ids)
+        return retriever, chunk_ids
+    except Exception:
+        return None, None
+
+
+def _bm25_search(query, collection_name, top_k):
+    """BM25 检索，返回 (ids_list, scores_list)。"""
+    retriever, chunk_ids = _load_bm25_index(collection_name)
+    if retriever is None:
+        return [], []
+
+    query_tokens = bm25s.tokenize(_preprocess_for_bm25(query))
+    n = min(top_k, len(chunk_ids))
+    results, scores = retriever.retrieve(query_tokens, k=n)
+
+    ids = [chunk_ids[idx] for idx in results[0]]
+    return ids, scores[0].tolist()
+
+
+def _rrf_fusion(vec_ids, bm25_ids, k=60):
+    """Reciprocal Rank Fusion — 合并两路检索结果，返回按 RRF 分数排序的 id 列表。"""
+    scores = {}
+    for rank, doc_id in enumerate(vec_ids):
+        scores[doc_id] = scores.get(doc_id, 0.0) + 1.0 / (k + rank + 1)
+    for rank, doc_id in enumerate(bm25_ids):
+        scores[doc_id] = scores.get(doc_id, 0.0) + 1.0 / (k + rank + 1)
+    return [doc_id for doc_id, _ in sorted(scores.items(), key=lambda x: x[1], reverse=True)]
+
+
+def invalidate_bm25_cache(collection_name=None):
+    """清除 BM25 索引缓存（导入/删除 collection 后调用）。"""
+    import gc
+    import shutil
+    if collection_name:
+        _bm25_cache.pop(collection_name, None)
+        gc.collect()
+        index_dir = _bm25_index_dir(collection_name)
+        if os.path.isdir(index_dir):
+            shutil.rmtree(index_dir, ignore_errors=True)
+    else:
+        _bm25_cache.clear()
+        gc.collect()
+        bm25_root = os.path.join(_cfg().storage.db_path, "bm25_index")
+        if os.path.isdir(bm25_root):
+            shutil.rmtree(bm25_root, ignore_errors=True)
 
 
 def _get_doc_id_map(collection_name):
@@ -122,6 +231,7 @@ def delete_collection(name):
     """删除整个 collection（清空该知识库）。"""
     _get_chroma().delete_collection(name)
     invalidate_doc_id_cache(name)
+    invalidate_bm25_cache(name)
 
 
 def list_collections():
@@ -178,7 +288,8 @@ def embed(texts, max_retries=3, sleep_interval=0.0, verbose=False):
                 sorted_data = sorted(data["data"], key=lambda x: x["index"])
                 all_embeddings.extend([d["embedding"] for d in sorted_data])
                 break
-            except Exception:
+            except Exception as e:
+                logger.error(f"Embedding API error: {e} , attempt :{attempt}")
                 if attempt < max_retries - 1:
                     _time.sleep(2 ** attempt)
                 else:
@@ -187,11 +298,12 @@ def embed(texts, max_retries=3, sleep_interval=0.0, verbose=False):
 
 
 def rerank(query, documents, top_n=5, max_retries=3):
-    """调用 Rerank API，返回重排后的索引列表，失败自动重试。"""
+    """调用 Rerank API，返回 (indices, scores)。scores 是 cross-encoder 的真实相关性分数。"""
     import time as _time
     cfg = _cfg()
     if not cfg.embedding.api_key or not cfg.rerank.model:
-        return list(range(min(top_n, len(documents))))
+        n = min(top_n, len(documents))
+        return list(range(n)), [0.0] * n
 
     client = _get_http_client()
     for attempt in range(max_retries):
@@ -211,7 +323,9 @@ def rerank(query, documents, top_n=5, max_retries=3):
             )
             resp.raise_for_status()
             data = resp.json()
-            return [r["index"] for r in data["results"]]
+            indices = [r["index"] for r in data["results"]]
+            scores = [r.get("relevance_score", 0.0) for r in data["results"]]
+            return indices, scores
         except Exception:
             if attempt < max_retries - 1:
                 _time.sleep(2 ** attempt)
@@ -479,7 +593,10 @@ def ingest_file(file_path, collection_name="default",
     prepared = _prepare_file(file_path, chunk_size, chunk_overlap, sleep_interval=sleep_interval)
     if not prepared["ok"]:
         return prepared
-    return _write_to_db(prepared, collection_name)
+    result = _write_to_db(prepared, collection_name)
+    if result["ok"]:
+        _bm25_cache.pop(collection_name, None)
+    return result
 
 
 def ingest_path(path, collection_name="default",
@@ -705,6 +822,20 @@ def batch_ingest(paths, collection_name="default",
         if verbose:
             print("\n[rag] No files to process (all cached).\n")
 
+    # ── 构建 BM25 索引 ──
+    if results:
+        if verbose:
+            print("\n[rag] Building BM25 index...")
+        try:
+            col = get_collection(collection_name)
+            all_data = col.get(include=["documents"])
+            build_bm25_index(collection_name, all_data["documents"], all_data["ids"])
+            if verbose:
+                print(f"[rag] BM25 index built ({len(all_data['ids'])} chunks)")
+        except Exception as e:
+            if verbose:
+                print(f"[rag] BM25 index build failed (non-fatal): {e}")
+
     elapsed = _time.time() - t0
     stats = {
         "success": len(results), "failed": len(errors), "skipped": len(skipped),
@@ -730,39 +861,70 @@ def batch_ingest(paths, collection_name="default",
 
 
 def search(query, collection_name="default", top_k=5, use_rerank=True,
-           filter_filename=None):
-    """语义搜索。返回 (documents, metadatas, distances, rerank_used, total)。"""
+           use_bm25=True, filter_filename=None):
+    """混合检索：Vector + BM25 → RRF 融合 → Reranker 精排。
+
+    返回 (documents, metadatas, distances, rerank_used, total, rerank_scores)。
+    rerank_scores: Reranker 的真实相关性分数列表（未 rerank 时为空列表）。
+    """
     col = _get_existing_collection(collection_name)
     if col is None:
-        return [], [], [], False, 0
+        return [], [], [], False, 0, []
     total = col.count()
 
     if total == 0:
-        return [], [], [], False, 0
+        return [], [], [], False, 0, []
 
+    # ── Vector Search ──
     query_vec = embed([query])[0]
-    retrieve_k = min(top_k * 4, total) if use_rerank else min(top_k, total)
+    recall_k = min(top_k * 4, total) if (use_rerank or use_bm25) else min(top_k, total)
 
-    where_filter = None
-    if filter_filename:
-        where_filter = {"filename": filter_filename}
-
-    results = col.query(
+    where_filter = {"filename": filter_filename} if filter_filename else None
+    vec_results = col.query(
         query_embeddings=[query_vec],
-        n_results=retrieve_k,
+        n_results=recall_k,
         where=where_filter,
         include=["documents", "metadatas", "distances"],
     )
+    vec_ids = vec_results["ids"][0]
+    vec_docs = vec_results["documents"][0]
+    vec_metas = vec_results["metadatas"][0]
+    vec_dists = vec_results["distances"][0]
 
-    documents = results["documents"][0]
-    metadatas = results["metadatas"][0]
-    distances = results["distances"][0]
+    # ── BM25 + RRF ──
+    if use_bm25 and not filter_filename:
+        bm25_ids, _ = _bm25_search(query, collection_name, recall_k)
+        if bm25_ids:
+            fused_ids = _rrf_fusion(vec_ids, bm25_ids)
 
+            id_to_data = {vid: (vec_docs[i], vec_metas[i], vec_dists[i])
+                          for i, vid in enumerate(vec_ids)}
+
+            bm25_only = [bid for bid in fused_ids if bid not in id_to_data]
+            if bm25_only:
+                max_vec_dist = max(vec_dists) if vec_dists else 1.0
+                try:
+                    extra = col.get(ids=bm25_only, include=["documents", "metadatas"])
+                    for i, eid in enumerate(extra["ids"]):
+                        id_to_data[eid] = (extra["documents"][i], extra["metadatas"][i], max_vec_dist)
+                except Exception:
+                    pass
+
+            documents = [id_to_data[cid][0] for cid in fused_ids if cid in id_to_data]
+            metadatas = [id_to_data[cid][1] for cid in fused_ids if cid in id_to_data]
+            distances = [id_to_data[cid][2] for cid in fused_ids if cid in id_to_data]
+        else:
+            documents, metadatas, distances = vec_docs, vec_metas, vec_dists
+    else:
+        documents, metadatas, distances = vec_docs, vec_metas, vec_dists
+
+    # ── Reranker ──
     cfg = _cfg()
     rerank_used = False
+    rerank_scores = []
     if use_rerank and cfg.rerank.model and len(documents) > top_k:
         try:
-            reranked_idx = rerank(query, documents, top_n=top_k)
+            reranked_idx, rerank_scores = rerank(query, documents, top_n=top_k)
             documents = [documents[i] for i in reranked_idx]
             metadatas = [metadatas[i] for i in reranked_idx]
             distances = [distances[i] for i in reranked_idx]
@@ -776,7 +938,7 @@ def search(query, collection_name="default", top_k=5, use_rerank=True,
         metadatas = metadatas[:top_k]
         distances = distances[:top_k]
 
-    return documents, metadatas, distances, rerank_used, total
+    return documents, metadatas, distances, rerank_used, total, rerank_scores
 
 
 def get_file_chunks(file_identifier, collection_name="default",
@@ -1190,6 +1352,7 @@ def delete_document(doc_id, collection_name="default"):
     filename = doc_data["metadatas"][0].get("filename", "?") if doc_data["metadatas"] else "?"
     col.delete(ids=doc_data["ids"])
     _delete_raw_file(collection_name, doc_id)
+    invalidate_bm25_cache(collection_name)
     return len(doc_data["ids"]), filename
 
 
