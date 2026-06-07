@@ -1,6 +1,6 @@
 [project]
 name = "nbrag"
-version = "0.3.0"
+dynamic = ["version"]
 description = "Agentic RAG MCP Server — 12 tools for AI-driven multi-round code retrieval that outperforms naive single-shot RAG"
 readme = "README.md"
 license = "MIT"
@@ -40,3 +40,6 @@ nbrag = "nbrag.server:main"
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "nbrag/__init__.py"

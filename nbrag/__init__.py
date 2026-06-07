@@ -4,4 +4,4 @@ nbrag — Agentic RAG MCP Server
 AI-driven multi-round code retrieval with 12 complementary tools.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.5.0"
