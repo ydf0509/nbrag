@@ -86,7 +86,7 @@ export NBRAG_API_KEY=sk-xxx
 ```json
 {
   "mcpServers": {
-    "rag": {
+    "nbrag": {
       "command": "uvx",
       "args": ["nbrag"],
       "env": {
@@ -102,7 +102,7 @@ export NBRAG_API_KEY=sk-xxx
 ```json
 {
   "mcpServers": {
-    "rag": {
+    "nbrag": {
       "command": "python",
       "args": ["-m", "nbrag"],
       "env": {
@@ -134,8 +134,8 @@ python -m nbrag --transport streamable-http --port 9101
 ```json
 {
   "mcpServers": {
-    "rag": {
-      "type": "http",
+    "nbrag": {
+      "type": "http",  //可以省略,因为有url，就能自动推断是http模式
       "url": "http://localhost:9101/mcp"
     }
   }
