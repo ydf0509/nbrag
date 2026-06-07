@@ -386,11 +386,7 @@ def check_file_cache(file_path, collection_name="default"):
         if result and result["metadatas"]:
             stored_mtime = result["metadatas"][0].get("file_mtime")
             if stored_mtime is not None and abs(stored_mtime - file_mtime) < 1e-6:
-                # 额外检查 raw 缓存文件是否真实存在于磁盘上
-                file_ext = os.path.splitext(file_path)[1]
-                raw_path = _raw_file_path(collection_name, doc_id, file_ext)
-                if os.path.exists(raw_path):
-                    return True, doc_id
+                return True, doc_id
     except Exception:
         pass
     return False, doc_id
@@ -967,16 +963,6 @@ def grep_knowledge(keyword, collection_name="default", max_results=10,
 
     raw_dir = os.path.join(_raw_files_dir(), collection_name)
     if not os.path.isdir(raw_dir):
-        #检查 collection 是否存在且有数据，但 raw cache 缺失
-        try:
-            col = _get_existing_collection(collection_name)
-            if col is not None and col.count() > 0:
-                return [{"error": "raw_cache_missing",
-                         "message": f"Raw cache not found for collection '{collection_name}'. "
-                                    f"ChromaDB has {col.count()} chunks but no raw files. "
-                                    f"Please re-import with nbrag_add_document to rebuild raw cache."}]
-        except Exception:
-            pass
         return []
 
     doc_id_to_info = _get_doc_id_map(collection_name)
@@ -1034,16 +1020,6 @@ def find_symbol_definition(symbol, collection_name="default", max_results=5):
 
     raw_dir = os.path.join(_raw_files_dir(), collection_name)
     if not os.path.isdir(raw_dir):
-        # 检查 collection 是否存在且有数据，但 raw cache 缺失
-        try:
-            col = _get_existing_collection(collection_name)
-            if col is not None and col.count() > 0:
-                return [{"error": "raw_cache_missing",
-                         "message": f"Raw cache not found for collection '{collection_name}'. "
-                                    f"ChromaDB has {col.count()} chunks but no raw files. "
-                                    f"Please re-import with nbrag_add_document to rebuild raw cache."}]
-        except Exception:
-            pass
         return []
 
     doc_id_to_info = _get_doc_id_map(collection_name)

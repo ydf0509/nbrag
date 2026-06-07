@@ -142,9 +142,7 @@ def nbrag_search(
         if scope:
             meta_parts.append(f"scope:{scope}")
         meta_parts.append(f"doc_id:{doc_id}")
-        score = max(0.0, 1.0 - dist)
         meta_parts.append(f"dist:{dist:.4f}")
-        meta_parts.append(f"score:{score:.2f}")
 
         lines.append(f"[{i + 1}/{len(documents)}] {meta.get('filename', '?')} {' '.join(meta_parts)}")
         lines.append(f"file_path: {src}")
@@ -162,13 +160,12 @@ def nbrag_search_and_fetch(
     top_k: int = Field(default=5, description="Number of search results to return"),
     fetch_top_n_raw: int = Field(default=3, description="Auto-fetch raw source for top N results (0 to skip fetching)"),
     context_lines: int = Field(default=100, description="Lines of context around matched chunk. Small files (≤2x this) are fetched fully"),
-    filter_filename: str = Field(default="", description="Optional: filter by filename only (e.g. 'constant.py', not full path)"),
 ) -> str:
     """Search + auto-fetch raw source code for top results in one call (combo tool).
     Saves a round-trip vs calling nbrag_search then nbrag_get_raw_file separately.
     Same doc_id appearing in multiple results is fetched only once with merged line range."""
     cfg = get_config()
-    fname_filter = filter_filename if filter_filename else None
+    fname_filter = None
     documents, metadatas, distances, rerank_used, total = search(
         query, collection_name, top_k, True, filter_filename=fname_filter,
     )
@@ -211,9 +208,7 @@ def nbrag_search_and_fetch(
         if scope:
             meta_parts.append(f"scope:{scope}")
         meta_parts.append(f"doc_id:{doc_id}")
-        score = max(0.0, 1.0 - dist)
         meta_parts.append(f"dist:{dist:.4f}")
-        meta_parts.append(f"score:{score:.2f}")
 
         lines.append(f"[{i + 1}/{len(documents)}] {meta.get('filename', '?')} {' '.join(meta_parts)}")
         lines.append(f"file_path: {src}")
@@ -299,8 +294,6 @@ def nbrag_grep(
 
     if not results:
         return f"No matches for '{keyword}' (collection: {collection_name})"
-    if len(results) == 1 and isinstance(results[0], dict) and results[0].get("error") == "raw_cache_missing":
-        return results[0]["message"]
 
     lines = [f"grep: '{keyword}' | collection_name: {collection_name} | {len(results)} match(es)", ""]
     for i, r in enumerate(results):
@@ -328,8 +321,6 @@ def nbrag_find_definition(
 
     if not results:
         return f"No definition found for '{symbol}' (collection: {collection_name}). Try nbrag_grep for a broader search."
-    if len(results) == 1 and isinstance(results[0], dict) and results[0].get("error") == "raw_cache_missing":
-        return results[0]["message"]
 
     lines = [f"definition: '{symbol}' | collection_name: {collection_name} | {len(results)} found", ""]
     for i, r in enumerate(results):
@@ -549,7 +540,7 @@ def nbrag_stats() -> str:
         "RAG Stats",
         f"embed: {stats['embedding_model']} | rerank: {stats['rerank_model']}",
         f"data_dir: {stats['data_dir']}",
-        f"chunk: size={cfg.chunking.chunk_size} overlap={cfg.chunking.chunk_overlap} (current config) | collections: {stats['collection_count']}",
+        f"chunk: size={cfg.chunking.chunk_size} overlap={cfg.chunking.chunk_overlap} | collections: {stats['collection_count']}",
         "",
     ]
 
