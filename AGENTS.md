@@ -34,9 +34,9 @@ mypy nbrag/
 python -m pytest tests/ -x -v
 ```
 
-## nbrag要确保对ai友好
+## nbrag的mcp函数注释要确保对ai友好
 
-`D:\codes\nbrag\nbrag\server.py` 和 `D:\codes\nbrag\nbrag\skills\nbrag-workflow\SKILL.md` 中的函数 和 skills要符合mcp和skills的最佳实践。让ai能正确 何时以及如何调用相关的函数， 不要指望用户一定会复制 skill.md 到他的项目下，mcp自身的函数注释说明就要能让ai知道何时以及如何调用，skill只是锦上添花，不要指望用户一定会安装这个skills。
+`D:\codes\nbrag\nbrag\server.py` 和 `D:\codes\nbrag\nbrag\skills\nbrag-workflow\SKILL.md` 中的函数 和 skills要符合mcp和skills的最佳实践。让ai能正确 何时以及如何调用相关的函数， 不要指望用户一定会复制 skill.md 到他的项目下，mcp自身的函数注释说明就要能让ai知道何时以及如何调用，skill只是锦上添花，不要指望用户一定会复制这个skills。
 
 ## 代码规范
 

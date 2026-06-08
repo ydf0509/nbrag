@@ -41,5 +41,5 @@ batch_ingest(
     max_workers = 1,
     delete_first=True,
     verbose=True,
-    sleep_interval=1,
+    sleep_interval=0.1,
 )
