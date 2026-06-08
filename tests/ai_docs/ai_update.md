@@ -1,5 +1,57 @@
 # AI 重大更新记录
 
+## 2026-06-08: batch_ingest 批量写入优化（delete_first=True）
+
+**改动范围**：core.py
+
+**核心变化**：
+- `batch_ingest(delete_first=True)` 新增 `_batch_write_to_db` 批量写入路径
+- 旧方式：每个文件 3 次 SQLite 操作（查旧 + 删旧 + upsert），N 文件 = 3N 次
+- 新方式：跳过查旧/删旧（collection 已清空），收集所有 chunks 后一次性 upsert
+- `delete_first=False`（增量导入）仍使用逐文件 `_write_to_db`，不受影响
+
+**新增函数**：
+- `_batch_write_to_db()` — 批量收集 + 缓存原文 + 一次性 upsert
+
+---
+
+## 2026-06-08: find_symbol_definition 性能优化 —— Symbol 索引
+
+**改动范围**：core.py, AGENTS.md
+
+**核心变化**：
+- `find_symbol_definition()` 从全量 AST 扫描改为 **Symbol 索引查表**
+- 新增 `symbol_index/` 持久化目录，在 `batch_ingest()` 完成后自动构建
+- 索引格式：`{simple_name: [{doc_id, filename, source, type, qualified, line_start, line_end, sig, methods}]}`
+- 查询时先查索引 O(1)，只读取匹配文件获取定义文本，索引不存在时回退到旧全量扫描
+
+**新增函数**：
+- `build_symbol_index()` — 扫描 .py 文件 AST，构建并持久化索引
+- `_load_symbol_index()` — 从磁盘加载（带内存缓存）
+- `_query_symbol_index()` — 按 name/qualified/suffix 三种方式匹配
+- `invalidate_symbol_cache()` — 清除缓存 + 磁盘文件
+- `_find_definition_via_index()` — 索引快速路径
+- `_find_definition_full_scan()` — 全量扫描回退路径
+
+**生命周期挂接**：
+- `batch_ingest()` 完成后自动构建 Symbol 索引
+- `ingest_file()` 写入后清除内存缓存
+- `delete_document()` / `delete_collection()` 清除 Symbol 缓存 + 磁盘索引
+
+**性能测试结果（langchain_ai_codes_and_docs, 4801 文件, 3144 .py）**：
+
+| 符号 | 旧（全量 AST） | 新（索引） | 加速比 |
+|------|--------------|-----------|--------|
+| search（找到） | 4.73s | 0.002s | **2365x** |
+| embed（找到） | 1.98s | 0.002s | **990x** |
+| BrokerEnum（0 结果） | 5.74s | 0.49s | 12x |
+| NONEXISTENT（最差） | 4.25s | 0.46s | 9x |
+
+索引构建一次性开销：3.62s（21084 symbols），仅在 ingest 时执行。
+架构从"三存储"升级为"四存储"（ChromaDB + raw_files + bm25_index + symbol_index）。
+
+---
+
 ## 2026-06-07: 打工人法律百科知识库（worker_rights）
 
 **改动范围**：scripts/ingest_ex3_worker_rights/（新增目录）

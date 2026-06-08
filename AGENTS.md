@@ -69,12 +69,13 @@ python -m pytest tests/ -x -v
 
 ## 架构决策
 
-### 三存储
+### 四存储
 
 ChromaDB 存向量化 chunks（有 overlap），用于语义搜索。
 `raw_files/` 存原始文件快照（无 overlap），用于精确行号读取。
 `bm25_index/` 存 BM25 稀疏索引（bm25s 持久化），用于关键词检索。
-三者缺一不可，不要移除任何一个。
+`symbol_index/` 存 Python AST 符号索引（JSON 持久化），用于 `find_definition` 快速查找。
+四者缺一不可，不要移除任何一个。
 
 ### 混合检索（BM25 + RRF）
 

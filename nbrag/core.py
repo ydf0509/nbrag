@@ -167,6 +167,158 @@ def invalidate_bm25_cache(collection_name=None):
             shutil.rmtree(bm25_root, ignore_errors=True)
 
 
+# ─── Symbol 索引（加速 find_definition）──────────────────
+
+_symbol_cache = {}  # collection_name -> {simple_name: [entries]}
+
+
+def _symbol_index_dir(collection_name):
+    return os.path.join(_cfg().storage.db_path, "symbol_index", collection_name)
+
+
+def build_symbol_index(collection_name):
+    """扫描 raw_files 中所有 .py 文件的 AST，构建 symbol 索引并持久化到磁盘。
+
+    索引结构: {simple_name: [{doc_id, filename, source, type, qualified, line_start, line_end, sig, methods}, ...]}
+    simple_name 是不含限定前缀的名字（如 "search"），qualified 是完整路径（如 "MyClass.search"）。
+    """
+    import ast as _ast
+    import warnings as _warnings
+    from nbrag.chunker import _extract_signature
+
+    raw_dir = os.path.join(_raw_files_dir(), collection_name)
+    if not os.path.isdir(raw_dir):
+        return
+
+    doc_id_to_info = _get_doc_id_map(collection_name)
+    index = {}  # simple_name -> [entry, ...]
+
+    for fname in os.listdir(raw_dir):
+        if not fname.lower().endswith(".py"):
+            continue
+        doc_id = os.path.splitext(fname)[0]
+        info = doc_id_to_info.get(doc_id, {})
+        fpath = os.path.join(raw_dir, fname)
+        try:
+            with open(fpath, "r", encoding="utf-8", errors="replace") as f:
+                content = f.read()
+        except OSError:
+            continue
+        try:
+            with _warnings.catch_warnings():
+                _warnings.simplefilter("ignore", SyntaxWarning)
+                tree = _ast.parse(content)
+        except SyntaxError:
+            continue
+
+        def _walk(node, parent_chain=""):
+            for child in _ast.iter_child_nodes(node):
+                if not isinstance(child, (_ast.ClassDef, _ast.FunctionDef, _ast.AsyncFunctionDef)):
+                    continue
+                name = child.name
+                qualified = f"{parent_chain}.{name}" if parent_chain else name
+                start = child.lineno
+                end = child.end_lineno if hasattr(child, 'end_lineno') and child.end_lineno else start
+                sym_type = "class" if isinstance(child, _ast.ClassDef) else "function"
+                sig = _extract_signature(child)
+
+                methods = []
+                if isinstance(child, _ast.ClassDef):
+                    for sub in _ast.iter_child_nodes(child):
+                        if isinstance(sub, (_ast.FunctionDef, _ast.AsyncFunctionDef)):
+                            methods.append(_extract_signature(sub))
+
+                entry = {
+                    "doc_id": doc_id,
+                    "filename": info.get("filename", fname),
+                    "source": info.get("source", fpath),
+                    "type": sym_type,
+                    "qualified": qualified,
+                    "line_start": start,
+                    "line_end": end,
+                    "sig": sig,
+                    "methods": methods,
+                }
+                index.setdefault(name, []).append(entry)
+                _walk(child, qualified)
+
+        _walk(tree)
+
+    index_dir = _symbol_index_dir(collection_name)
+    os.makedirs(index_dir, exist_ok=True)
+    with open(os.path.join(index_dir, "symbols.json"), "w", encoding="utf-8") as f:
+        json.dump(index, f, ensure_ascii=False)
+
+    _symbol_cache[collection_name] = index
+    return index
+
+
+def _load_symbol_index(collection_name):
+    """从磁盘加载 Symbol 索引到内存缓存。"""
+    if collection_name in _symbol_cache:
+        return _symbol_cache[collection_name]
+
+    index_dir = _symbol_index_dir(collection_name)
+    symbols_path = os.path.join(index_dir, "symbols.json")
+    if not os.path.isfile(symbols_path):
+        return None
+
+    try:
+        with open(symbols_path, "r", encoding="utf-8") as f:
+            index = json.load(f)
+        _symbol_cache[collection_name] = index
+        return index
+    except Exception:
+        return None
+
+
+def invalidate_symbol_cache(collection_name=None):
+    """清除 Symbol 索引缓存（导入/删除后调用）。"""
+    import shutil
+    if collection_name:
+        _symbol_cache.pop(collection_name, None)
+        index_dir = _symbol_index_dir(collection_name)
+        if os.path.isdir(index_dir):
+            shutil.rmtree(index_dir, ignore_errors=True)
+    else:
+        _symbol_cache.clear()
+        symbol_root = os.path.join(_cfg().storage.db_path, "symbol_index")
+        if os.path.isdir(symbol_root):
+            shutil.rmtree(symbol_root, ignore_errors=True)
+
+
+def _query_symbol_index(symbol, index):
+    """在 Symbol 索引中查找匹配项，返回 entry 列表。
+
+    匹配逻辑与原 find_symbol_definition 一致：
+      name == symbol  OR  qualified == symbol  OR  qualified.endswith('.{symbol}')
+    """
+    results = []
+    seen = set()
+    lookup_key = symbol.rsplit(".", 1)[-1]
+
+    for entry in index.get(lookup_key, []):
+        name = entry["qualified"].rsplit(".", 1)[-1]
+        qualified = entry["qualified"]
+        if name == symbol or qualified == symbol or qualified.endswith(f".{symbol}"):
+            key = (entry["doc_id"], entry["line_start"])
+            if key not in seen:
+                seen.add(key)
+                results.append(entry)
+
+    if "." in symbol:
+        first_part = symbol.split(".")[0]
+        for entry in index.get(first_part, []):
+            qualified = entry["qualified"]
+            if qualified == symbol or qualified.endswith(f".{symbol}"):
+                key = (entry["doc_id"], entry["line_start"])
+                if key not in seen:
+                    seen.add(key)
+                    results.append(entry)
+
+    return results
+
+
 def _get_doc_id_map(collection_name):
     """获取 collection 的 doc_id → {filename, source} 映射（带 60s 内存缓存）。"""
     import time as _time
@@ -232,6 +384,7 @@ def delete_collection(name):
     _get_chroma().delete_collection(name)
     invalidate_doc_id_cache(name)
     invalidate_bm25_cache(name)
+    invalidate_symbol_cache(name)
 
 
 def list_collections():
@@ -567,6 +720,85 @@ def _write_to_db(prepared, collection_name="default"):
     }
 
 
+def _batch_write_to_db(prepared_list, collection_name,
+                       results, errors, skipped,
+                       on_progress, verbose, total_file_count):
+    """批量写入 ChromaDB（delete_first=True 专用，跳过逐文件查旧/删旧）。
+
+    先缓存原始文件，收集所有 chunks，然后一次性 upsert 到 ChromaDB。
+    相比逐文件 _write_to_db，减少了 N 次 col.get + N 次 col.delete 的 SQLite 开销。
+    """
+    col = get_collection(collection_name)
+    all_ids = []
+    all_documents = []
+    all_embeddings = []
+    all_metadatas = []
+
+    for i, p in enumerate(prepared_list):
+        fp = p.get("_fp", "?")
+        if not p.get("ok"):
+            if p.get("skipped"):
+                skipped.append(p.get("reason", ""))
+            elif p.get("error"):
+                errors.append(p.get("error", "unknown error"))
+            continue
+
+        try:
+            _cache_raw_file(p["text"], collection_name, p["doc_id"], p["file_ext"])
+        except Exception as e:
+            errors.append(f"{p['filename']}: cache_raw_file failed: {e}")
+            continue
+
+        doc_id = p["doc_id"]
+        enriched_chunks = p["enriched_chunks"]
+        embeddings = p["embeddings"]
+        line_ranges = p["line_ranges"]
+        scopes = p["scopes"]
+        file_mtime = p.get("file_mtime")
+
+        for ci in range(len(enriched_chunks)):
+            all_ids.append(f"{doc_id}_c{ci}")
+            all_documents.append(enriched_chunks[ci])
+            all_embeddings.append(embeddings[ci])
+            all_metadatas.append({
+                "source": p["abs_path"],
+                "filename": p["filename"],
+                "doc_id": doc_id,
+                "chunk_index": ci,
+                "total_chunks": len(enriched_chunks),
+                "line_start": line_ranges[ci][0],
+                "line_end": line_ranges[ci][1],
+                "scope": scopes[ci],
+                "file_mtime": file_mtime,
+            })
+
+        r = {"ok": True, "filename": p["filename"],
+             "chars": p["chars"], "chunks": p["chunks"], "doc_id": doc_id}
+        results.append(r)
+
+        if on_progress:
+            on_progress(i + 1, total_file_count, fp, r)
+        elif verbose:
+            print(f"  [prepare-write {i + 1:>4}/{len(prepared_list)}] {p['filename']} ({p['chunks']} chunks)")
+
+    if not all_ids:
+        return
+
+    if verbose:
+        print(f"\n[rag] Batch upsert {len(all_ids)} chunks to ChromaDB...")
+
+    for start in range(0, len(all_ids), CHROMA_UPSERT_BATCH):
+        end = start + CHROMA_UPSERT_BATCH
+        col.upsert(
+            ids=all_ids[start:end],
+            documents=all_documents[start:end],
+            embeddings=all_embeddings[start:end],
+            metadatas=all_metadatas[start:end],
+        )
+        if verbose:
+            print(f"  [batch-upsert] {min(end, len(all_ids))}/{len(all_ids)} chunks written")
+
+
 def ingest_file(file_path, collection_name="default",
                 chunk_size=DEFAULT_CHUNK_SIZE,
                 chunk_overlap=DEFAULT_CHUNK_OVERLAP,
@@ -596,6 +828,7 @@ def ingest_file(file_path, collection_name="default",
     result = _write_to_db(prepared, collection_name)
     if result["ok"]:
         _bm25_cache.pop(collection_name, None)
+        _symbol_cache.pop(collection_name, None)
     return result
 
 
@@ -792,31 +1025,40 @@ def batch_ingest(paths, collection_name="default",
             embed_elapsed = _time.time() - t0
             print(f"\n[rag] Embedding done in {embed_elapsed:.1f}s, writing to ChromaDB...\n")
 
-        for i, p in enumerate(prepared_list):
-            fp = p.get("_fp", "?")
-            try:
-                r = _write_to_db(p, collection_name) if p["ok"] else p
-            except Exception as e:
-                r = {"ok": False, "error": f"{os.path.basename(fp)}: {type(e).__name__}: {e}"}
+        if delete_first:
+            _batch_write_to_db(
+                prepared_list, collection_name,
+                results, errors, skipped,
+                on_progress, verbose, len(all_files),
+            )
+            total_chars = sum(r["chars"] for r in results)
+            total_chunks = sum(r["chunks"] for r in results)
+        else:
+            for i, p in enumerate(prepared_list):
+                fp = p.get("_fp", "?")
+                try:
+                    r = _write_to_db(p, collection_name) if p["ok"] else p
+                except Exception as e:
+                    r = {"ok": False, "error": f"{os.path.basename(fp)}: {type(e).__name__}: {e}"}
 
-            if r["ok"]:
-                results.append(r)
-                total_chars += r["chars"]
-                total_chunks += r["chunks"]
-            elif r.get("skipped"):
-                skipped.append(r.get("reason", ""))
-            else:
-                errors.append(r.get("error", "unknown error"))
-
-            if on_progress:
-                on_progress(i + 1, len(all_files), fp, r)
-            elif verbose:
-                idx = i + 1
-                name = os.path.basename(fp)
                 if r["ok"]:
-                    print(f"  [write {idx:>4}/{len(all_files)}] {name} ({r['chunks']} chunks)")
-                elif not r.get("skipped"):
-                    print(f"  [write {idx:>4}/{len(all_files)}] X {name}  ({r.get('error', '')})")
+                    results.append(r)
+                    total_chars += r["chars"]
+                    total_chunks += r["chunks"]
+                elif r.get("skipped"):
+                    skipped.append(r.get("reason", ""))
+                else:
+                    errors.append(r.get("error", "unknown error"))
+
+                if on_progress:
+                    on_progress(i + 1, len(all_files), fp, r)
+                elif verbose:
+                    idx = i + 1
+                    name = os.path.basename(fp)
+                    if r["ok"]:
+                        print(f"  [write {idx:>4}/{len(all_files)}] {name} ({r['chunks']} chunks)")
+                    elif not r.get("skipped"):
+                        print(f"  [write {idx:>4}/{len(all_files)}] X {name}  ({r.get('error', '')})")
     else:
         # 没有文件需要处理，直接返回成功
         if verbose:
@@ -835,6 +1077,19 @@ def batch_ingest(paths, collection_name="default",
         except Exception as e:
             if verbose:
                 print(f"[rag] BM25 index build failed (non-fatal): {e}")
+
+    # ── 构建 Symbol 索引 ──
+    if results:
+        if verbose:
+            print("[rag] Building Symbol index...")
+        try:
+            sym_index = build_symbol_index(collection_name)
+            if verbose:
+                sym_count = sum(len(v) for v in (sym_index or {}).values())
+                print(f"[rag] Symbol index built ({sym_count} symbols)")
+        except Exception as e:
+            if verbose:
+                print(f"[rag] Symbol index build failed (non-fatal): {e}")
 
     elapsed = _time.time() - t0
     stats = {
@@ -1189,14 +1444,15 @@ def grep_knowledge(keyword, collection_name="default", max_results=10,
 
 
 def find_symbol_definition(symbol, collection_name="default", max_results=5):
-    """在知识库中查找符号（类/函数/方法）的完整定义。"""
+    """在知识库中查找符号（类/函数/方法）的完整定义。
+
+    优先使用预构建的 Symbol 索引（O(1) 查表 + 仅读取匹配文件），
+    索引不存在时回退到全量 AST 扫描（兼容旧数据）。
+    """
     import re
-    import ast as _ast
-    import warnings as _warnings
 
     raw_dir = os.path.join(_raw_files_dir(), collection_name)
     if not os.path.isdir(raw_dir):
-        # 检查 collection 是否存在且有数据，但 raw cache 缺失
         try:
             col = _get_existing_collection(collection_name)
             if col is not None and col.count() > 0:
@@ -1208,8 +1464,104 @@ def find_symbol_definition(symbol, collection_name="default", max_results=5):
             pass
         return []
 
-    doc_id_to_info = _get_doc_id_map(collection_name)
+    index = _load_symbol_index(collection_name)
+    if index is not None:
+        return _find_definition_via_index(symbol, collection_name, index, raw_dir, max_results)
 
+    return _find_definition_full_scan(symbol, collection_name, raw_dir, max_results)
+
+
+def _find_definition_via_index(symbol, collection_name, index, raw_dir, max_results):
+    """通过 Symbol 索引查找定义（快速路径）。"""
+    import re
+    entries = _query_symbol_index(symbol, index)
+    results = []
+
+    for entry in entries[:max_results]:
+        doc_id = entry["doc_id"]
+        ext_candidates = [".py"]
+        content = None
+        for ext in ext_candidates:
+            rpath = _raw_file_path(collection_name, doc_id, ext)
+            if os.path.isfile(rpath):
+                try:
+                    with open(rpath, "r", encoding="utf-8", errors="replace") as f:
+                        content = f.read()
+                except OSError:
+                    pass
+                break
+        if content is None:
+            content_from_raw, _ = _read_raw_file(collection_name, doc_id)
+            content = content_from_raw
+
+        if content is None:
+            definition = f"(source file not found, doc_id={doc_id})"
+        else:
+            file_lines = content.splitlines()
+            ls, le = entry["line_start"], entry["line_end"]
+            definition = "\n".join(file_lines[ls - 1:le])
+
+        methods_summary = ""
+        if entry.get("methods"):
+            methods_summary = "\n".join(f"  {s}" for s in entry["methods"])
+
+        results.append({
+            "filename": entry["filename"],
+            "source": entry["source"],
+            "doc_id": doc_id,
+            "symbol_type": entry["type"],
+            "qualified_name": entry["qualified"],
+            "line_start": entry["line_start"],
+            "line_end": entry["line_end"],
+            "definition": definition,
+            "methods_summary": methods_summary,
+        })
+
+    if len(results) < max_results:
+        doc_id_to_info = _get_doc_id_map(collection_name)
+        all_files = os.listdir(raw_dir)
+        other_files = [f for f in all_files if not f.lower().endswith(".py")]
+        pattern = re.compile(r'\b' + re.escape(symbol) + r'\b')
+
+        for fname in other_files:
+            doc_id = os.path.splitext(fname)[0]
+            info = doc_id_to_info.get(doc_id, {})
+            fpath = os.path.join(raw_dir, fname)
+            try:
+                with open(fpath, "r", encoding="utf-8", errors="replace") as f:
+                    content = f.read()
+            except OSError:
+                continue
+            file_lines = content.splitlines()
+            for i, line in enumerate(file_lines):
+                if pattern.search(line):
+                    ctx_start = max(0, i - 3)
+                    ctx_end = min(len(file_lines), i + 20)
+                    results.append({
+                        "filename": info.get("filename", fname),
+                        "source": info.get("source", fpath),
+                        "doc_id": doc_id,
+                        "symbol_type": "unknown",
+                        "qualified_name": symbol,
+                        "line_start": i + 1,
+                        "line_end": ctx_end,
+                        "definition": "\n".join(file_lines[ctx_start:ctx_end]),
+                        "methods_summary": "",
+                    })
+                    break
+            if len(results) >= max_results:
+                break
+
+    return results
+
+
+def _find_definition_full_scan(symbol, collection_name, raw_dir, max_results):
+    """全量 AST 扫描查找定义（回退路径，兼容无索引的旧数据）。"""
+    import re
+    import ast as _ast
+    import warnings as _warnings
+
+    doc_id_to_info = _get_doc_id_map(collection_name)
     all_files = os.listdir(raw_dir)
     py_files = [f for f in all_files if f.lower().endswith(".py")]
     other_files = [f for f in all_files if not f.lower().endswith(".py")]
@@ -1353,6 +1705,7 @@ def delete_document(doc_id, collection_name="default"):
     col.delete(ids=doc_data["ids"])
     _delete_raw_file(collection_name, doc_id)
     invalidate_bm25_cache(collection_name)
+    invalidate_symbol_cache(collection_name)
     return len(doc_data["ids"]), filename
 
 
