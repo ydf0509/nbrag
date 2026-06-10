@@ -84,6 +84,10 @@ def nbrag_search(
     IMPORTANT: If you don't know the collection_name, call nbrag_stats() first to see all available knowledge bases.
     collection_name = knowledge base name = 知识库名字 (e.g. user says "查funboost知识库" → collection_name="funboost").
 
+    **PREFER nbrag_search_and_fetch** when the user asks 'how to do X', 'show me examples of X',
+    or any knowledge/usage question — it auto-fetches complete file context and avoids fragmented chunks.
+    **Use nbrag_search** only when you need fine-grained control (disable BM25/rerank) or metadata-only lookup.
+
     TIP: Don't pass the user's raw long question directly. Rewrite it into focused search terms.
     e.g. user asks "试用期干了5个月不转正，1年合同合法吗" → query="试用期 最长期限 1年合同"
     Then do a second search: query="违法约定试用期 赔偿" to find penalty clauses.
@@ -168,8 +172,17 @@ def nbrag_search_and_fetch(
     filter_filename: str = Field(default="", description="Filter by filename (e.g. 'core.py')"),
 ) -> str:
     """Search + auto-fetch raw file content for top results in one call (saves a round-trip).
-    Best when you want both search results AND full file context immediately.
-    Always uses BM25+rerank for best quality. Cannot disable BM25/rerank (use nbrag_search for fine control).
+
+    **PREFER this over nbrag_search** when:
+    - User asks 'how to do X', 'show me examples of X', 'what is X usage', or any knowledge/usage question.
+    - You need both a quick answer AND the full source code backing it.
+    - You want to avoid fragmented chunks and get complete file context immediately.
+
+    **Use nbrag_search** only when:
+    - You need fine-grained control (disable BM25, different chunk counts).
+    - You only want metadata/summary, not full source.
+
+    Always uses BM25+rerank for best quality.
     Same doc_id in multiple results is fetched only once with merged line range."""
     cfg = get_config()
     fname_filter = filter_filename if filter_filename else None
