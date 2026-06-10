@@ -1712,8 +1712,8 @@ def _find_definition_full_scan(symbol, collection_name, raw_dir, max_results):
     return results
 
 
-def list_documents(collection_name="default"):
-    """列出知识库中已导入的文档。"""
+def list_documents(collection_name="default", offset=0, limit=None):
+    """列出知识库中已导入的文档。支持 offset/limit 分页。"""
     col = _get_existing_collection(collection_name)
     if col is None:
         return {}
@@ -1735,7 +1735,14 @@ def list_documents(collection_name="default"):
                 "chunk_count": 0,
             }
         docs[did]["chunk_count"] += 1
-    return docs
+
+    # 按 doc_id 排序确保分页结果稳定
+    sorted_items = sorted(docs.items(), key=lambda x: x[0])
+    if offset:
+        sorted_items = sorted_items[offset:]
+    if limit is not None:
+        sorted_items = sorted_items[:limit]
+    return dict(sorted_items)
 
 
 def delete_document(doc_id, collection_name="default"):

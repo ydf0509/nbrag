@@ -518,16 +518,33 @@ def _format_context_result(result, doc_id):
 @mcp.tool()
 def nbrag_list(
     collection_name: str = Field(description="Knowledge base name (use nbrag_stats to see available names)"),
+    limit: int = Field(default=100, description="Max docs to return (default 100, max 500)"),
+    offset: int = Field(default=0, description="Skip first N docs (default 0). Use with limit for pagination"),
 ) -> str:
-    """List all documents in a knowledge base (filename, path, chunk count, doc_id).
+    """List documents in a knowledge base (filename, path, chunk count, doc_id).
+    Returns paginated results by default (limit=100). Use offset for next page.
     Use returned doc_id with nbrag_delete to remove documents."""
-    docs = list_documents(collection_name)
+    limit = max(1, min(limit, 500))
+    docs = list_documents(collection_name, offset=offset, limit=limit)
 
     if not docs:
+        if offset > 0:
+            return f"collection '{collection_name}': no more docs after offset {offset}."
         return f"collection '{collection_name}' is empty."
 
+    # 从 stats 获取总文档数（已缓存计数）
+    all_stats = get_stats()
+    total_docs = all_stats["collections"].get(collection_name, {}).get("doc_count", 0)
     total_chunks = sum(info["chunk_count"] for info in docs.values())
-    lines = [f"[{collection_name}] {len(docs)} docs, {total_chunks} chunks\n"]
+    shown = len(docs)
+    has_more = offset + shown < total_docs
+
+    header = (f"[{collection_name}] {total_docs} total docs, showing {offset + 1}-{offset + shown}"
+              f" | {total_chunks} chunks in current page")
+    if has_more:
+        header += (f"\n  (more available: use offset={offset + limit} for next page, "
+                   f"{total_docs - offset - shown} remaining)")
+    lines = [header + "\n"]
     for did, info in docs.items():
         lines.append(f"  {info['filename']} | file_path: {info['source']} | {info['chunk_count']} chunks | doc_id:{did}")
 
