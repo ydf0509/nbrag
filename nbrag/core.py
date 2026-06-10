@@ -62,6 +62,57 @@ _doc_id_cache_ts = {}
 
 _bm25_cache = {}  # collection_name -> (bm25s.BM25, chunk_ids_list)
 
+_CHROMA_GET_BATCH = 500  # SQLite 默认 999 参数限制，预留余量
+
+
+def _batch_get(col, include, ids=None, where=None):
+    """
+    分页获取 ChromaDB collection 数据，避免 SQLite 'too many SQL variables' 错误。
+
+    SQLite 默认最多 999 个 SQL 参数；Chromadb 在通过 `col.get(include=["metadatas"])`
+    全量读取大集合时会对每条记录使用占位符参数，超过限制即报错。本函数将大查询
+    拆成 ≤ 500 的批次后聚合。
+
+    调用方约定:
+      - 提供了 `ids` 时按 ids 分批（适用于 BM25 召回后的补充读取）。
+      - 只提供 `where` 时走单查询（单 doc_id/单 source 的过滤结果不会超过 999）。
+      - 什么都不提供时先拿 id 列表再分批取 include 内容。
+    """
+    # 少量 ids 或有 where 过滤器时，直接查询即可，结果集不会过大
+    if where is not None:
+        kwargs = {"include": list(include)}
+        if ids is not None:
+            kwargs["ids"] = list(ids)
+        kwargs["where"] = where
+        return col.get(**kwargs)
+
+    if ids is not None:
+        ids_list = list(ids)
+        if len(ids_list) <= _CHROMA_GET_BATCH:
+            return col.get(ids=ids_list, include=list(include))
+        result = {"ids": [], "documents": [], "metadatas": []}
+        for i in range(0, len(ids_list), _CHROMA_GET_BATCH):
+            batch = col.get(ids=ids_list[i:i + _CHROMA_GET_BATCH], include=list(include))
+            for key in result:
+                if key in batch and batch[key] is not None:
+                    result[key].extend(batch[key])
+        return result
+
+    # 全量查询：先拿 id（只查 id 不涉及 metadata 表，安全），再分批拿数据
+    id_only = col.get(include=[])
+    all_ids = id_only.get("ids", [])
+    if not all_ids:
+        return {"ids": [], "documents": [], "metadatas": []}
+    if len(all_ids) <= _CHROMA_GET_BATCH:
+        return col.get(include=list(include))
+    result = {"ids": [], "documents": [], "metadatas": []}
+    for i in range(0, len(all_ids), _CHROMA_GET_BATCH):
+        batch = col.get(ids=all_ids[i:i + _CHROMA_GET_BATCH], include=list(include))
+        for key in result:
+            if key in batch and batch[key] is not None:
+                result[key].extend(batch[key])
+    return result
+
 
 # ─── BM25 混合检索 ─────────────────────────────────────────
 
@@ -320,17 +371,17 @@ def _query_symbol_index(symbol, index):
 
 
 def _get_doc_id_map(collection_name):
-    """获取 collection 的 doc_id → {filename, source} 映射（带 60s 内存缓存）。"""
+    """获取 collection 的 doc_id → {filename, source} 映射（带 600s 内存缓存）。"""
     import time as _time
     now = _time.time()
     if (collection_name in _doc_id_cache
-            and now - _doc_id_cache_ts.get(collection_name, 0) < 60):
+            and now - _doc_id_cache_ts.get(collection_name, 0) < 600):
         return _doc_id_cache[collection_name]
 
     col = _get_existing_collection(collection_name)
     if col is None:
         return {}
-    all_meta = col.get(include=["metadatas"])
+    all_meta = _batch_get(col, include=["metadatas"])
     mapping = {}
     for meta in all_meta["metadatas"]:
         did = meta.get("doc_id", "")
@@ -1070,7 +1121,7 @@ def batch_ingest(paths, collection_name="default",
             print("\n[rag] Building BM25 index...")
         try:
             col = get_collection(collection_name)
-            all_data = col.get(include=["documents"])
+            all_data = _batch_get(col, include=["documents"])
             build_bm25_index(collection_name, all_data["documents"], all_data["ids"])
             if verbose:
                 print(f"[rag] BM25 index built ({len(all_data['ids'])} chunks)")
@@ -1159,7 +1210,7 @@ def search(query, collection_name="default", top_k=5, use_rerank=True,
             if bm25_only:
                 max_vec_dist = max(vec_dists) if vec_dists else 1.0
                 try:
-                    extra = col.get(ids=bm25_only, include=["documents", "metadatas"])
+                    extra = _batch_get(col, ids=bm25_only, include=["documents", "metadatas"])
                     for i, eid in enumerate(extra["ids"]):
                         id_to_data[eid] = (extra["documents"][i], extra["metadatas"][i], max_vec_dist)
                 except Exception:
@@ -1670,7 +1721,7 @@ def list_documents(collection_name="default"):
     if total == 0:
         return {}
 
-    all_data = col.get(include=["metadatas"])
+    all_data = _batch_get(col, include=["metadatas"])
     docs = {}
     for meta in all_data["metadatas"]:
         if meta is None:
@@ -1728,7 +1779,7 @@ def get_stats():
             col = chroma.get_collection(name)
             count = col.count()
             if count > 0:
-                all_meta = col.get(include=["metadatas"])
+                all_meta = _batch_get(col, include=["metadatas"])
                 doc_ids = set(m.get("doc_id", "") for m in all_meta["metadatas"] if m is not None)
                 stats["collections"][name] = {
                     "doc_count": len(doc_ids), "chunk_count": count,

@@ -25,3 +25,7 @@ print(f"[nbrag] HTTP MCP server on http://localhost:{PORT}/mcp")
 
 mcp.run(transport="streamable-http")
 
+"""
+ D:/ProgramData/Miniconda3/envs/py312/python.exe d:/codes/nbrag/scripts/start_http_rag_mcp.py
+
+"""
