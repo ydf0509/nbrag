@@ -42,4 +42,4 @@ batch_ingest(
     delete_first=True,
     verbose=True,
     sleep_interval=0.1,
-)
+)  
