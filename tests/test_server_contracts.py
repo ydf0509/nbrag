@@ -110,6 +110,46 @@ def test_find_definition_non_python_result_guides_to_grep(monkeypatch):
     assert "第十九条 劳动合同期限" in output
 
 
+def test_find_definition_mixed_results_do_not_label_python_ast_as_fallback(monkeypatch):
+    monkeypatch.setattr(
+        server,
+        "find_symbol_definition",
+        lambda symbol, collection_name, max_results: [
+            {
+                "symbol_type": "class",
+                "qualified_name": "BoosterParams",
+                "line_start": 61,
+                "line_end": 330,
+                "doc_id": "py1",
+                "source": "D:/repo/funboost/core/func_params_model.py",
+                "definition": "class BoosterParams(BaseModel):\n    pass",
+                "methods_summary": "  def __init__(self, **data)",
+            },
+            {
+                "symbol_type": "unknown",
+                "qualified_name": "BoosterParams",
+                "line_start": 10,
+                "line_end": 20,
+                "doc_id": "md1",
+                "source": "D:/repo/docs/usage.md",
+                "definition": "`BoosterParams` is used in examples.",
+                "methods_summary": "",
+            },
+        ],
+    )
+
+    output = server.nbrag_find_definition(
+        symbol="BoosterParams",
+        collection_name="funboost",
+        max_results=3,
+    )
+
+    header = output.split("\n\n", 1)[0]
+    assert "non-Python regex fallback" not in header
+    assert "[1/2] class BoosterParams" in output
+    assert "Regex fallback in non-Python file" in output
+
+
 def test_search_can_return_metadata_only(monkeypatch):
     monkeypatch.setattr(
         server,
@@ -288,3 +328,91 @@ def test_search_and_fetch_wrapper_normalizes_defaults(monkeypatch):
     }
     assert "Auto-fetched original content (1 file(s))" in output
     assert "original_file: history.py" in output
+
+
+def test_search_and_fetch_uses_ranked_windows_for_same_doc(monkeypatch):
+    monkeypatch.setattr(
+        server,
+        "get_config",
+        lambda: SimpleNamespace(rerank=SimpleNamespace(model="rerank-model")),
+    )
+
+    monkeypatch.setattr(
+        server,
+        "search",
+        lambda *args, **kwargs: (
+            ["top chunk", "second chunk"],
+            [
+                {
+                    "source": "D:/repo/manual.md",
+                    "filename": "manual.md",
+                    "chunk_index": 1,
+                    "total_chunks": 10,
+                    "line_start": 100,
+                    "line_end": 120,
+                    "scope": "",
+                    "doc_id": "doc1",
+                },
+                {
+                    "source": "D:/repo/manual.md",
+                    "filename": "manual.md",
+                    "chunk_index": 8,
+                    "total_chunks": 10,
+                    "line_start": 300,
+                    "line_end": 320,
+                    "scope": "",
+                    "doc_id": "doc1",
+                },
+            ],
+            [0.1, 0.2],
+            True,
+            10,
+            [0.99, 0.88],
+        ),
+    )
+
+    excerpt_calls = []
+
+    def fake_get_file_chunks(file_path, collection_name, start_chunk, max_chunks, raw=False, line_start=-1, line_end=-1):
+        assert file_path == "D:/repo/manual.md"
+        assert collection_name == "docs"
+        assert raw is True
+        if line_start == -1 and line_end == -1:
+            return {
+                "found": True,
+                "filename": "manual.md",
+                "doc_id": "doc1",
+                "source": file_path,
+                "total_lines": 400,
+                "total_chunks": 10,
+                "line_start": 1,
+                "line_end": 400,
+                "content": "full manual",
+            }
+
+        excerpt_calls.append((line_start, line_end))
+        return {
+            "found": True,
+            "filename": "manual.md",
+            "doc_id": "doc1",
+            "source": file_path,
+            "total_lines": 400,
+            "total_chunks": 10,
+            "line_start": line_start,
+            "line_end": line_end,
+            "content": f"excerpt {line_start}-{line_end}",
+        }
+
+    monkeypatch.setattr(server, "get_file_chunks", fake_get_file_chunks)
+
+    output = server.nbrag_search_and_fetch(
+        query="manual",
+        collection_name="docs",
+        fetch_top_n_raw=2,
+        context_lines=5,
+    )
+
+    assert (95, 125) in excerpt_calls
+    assert (295, 325) in excerpt_calls
+    assert "range: line:95-125" in output
+    assert "range: line:295-325" in output

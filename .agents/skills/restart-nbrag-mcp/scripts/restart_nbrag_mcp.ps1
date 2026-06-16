@@ -60,15 +60,39 @@ function Test-NbragServerProcess {
     return $normalizedCommand.Contains($normalizedScript) -or $normalizedCommand.Contains("start_http_rag_mcp.py")
 }
 
-function Get-PortListeners {
+function Get-PortListenerPids {
     param([int]$LocalPort)
 
+    $pids = @{}
     $command = Get-Command Get-NetTCPConnection -ErrorAction SilentlyContinue
-    if (-not $command) {
-        return @()
+    if ($command) {
+        try {
+            foreach ($listener in @(Get-NetTCPConnection -LocalPort $LocalPort -State Listen -ErrorAction SilentlyContinue)) {
+                $ownerPid = [int]$listener.OwningProcess
+                if ($ownerPid -gt 0) {
+                    $pids[$ownerPid] = $true
+                }
+            }
+        }
+        catch {
+            Write-Host "Get-NetTCPConnection failed; falling back to netstat -ano."
+        }
     }
 
-    return @(Get-NetTCPConnection -LocalPort $LocalPort -State Listen -ErrorAction SilentlyContinue)
+    if ($pids.Count -eq 0) {
+        $localPortPattern = "[:.]$LocalPort$"
+        foreach ($line in @(netstat -ano | Select-String -Pattern "LISTENING")) {
+            $parts = @($line.ToString() -split "\s+" | Where-Object { $_ })
+            if ($parts.Count -ge 5 -and $parts[0] -eq "TCP" -and $parts[1] -match $localPortPattern -and $parts[3] -eq "LISTENING") {
+                $ownerPid = 0
+                if ([int]::TryParse($parts[4], [ref]$ownerPid) -and $ownerPid -gt 0) {
+                    $pids[$ownerPid] = $true
+                }
+            }
+        }
+    }
+
+    return @($pids.Keys | ForEach-Object { [int]$_ })
 }
 
 function Test-PortOpen {
@@ -121,6 +145,30 @@ function Stop-TargetProcess {
     throw "Process $ProcessId did not exit within $TimeoutSeconds seconds."
 }
 
+function Repair-ProcessPathEnvironment {
+    $processEnv = [System.Environment]::GetEnvironmentVariables("Process")
+    $pathKeys = @($processEnv.Keys | Where-Object { [string]::Equals([string]$_, "Path", [System.StringComparison]::OrdinalIgnoreCase) })
+
+    if ($pathKeys.Count -le 1) {
+        return
+    }
+
+    $pathValue = $null
+    foreach ($key in @("Path", "PATH")) {
+        if ($processEnv.Contains($key) -and $processEnv[$key]) {
+            $pathValue = [string]$processEnv[$key]
+            break
+        }
+    }
+
+    foreach ($key in $pathKeys) {
+        [System.Environment]::SetEnvironmentVariable([string]$key, $null, "Process")
+    }
+    if ($pathValue) {
+        [System.Environment]::SetEnvironmentVariable("Path", $pathValue, "Process")
+    }
+}
+
 $pythonPath = Resolve-ExistingFile -PathText $PythonExe -Label "Python interpreter"
 $serverPath = Resolve-ExistingFile -PathText $ServerScript -Label "nbrag MCP startup script"
 $repoRoot = Split-Path -Parent (Split-Path -Parent $serverPath)
@@ -145,9 +193,12 @@ foreach ($match in $matchingProcesses) {
     $targetPids[[int]$match.ProcessId] = "command line matches start_http_rag_mcp.py"
 }
 
-$listeners = Get-PortListeners -LocalPort $Port
-foreach ($listener in $listeners) {
-    $ownerPid = [int]$listener.OwningProcess
+$listenerPids = @(Get-PortListenerPids -LocalPort $Port)
+if ($listenerPids.Count -gt 0) {
+    Write-Host "Port $Port listener PID(s): $($listenerPids -join ', ')"
+}
+
+foreach ($ownerPid in $listenerPids) {
     if ($targetPids.ContainsKey($ownerPid)) {
         continue
     }
@@ -186,6 +237,7 @@ $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $stdoutLog = Join-Path $logDir "nbrag-mcp-$stamp.out.log"
 $stderrLog = Join-Path $logDir "nbrag-mcp-$stamp.err.log"
 
+Repair-ProcessPathEnvironment
 Write-Host "Starting nbrag MCP HTTP service..."
 $process = Start-Process `
     -FilePath $pythonPath `

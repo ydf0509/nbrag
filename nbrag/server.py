@@ -254,11 +254,11 @@ def nbrag_search_and_fetch(
 
     Uses Vector + BM25 + RRF + rerank by default. When filter_file_path is set,
     BM25 is skipped and ChromaDB source-path filtering is used before rerank.
-    Same doc_id in multiple results is fetched only once with merged line range."""
+    Same doc_id results are grouped by file; distant ranked hits are fetched as separate line windows."""
     cfg = get_config()
     top_k = _int_param(top_k, 5)
     fetch_top_n_raw = _int_param(fetch_top_n_raw, 3)
-    context_lines = _int_param(context_lines, 100)
+    context_lines = max(0, _int_param(context_lines, 100))
     filter_file_path = _str_param(filter_file_path)
     path_filter = filter_file_path if filter_file_path else None
     if path_filter and not _is_absolute_file_path(path_filter):
@@ -321,13 +321,8 @@ def nbrag_search_and_fetch(
 
         if i < fetch_top_n_raw and doc_id != "?" and src != "?":
             if doc_id not in fetch_targets:
-                fetch_targets[doc_id] = {"src": str(src), "line_min": ls, "line_max": le}
-            else:
-                t = fetch_targets[doc_id]
-                if ls:
-                    t["line_min"] = min(t["line_min"], ls) if t["line_min"] else ls
-                if le:
-                    t["line_max"] = max(t["line_max"], le) if t["line_max"] else le
+                fetch_targets[doc_id] = {"src": str(src), "ranges": []}
+            fetch_targets[doc_id]["ranges"].append((ls, le))
 
     if fetch_targets:
         lines.append("=" * 40)
@@ -335,11 +330,6 @@ def nbrag_search_and_fetch(
         lines.append("")
 
     for doc_id, target in fetch_targets.items():
-        center_start = target["line_min"] or 1
-        center_end = target["line_max"] or center_start
-        center = (center_start + center_end) // 2
-        half = context_lines
-
         raw_result = get_file_chunks(
             target["src"], collection_name, 0, 0,
             raw=True, line_start=-1, line_end=-1,
@@ -354,17 +344,36 @@ def nbrag_search_and_fetch(
         if tl <= context_lines * 2:
             lines.append(_format_raw_result(raw_result))
         else:
-            fetch_start = max(1, center - half)
-            fetch_end = min(tl, center + half)
-            excerpt = get_file_chunks(
-                target["src"], collection_name, 0, 0,
-                raw=True, line_start=fetch_start, line_end=fetch_end,
-            )
-            if excerpt.get("found"):
-                lines.append(_format_raw_result(excerpt))
-            else:
-                lines.append(f"[{target['src']}] excerpt failed")
-        lines.append("")
+            windows = []
+            for ls, le in target.get("ranges", []):
+                start_line = ls or le or 1
+                end_line = le or start_line
+                if end_line < start_line:
+                    start_line, end_line = end_line, start_line
+                fetch_start = max(1, start_line - context_lines)
+                fetch_end = min(tl, end_line + context_lines)
+
+                for window in windows:
+                    if fetch_start <= window["end"] + 1 and fetch_end >= window["start"] - 1:
+                        window["start"] = min(window["start"], fetch_start)
+                        window["end"] = max(window["end"], fetch_end)
+                        break
+                else:
+                    windows.append({"start": fetch_start, "end": fetch_end})
+
+            if not windows:
+                windows.append({"start": 1, "end": min(tl, 1 + context_lines * 2)})
+
+            for window in windows:
+                excerpt = get_file_chunks(
+                    target["src"], collection_name, 0, 0,
+                    raw=True, line_start=window["start"], line_end=window["end"],
+                )
+                if excerpt.get("found"):
+                    lines.append(_format_raw_result(excerpt))
+                else:
+                    lines.append(f"[{target['src']}] excerpt failed")
+                lines.append("")
 
     return "\n".join(lines)
 
@@ -429,8 +438,11 @@ def nbrag_find_definition(
     if not results:
         return f"No definition found for '{symbol}' (collection: {collection_name}). Try nbrag_grep for a broader search."
 
+    has_python_result = any(str(r.get("source", "")).lower().endswith(".py") for r in results)
+    has_non_python_result = any(not str(r.get("source", "")).lower().endswith(".py") for r in results)
+
     lines = [f"definition: '{symbol}' | collection_name: {collection_name} | {len(results)} found"]
-    if any(not str(r.get("source", "")).lower().endswith(".py") for r in results):
+    if has_non_python_result and not has_python_result:
         lines.append("Note: non-Python regex fallback result. For law/docs/manuals, use nbrag_grep for exact text search.")
     lines.append("")
     for i, r in enumerate(results):
@@ -443,6 +455,9 @@ def nbrag_find_definition(
         ]
         lines.append(" ".join(header_parts))
         lines.append(f"file_path: {r['source']}")
+
+        if not str(r.get("source", "")).lower().endswith(".py"):
+            lines.append("Note: Regex fallback in non-Python file. For law/docs/manuals, use nbrag_grep for exact text search.")
 
         if r.get("methods_summary"):
             lines.append("methods:")
