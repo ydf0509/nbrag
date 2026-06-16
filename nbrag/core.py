@@ -24,6 +24,7 @@ from nbrag.chunker import (
     chunk_text, enrich_chunks, collect_files,
     DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP,
 )
+from nbrag.tokenizer import BM25_CHANNELS, normalize_text, tokenize_all, tokenize_query_all
 from nbrag.loggers import logger
 
 def _cfg():
@@ -60,7 +61,7 @@ CHROMA_UPSERT_BATCH = 5000
 _doc_id_cache = {}
 _doc_id_cache_ts = {}
 
-_bm25_cache = {}  # collection_name -> (bm25s.BM25, chunk_ids_list)
+_bm25_cache = {}  # collection_name -> {channel: (bm25s.BM25, chunk_ids_list)}
 
 _CHROMA_GET_BATCH = 500  # SQLite 默认 999 参数限制，预留余量
 
@@ -119,10 +120,18 @@ def _batch_get(col, include, ids=None, where=None):
 _CAMEL_SPLIT_RE = re.compile(r'([a-z])([A-Z])')
 _CAMEL_UPPER_RE = re.compile(r'([A-Z]+)([A-Z][a-z])')
 _HEADER_RE = re.compile(r'^#\s*\[File:.*$', re.MULTILINE)
+_BM25_INDEX_VERSION = 2
+_BM25_CHANNEL_WEIGHTS = {
+    "word": 1.10,
+    "ngram": 0.75,
+    "code": 1.20,
+}
+_BM25_EMPTY_TOKEN = "__nbrag_empty_channel__"
 
 
 def _preprocess_for_bm25(text):
     """预处理文本供 BM25 分词：去 chunk header、拆 camelCase/snake_case、小写化。"""
+    text = normalize_text(text)
     text = _HEADER_RE.sub('', text)
     text = _CAMEL_SPLIT_RE.sub(r'\1 \2', text)
     text = _CAMEL_UPPER_RE.sub(r'\1 \2', text)
@@ -130,35 +139,65 @@ def _preprocess_for_bm25(text):
     return text.lower()
 
 
-def _bm25_index_dir(collection_name):
+def _bm25_index_root(collection_name):
+    return os.path.join(_cfg().storage.db_path, "bm25_index_v2", collection_name)
+
+
+def _bm25_index_dir(collection_name, channel="word"):
+    return os.path.join(_bm25_index_root(collection_name), channel)
+
+
+def _legacy_bm25_index_dir(collection_name):
     return os.path.join(_cfg().storage.db_path, "bm25_index", collection_name)
 
 
 def build_bm25_index(collection_name, documents, chunk_ids):
-    """构建 BM25 索引并持久化到磁盘。"""
+    """构建多通道 BM25 索引并持久化到磁盘。"""
     if not documents:
         return
-    preprocessed = [_preprocess_for_bm25(doc) for doc in documents]
-    corpus_tokens = bm25s.tokenize(preprocessed)
 
-    retriever = bm25s.BM25()
-    retriever.index(corpus_tokens)
+    import shutil
+    from datetime import datetime, timezone
 
-    index_dir = _bm25_index_dir(collection_name)
-    os.makedirs(index_dir, exist_ok=True)
-    retriever.save(index_dir)
-    with open(os.path.join(index_dir, "chunk_ids.json"), "w") as f:
-        json.dump(chunk_ids, f)
+    index_root = _bm25_index_root(collection_name)
+    if os.path.isdir(index_root):
+        shutil.rmtree(index_root, ignore_errors=True)
+    os.makedirs(index_root, exist_ok=True)
 
-    _bm25_cache[collection_name] = (retriever, chunk_ids)
+    tokenized_docs = [tokenize_all(doc) for doc in documents]
+    channel_cache = {}
+    for channel in BM25_CHANNELS:
+        corpus_tokens = [doc_tokens.get(channel, []) or [_BM25_EMPTY_TOKEN] for doc_tokens in tokenized_docs]
+        retriever = bm25s.BM25(method="lucene")
+        retriever.index(corpus_tokens)
+
+        index_dir = _bm25_index_dir(collection_name, channel)
+        os.makedirs(index_dir, exist_ok=True)
+        retriever.save(index_dir)
+        with open(os.path.join(index_dir, "chunk_ids.json"), "w", encoding="utf-8") as f:
+            json.dump(chunk_ids, f, ensure_ascii=False)
+        channel_cache[channel] = (retriever, chunk_ids)
+
+    meta = {
+        "version": _BM25_INDEX_VERSION,
+        "channels": list(BM25_CHANNELS),
+        "weights": _BM25_CHANNEL_WEIGHTS,
+        "tokenizer": "jieba_search+cjk_2_3gram+code",
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    }
+    with open(os.path.join(index_root, "tokenizer_meta.json"), "w", encoding="utf-8") as f:
+        json.dump(meta, f, ensure_ascii=False, indent=2)
+
+    _bm25_cache[collection_name] = channel_cache
 
 
-def _load_bm25_index(collection_name):
-    """从磁盘加载 BM25 索引到内存缓存。"""
-    if collection_name in _bm25_cache:
-        return _bm25_cache[collection_name]
+def _load_bm25_index(collection_name, channel="word"):
+    """从磁盘加载指定通道的 BM25 索引到内存缓存。"""
+    cached = _bm25_cache.get(collection_name, {})
+    if channel in cached:
+        return cached[channel]
 
-    index_dir = _bm25_index_dir(collection_name)
+    index_dir = _bm25_index_dir(collection_name, channel)
     if not os.path.isdir(index_dir):
         return None, None
 
@@ -168,36 +207,69 @@ def _load_bm25_index(collection_name):
 
     try:
         retriever = bm25s.BM25.load(index_dir, mmap=False)
-        with open(ids_path, "r") as f:
+        with open(ids_path, "r", encoding="utf-8") as f:
             chunk_ids = json.load(f)
-        _bm25_cache[collection_name] = (retriever, chunk_ids)
+        _bm25_cache.setdefault(collection_name, {})[channel] = (retriever, chunk_ids)
         return retriever, chunk_ids
     except Exception:
         return None, None
 
 
-def _bm25_search(query, collection_name, top_k):
-    """BM25 检索，返回 (ids_list, scores_list)。"""
-    retriever, chunk_ids = _load_bm25_index(collection_name)
+def _bm25_search_channel(query_tokens, collection_name, channel, top_k):
+    """单通道 BM25 检索，返回 (ids_list, scores_list)。"""
+    retriever, chunk_ids = _load_bm25_index(collection_name, channel)
     if retriever is None:
         return [], []
 
-    query_tokens = bm25s.tokenize(_preprocess_for_bm25(query))
+    tokens = query_tokens.get(channel, [])
+    if not tokens:
+        return [], []
+
     n = min(top_k, len(chunk_ids))
-    results, scores = retriever.retrieve(query_tokens, k=n)
+    if n <= 0:
+        return [], []
+    results, scores = retriever.retrieve([tokens], k=n)
 
     ids = [chunk_ids[idx] for idx in results[0]]
     return ids, scores[0].tolist()
 
 
+def _bm25_search_channels(query, collection_name, top_k):
+    """多通道 BM25 检索，返回 {channel: ids_list}。"""
+    query_tokens = tokenize_query_all(query)
+    results = {}
+    for channel in BM25_CHANNELS:
+        ids, _ = _bm25_search_channel(query_tokens, collection_name, channel, top_k)
+        if ids:
+            results[channel] = ids
+    return results
+
+
+def _weighted_rrf_fusion(ranked_sources, k=60):
+    """Weighted Reciprocal Rank Fusion for vector + multi-channel BM25 results."""
+    scores = {}
+    for _name, ids, weight in ranked_sources:
+        for rank, doc_id in enumerate(ids):
+            scores[doc_id] = scores.get(doc_id, 0.0) + weight / (k + rank + 1)
+    return [doc_id for doc_id, _ in sorted(scores.items(), key=lambda x: x[1], reverse=True)]
+
+
+def _bm25_search(query, collection_name, top_k):
+    """多通道 BM25 检索，返回 Weighted RRF 融合后的 (ids_list, scores_list)。"""
+    channel_results = _bm25_search_channels(query, collection_name, top_k)
+    sources = [
+        (channel, ids, _BM25_CHANNEL_WEIGHTS.get(channel, 1.0))
+        for channel, ids in channel_results.items()
+    ]
+    return _weighted_rrf_fusion(sources), []
+
+
 def _rrf_fusion(vec_ids, bm25_ids, k=60):
     """Reciprocal Rank Fusion — 合并两路检索结果，返回按 RRF 分数排序的 id 列表。"""
-    scores = {}
-    for rank, doc_id in enumerate(vec_ids):
-        scores[doc_id] = scores.get(doc_id, 0.0) + 1.0 / (k + rank + 1)
-    for rank, doc_id in enumerate(bm25_ids):
-        scores[doc_id] = scores.get(doc_id, 0.0) + 1.0 / (k + rank + 1)
-    return [doc_id for doc_id, _ in sorted(scores.items(), key=lambda x: x[1], reverse=True)]
+    return _weighted_rrf_fusion([
+        ("vector", vec_ids, 1.0),
+        ("bm25", bm25_ids, 1.0),
+    ], k=k)
 
 
 def invalidate_bm25_cache(collection_name=None):
@@ -207,15 +279,16 @@ def invalidate_bm25_cache(collection_name=None):
     if collection_name:
         _bm25_cache.pop(collection_name, None)
         gc.collect()
-        index_dir = _bm25_index_dir(collection_name)
-        if os.path.isdir(index_dir):
-            shutil.rmtree(index_dir, ignore_errors=True)
+        for index_dir in (_bm25_index_root(collection_name), _legacy_bm25_index_dir(collection_name)):
+            if os.path.isdir(index_dir):
+                shutil.rmtree(index_dir, ignore_errors=True)
     else:
         _bm25_cache.clear()
         gc.collect()
-        bm25_root = os.path.join(_cfg().storage.db_path, "bm25_index")
-        if os.path.isdir(bm25_root):
-            shutil.rmtree(bm25_root, ignore_errors=True)
+        for dirname in ("bm25_index_v2", "bm25_index"):
+            bm25_root = os.path.join(_cfg().storage.db_path, dirname)
+            if os.path.isdir(bm25_root):
+                shutil.rmtree(bm25_root, ignore_errors=True)
 
 
 # ─── Symbol 索引（加速 find_definition）──────────────────
@@ -1211,9 +1284,14 @@ def search(query, collection_name="default", top_k=5, use_rerank=True,
 
     # ── BM25 + RRF ──
     if use_bm25 and not filter_file_path:
-        bm25_ids, _ = _bm25_search(query, collection_name, recall_k)
-        if bm25_ids:
-            fused_ids = _rrf_fusion(vec_ids, bm25_ids)
+        channel_results = _bm25_search_channels(query, collection_name, recall_k)
+        if channel_results:
+            ranked_sources = [("vector", vec_ids, 1.0)]
+            ranked_sources.extend(
+                (channel, ids, _BM25_CHANNEL_WEIGHTS.get(channel, 1.0))
+                for channel, ids in channel_results.items()
+            )
+            fused_ids = _weighted_rrf_fusion(ranked_sources)
 
             id_to_data = {vid: (vec_docs[i], vec_metas[i], vec_dists[i])
                           for i, vid in enumerate(vec_ids)}

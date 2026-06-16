@@ -1,0 +1,4 @@
+interface:
+  display_name: "Restart NBRAG MCP"
+  short_description: "Restart NBRAG MCP HTTP server"
+  default_prompt: "Use $restart-nbrag-mcp after changing nbrag MCP code to restart the HTTP service and verify it is ready."

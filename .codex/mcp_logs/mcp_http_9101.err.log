@@ -1,0 +1,4 @@
+The filename, directory name, or volume label syntax is incorrect.
+Error occurred while processing: .exe /c D:/ProgramData/miniconda3/envs/py312/python.exe.
+A subdirectory or file D:/codes/nbrag/scripts/start_http_rag_mcp.py already exists.
+Error occurred while processing: D:/codes/nbrag/scripts/start_http_rag_mcp.py.

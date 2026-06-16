@@ -127,7 +127,7 @@ def nbrag_search(
     collection_name: str = Field(description="Knowledge base name, i.e. 知识库名字 (use nbrag_stats to see available names)"),
     top_k: int = Field(default=5, description="Number of results to return"),
     use_rerank: bool = Field(default=True, description="Enable reranker for better accuracy (recommended)"),
-    use_bm25: bool = Field(default=True, description="Enable BM25 keyword matching + RRF fusion (recommended for precise names)"),
+    use_bm25: bool = Field(default=True, description="Enable multi-channel BM25 keyword matching + Weighted RRF fusion (recommended for precise names, Chinese terms, codes, article numbers)"),
     filter_file_path: str = Field(default="", description="Filter by full absolute file_path from search/list results. Basename is not accepted. BM25 auto-disabled when set"),
     include_content: bool = Field(default=True, description="Include chunk preview content. Set false for metadata-only lookup"),
     preview_chars: int = Field(default=-1, description="Max preview chars per result. -1 = generous auto limit, 0 = metadata only"),

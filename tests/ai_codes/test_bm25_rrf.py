@@ -16,12 +16,14 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 from nbrag.core import (
     _preprocess_for_bm25,
     _rrf_fusion,
+    _weighted_rrf_fusion,
     build_bm25_index,
     _load_bm25_index,
     _bm25_search,
     invalidate_bm25_cache,
     _bm25_cache,
 )
+from nbrag.tokenizer import BM25_CHANNELS
 
 
 def test_preprocess():
@@ -67,6 +69,12 @@ def test_rrf_fusion():
     assert _rrf_fusion([], []) == []
     assert len(_rrf_fusion(["a", "b"], [])) == 2
 
+    weighted = _weighted_rrf_fusion([
+        ("vector", ["doc_a", "doc_b"], 1.0),
+        ("ngram", ["doc_c"], 3.0),
+    ])
+    assert weighted[0] == "doc_c", f"Weighted source should lift doc_c, got {weighted}"
+
     print("  [PASS] rrf_fusion")
 
 
@@ -89,20 +97,25 @@ def test_bm25_index_build_and_search():
             "async def push_task(task_data, queue_name):\n    await redis.lpush(queue_name, json.dumps(task_data))",
             "import threading\nclass ThreadPoolExecutor:\n    def __init__(self, max_workers=4):\n        self.pool = []",
             "# Configuration file\nDATABASE_URL = 'postgresql://localhost/mydb'\nREDIS_HOST = 'localhost'",
+            "# 中文注释和文档\n# funboost 发布任务到 redis 队列，支持分布式消费和失败重试\nclass RedisQueuePublisher:\n    pass",
+            "劳动合同期限一年以上不满三年的，试用期不得超过二个月。",
         ]
-        chunk_ids = ["chunk_0", "chunk_1", "chunk_2", "chunk_3", "chunk_4"]
+        chunk_ids = [f"chunk_{i}" for i in range(len(documents))]
 
         # 构建索引
         build_bm25_index(collection_name, documents, chunk_ids)
         assert collection_name in _bm25_cache, "BM25 cache not populated after build"
 
         # 验证磁盘持久化
-        index_dir = os.path.join(tmp_dir, "bm25_index", collection_name)
-        assert os.path.isdir(index_dir), f"BM25 index dir not created: {index_dir}"
+        index_root = os.path.join(tmp_dir, "bm25_index_v2", collection_name)
+        assert os.path.isdir(index_root), f"BM25 index root not created: {index_root}"
+        for channel in BM25_CHANNELS:
+            index_dir = os.path.join(index_root, channel)
+            assert os.path.isdir(index_dir), f"BM25 channel dir not created: {index_dir}"
 
         # 清除内存缓存，测试从磁盘加载
         _bm25_cache.pop(collection_name, None)
-        retriever, ids = _load_bm25_index(collection_name)
+        retriever, ids = _load_bm25_index(collection_name, "word")
         assert retriever is not None, "Failed to load BM25 index from disk"
         assert ids == chunk_ids, f"Chunk IDs mismatch: {ids}"
 
@@ -120,10 +133,18 @@ def test_bm25_index_build_and_search():
         assert "chunk_1" in ids_result[:2], f"get_user_by_id should match chunk_1, got {ids_result[:2]}"
         print(f"    BM25 search 'get_user_by_id': top={ids_result[0]}")
 
+        ids_result, scores = _bm25_search("funboost redis 队列 失败重试", collection_name, 5)
+        assert "chunk_5" in ids_result[:2], f"Chinese code docs should match chunk_5, got {ids_result[:3]}"
+        print(f"    BM25 search 'funboost redis 队列 失败重试': top={ids_result[0]}")
+
+        ids_result, scores = _bm25_search("试用期不得超过", collection_name, 5)
+        assert "chunk_6" in ids_result[:2], f"Chinese legal prose should match chunk_6, got {ids_result[:3]}"
+        print(f"    BM25 search '试用期不得超过': top={ids_result[0]}")
+
         # 清除缓存
         invalidate_bm25_cache(collection_name)
         assert collection_name not in _bm25_cache, "Cache not cleared"
-        assert not os.path.isdir(index_dir), "Disk index not deleted"
+        assert not os.path.isdir(index_root), "Disk index not deleted"
 
         _config_mod._config.storage.db_path = orig_db
         print("  [PASS] bm25_index_build_and_search")

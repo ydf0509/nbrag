@@ -73,15 +73,15 @@ python -m pytest tests/ -x -v
 
 ChromaDB 存向量化 chunks（有 overlap），用于语义搜索。
 `raw_files/` 存原始文件快照（无 overlap），用于精确行号读取。
-`bm25_index/` 存 BM25 稀疏索引（bm25s 持久化），用于关键词检索。
+`bm25_index_v2/` 存多通道 BM25 稀疏索引（bm25s 持久化），用于关键词检索。
 `symbol_index/` 存 Python AST 符号索引（JSON 持久化），用于 `find_definition` 快速查找。
 四者缺一不可，不要移除任何一个。
 
 ### 混合检索（BM25 + RRF）
 
-`search()` 执行三层混合检索：Vector + BM25 并行召回 → RRF 融合 → Reranker 精排。
-BM25 使用 bm25s 库，索引在 `batch_ingest` 完成后自动构建并持久化到 `bm25_index/` 目录。
-分词器针对代码做了 camelCase/snake_case 拆分和 chunk header 去除。
+`search()` 执行三层混合检索：Vector + 多通道 BM25 并行召回 → Weighted RRF 融合 → Reranker 精排。
+BM25 使用 bm25s 库，索引在 `batch_ingest` 完成后自动构建并持久化到 `bm25_index_v2/` 目录。
+分词器独立在 `nbrag/tokenizer.py`：`word` 通道用 jieba search mode 做中英文词级 token，`ngram` 通道做中文 2/3-gram，`code` 通道拆 camelCase/snake_case/常量名/API 符号，并去 chunk header。
 RRF 使用 k=60（SIGIR 2009 标准值），只看排名不看分数。
 
 ### 12 个工具，不是 3 个
@@ -161,4 +161,8 @@ scripts/                 # 用户便捷脚本（不属于包）
 
 ## python 解释器要求
 
-ai运行此项目脚本时候使用我本地的python解释器 D:/ProgramData/miniconda3/envs/py312/python.exe d:/codes/nbrag/scripts/start_http_rag_mcp.py
+ai运行此项目脚本时候使用本地的python解释器 D:/ProgramData/miniconda3/envs/py312/python.exe 
+
+## 启动mcp http 9101端口
+每次改成nbrag的mcp后，重启http服务，即可通过mcp验证最新功能
+D:/ProgramData/miniconda3/envs/py312/python.exe d:/codes/nbrag/scripts/start_http_rag_mcp.py
