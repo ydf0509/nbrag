@@ -147,13 +147,13 @@ def load_config(cli_args=None) -> RagConfig:
     )
 
     chunk_size = int(
-        os.environ.get("NBRAG_CHUNK_SIZE", "0")
+        os.environ.get("NBRAG_CHUNK_SIZE", "")
         or chunking_data.get("chunk_size", 0)
         or 1500
     )
 
     chunk_overlap = int(
-        os.environ.get("NBRAG_CHUNK_OVERLAP", "0")
+        os.environ.get("NBRAG_CHUNK_OVERLAP", "")
         or chunking_data.get("chunk_overlap", 0)
         or 200
     )
