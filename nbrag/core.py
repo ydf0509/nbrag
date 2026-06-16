@@ -413,6 +413,16 @@ def _normalize_path(path):
     return p
 
 
+def _is_absolute_path(path):
+    """判断入参是否是完整绝对路径，避免 basename/相对路径造成歧义。"""
+    if not path:
+        return False
+    p = str(path).strip()
+    if os.path.isabs(p):
+        return True
+    return len(p) >= 3 and p[1] == ":" and p[2] in ("/", "\\")
+
+
 # ─── 底层工具函数 ─────────────────────────────────────────
 
 def get_collection(name="default"):
@@ -537,7 +547,7 @@ def rerank(query, documents, top_n=5, max_retries=3):
                 raise
 
 
-# ─── 原始文件缓存 ─────────────────────────────────────────
+# ─── 原文存储 ─────────────────────────────────────────────
 
 def _raw_files_dir():
     return _cfg().storage.raw_files_path
@@ -1167,7 +1177,7 @@ def batch_ingest(paths, collection_name="default",
 
 
 def search(query, collection_name="default", top_k=5, use_rerank=True,
-           use_bm25=True, filter_filename=None):
+           use_bm25=True, filter_file_path=None):
     """混合检索：Vector + BM25 → RRF 融合 → Reranker 精排。
 
     返回 (documents, metadatas, distances, rerank_used, total, rerank_scores)。
@@ -1180,12 +1190,14 @@ def search(query, collection_name="default", top_k=5, use_rerank=True,
 
     if total == 0:
         return [], [], [], False, 0, []
+    if filter_file_path and not _is_absolute_path(filter_file_path):
+        return [], [], [], False, total, []
 
     # ── Vector Search ──
     query_vec = embed([query])[0]
     recall_k = min(top_k * 4, total) if (use_rerank or use_bm25) else min(top_k, total)
 
-    where_filter = {"filename": filter_filename} if filter_filename else None
+    where_filter = {"source": _normalize_path(filter_file_path)} if filter_file_path else None
     vec_results = col.query(
         query_embeddings=[query_vec],
         n_results=recall_k,
@@ -1198,7 +1210,7 @@ def search(query, collection_name="default", top_k=5, use_rerank=True,
     vec_dists = vec_results["distances"][0]
 
     # ── BM25 + RRF ──
-    if use_bm25 and not filter_filename:
+    if use_bm25 and not filter_file_path:
         bm25_ids, _ = _bm25_search(query, collection_name, recall_k)
         if bm25_ids:
             fused_ids = _rrf_fusion(vec_ids, bm25_ids)
@@ -1250,13 +1262,15 @@ def search(query, collection_name="default", top_k=5, use_rerank=True,
 def get_file_chunks(file_identifier, collection_name="default",
                     start_chunk=0, max_chunks=5,
                     raw=False, line_start=-1, line_end=-1):
-    """按文件路径或文件名获取知识库中该文件的内容。"""
+    """按完整绝对文件路径获取知识库中该文件的内容。"""
     col = _get_existing_collection(collection_name)
     if col is None:
         return {"found": False, "error": f"collection '{collection_name}' does not exist"}
     total = col.count()
     if total == 0:
         return {"found": False, "error": f"collection '{collection_name}' is empty"}
+    if not _is_absolute_path(file_identifier):
+        return {"found": False, "error": "Full absolute file_path is required. Use the file_path returned by search/list tools."}
 
     all_data = _query_file_by_identifier(col, file_identifier)
 
@@ -1311,26 +1325,14 @@ def get_file_chunks(file_identifier, collection_name="default",
 
 
 def _query_file_by_identifier(col, file_identifier):
-    """按路径或文件名查找文件的 chunks。"""
-    is_path = ('/' in file_identifier or '\\' in file_identifier)
+    """按完整绝对路径查找文件的 chunks。"""
     empty = {"ids": [], "documents": [], "metadatas": []}
 
-    if is_path:
-        normalized = _normalize_path(file_identifier)
-        try:
-            result = col.get(where={"source": normalized}, include=["documents", "metadatas"])
-            if result["ids"]:
-                return result
-        except Exception:
-            pass
-        basename = os.path.basename(file_identifier)
-        try:
-            return col.get(where={"filename": basename}, include=["documents", "metadatas"])
-        except Exception:
-            return empty
-
+    if not _is_absolute_path(file_identifier):
+        return empty
+    normalized = _normalize_path(file_identifier)
     try:
-        return col.get(where={"filename": file_identifier}, include=["documents", "metadatas"])
+        return col.get(where={"source": normalized}, include=["documents", "metadatas"])
     except Exception:
         return empty
 
@@ -1342,8 +1344,7 @@ def _get_raw_file_result(collection_name, doc_id, source, filename,
     if content is None:
         return {
             "found": False,
-            "error": f"Raw file cache not found (doc_id={doc_id}). "
-                     f"This file may have been imported before caching was enabled. Please re-import.",
+            "error": f"Stored raw content is unavailable for file_path: {source}",
         }
 
     lines = content.splitlines(keepends=True)
@@ -1399,7 +1400,7 @@ def get_context_chunks(doc_id, collection_name="default",
             meta = item[2]
             cl_start = meta.get("line_start", 0)
             cl_end = meta.get("line_end", 0)
-            if cl_start < line_end and cl_end > line_start:
+            if cl_start <= line_end and cl_end >= line_start:
                 selected.append(item)
         if not selected:
             return {"found": True, "chunks": [],
@@ -1429,25 +1430,18 @@ def get_context_chunks(doc_id, collection_name="default",
 
 
 def grep_knowledge(keyword, collection_name="default", max_results=10,
-                    case_sensitive=False, filter_filename=None, context_lines=5):
+                    case_sensitive=False, filter_file_path=None, context_lines=5):
     """在知识库的原始缓存文件中进行关键词/正则搜索。"""
     import re
 
     raw_dir = os.path.join(_raw_files_dir(), collection_name)
     if not os.path.isdir(raw_dir):
-        #检查 collection 是否存在且有数据，但 raw cache 缺失
-        try:
-            col = _get_existing_collection(collection_name)
-            if col is not None and col.count() > 0:
-                return [{"error": "raw_cache_missing",
-                         "message": f"Raw cache not found for collection '{collection_name}'. "
-                                    f"ChromaDB has {col.count()} chunks but no raw files. "
-                                    f"Please re-import with nbrag_add_document to rebuild raw cache."}]
-        except Exception:
-            pass
+        return []
+    if filter_file_path and not _is_absolute_path(filter_file_path):
         return []
 
     doc_id_to_info = _get_doc_id_map(collection_name)
+    normalized_filter_path = _normalize_path(filter_file_path) if filter_file_path else None
 
     flags = 0 if case_sensitive else re.IGNORECASE
     try:
@@ -1460,7 +1454,7 @@ def grep_knowledge(keyword, collection_name="default", max_results=10,
         doc_id = os.path.splitext(fname)[0]
         info = doc_id_to_info.get(doc_id, {})
 
-        if filter_filename and info.get("filename", "") != filter_filename:
+        if normalized_filter_path and info.get("source", "") != normalized_filter_path:
             continue
 
         fpath = os.path.join(raw_dir, fname)
@@ -1494,7 +1488,7 @@ def grep_knowledge(keyword, collection_name="default", max_results=10,
     return results
 
 
-def find_symbol_definition(symbol, collection_name="default", max_results=5):
+def find_symbol_definition(symbol, collection_name="default", max_results=3):
     """在知识库中查找符号（类/函数/方法）的完整定义。
 
     优先使用预构建的 Symbol 索引（O(1) 查表 + 仅读取匹配文件），
@@ -1504,15 +1498,6 @@ def find_symbol_definition(symbol, collection_name="default", max_results=5):
 
     raw_dir = os.path.join(_raw_files_dir(), collection_name)
     if not os.path.isdir(raw_dir):
-        try:
-            col = _get_existing_collection(collection_name)
-            if col is not None and col.count() > 0:
-                return [{"error": "raw_cache_missing",
-                         "message": f"Raw cache not found for collection '{collection_name}'. "
-                                    f"ChromaDB has {col.count()} chunks but no raw files. "
-                                    f"Please re-import with nbrag_add_document to rebuild raw cache."}]
-        except Exception:
-            pass
         return []
 
     index = _load_symbol_index(collection_name)
@@ -1546,11 +1531,10 @@ def _find_definition_via_index(symbol, collection_name, index, raw_dir, max_resu
             content = content_from_raw
 
         if content is None:
-            definition = f"(source file not found, doc_id={doc_id})"
-        else:
-            file_lines = content.splitlines()
-            ls, le = entry["line_start"], entry["line_end"]
-            definition = "\n".join(file_lines[ls - 1:le])
+            continue
+        file_lines = content.splitlines()
+        ls, le = entry["line_start"], entry["line_end"]
+        definition = "\n".join(file_lines[ls - 1:le])
 
         methods_summary = ""
         if entry.get("methods"):
@@ -1743,6 +1727,60 @@ def list_documents(collection_name="default", offset=0, limit=None):
     if limit is not None:
         sorted_items = sorted_items[:limit]
     return dict(sorted_items)
+
+
+def find_files(pattern, collection_name="default", max_results=20, case_sensitive=False):
+    """按文件名或完整路径查找文档，返回可用于 file_path 入参的绝对路径。"""
+    docs = list_documents(collection_name)
+    if not docs or not pattern:
+        return []
+
+    flags = 0 if case_sensitive else re.IGNORECASE
+    try:
+        regex = re.compile(pattern, flags)
+    except re.error:
+        regex = re.compile(re.escape(pattern), flags)
+
+    query = pattern if case_sensitive else pattern.lower()
+    results = []
+    for doc_id, info in docs.items():
+        filename = info.get("filename", "?")
+        source = info.get("source", "?")
+        filename_cmp = filename if case_sensitive else filename.lower()
+        source_cmp = source if case_sensitive else source.lower()
+
+        filename_match = regex.search(filename) is not None
+        source_match = regex.search(source) is not None
+        if not filename_match and not source_match:
+            continue
+
+        if filename_cmp == query:
+            rank = 0
+        elif filename_cmp.endswith(query):
+            rank = 1
+        elif query in filename_cmp:
+            rank = 2
+        elif query in source_cmp:
+            rank = 3
+        else:
+            rank = 4
+
+        results.append({
+            "doc_id": doc_id,
+            "filename": filename,
+            "file_path": source,
+            "source": source,
+            "chunk_count": info.get("chunk_count", 0),
+            "total_chunks": info.get("total_chunks", info.get("chunk_count", 0)),
+            "match": "filename" if filename_match else "file_path",
+            "_rank": rank,
+        })
+
+    results.sort(key=lambda r: (r["_rank"], r["filename"].lower(), r["file_path"].lower()))
+    limited = results[:max(1, max_results)]
+    for item in limited:
+        item.pop("_rank", None)
+    return limited
 
 
 def delete_document(doc_id, collection_name="default"):

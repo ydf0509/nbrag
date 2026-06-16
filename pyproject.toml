@@ -1,11 +1,11 @@
 [project]
 name = "nbrag"
 dynamic = ["version"]
-description = "Agentic RAG MCP Server — 12 tools for AI-driven multi-round code retrieval that outperforms naive single-shot RAG"
+description = "Agentic RAG MCP Server — 11 retrieval tools plus workflow help for AI-driven multi-round retrieval over any text"
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.11"
-keywords = ["mcp", "rag", "agentic-rag", "chromadb", "embedding", "code-search", "ai-agent", "mcp-server"]
+keywords = ["mcp", "rag", "agentic-rag", "chromadb", "embedding", "knowledge-base", "document-search", "text-search", "legal-search", "code-search", "ai-agent", "mcp-server"]
 authors = [
     {name = "ydf", email = "ydf0509@sohu.com"},
 ]

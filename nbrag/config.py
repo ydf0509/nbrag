@@ -10,6 +10,12 @@ import os
 from dataclasses import dataclass, field
 
 
+# 项目根目录（config.py 位于 <PROJECT_ROOT>/nbrag/config.py）
+# 用 __file__ 推导绝对路径，确保不论从哪里启动脚本，db_path 都指向同一个固定位置
+_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_DEFAULT_DB_PATH = os.path.join(_PROJECT_ROOT, "rag_db")
+
+
 @dataclass
 class EmbeddingConfig:
     api_key: str = ""
@@ -24,7 +30,7 @@ class RerankConfig:
 
 @dataclass
 class StorageConfig:
-    db_path: str = "./rag_db"
+    db_path: str = _DEFAULT_DB_PATH
     raw_files_path: str = ""  # 默认 db_path/raw_files
 
 
@@ -131,7 +137,7 @@ def load_config(cli_args=None) -> RagConfig:
         (getattr(cli_args, 'db_path', None) if cli_args else None)
         or os.environ.get("NBRAG_DB_PATH", "")
         or storage_data.get("db_path", "")
-        or "./rag_db"
+        or _DEFAULT_DB_PATH
     )
 
     raw_files_path = (
@@ -141,13 +147,13 @@ def load_config(cli_args=None) -> RagConfig:
     )
 
     chunk_size = int(
-        os.environ.get("NBRAG_CHUNK_SIZE", "0")
+        os.environ.get("NBRAG_CHUNK_SIZE", "")
         or chunking_data.get("chunk_size", 0)
         or 1500
     )
 
     chunk_overlap = int(
-        os.environ.get("NBRAG_CHUNK_OVERLAP", "0")
+        os.environ.get("NBRAG_CHUNK_OVERLAP", "")
         or chunking_data.get("chunk_overlap", 0)
         or 200
     )
