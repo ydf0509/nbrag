@@ -106,6 +106,10 @@ def nbrag_help() -> str:
     return "\n".join([
         "nbrag help: Agentic RAG workflow",
         "",
+        "Important:",
+        "- Use the actual exposed tool/function name you received from the host, not just the bare nbrag_* name.",
+        "- Tool names may be prefixed in other agent frameworks, for example xxx_nbrag_search or mcp__xxx__nbrag_search.",
+        "",
         "Default workflow:",
         "1. Unknown collection_name? call nbrag_stats.",
         "2. Knowledge/docs/law/manual/usage question? call nbrag_search_and_fetch first.",

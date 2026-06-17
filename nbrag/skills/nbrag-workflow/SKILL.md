@@ -12,7 +12,7 @@ description: >-
 nbrag 提供 11 个 MCP 检索工具 + `nbrag_help` 导航工具，核心分三类：**发现 → 检索 → 深入**。
 
 > **注意**：本文档中的函数名是 nbrag MCP 自身的函数名。当 nbrag 被接入其他 Agent 框架时，
-> 函数名会带前缀（如变成 mcp__xxx__nbrag_search），AI 应以实际接收到的 function 名称为准。
+> 实际暴露的 function 名称可能带前缀（例如 `xxx_nbrag_search` 或 `mcp__xxx__nbrag_search`），AI 应以实际接收到的 function 名称为准。
 
 ## 快速决策：用哪个工具？
 
