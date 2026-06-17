@@ -1,0 +1,20 @@
+Exception in thread Thread-1 (_bulk_write):
+Traceback (most recent call last):
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\threading.py", line 1075, in _bootstrap_inner
+    self.run()
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\threading.py", line 1012, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\rotate_file_writter.py", line 162, in _bulk_write
+    cls._bulk_real_write()
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\rotate_file_writter.py", line 151, in _bulk_real_write
+    cls._get_file_writter(file_key).write_2_file(msg_str_all)
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\rotate_file_writter.py", line 67, in write_2_file
+    self._open_file()
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\rotate_file_writter.py", line 58, in _open_file
+    self._f = open(self.file_path, encoding='utf8', mode='a')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 13] Permission denied: '\\pythonlogs\\2026-06-17.0001.scripts.std'
+INFO:     Started server process [71956]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:9101 (Press CTRL+C to quit)

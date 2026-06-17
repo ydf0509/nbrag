@@ -1,0 +1,33 @@
+10:56:58  "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\set_nb_log_config.py:25"  - <module> - The project root directory is:
+ D:\codes\nbrag\scripts
+10:56:58  "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\set_nb_log_config.py:49"  - use_config_form_nb_log_config_module - nb_log has read the configuration variables in the 
+ "D:\codes\nbrag\nb_log_config.py:1" file as priority configuration
+
+[0;34m2026-06-17 10:56:58  "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\__init__.py:53" -<module>-[print]-  [0;37;44m[0m
+    
+    .__   __. .______           __        ______     _______ 
+    |  \ |  | |   _  \         |  |      /  __  \   /  _____|
+    |   \|  | |  |_)  |  ______|  |     |  |  |  | |  |  __  
+    |  . `  | |   _  <  |______|  |     |  |  |  | |  | |_ | 
+    |  |\   | |  |_)  |        |  `----.|  `--'  | |  |__| | 
+    |__| \__| |______/         |_______| \______/   \______|      
+    
+         [0m[0m [0m
+[0;34m2026-06-17 10:56:58  "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\__init__.py:82" -<module>-[print]-  [0;37;44m[0m
+        1)When using PyCharm, it is strongly recommended to re-customize the theme colors in PyCharm's console as follows, otherwise the color display may be harsh on the eyes. The colors specified in the code are just approximate red, yellow, blue, and green. The display effect varies across different IDE software, themes, and fonts, so users need to set them up themselves.
+        The setup method is: Open PyCharm -> File -> Settings -> Editor -> Color Scheme -> Console Colors, select monokai, click to expand ANSI colors,
+        and re-modify 7 custom colors: set Blue to 0454F3, Cyan to 06F0F6, Green to 13FC02, Magenta to ff1cd5, red to F80606, yellow to EAFA04, gray to FFFFFF, and white to FFFFFF.
+        Different versions of PyCharm, themes, or IDEs can be set according to the actual console display.
+
+        2)When using tools like xshell or finashell to connect to Linux, you can also customize the theme colors, or use the default colors of the shell connection tool.
+
+        Color effect as shown at https://ibb.co/qRssXTr
+
+        You can modify the default logging behavior when the get_logger method is called without parameters in nb_log_config.py at the root directory of the current project.
+
+        nb_log documentation https://nb-log-doc.readthedocs.io/zh_CN/latest/
+
+        Why set PyCharm terminal colors, explaining why  cannot determine the final color https://nb-log-doc.readthedocs.io/zh_CN/latest/articles/c1.html#c
+        [0m
+        [0m [0m
+[0;34m2026-06-17 10:56:58  "D:\codes\nbrag\scripts\start_http_rag_mcp.py:24" -<module>-[print]-  [0;37;44m[nbrag] HTTP MCP server on http://localhost:9101/mcp[0m [0m

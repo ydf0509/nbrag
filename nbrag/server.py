@@ -114,6 +114,11 @@ def nbrag_help() -> str:
         "5. Only have filename/path fragment? call nbrag_find_files to get full absolute file_path.",
         "6. Need more context? call nbrag_get_raw_file, nbrag_get_adjacent_chunks, or nbrag_get_chunks_by_lines.",
         "",
+        "Python source workflow:",
+        "- Use nbrag_search_and_fetch for concepts/examples; .py chunks include AST scope/signature metadata.",
+        "- Use nbrag_grep for exact names/imports/constants/decorators/error strings.",
+        "- Use nbrag_find_definition for complete Python .py symbols, then nbrag_get_raw_file for full source context.",
+        "",
         "Rules:",
         "- Rewrite long user questions into focused search terms; try several terms before giving up.",
         "- file_path and filter_file_path must be full absolute paths returned by nbrag tools.",
@@ -141,6 +146,11 @@ def nbrag_search(
     or any knowledge/usage question — it auto-fetches complete file context and avoids fragmented chunks.
     **Use nbrag_search** only when you need fine-grained control (disable BM25/rerank),
     metadata-only lookup (include_content=False), or custom preview length.
+
+    Python source workflow: .py chunks include AST scope/signature metadata, so source-code questions
+    often need several tools. Use nbrag_search_and_fetch for concepts/examples, nbrag_grep for exact
+    names/imports/constants/decorators/error strings, nbrag_find_definition for complete Python .py
+    symbols, and nbrag_get_raw_file for full source context.
 
     TIP: Don't pass the user's raw long question directly. Rewrite it into focused search terms.
     e.g. user asks "试用期干了5个月不转正，1年合同合法吗" → query="试用期 最长期限 1年合同"
@@ -254,7 +264,11 @@ def nbrag_search_and_fetch(
 
     Uses Vector + BM25 + RRF + rerank by default. When filter_file_path is set,
     BM25 is skipped and ChromaDB source-path filtering is used before rerank.
-    Same doc_id results are grouped by file; distant ranked hits are fetched as separate line windows."""
+    Same doc_id results are grouped by file; distant ranked hits are fetched as separate line windows.
+
+    Python source workflow: use this for concepts/examples and first evidence, then call nbrag_grep
+    for exact names/imports/constants/decorators, nbrag_find_definition for complete Python .py
+    symbols, and nbrag_get_raw_file for full source context."""
     cfg = get_config()
     top_k = _int_param(top_k, 5)
     fetch_top_n_raw = _int_param(fetch_top_n_raw, 3)
@@ -394,6 +408,9 @@ def nbrag_grep(
       - General: specific dates, proper nouns, technical terms, exact phrases
       - Code: class/function names ('UserService'), constants ('MAX_RETRIES'), imports ('from myproject')
 
+    Python source workflow: use nbrag_grep for exact names/imports/constants/decorators/error strings,
+    then nbrag_find_definition for complete Python .py symbols and nbrag_get_raw_file for full source context.
+
     Tip: use context_lines=15 to see surrounding context around the match.
     Typical workflow: nbrag_search_and_fetch (find direction) → nbrag_grep (pinpoint exact terms) → nbrag_get_raw_file (full context)"""
     max_results = _int_param(max_results, 10)
@@ -431,7 +448,9 @@ def nbrag_find_definition(
     Python .py files: AST parsing for exact boundaries + methods summary. Non-Python: regex fallback (limited).
     IMPORTANT: Only works on imported .py files. Code snippets inside .md/.txt docs cannot be AST-parsed.
     Default max_results=3 gives enough alternatives without flooding context. For common names in large libraries,
-    start with max_results=1. For law/docs/manuals, use nbrag_grep instead."""
+    start with max_results=1. For law/docs/manuals, use nbrag_grep instead.
+    Python source workflow: first use nbrag_search_and_fetch or nbrag_grep to discover exact symbols,
+    then use this tool for the complete definition and nbrag_get_raw_file for full source context."""
     max_results = _int_param(max_results, 3)
     results = find_symbol_definition(symbol, collection_name, max_results)
 

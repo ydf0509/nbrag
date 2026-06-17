@@ -1,87 +1,181 @@
 # nbrag
 
-**让 AI 基于真实内容回答，消除幻觉** — 把代码、文档、法律条文、技术手册等任何文本导入 nbrag，AI Agent 就能基于真实内容回答问题，不再凭训练数据"编"。
+[English](README.md) | [简体中文](README.zh-CN.md)
 
-nbrag 是一个 Agentic RAG MCP Server：AI Agent 通过 11 个 MCP 检索工具 + `nbrag_help` 导航工具自主多轮检索，支持接入 Cursor、Claude Code/Desktop、OpenCode、Cherry Studio、Open WebUI、Dify、Cline 等任何 MCP 兼容的 AI 产品。
+Agentic RAG MCP Server for AI agents that need to retrieve evidence from user-prepared knowledge bases.
 
-### 典型场景
+`nbrag` lets you import local text, documentation, regulations, manuals, notes, and Python source into a local knowledge base. MCP-compatible agents can then use 11 focused retrieval tools plus `nbrag_help` to search, grep, locate files, read original content, and build answers from real evidence instead of relying only on model memory.
 
-- **专业知识**：法律法规全文、医学指南、行业标准——任何需要 AI 精准引用而非"大概记得"的领域
-- **内部资料**：公司 wiki、产品手册、设计文档、运营规范——公开服务永远不可能收录的内容
-- **技术资料/源码**：LangChain 等三方库更新太快、内部框架预训练不足时，把文档和源码导入成知识库
+Python source workflow is a first-class use case: `.py` chunks include AST scope and signature metadata, so agents can combine semantic search with `nbrag_grep`, `nbrag_find_definition`, and `nbrag_get_raw_file` for precise source navigation.
 
-## 为什么不用 Context7？
+## Highlights
 
-Context7 是优秀的 MCP 文档服务（56K+ stars），但它是"预制菜"——只能查它已收录的公开库文档片段。
+- **General-purpose knowledge bases**: works for law, medical guidelines, internal wiki pages, product manuals, standards, technical docs, and source code.
+- **Python source retrieval**: especially effective after vectorizing Python projects, because `.py` files keep file paths, line numbers, AST scope, and function signatures.
+- **Agentic retrieval workflow**: agents can call multiple tools, rewrite queries, grep exact terms, expand context, and read original files.
+- **Hybrid search**: Vector + multi-channel BM25 -> Weighted RRF fusion -> optional reranker.
+- **Original-file reading**: every imported file is cached as raw text, so agents can read exact line ranges without chunk overlap.
+- **Full-path file operations**: tools return absolute `file_path` values and require those values for path-filtered reads, avoiding ambiguous short filenames.
+- **MCP-first design**: works with Cursor, Claude Code/Desktop, OpenCode, Cherry Studio, Open WebUI, Dify, Cline, and other MCP clients.
+- **Optional Skill**: tool docstrings and `nbrag_help` are self-contained; copying the bundled Skill improves workflow guidance but is not required.
 
-| | Context7 | **nbrag** |
-|---|---------|-----------|
-| 数据来源 | Upstash 预索引的 GitHub 文档 | **用户自己导入任何文件** |
-| 内容深度 | 公开文档片段 | **原文级**（按文件、行号、上下文读取用户导入内容） |
-| 私有库/内部框架 | 不支持 | **完全支持** |
-| 更新时效 | 取决于 Context7 爬取频率 | **导入即可用** |
-| 检索管线 | 向量搜索 + 重排序 | **BM25 + Vector + RRF + Reranker 四级管线** |
-| 离线/自部署 | 依赖 context7.com 云服务 | **本地 ChromaDB + 可配置 API** |
-| 工具数量 | 2 个 | **11 个检索工具 + 1 个导航工具**（搜索 + grep + AST 定位 + 文件定位 + 原文读取 + help） |
+## When To Use
 
-**两者互补**：Context7 适合快速查它已收录的公开库文档；nbrag 适合你自己准备的本地/私有/专业文本，也适合需要更高检索质量的源码和技术资料。
+Use `nbrag` when the agent needs evidence from information you control:
 
-## 为什么不是 Naive RAG？
+- **Professional knowledge**: legal texts, medical guidelines, industry standards, compliance rules.
+- **Internal material**: company wiki pages, SOPs, product manuals, policies, design docs.
+- **Technical material**: fast-moving library docs, local framework docs, Python source code, examples.
+- **Private or offline content**: content that public services cannot index or should not receive.
 
-| | Naive RAG | **Agentic RAG (本项目)** |
-|---|-----------|----------------------|
-| 检索触发 | 每次提问自动检索 top-5 注入 | AI 自主决定是否检索、用哪个工具 |
-| 检索轮次 | 1 次 | 多轮（实测 m 次搜索 + n 次文件读取） |
-| 查询构造 | 用户原文 | AI 重写查询、组合多种检索策略 |
-| 工具种类 | 仅语义搜索 | 混合检索（Vector + BM25 → RRF 融合）+ grep + 文件定位 + 原文读取 + Python AST 符号定位 |
-| 分析深度 | 浅层描述 | 跨文档证据链 + 原文上下文 |
-| 准确度 | 浅层匹配，容易遗漏 | **显著优于 Naive RAG**，跨资料关联更完整 |
+`nbrag` is text-first. Convert PDFs, Word documents, web pages, scans, or other binary formats to `.md`, `.txt`, or `.html` before ingestion if you need reliable line-based retrieval.
 
-核心观点：**检索不是管道，是 Agent 的一种能力。**
+## How It Compares
 
-### 为什么不在 nbrag 内部做 Query Rewrite？
+### Context7
 
-nbrag 刻意**不在内部做查询改写**（虽然技术上可以加），因为 AI Agent 本身就是最好的 query rewriter：
+Context7 is a useful hosted MCP documentation service for public libraries it has already indexed. `nbrag` is for knowledge bases you prepare yourself.
 
-```
-用户: "公司让我试用期干了5个月不转正，签1年合同，合法吗？能要什么赔偿？"
-         ↓
-    AI Agent（理解问题 → 拆解 → 重写查询）
-         ↓
-  第1轮: nbrag_search_and_fetch("试用期 最长期限 1年合同")        → 命中第19条并取回原文
-  第2轮: nbrag_search_and_fetch("违法约定试用期 赔偿标准")        → 命中第83条并取回原文
-  第3轮: nbrag_grep("第十九条")                          → 精确定位原文
-  第4轮: nbrag_get_raw_file(...)                         → 读完整法条上下文
-         ↓
-    AI 综合 4 轮结果，给用户完整回答
-```
+| | Context7 | nbrag |
+|---|---|---|
+| Source | Pre-indexed public docs | User-imported local/private text |
+| Private/internal content | No | Yes |
+| Original file reading | Limited by hosted snippets | Yes, by absolute file path and line range |
+| Refresh model | Depends on hosted indexing | Re-ingest whenever you want |
+| Storage | Hosted service | Local ChromaDB + raw files + local BM25/symbol indexes |
+| Tools | Small API surface | 11 retrieval/read tools + `nbrag_help` |
 
-AI 理解上下文、对话历史和领域知识，它改写查询的效果远好于任何规则引擎或小模型。所以 nbrag 的设计原则是：**把"智能"留给 AI，把"工具"做好给 AI 用。**
+They are complementary: use Context7 for quickly checking public docs it already covers; use `nbrag` for private, specialized, newly changed, or high-evidence local material.
 
-## 快速开始
+### Naive RAG
 
-### 1. 安装
+Naive RAG usually performs one automatic top-k search and injects the result into the prompt. `nbrag` exposes retrieval as agent tools:
+
+- The agent decides whether to search.
+- The agent rewrites vague user questions into focused queries.
+- The agent combines semantic search, BM25, regex grep, file lookup, and original-file reads.
+- The agent can run several retrieval rounds before answering.
+
+Core idea: **retrieval is an agent capability, not a fixed one-shot pipeline.**
+
+## Quick Start
+
+### 1. Install
 
 ```bash
-# 方式 A: uvx (推荐，零安装)
-uvx nbrag
-
-# 方式 B: pip
 pip install nbrag
 ```
 
-### 2. 配置 API Key
+You can also run it directly with `uvx`:
 
 ```bash
-# SiliconFlow 免费 API Key (https://siliconflow.cn)
+uvx nbrag --help
+```
+
+### 2. Configure Embedding/Rerank API
+
+By default, `nbrag` uses SiliconFlow-compatible endpoints and BGE models. You can point it at another compatible provider with environment variables or YAML config.
+
+Linux/macOS:
+
+```bash
 export NBRAG_API_KEY=sk-xxx
 ```
 
-### 3. 在 Cursor / Claude Desktop 中配置 MCP
+Windows PowerShell:
 
-有三种配置方式，选一种即可：
+```powershell
+$env:NBRAG_API_KEY = "sk-xxx"
+```
 
-#### 方式 A: uvx 启动（推荐，零安装）
+### 3. Import A Knowledge Base
+
+Ingestion is intentionally a manual Python operation, not an MCP tool. This keeps indexing/deleting under user control.
+
+Create an ingest script:
+
+```python
+from nbrag.core import batch_ingest
+
+batch_ingest(
+    paths=[
+        "/data/docs/labor_law",
+        "/data/docs/product_manuals",
+    ],
+    collection_name="company_knowledge",
+    file_extensions=[".md", ".txt", ".html"],
+    delete_first=True,
+    verbose=True,
+)
+```
+
+Windows paths are also fine:
+
+```python
+from nbrag.core import batch_ingest
+
+batch_ingest(
+    paths=[
+        "D:/docs/labor_law",
+        "D:/docs/product_manuals",
+    ],
+    collection_name="company_knowledge",
+    file_extensions=[".md", ".txt", ".html"],
+    delete_first=True,
+    verbose=True,
+)
+```
+
+For Python docs/source code:
+
+```python
+from nbrag.core import batch_ingest
+
+batch_ingest(
+    paths=[
+        "/data/projects/my_framework/src",
+        "/data/projects/my_framework/docs",
+    ],
+    collection_name="my_framework",
+    file_extensions=[".py", ".md", ".txt"],
+    delete_first=True,
+    verbose=True,
+)
+```
+
+Example ingest scripts are available under `scripts/`:
+
+- `scripts/ingest_project.py` — generic project/document template
+- `scripts/ingest_ex1/` — Civil Code text example
+- `scripts/ingest_ex2_marriage_law/` — marriage/family law example
+- `scripts/ingest_ex3_worker_rights/` — worker rights and labor law example
+
+### 4. Start MCP Server
+
+#### stdio mode
+
+Use stdio when one client owns one server process.
+
+```bash
+nbrag
+```
+
+Cursor / Claude Desktop style config:
+
+```json
+{
+  "mcpServers": {
+    "nbrag": {
+      "command": "nbrag",
+      "env": {
+        "NBRAG_API_KEY": "sk-xxx"
+      }
+    }
+  }
+}
+```
+
+With `uvx`:
 
 ```json
 {
@@ -97,199 +191,183 @@ export NBRAG_API_KEY=sk-xxx
 }
 ```
 
-#### 方式 B: python 命令启动
+#### HTTP mode
 
-```json
-{
-  "mcpServers": {
-    "nbrag": {
-      "command": "python",
-      "args": ["-m", "nbrag"],
-      "env": {
-        "NBRAG_API_KEY": "sk-xxx"
-      }
-    }
-  }
-}
-```
-
-#### 方式 C: HTTP 模式（推荐多项目共享）
-
-> **为什么选 HTTP？** stdio 模式下每个 IDE 窗口会各起一个独立进程。如果你同时打开了几十个项目，
-> 就是几十个 Python 进程 + 几十份 ChromaDB 内存。HTTP 模式只跑一个服务进程，所有 IDE 共享同一个端口，
-> 省内存，也避免多进程并发写同一个 ChromaDB 数据库的锁冲突。
-
-先启动服务：
+Use HTTP mode when multiple MCP clients or many IDE windows should share one local server process.
 
 ```bash
-# uvx 方式
-uvx nbrag --transport streamable-http --port 9101
-
-# 或 python 方式
-python -m nbrag --transport streamable-http --port 9101
+nbrag --transport streamable-http --port 9101
 ```
 
-再配置客户端：
+Client config:
 
 ```json
 {
   "mcpServers": {
     "nbrag": {
-      "type": "http",  //可以省略,因为有url，就能自动推断是http模式
       "url": "http://localhost:9101/mcp"
     }
   }
 }
 ```
 
-#### 在openwebui 中配置nbrag mcp，通过rag知识库学习 langchain框架，截图如下：
+### 5. Ask The Agent To Discover Collections
 
-nbrag是标准mcp，所以配置在任何个人agent和任意agent产品里面
-![alt text](image109.png)
+After ingestion, ask the MCP client:
 
-### 4. 导入知识库
-
-#### 手动脚本导入（推荐）
-
-通过脚本导入可以精确指定目录、过滤文件后缀、控制 chunk 参数：
-
-```python
-from nbrag.core import batch_ingest
-
-# 示例 1：导入法律法规、手册、内部文档等文本
-batch_ingest(
-    paths=["D:/docs/labor_law", "D:/docs/product_manuals"],
-    collection_name="company_knowledge",
-    file_extensions=[".md", ".txt", ".html"],
-    delete_first=True,
-    verbose=True,
-)
-
-# 示例 2：导入技术文档或源码
-batch_ingest(
-    paths=["D:/codes/my_project/src", "D:/codes/my_project/docs"],
-    collection_name="my_project",
-    file_extensions=[".py", ".md"],
-    delete_first=True,
-    verbose=True,
-)
+```text
+Call nbrag_stats and tell me which knowledge bases are available.
 ```
 
-参见 `scripts/` 目录下的示例：
-- `scripts/ingest_ex1/` — 《中华人民共和国民法典》全文导入示例
-- `scripts/ingest_ex2_marriage_law/` — 婚姻家庭法司法解释导入示例
-- `scripts/ingest_project.py` — 通用项目/文档导入模板
+Then ask a domain question:
 
-## 11 个 MCP 检索工具 + 1 个导航工具
+```text
+In collection company_knowledge, what does the labor contract material say about probation period limits?
+```
 
-| 类别 | 工具 | 功能 |
-|------|------|------|
-| **导航** | `nbrag_help` | 返回简短组合拳指南；AI 不确定该调哪个工具时先看它 |
-| **混合检索** | `nbrag_search` | Vector + BM25 → RRF 融合 → Rerank 精排 |
-| **混合检索** | `nbrag_search_and_fetch` | 混合搜索 + 自动取原文（省一次 round-trip） |
-| **精确检索** | `nbrag_grep` | 关键词/正则搜索（法条编号、专业术语、API 名等精确匹配） |
-| **精确检索** | `nbrag_find_definition` | Python 源码专用：AST 定位 class/function 完整定义（仅 `.py` 文件） |
-| **文件定位** | `nbrag_find_files` | 根据文件名或路径片段找到完整绝对 `file_path` |
-| **上下文扩展** | `nbrag_get_file_chunks` | 按 chunk 分页浏览文件 |
-| **上下文扩展** | `nbrag_get_raw_file` | 读取无 overlap 的原始文件 |
-| **上下文扩展** | `nbrag_get_adjacent_chunks` | 获取相邻 chunks |
-| **上下文扩展** | `nbrag_get_chunks_by_lines` | 按行号范围取 chunks |
-| **只读管理** | `nbrag_list` | 列出知识库所有文档 |
-| **只读管理** | `nbrag_stats` | 知识库统计信息 |
+If the agent is unsure which tool to use, it can call `nbrag_help`.
 
-### Help 与 Skill 指南（教 AI 打组合拳）
+## MCP Tools
 
-MCP 自带 `nbrag_help`，AI 即使不复制 Skill 也可以看到简短组合拳：`nbrag_stats` → `nbrag_search_and_fetch` → `nbrag_grep`（必要时 Python 源码再用 `nbrag_find_definition`）→ `nbrag_find_files` / `nbrag_get_raw_file`。
+`nbrag` exposes 11 retrieval/read tools plus one navigation tool.
 
-项目也附带一个 Skill 文件，打包在 `nbrag` 包内，提供更完整的多轮检索策略。复制 Skill 是增强体验，不是必需步骤。
+| Category | Tool | Purpose |
+|---|---|---|
+| Navigation | `nbrag_help` | Compact workflow guide for agents that are unsure how to combine tools |
+| Search | `nbrag_search` | Hybrid search: Vector + BM25 -> RRF -> rerank |
+| Search | `nbrag_search_and_fetch` | Hybrid search plus automatic original-file context fetch |
+| Exact search | `nbrag_grep` | Keyword/regex search for article numbers, terms, headings, error codes, API names |
+| Python source | `nbrag_find_definition` | Find complete Python class/function/method definitions with AST when available |
+| File lookup | `nbrag_find_files` | Find the unique absolute `file_path` for later reads or filters |
+| Context | `nbrag_get_file_chunks` | Browse a file by chunks with metadata |
+| Context | `nbrag_get_raw_file` | Read original cached file content without chunk overlap |
+| Context | `nbrag_get_adjacent_chunks` | Expand around a search result using `doc_id` + `chunk_index` |
+| Context | `nbrag_get_chunks_by_lines` | Get chunks covering a specific line range |
+| Read-only inventory | `nbrag_list` | List documents in a collection |
+| Read-only inventory | `nbrag_stats` | Show collections, doc counts, chunk counts, and storage config |
 
-**使用方法**：从 pip 安装路径复制到你项目的 Skills 目录，AI 就自动学会多轮检索策略。
+Ingestion and deletion are not exposed as MCP tools. Use Python scripts for those operations.
+
+## Recommended Agent Workflows
+
+### 通用知识场景
+
+For law, guidelines, manuals, standards, policy documents, and internal wiki material:
+
+```text
+1. nbrag_stats
+   Discover available collection_name values.
+
+2. nbrag_search_and_fetch
+   Start with a focused semantic/keyword query and get nearby original text.
+
+3. nbrag_grep
+   Use exact terms, article numbers, headings, error codes, or quoted phrases.
+
+4. nbrag_get_raw_file / nbrag_get_adjacent_chunks
+   Read fuller context before answering.
+
+5. nbrag_find_files
+   If only a filename/path fragment is known, resolve it to a full absolute file_path first.
+```
+
+Example:
+
+```text
+User: 一年劳动合同，试用期五个月合法吗？能要什么赔偿？
+
+Agent:
+1. nbrag_search_and_fetch("试用期 最长期限 一年劳动合同")
+2. nbrag_search_and_fetch("违法约定试用期 赔偿")
+3. nbrag_grep("第十九条")
+4. nbrag_grep("第八十三条")
+5. Answer with cited evidence from original text.
+```
+
+### 代码场景
+
+For Python source code and framework/API documentation:
+
+Python source workflow: start with semantic/context search, then use exact-name tools instead of relying on one retrieval mode.
+
+```text
+1. nbrag_search_and_fetch
+   Find relevant concepts, examples, or API usage.
+
+2. nbrag_grep
+   Search exact names, constants, imports, error strings, decorators, or config keys.
+
+3. nbrag_find_definition
+   For Python `.py` files only, retrieve the complete class/function/method definition.
+
+4. nbrag_get_raw_file
+   Read the full source or docs around the hit.
+
+5. Repeat across files as new symbols appear.
+```
+
+### Path Rules
+
+All `file_path` and `filter_file_path` arguments must be complete absolute paths returned by `nbrag` tools, for example:
+
+```text
+/data/docs/labor_law/劳动合同法.md
+D:/docs/labor_law/劳动合同法.md
+```
+
+Do not pass short paths such as `劳动合同法.md`, `core.py`, or `src/core.py`. If only a filename or fragment is known, call `nbrag_find_files` first.
+
+## Optional Skill
+
+`nbrag_help` and MCP tool descriptions are enough for MCP-only usage, so users do **not** need to copy a Skill for the tools to work. 换句话说，用户不复制 Skill 也能正常使用 MCP 工具；the bundled Skill is optional workflow guidance for agents that support local skills.
+
+Locate the bundled Skill:
 
 ```bash
-# 先获取 skill 路径
-SKILL_PATH=$(python -c "import nbrag, os; print(os.path.join(os.path.dirname(nbrag.__file__), 'skills', 'nbrag-workflow'))")
-
-# Cursor
-cp -r $SKILL_PATH .cursor/skills/
-
-# Claude Code
-cp -r $SKILL_PATH .claude/skills/
-
-# nb_agent
-cp -r $SKILL_PATH .nb_agent/skills/
-
-# OpenAI Codex / Gemini CLI /nb_agent（跨平台标准）
-cp -r $SKILL_PATH .agents/skills/
+python -c "import nbrag, os; print(os.path.join(os.path.dirname(nbrag.__file__), 'skills', 'nbrag-workflow'))"
 ```
 
-`nbrag_help` 内容短，适合作为 MCP-only 场景的默认导航；Skill 内容更详细，包括：发现（nbrag_stats）→ 检索（4 种策略选择）→ 文件定位（nbrag_find_files）→ 深入（4 种上下文获取方式）→ 多轮重试策略。
+Copy it to the Skills directory used by your agent, for example:
 
-### AI 推荐的深度分析工作流
-
-**通用知识场景**（法律条文、医学指南、技术手册、内部文档等）：
-```
-1. nbrag_search_and_fetch → 语义+关键词混合检索，并自动读取命中位置附近原文
-2. nbrag_grep → 精确匹配条文编号、术语、标题、错误码、关键词
-3. nbrag_get_raw_file → 读取完整原文确认上下文
-4. nbrag_get_adjacent_chunks → 扩展上下文，查看前后条款或段落
-5. 如只有文件名/路径片段，先用 nbrag_find_files 找完整绝对 file_path
+```bash
+cp -r "$SKILL_PATH" .agents/skills/
+cp -r "$SKILL_PATH" .claude/skills/
+cp -r "$SKILL_PATH" .cursor/skills/
 ```
 
-**代码场景**（Python 源码、框架 API）：
-```
-1. nbrag_search_and_fetch → 混合检索并自动读取命中位置附近原文
-2. nbrag_grep → 精确定位类名、方法名、常量、导入路径（行级精度）
-3. nbrag_find_definition → 获取完整的类/函数定义（仅 .py 文件）
-4. nbrag_get_raw_file → 读取完整源码验证细节
-5. 跨文件追踪：发现未知符号时重复 2-4 步
-```
+Agents that do not copy Skill files can still call `nbrag_help` for a compact workflow guide.
 
-所有 `file_path` / `filter_file_path` 入参都必须使用工具返回的完整绝对路径，例如 `D:/docs/labor_law/劳动合同法.md`。不要传 `劳动合同法.md`、`core.py` 或 `src/core.py` 这类短路径；如果只有文件名或路径片段，先调用 `nbrag_find_files` 找到唯一的完整路径。
+## Configuration
 
-## 向量数据库 Metadata 字段
+Configuration priority:
 
-每个 chunk 入库时除了 embedding 向量，还存储了丰富的 metadata。这是很多 RAG 方案忽略的关键设计——有了 metadata，才能实现按文件过滤、按行号定位、按作用域追踪等高级能力。
-
-| 字段 | 类型 | 示例 | 说明 |
-|------|------|------|------|
-| `source` | str | `D:/docs/labor_law/劳动合同法.md` | 文件绝对路径（跨平台统一格式），也是 `file_path` / `filter_file_path` 的唯一依据 |
-| `filename` | str | `劳动合同法.md` | 文件名（仅用于显示，不作为读取或过滤入参） |
-| `doc_id` | str | `a1b2c3d4e5f6` | 路径 MD5 前 12 位（文件唯一标识） |
-| `chunk_index` | int | `3` | 当前 chunk 在文件中的序号（0-based） |
-| `total_chunks` | int | `15` | 该文件的总 chunk 数 |
-| `line_start` | int | `120` | chunk 对应的起始行号（1-based） |
-| `line_end` | int | `180` | chunk 对应的结束行号 |
-| `scope` | str | `MyClass.my_method` 或空 | Python AST 解析的作用域（非 Python 文件为空） |
-
-**chunk 头部注入示例**（embedding 前自动添加，提升搜索精度）：
-
-```
-# [File: D:/docs/labor_law/劳动合同法.md] [Lines: 120-180]
-# Python 源码会额外注入 AST scope:
-# [File: D:/codes/myproject/core.py] [Class: class MyClass(Base)] [Method: process] [Sig: def process(self, data: dict)] [Lines: 45-78]
+```text
+CLI arguments > environment variables > YAML config > defaults
 ```
 
-有了这些 metadata + 头部注入，`nbrag_search` 搜 "试用期最长期限" 可以定位到具体法条文件和行号；在 Python 源码场景下，搜 "process 方法" 也能更容易命中 `MyClass.process`。
+### Environment Variables
 
-## 配置
+| Variable | Required | Default | Description |
+|---|---:|---|---|
+| `NBRAG_API_KEY` | Yes | | Embedding/rerank API key |
+| `NBRAG_BASE_URL` | No | `https://api.siliconflow.cn/v1` | OpenAI-compatible API base URL |
+| `NBRAG_EMBEDDING_MODEL` | No | `BAAI/bge-m3` | Embedding model |
+| `NBRAG_RERANK_MODEL` | No | `BAAI/bge-reranker-v2-m3` | Rerank model |
+| `NBRAG_DB_PATH` | No | `<project>/rag_db` | ChromaDB and local indexes path |
+| `NBRAG_RAW_FILES_PATH` | No | `<db_path>/raw_files` | Original-file snapshot path |
+| `NBRAG_CHUNK_SIZE` | No | `1500` | Chunk size |
+| `NBRAG_CHUNK_OVERLAP` | No | `200` | Chunk overlap |
 
-### 环境变量
+### YAML Config
 
-| 变量 | 必填 | 默认值 | 说明 |
-|------|------|--------|------|
-| `NBRAG_API_KEY` | **是** | | Embedding/Rerank API Key |
-| `NBRAG_BASE_URL` | 否 | `https://api.siliconflow.cn/v1` | API Base URL |
-| `NBRAG_EMBEDDING_MODEL` | 否 | `BAAI/bge-m3` | Embedding 模型 |
-| `NBRAG_RERANK_MODEL` | 否 | `BAAI/bge-reranker-v2-m3` | Rerank 模型 |
-| `NBRAG_DB_PATH` | 否 | `./rag_db` | ChromaDB 存储路径 |
-| `NBRAG_CHUNK_SIZE` | 否 | `1500` | 分块大小 |
-| `NBRAG_CHUNK_OVERLAP` | 否 | `200` | 分块重叠 |
+`nbrag` automatically looks for:
 
-### 配置文件 (可选)
-
-支持 YAML 配置文件，自动搜索顺序：
 1. `./nbrag_config.yaml`
-2. `~/.config/nbrag/config.yaml`
+2. `./nbrag_config.yml`
+3. `~/.config/nbrag/config.yaml`
+4. `~/.config/nbrag/config.yml`
+
+Example:
 
 ```yaml
 embedding:
@@ -308,70 +386,107 @@ chunking:
   chunk_overlap: 200
 ```
 
-### CLI 参数
+### CLI
 
 ```bash
 nbrag --help
-nbrag --transport stdio              # 默认
-nbrag --transport streamable-http    # HTTP 模式
-nbrag --api-key sk-xxx              # 直接传 API Key
-nbrag --db-path /data/rag           # 指定存储路径
-nbrag --config ./my_config.yaml     # 指定配置文件
+nbrag --transport stdio
+nbrag --transport streamable-http --port 9101
+nbrag --api-key sk-xxx
+nbrag --db-path /data/rag
+nbrag --config ./nbrag_config.yaml
 ```
 
-## 设计决策
+## Operational Notes
 
-### 为什么 chunk_size = 1500？
+### HTTP Server And External Ingest
 
-BGE-M3 的最佳召回区间是 700-3000 字符。如果 chunk_size 设太小（如 500），一段 8000 字符的长章节、长条款或大函数会被切成 20+ 块，语义搜索碎片化严重、召回率下降。1500 是实测平衡点，多数文档段落、条款组和函数/类能落入 1-2 个 chunk 内。
+HTTP mode keeps a long-running Python process. If an external ingest script rebuilds a collection while the server is running, the server may temporarily hold old Chroma/BM25/doc-id/symbol runtime caches.
 
-即使 chunk 切分不完美，Agentic RAG 也不会像 Naive RAG 那样只用碎片凑答案。AI 会自主判断当前 chunk 信息不足，然后调用 `nbrag_get_raw_file` 读完整原文、用 `nbrag_grep` 全文搜索关键词；在 Python 源码场景下再用 `nbrag_find_definition` 精确定位类/函数定义，多轮组合直到信息充分。这正是 "检索是 Agent 的能力" 而非固定管道的意义。
+`nbrag` refreshes those process-local runtime caches lazily every 300 seconds at core operation entry. The refresh is memory-only and does not delete persisted indexes or raw files.
 
-### 为什么四存储？
+For the most predictable results:
 
-- **ChromaDB**：存向量 chunks（有 overlap），用于语义搜索
-- **raw_files/**：存原始文件快照（无 overlap），用于精确行号读取
-- **bm25_index_v2/**：多通道 BM25 稀疏索引（bm25s 持久化），用于关键词检索 + RRF 融合
-- **symbol_index/**：Python AST 符号索引（JSON 持久化），用于快速查找 Python class/function/method 定义
+- Avoid querying a collection while another process is rebuilding the same collection.
+- After a large `delete_first=True` rebuild, either wait for the refresh interval or restart the HTTP MCP server.
+- Use one HTTP server process for many clients instead of many stdio processes writing to the same `rag_db`.
 
-AI 经常需要看完整原文，如果只有 chunks 会有 overlap 重复，浪费 token 还容易困惑。
-BM25 索引和 Vector 索引并行查询，通过 Weighted RRF 融合后再 Rerank，比纯语义搜索在精确关键词查询上 recall 更高；Symbol 索引用来支撑 Python 源码场景下 `nbrag_find_definition` 的精确符号定位。
+This is local embedded storage, not a distributed database with cross-process transaction coordination.
 
-### 为什么 BM25 + RRF 混合检索？
+### Supported Content
 
-纯向量搜索有系统性盲区：搜 `"第八十二条"`、`"REDIS_BULK_PUSH"`、`"BrokerEnum"` 这类精确编号、术语、常量名或类名，向量距离不一定最近。BM25 补上了精确关键词匹配这一环。
+`nbrag` indexes text content. Python `.py` files get additional AST-based scope metadata. Other text files use semantic search, BM25, grep, and original-file reads.
 
-多路结果通过 **Weighted RRF (Reciprocal Rank Fusion)** 融合——只看排名不看原始分数（BM25 分数无界，cosine 分数 [-1,1]，直接加权不可比），多路共识文档排名最高，k=60 是 2009 年 SIGIR 论文的标准值。
+For PDFs, Word files, slides, images, scans, and web pages, use your preferred extraction/OCR pipeline first, then ingest the resulting `.md`, `.txt`, or `.html` files.
 
-BM25 v2 使用三通道 lexical analyzer：`word` 通道用 `jieba.cut_for_search` 处理中文词级 token，并保留英文、数字、结构化编号；`ngram` 通道对中文连续片段生成 2/3-gram 提升短语召回；`code` 通道拆 camelCase (`getUserById` → `get user by id`)、snake_case、常量名、路径和 API 符号。这样对法律、医学、金融、技术手册、代码注释、企业制度等任意文本知识库都能同时兼顾精确术语和中文短语召回。
+## Metadata
 
-### 为什么 AST scope 注入？
+Each chunk stored in ChromaDB includes metadata used by downstream tools:
 
-**仅对 `.py` 文件生效。** 每个 Python chunk 的 embedding 前注入 `[File: path] [Scope: MyClass.my_method] [Sig: def my_method(self, x)]`。
-这样搜索 "process 方法" 时更容易命中 `class DataProcessor` 下的 `def process(self, data)`，而不是随机匹配到别的 "process" 字符串。
+| Field | Example | Description |
+|---|---|---|
+| `source` | `/data/docs/labor_law/劳动合同法.md` | Normalized absolute file path; the authoritative value for `file_path` |
+| `filename` | `劳动合同法.md` | Display-only filename |
+| `doc_id` | `a1b2c3d4e5f6` | Stable file identifier derived from path |
+| `chunk_index` | `3` | 0-based chunk index within the file |
+| `total_chunks` | `15` | Total chunks for that file |
+| `line_start` | `120` | 1-based start line |
+| `line_end` | `180` | End line |
+| `scope` | `MyClass.my_method` | Python AST scope, empty for non-Python files |
 
-非 Python 文件（`.md`、`.txt` 等）只注入 `[File: path]` 头部，不做 AST 解析。这些文件依赖语义搜索 + BM25 关键词匹配 + grep 精确查找。
+Chunk headers are injected before embedding to improve search:
 
-### 为什么 11 个检索工具而不是 3 个？
+```text
+# [File: /data/docs/labor_law/劳动合同法.md] [Lines: 120-180]
+```
 
-MCP 工具设计原则：**职责单一、参数最少、docstring 引导下一步**。
+Python chunks also include AST information:
 
-一个大而全的 `rag_query(mode="search|grep|raw|...")` 会导致 AI 幻觉——它不知道该传什么参数。
-拆成 11 个小工具后，每个工具参数清晰，AI 的调用准确率大幅提升。
+```text
+# [File: /data/project/core.py] [Class: class Service] [Method: run] [Sig: def run(self)] [Lines: 45-78]
+```
 
-## 技术栈
+## Architecture
 
-| 组件 | 选择 |
-|------|------|
-| Embedding | SiliconFlow BGE-M3（免费、中文最强之一） |
-| Rerank | SiliconFlow BGE-Reranker-v2-m3（免费） |
-| 向量数据库 | ChromaDB（本地持久化，无需外部服务） |
-| BM25 | bm25s（多通道索引，支持持久化） |
-| 中文分词 | jieba search mode + 中文 2/3-gram |
-| 融合 | Weighted RRF (Reciprocal Rank Fusion, k=60) |
-| 分块 | LangChain TextSplitter + 自研 AST 增强（Python）/ 通用分块（其他文本） |
-| MCP | FastMCP (Python) |
-| 传输 | stdio / streamable-http / SSE |
+`nbrag` uses four local storage layers:
+
+- **ChromaDB**: vector chunks with overlap for semantic search.
+- **raw_files/**: original file snapshots without overlap for exact reads.
+- **bm25_index_v2/**: persisted multi-channel BM25 indexes for lexical recall.
+- **symbol_index/**: Python AST symbol index for `nbrag_find_definition`.
+
+The search pipeline is:
+
+```text
+query
+  -> embedding vector search
+  -> multi-channel BM25 search
+  -> Weighted RRF fusion
+  -> optional reranker
+  -> original-file context fetch when using nbrag_search_and_fetch
+```
+
+BM25 v2 uses three channels:
+
+- `word`: Chinese search-mode tokenization plus English/numeric tokens.
+- `ngram`: Chinese 2/3-gram recall for short phrases.
+- `code`: camelCase, snake_case, constants, paths, and API-like symbols.
+
+Python AST scope injection applies only to `.py` files. Non-Python files remain general text and rely on semantic search, BM25, grep, and original-file reads.
+
+## Development
+
+```bash
+git clone https://github.com/ydf0509/nbrag.git
+cd nbrag
+pip install -e ".[dev]"
+
+python -m nbrag
+python -m nbrag --transport streamable-http --port 9101
+
+python -m pytest tests/ -q
+mypy nbrag/
+```
 
 ## License
 

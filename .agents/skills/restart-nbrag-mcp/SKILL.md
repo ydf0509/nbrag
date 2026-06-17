@@ -10,65 +10,39 @@ description: Restart the local nbrag MCP streamable-http service on port 9101 af
 Use this skill after editing nbrag MCP behavior and before verifying it through MCP tools. The goal is to make sure port `9101` is serving the latest local code from `D:/codes/nbrag`.
 
 1. Finish the code or documentation change that affects the MCP runtime.
-2. Run the bundled Python restart script from the repository root:
+2. Use the **restart_process** skill to restart `D:/codes/nbrag/scripts/start_http_rag_mcp.py`:
 
 ```powershell
-D:/ProgramData/miniconda3/envs/py312/python.exe .agents/skills/restart-nbrag-mcp/scripts/restart_nbrag_mcp.py
+D:/ProgramData/miniconda3/envs/py312/python.exe .agents/skills/restart_process/scripts/restart_process.py D:/codes/nbrag/scripts/start_http_rag_mcp.py --python D:/ProgramData/miniconda3/envs/py312/python.exe --cwd D:/codes/nbrag --wait-port 9101
 ```
+
+> ⚠️ `--cwd D:/codes/nbrag` is required — the script imports `my_load_config` and loads `nbrag_config.yaml` from the project root, not from `scripts/`.
 
 3. Confirm the script reports a new process id, port `9101`, and log paths.
 4. Verify the changed behavior with the relevant MCP call. For tool description changes, inspect the tool metadata or invoke the affected tool with a small, safe request.
 
-## Script Behavior
+## Why restart_process
 
-The Python script follows the command required by `AGENTS.md`:
+The `restart_process` skill is the general-purpose process restart tool. It uses `psutil` to match processes by absolute script path (resolving relative paths against each process's `cwd()`), recursively kills child processes, relaunches with a specified interpreter, and optionally waits for a TCP port to confirm readiness.
 
-```text
-D:/ProgramData/miniconda3/envs/py312/python.exe d:/codes/nbrag/scripts/start_http_rag_mcp.py
-```
-
-It performs these steps:
-
-- Validates the configured Python interpreter and `start_http_rag_mcp.py` exist.
-- Stops existing processes whose command line matches `start_http_rag_mcp.py`.
-- Checks port `9101`; if another process owns the port, it fails with diagnostics instead of stopping an unrelated process.
-- Starts the MCP server in the background.
-- Writes stdout/stderr logs under `tmp/nbrag-mcp-logs/`.
-- Polls `127.0.0.1:9101` until the service is listening.
+See `.agents/skills/restart_process/SKILL.md` for full options (`--dry-run`, `--kill-only`, `--args`, `--cwd`, `--log-dir`).
 
 ## Useful Options
 
-Use `--dry-run` before a risky restart to see what would be stopped and started:
+Dry-run (safe preview, see what would be killed/started):
 
 ```powershell
-D:/ProgramData/miniconda3/envs/py312/python.exe .agents/skills/restart-nbrag-mcp/scripts/restart_nbrag_mcp.py --dry-run
+D:/ProgramData/miniconda3/envs/py312/python.exe .agents/skills/restart_process/scripts/restart_process.py D:/codes/nbrag/scripts/start_http_rag_mcp.py --python D:/ProgramData/miniconda3/envs/py312/python.exe --cwd D:/codes/nbrag --wait-port 9101 --dry-run
 ```
 
-Use `--force-port-owner` only when you have confirmed that the current owner of port `9101` is disposable:
+Kill only (no restart):
 
 ```powershell
-D:/ProgramData/miniconda3/envs/py312/python.exe .agents/skills/restart-nbrag-mcp/scripts/restart_nbrag_mcp.py --force-port-owner
-```
-
-Override paths only when working from a copied checkout or alternate Python environment:
-
-```powershell
-D:/ProgramData/miniconda3/envs/py312/python.exe .agents/skills/restart-nbrag-mcp/scripts/restart_nbrag_mcp.py `
-  --python D:/ProgramData/miniconda3/envs/py312/python.exe `
-  --script D:/codes/nbrag/scripts/start_http_rag_mcp.py `
-  --port 9101
-```
-
-The old PowerShell script remains available as a fallback:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .agents/skills/restart-nbrag-mcp/scripts/restart_nbrag_mcp.ps1
+D:/ProgramData/miniconda3/envs/py312/python.exe .agents/skills/restart_process/scripts/restart_process.py D:/codes/nbrag/scripts/start_http_rag_mcp.py --python D:/ProgramData/miniconda3/envs/py312/python.exe --kill-only
 ```
 
 ## Failure Handling
 
-If the script says another process owns port `9101`, inspect the reported process id and command line before using `--force-port-owner`.
+If the script reports `port 9101 timeout`, the server exited before binding the port. Read the stderr log under `tmp/restart-logs/` printed by the script. Fix the underlying import, config, dependency, or port issue, then rerun the restart command.
 
-If the server exits before the port opens, read the stderr log path printed by the script. Fix the underlying import, config, dependency, or port issue, then rerun the restart script.
-
-If the service starts but MCP validation still shows old behavior, confirm the edited files are under `D:/codes/nbrag`, rerun the script, and verify the MCP client is connected to `http://127.0.0.1:9101`.
+If the service starts but MCP validation still shows old behavior, confirm the edited files are under `D:/codes/nbrag`, rerun the restart, and verify the MCP client is connected to `http://127.0.0.1:9101`.

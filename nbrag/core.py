@@ -14,6 +14,9 @@ import os
 import re
 import json
 import hashlib
+import threading
+import time as _runtime_clock
+from functools import wraps
 
 
 import httpx
@@ -64,6 +67,9 @@ _doc_id_cache_ts = {}
 _bm25_cache = {}  # collection_name -> {channel: (bm25s.BM25, chunk_ids_list)}
 
 _CHROMA_GET_BATCH = 500  # SQLite 默认 999 参数限制，预留余量
+_RUNTIME_CACHE_REFRESH_INTERVAL = 300.0
+_runtime_cache_lock = threading.RLock()
+_last_runtime_cache_refresh_ts = _runtime_clock.monotonic()
 
 
 def _batch_get(col, include, ids=None, where=None):
@@ -296,6 +302,42 @@ def invalidate_bm25_cache(collection_name=None):
 _symbol_cache = {}  # collection_name -> {simple_name: [entries]}
 
 
+def _refresh_runtime_caches_if_due_locked():
+    """Clear process-local runtime caches every few minutes.
+
+    Caller must hold _runtime_cache_lock. This is intentionally memory-only:
+    persisted BM25/symbol/raw/Chroma files remain untouched.
+    """
+    global _chroma_client, _last_runtime_cache_refresh_ts
+
+    now = _runtime_clock.monotonic()
+    if now - _last_runtime_cache_refresh_ts < _RUNTIME_CACHE_REFRESH_INTERVAL:
+        return False
+
+    _chroma_client = None
+    _doc_id_cache.clear()
+    _doc_id_cache_ts.clear()
+    _bm25_cache.clear()
+    _symbol_cache.clear()
+    _last_runtime_cache_refresh_ts = now
+    return True
+
+
+def _with_runtime_cache_refresh(func, *args, **kwargs):
+    """Run a public core operation under the runtime cache lock."""
+    with _runtime_cache_lock:
+        _refresh_runtime_caches_if_due_locked()
+        return func(*args, **kwargs)
+
+
+def _runtime_guarded(func):
+    """Decorator for public core operations that touch shared runtime state."""
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        return _with_runtime_cache_refresh(func, *args, **kwargs)
+    return wrapper
+
+
 def _symbol_index_dir(collection_name):
     return os.path.join(_cfg().storage.db_path, "symbol_index", collection_name)
 
@@ -498,6 +540,7 @@ def _is_absolute_path(path):
 
 # ─── 底层工具函数 ─────────────────────────────────────────
 
+@_runtime_guarded
 def get_collection(name="default"):
     """获取或创建一个 ChromaDB collection（写操作用）。"""
     return _get_chroma().get_or_create_collection(
@@ -513,6 +556,7 @@ def _get_existing_collection(name):
         return None
 
 
+@_runtime_guarded
 def delete_collection(name):
     """删除整个 collection（清空该知识库）。"""
     _get_chroma().delete_collection(name)
@@ -521,6 +565,7 @@ def delete_collection(name):
     invalidate_symbol_cache(name)
 
 
+@_runtime_guarded
 def list_collections():
     """列出所有 collection。"""
     return _get_chroma().list_collections()
@@ -769,6 +814,7 @@ def _prepare_file(file_path, chunk_size=DEFAULT_CHUNK_SIZE,
     return prepared
 
 
+@_runtime_guarded
 def check_file_cache(file_path, collection_name="default"):
     """检查文件是否已缓存且未修改。"""
     abs_path = _normalize_path(file_path)
@@ -1249,6 +1295,7 @@ def batch_ingest(paths, collection_name="default",
     return stats
 
 
+@_runtime_guarded
 def search(query, collection_name="default", top_k=5, use_rerank=True,
            use_bm25=True, filter_file_path=None):
     """混合检索：Vector + BM25 → RRF 融合 → Reranker 精排。
@@ -1337,6 +1384,7 @@ def search(query, collection_name="default", top_k=5, use_rerank=True,
     return documents, metadatas, distances, rerank_used, total, rerank_scores
 
 
+@_runtime_guarded
 def get_file_chunks(file_identifier, collection_name="default",
                     start_chunk=0, max_chunks=5,
                     raw=False, line_start=-1, line_end=-1):
@@ -1446,6 +1494,7 @@ def _get_raw_file_result(collection_name, doc_id, source, filename,
     }
 
 
+@_runtime_guarded
 def get_context_chunks(doc_id, collection_name="default",
                        chunk_index=None, window=2,
                        line_start=None, line_end=None):
@@ -1507,6 +1556,7 @@ def get_context_chunks(doc_id, collection_name="default",
     }
 
 
+@_runtime_guarded
 def grep_knowledge(keyword, collection_name="default", max_results=10,
                     case_sensitive=False, filter_file_path=None, context_lines=5):
     """在知识库的原始缓存文件中进行关键词/正则搜索。"""
@@ -1566,6 +1616,7 @@ def grep_knowledge(keyword, collection_name="default", max_results=10,
     return results
 
 
+@_runtime_guarded
 def find_symbol_definition(symbol, collection_name="default", max_results=3):
     """在知识库中查找符号（类/函数/方法）的完整定义。
 
@@ -1774,6 +1825,7 @@ def _find_definition_full_scan(symbol, collection_name, raw_dir, max_results):
     return results
 
 
+@_runtime_guarded
 def list_documents(collection_name="default", offset=0, limit=None):
     """列出知识库中已导入的文档。支持 offset/limit 分页。"""
     col = _get_existing_collection(collection_name)
@@ -1807,6 +1859,7 @@ def list_documents(collection_name="default", offset=0, limit=None):
     return dict(sorted_items)
 
 
+@_runtime_guarded
 def find_files(pattern, collection_name="default", max_results=20, case_sensitive=False):
     """按文件名或完整路径查找文档，返回可用于 file_path 入参的绝对路径。"""
     docs = list_documents(collection_name)
@@ -1861,6 +1914,7 @@ def find_files(pattern, collection_name="default", max_results=20, case_sensitiv
     return limited
 
 
+@_runtime_guarded
 def delete_document(doc_id, collection_name="default"):
     """删除指定文档的所有向量数据及缓存文件。返回 (deleted_count, filename)。"""
     col = _get_existing_collection(collection_name)
@@ -1883,6 +1937,7 @@ def delete_document(doc_id, collection_name="default"):
     return len(doc_data["ids"]), filename
 
 
+@_runtime_guarded
 def get_stats():
     """返回所有知识库的统计信息。"""
     cfg = _cfg()
