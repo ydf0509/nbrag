@@ -20,7 +20,7 @@ from nbrag.core import (
     build_bm25_index,
     _load_bm25_index,
     _bm25_search,
-    invalidate_bm25_cache,
+    invalidate_bm25_cache,  
     _bm25_cache,
 )
 from nbrag.tokenizer import BM25_CHANNELS

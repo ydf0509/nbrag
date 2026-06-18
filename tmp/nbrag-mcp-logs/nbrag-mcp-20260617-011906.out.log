@@ -58,3 +58,396 @@ INFO:     127.0.0.1:64774 - "POST /mcp HTTP/1.1" 200 OK
 [0;36m2026-06-17 01:21:16 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
 [0;36m2026-06-17 01:21:16 - mcp.server.streamable_http - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: f07a8421c8794fdda0ddae1771105e34[0m[0m
 INFO:     127.0.0.1:64775 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55421 - "POST /mcp HTTP/1.1" 404 Not Found
+[0;36m2026-06-17 01:23:15 - mcp.server.streamable_http_manager - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: 131889240bc1411c8a231ea6e15f84f5[0m[0m
+INFO:     127.0.0.1:55422 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55423 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:55424 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55425 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:23:15 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:55426 - "DELETE /mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:51924 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:23:32 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:23:32 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:23:35 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:23:35 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:710" - _handle_message - INFO - [0;30;46mWarning: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.[0m[0m
+INFO:     127.0.0.1:59406 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59406 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:59407 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;35m2026-06-17 01:24:51 - asyncio - "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+[0;36m2026-06-17 01:24:51 - mcp.server.streamable_http_manager - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: 2cd5f24c47754d09bb88c90042ec79d5[0m[0m
+INFO:     127.0.0.1:59408 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59409 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:59410 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59412 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:24:51 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:59413 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:24:51 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourceTemplatesRequest[0m[0m
+INFO:     127.0.0.1:59414 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:24:51 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourcesRequest[0m[0m
+[0;36m2026-06-17 01:24:52 - mcp.server.streamable_http - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: 2cd5f24c47754d09bb88c90042ec79d5[0m[0m
+INFO:     127.0.0.1:59416 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64246 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:25:46 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:53041 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:26:18 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:53072 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:26:31 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:61061 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:26:42 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:57945 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:27:02 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:27:03 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:27:04 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:57978 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:27:11 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:27:11 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:27:12 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:57979 - "GET /mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57980 - "GET /mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57997 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:27:20 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:27:20 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:27:21 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:49456 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:27:27 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:58903 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:27:47 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:58922 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:27:53 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:58995 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:28:00 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:59028 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:28:06 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:59064 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:28:25 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:28:26 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:28:27 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:59093 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:28:34 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:28:34 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:28:35 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:53355 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:28:43 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:28:43 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:28:43 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:63648 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:28:54 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:50904 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:31:12 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:50929 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:31:23 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:31:23 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:31:25 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:50959 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:31:35 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:31:36 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:31:36 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:65239 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:31:44 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:31:45 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:31:45 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:65310 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:32:07 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:32:08 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:32:08 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:50776 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:32:13 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:32:13 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:32:14 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:49471 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+[0;35m2026-06-17 01:32:21 - asyncio - "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+INFO:     127.0.0.1:49472 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49472 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;36m2026-06-17 01:32:21 - mcp.server.streamable_http_manager - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: d34579163c604cba8302a4025477d5e2[0m[0m
+INFO:     127.0.0.1:49474 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49475 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:49476 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49477 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:32:22 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:49478 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:32:22 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourceTemplatesRequest[0m[0m
+INFO:     127.0.0.1:49479 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:32:22 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourcesRequest[0m[0m
+[0;36m2026-06-17 01:32:22 - mcp.server.streamable_http - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: d34579163c604cba8302a4025477d5e2[0m[0m
+INFO:     127.0.0.1:49480 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49485 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:32:23 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:51828 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:32:34 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:57872 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:33:56 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:57941 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:34:13 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:34:13 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:34:14 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:64259 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:34:30 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:34:30 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:34:31 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:61858 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:34:50 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:34:50 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:34:51 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:54582 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:35:10 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:35:11 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:35:12 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:54613 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:35:18 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:54629 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:35:25 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:54904 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:38:08 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:38:09 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:38:10 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:49371 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49371 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49372 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;36m2026-06-17 01:40:02 - mcp.server.streamable_http_manager - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: bb43d04f50eb44cb8eea9d9d2d88705d[0m[0m
+INFO:     127.0.0.1:49373 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49374 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:49375 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49376 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:40:02 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:49378 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:40:02 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourceTemplatesRequest[0m[0m
+INFO:     127.0.0.1:49379 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:40:02 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourcesRequest[0m[0m
+[0;36m2026-06-17 01:40:02 - mcp.server.streamable_http - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: bb43d04f50eb44cb8eea9d9d2d88705d[0m[0m
+INFO:     127.0.0.1:49380 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62083 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62084 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:62084 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;36m2026-06-17 01:46:08 - mcp.server.streamable_http_manager - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: e34f12b7109244aea2d55934b32e9515[0m[0m
+INFO:     127.0.0.1:62086 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62087 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:62088 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62089 - "GET /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:46:08 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:62090 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:46:08 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourcesRequest[0m[0m
+INFO:     127.0.0.1:62091 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:46:08 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourceTemplatesRequest[0m[0m
+[0;36m2026-06-17 01:46:08 - mcp.server.streamable_http - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: e34f12b7109244aea2d55934b32e9515[0m[0m
+INFO:     127.0.0.1:62094 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49877 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+[0;35m2026-06-17 01:53:39 - asyncio - "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+INFO:     127.0.0.1:49880 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;35m2026-06-17 01:53:39 - asyncio - "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+INFO:     127.0.0.1:49882 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;35m2026-06-17 01:53:39 - asyncio - "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+[0;36m2026-06-17 01:53:39 - mcp.server.streamable_http_manager - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: feb4edba760440e89800899b7a1aad33[0m[0m
+INFO:     127.0.0.1:49883 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49884 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:49885 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49886 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:53:39 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:49889 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:53:39 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourcesRequest[0m[0m
+INFO:     127.0.0.1:49890 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:53:39 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourceTemplatesRequest[0m[0m
+[0;36m2026-06-17 01:53:39 - mcp.server.streamable_http - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: feb4edba760440e89800899b7a1aad33[0m[0m
+INFO:     127.0.0.1:49891 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49340 - "DELETE /mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49342 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49342 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:49343 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;35m2026-06-17 01:56:05 - asyncio - "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+[0;36m2026-06-17 01:56:06 - mcp.server.streamable_http_manager - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: 37833a7a72944809b2a7e3fb8361aeff[0m[0m
+INFO:     127.0.0.1:49346 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49347 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:49349 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:49348 - "GET /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:56:06 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:61146 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:58:10 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:58:11 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:58:12 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:58:21 - mcp.server.streamable_http_manager - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: 19ec7e8aa4fe436f911fd7e433d8f582[0m[0m
+INFO:     127.0.0.1:61173 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61173 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:61173 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61175 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:58:21 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:61175 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:58:21 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:61214 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:58:33 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:58:34 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:58:34 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:61254 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61255 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61256 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;36m2026-06-17 01:58:40 - mcp.server.streamable_http_manager - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: ebb1b6ad183e4e269aaa95ef03c4d769[0m[0m
+INFO:     127.0.0.1:61257 - "POST /mcp HTTP/1.1" 200 OK
+[0;35m2026-06-17 01:58:40 - asyncio - "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+INFO:     127.0.0.1:61258 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:61259 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61260 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:58:40 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:61261 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:58:40 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourcesRequest[0m[0m
+INFO:     127.0.0.1:61262 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:58:40 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourceTemplatesRequest[0m[0m
+[0;36m2026-06-17 01:58:40 - mcp.server.streamable_http - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: ebb1b6ad183e4e269aaa95ef03c4d769[0m[0m
+INFO:     127.0.0.1:61263 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61286 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:58:50 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:61286 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:58:50 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:54214 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:58:58 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:54214 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:58:58 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 01:58:59 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 01:59:00 - httpx - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:58413 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:59:05 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:58413 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 01:59:05 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:61192 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61192 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:61193 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;35m2026-06-17 02:04:20 - asyncio - "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+[0;36m2026-06-17 02:04:20 - mcp.server.streamable_http_manager - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: 6e76d107e1534030ac0e0392f5afcc35[0m[0m
+INFO:     127.0.0.1:61194 - "POST /mcp HTTP/1.1" 200 OK
+[0;35m2026-06-17 02:04:20 - asyncio - "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+INFO:     127.0.0.1:61195 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:61196 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:61197 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 02:04:20 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:61199 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 02:04:20 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourcesRequest[0m[0m
+INFO:     127.0.0.1:61200 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 02:04:20 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourceTemplatesRequest[0m[0m
+[0;36m2026-06-17 02:04:20 - mcp.server.streamable_http - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: 6e76d107e1534030ac0e0392f5afcc35[0m[0m
+INFO:     127.0.0.1:61201 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57718 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57718 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:57719 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;36m2026-06-17 02:11:03 - mcp.server.streamable_http_manager - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: 747dda849df04065b5e8ef94979a78e6[0m[0m
+INFO:     127.0.0.1:57720 - "POST /mcp HTTP/1.1" 200 OK
+[0;35m2026-06-17 02:11:03 - asyncio - "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+INFO:     127.0.0.1:57721 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:57722 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57723 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 02:11:03 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:57724 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 02:11:04 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourceTemplatesRequest[0m[0m
+INFO:     127.0.0.1:57725 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 02:11:04 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourcesRequest[0m[0m
+[0;36m2026-06-17 02:11:04 - mcp.server.streamable_http - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: 747dda849df04065b5e8ef94979a78e6[0m[0m
+INFO:     127.0.0.1:57726 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64908 - "DELETE /mcp HTTP/1.1" 404 Not Found
+[0;36m2026-06-17 03:26:09 - mcp.server.streamable_http - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: 37833a7a72944809b2a7e3fb8361aeff[0m[0m
+INFO:     127.0.0.1:61538 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55487 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:55488 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;35m2026-06-17 21:29:45 - asyncio - "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+INFO:     127.0.0.1:55489 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;36m2026-06-17 21:29:45 - mcp.server.streamable_http_manager - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: 6897db868b824515a2e1dfb0e8c25c8d[0m[0m
+INFO:     127.0.0.1:55490 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55491 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:55492 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55493 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 21:29:45 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:55494 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 21:29:45 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourcesRequest[0m[0m
+INFO:     127.0.0.1:55495 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 21:29:45 - mcp.server.lowlevel.server - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourceTemplatesRequest[0m[0m
+INFO:     127.0.0.1:58765 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58766 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58766 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;36m2026-06-17 21:29:47 - mcp.server.streamable_http - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: 6897db868b824515a2e1dfb0e8c25c8d[0m[0m
+INFO:     127.0.0.1:58767 - "DELETE /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 21:29:49 - mcp.server.streamable_http_manager - "D:\ProgramData\Miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: d126bca246b844bea0aa9c92dd229dd6[0m[0m
+INFO:     127.0.0.1:58773 - "POST /mcp HTTP/1.1" 200 OK
+[0;35m2026-06-17 21:29:49 - asyncio - "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\Miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+INFO:     127.0.0.1:55062 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:55063 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55064 - "POST /mcp HTTP/1.1" 200 OK
