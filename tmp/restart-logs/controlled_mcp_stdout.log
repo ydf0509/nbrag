@@ -1,0 +1,49 @@
+11:34:49  "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\set_nb_log_config.py:25"  - <module> - The project root directory is:
+ D:\codes\nbrag\scripts
+11:34:49  "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\set_nb_log_config.py:49"  - use_config_form_nb_log_config_module - nb_log has read the configuration variables in the 
+ "D:\codes\nbrag\nb_log_config.py:1" file as priority configuration
+
+[0;34m2026-06-17 11:34:49  "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\__init__.py:53" -<module>-[print]-  [0;37;44m[0m
+    
+    .__   __. .______           __        ______     _______ 
+    |  \ |  | |   _  \         |  |      /  __  \   /  _____|
+    |   \|  | |  |_)  |  ______|  |     |  |  |  | |  |  __  
+    |  . `  | |   _  <  |______|  |     |  |  |  | |  | |_ | 
+    |  |\   | |  |_)  |        |  `----.|  `--'  | |  |__| | 
+    |__| \__| |______/         |_______| \______/   \______|      
+    
+         [0m[0m [0m
+[0;34m2026-06-17 11:34:49  "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\__init__.py:82" -<module>-[print]-  [0;37;44m[0m
+        1)When using PyCharm, it is strongly recommended to re-customize the theme colors in PyCharm's console as follows, otherwise the color display may be harsh on the eyes. The colors specified in the code are just approximate red, yellow, blue, and green. The display effect varies across different IDE software, themes, and fonts, so users need to set them up themselves.
+        The setup method is: Open PyCharm -> File -> Settings -> Editor -> Color Scheme -> Console Colors, select monokai, click to expand ANSI colors,
+        and re-modify 7 custom colors: set Blue to 0454F3, Cyan to 06F0F6, Green to 13FC02, Magenta to ff1cd5, red to F80606, yellow to EAFA04, gray to FFFFFF, and white to FFFFFF.
+        Different versions of PyCharm, themes, or IDEs can be set according to the actual console display.
+
+        2)When using tools like xshell or finashell to connect to Linux, you can also customize the theme colors, or use the default colors of the shell connection tool.
+
+        Color effect as shown at https://ibb.co/qRssXTr
+
+        You can modify the default logging behavior when the get_logger method is called without parameters in nb_log_config.py at the root directory of the current project.
+
+        nb_log documentation https://nb-log-doc.readthedocs.io/zh_CN/latest/
+
+        Why set PyCharm terminal colors, explaining why  cannot determine the final color https://nb-log-doc.readthedocs.io/zh_CN/latest/articles/c1.html#c
+        [0m
+        [0m [0m
+[0;34m2026-06-17 11:34:49  "D:\codes\nbrag\scripts\start_http_rag_mcp.py:24" -<module>-[print]-  [0;37;44m[nbrag] HTTP MCP server on http://localhost:9101/mcp[0m [0m
+[0;36m2026-06-17 11:34:49 - mcp.server.streamable_http_manager - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:116" - run - INFO - [0;30;46mStreamableHTTP session manager started[0m[0m
+[0;36m2026-06-17 11:34:49 - mcp.server.streamable_http_manager - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: 63713321827f4542938352b0a5873906[0m[0m
+INFO:     127.0.0.1:53884 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53885 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:53886 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53887 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 11:34:49 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 11:34:49 - chromadb.telemetry.product.posthog - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\chromadb\telemetry\product\posthog.py:22" - __init__ - INFO - [0;30;46mAnonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.[0m[0m
+INFO:     127.0.0.1:58339 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 11:34:52 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:58340 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 11:34:52 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 11:34:52 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 11:34:53 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 11:34:53 - mcp.server.streamable_http - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: 63713321827f4542938352b0a5873906[0m[0m
+INFO:     127.0.0.1:58352 - "DELETE /mcp HTTP/1.1" 200 OK

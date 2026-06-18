@@ -1,0 +1,254 @@
+10:26:34  "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\set_nb_log_config.py:25"  - <module> - The project root directory is:
+ D:\codes\nbrag\scripts
+10:26:34  "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\set_nb_log_config.py:49"  - use_config_form_nb_log_config_module - nb_log has read the configuration variables in the 
+ "D:\codes\nbrag\nb_log_config.py:1" file as priority configuration
+
+[0;34m2026-06-17 10:26:34  "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\__init__.py:53" -<module>-[print]-  [0;37;44m[0m
+    
+    .__   __. .______           __        ______     _______ 
+    |  \ |  | |   _  \         |  |      /  __  \   /  _____|
+    |   \|  | |  |_)  |  ______|  |     |  |  |  | |  |  __  
+    |  . `  | |   _  <  |______|  |     |  |  |  | |  | |_ | 
+    |  |\   | |  |_)  |        |  `----.|  `--'  | |  |__| | 
+    |__| \__| |______/         |_______| \______/   \______|      
+    
+         [0m[0m [0m
+[0;34m2026-06-17 10:26:34  "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\nb_log\__init__.py:82" -<module>-[print]-  [0;37;44m[0m
+        1)When using PyCharm, it is strongly recommended to re-customize the theme colors in PyCharm's console as follows, otherwise the color display may be harsh on the eyes. The colors specified in the code are just approximate red, yellow, blue, and green. The display effect varies across different IDE software, themes, and fonts, so users need to set them up themselves.
+        The setup method is: Open PyCharm -> File -> Settings -> Editor -> Color Scheme -> Console Colors, select monokai, click to expand ANSI colors,
+        and re-modify 7 custom colors: set Blue to 0454F3, Cyan to 06F0F6, Green to 13FC02, Magenta to ff1cd5, red to F80606, yellow to EAFA04, gray to FFFFFF, and white to FFFFFF.
+        Different versions of PyCharm, themes, or IDEs can be set according to the actual console display.
+
+        2)When using tools like xshell or finashell to connect to Linux, you can also customize the theme colors, or use the default colors of the shell connection tool.
+
+        Color effect as shown at https://ibb.co/qRssXTr
+
+        You can modify the default logging behavior when the get_logger method is called without parameters in nb_log_config.py at the root directory of the current project.
+
+        nb_log documentation https://nb-log-doc.readthedocs.io/zh_CN/latest/
+
+        Why set PyCharm terminal colors, explaining why  cannot determine the final color https://nb-log-doc.readthedocs.io/zh_CN/latest/articles/c1.html#c
+        [0m
+        [0m [0m
+[0;34m2026-06-17 10:26:34  "D:\codes\nbrag\scripts\start_http_rag_mcp.py:24" -<module>-[print]-  [0;37;44m[nbrag] HTTP MCP server on http://localhost:9101/mcp[0m [0m
+[0;36m2026-06-17 10:26:34 - mcp.server.streamable_http_manager - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:116" - run - INFO - [0;30;46mStreamableHTTP session manager started[0m[0m
+INFO:     127.0.0.1:64419 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+[0;35m2026-06-17 10:33:40 - asyncio - "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+INFO:     127.0.0.1:64420 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:64420 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;36m2026-06-17 10:33:40 - mcp.server.streamable_http_manager - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: e98b61a853684d8ebf833a287cb6c2bb[0m[0m
+INFO:     127.0.0.1:64422 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64423 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:64424 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64425 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:33:40 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:64426 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:33:40 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourcesRequest[0m[0m
+INFO:     127.0.0.1:64427 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:33:40 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourceTemplatesRequest[0m[0m
+[0;36m2026-06-17 10:33:40 - mcp.server.streamable_http - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: e98b61a853684d8ebf833a287cb6c2bb[0m[0m
+INFO:     127.0.0.1:64429 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55034 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+[0;35m2026-06-17 10:38:41 - asyncio - "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+INFO:     127.0.0.1:55035 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;35m2026-06-17 10:38:41 - asyncio - "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+INFO:     127.0.0.1:55036 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;36m2026-06-17 10:38:41 - mcp.server.streamable_http_manager - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: 1cd122ad984541a0a1af452afc17b6a9[0m[0m
+INFO:     127.0.0.1:55037 - "POST /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55038 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:55039 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55040 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:38:41 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:55042 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:38:41 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourcesRequest[0m[0m
+INFO:     127.0.0.1:55043 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:38:41 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourceTemplatesRequest[0m[0m
+[0;36m2026-06-17 10:38:41 - mcp.server.streamable_http - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: 1cd122ad984541a0a1af452afc17b6a9[0m[0m
+INFO:     127.0.0.1:55044 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55103 - "POST /mcp HTTP/1.1" 404 Not Found
+[0;36m2026-06-17 10:38:52 - mcp.server.streamable_http_manager - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: a186c535a5224049a468b56c768145cc[0m[0m
+INFO:     127.0.0.1:55104 - "POST /mcp HTTP/1.1" 200 OK
+[0;35m2026-06-17 10:38:52 - asyncio - "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+INFO:     127.0.0.1:55105 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:55106 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55107 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:38:52 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 10:38:52 - chromadb.telemetry.product.posthog - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\chromadb\telemetry\product\posthog.py:22" - __init__ - INFO - [0;30;46mAnonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.[0m[0m
+INFO:     127.0.0.1:58948 - "DELETE /mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:56427 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:39:02 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 10:39:02 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:39:02 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :0[0m[0m
+[0;36m2026-06-17 10:39:03 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:39:03 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :1[0m[0m
+[0;36m2026-06-17 10:39:05 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 10:39:08 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 10:39:08 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:710" - _handle_message - INFO - [0;30;46mWarning: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.[0m[0m
+INFO:     127.0.0.1:56480 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:39:15 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 10:39:16 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:39:16 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :0[0m[0m
+[0;36m2026-06-17 10:39:17 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 10:39:18 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:56812 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:39:24 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 10:39:24 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:39:24 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :0[0m[0m
+[0;36m2026-06-17 10:39:25 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 10:39:26 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:62846 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:41:48 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:56559 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:42:17 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 10:42:17 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 10:42:18 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:62143 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:42:25 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 10:42:25 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:42:25 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :0[0m[0m
+[0;36m2026-06-17 10:42:26 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 10:42:27 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:54737 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:42:32 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 10:42:33 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:42:33 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :0[0m[0m
+[0;36m2026-06-17 10:42:34 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:42:34 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :1[0m[0m
+[0;36m2026-06-17 10:42:36 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:42:36 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :2[0m[0m
+[0;36m2026-06-17 10:42:40 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:42:40 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :3[0m[0m
+[0;36m2026-06-17 10:42:48 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:42:48 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :4[0m[0m
+[0;36m2026-06-17 10:43:04 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 10:43:05 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:57937 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:43:11 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 10:43:11 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 10:43:12 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:61173 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:43:38 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 10:43:38 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:43:38 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :0[0m[0m
+[0;36m2026-06-17 10:43:39 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 10:43:40 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:60357 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:43:48 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 10:43:48 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:43:48 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :0[0m[0m
+[0;36m2026-06-17 10:43:49 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:43:49 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :1[0m[0m
+[0;36m2026-06-17 10:43:52 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:60412 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:43:57 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 10:43:57 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+[0;36m2026-06-17 10:43:58 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/rerank "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:60531 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60531 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:60531 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;36m2026-06-17 10:44:30 - mcp.server.streamable_http_manager - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: f6cd10b6670244508090460cd01f3e34[0m[0m
+INFO:     127.0.0.1:60534 - "POST /mcp HTTP/1.1" 200 OK
+[0;35m2026-06-17 10:44:30 - asyncio - "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+INFO:     127.0.0.1:60535 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:60536 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60537 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:44:30 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:60538 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:44:30 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourcesRequest[0m[0m
+INFO:     127.0.0.1:60539 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:44:30 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourceTemplatesRequest[0m[0m
+[0;36m2026-06-17 10:44:30 - mcp.server.streamable_http - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: f6cd10b6670244508090460cd01f3e34[0m[0m
+INFO:     127.0.0.1:60541 - "DELETE /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58686 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:45:41 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:58713 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:45:47 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+INFO:     127.0.0.1:49154 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:51:40 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 10:51:40 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:51:40 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :0[0m[0m
+[0;36m2026-06-17 10:51:41 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:64002 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:51:51 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 10:51:51 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:51:51 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :0[0m[0m
+[0;36m2026-06-17 10:51:52 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 429 Too Many Requests"[0m[0m
+[0;35m2026-06-17 10:51:52 - nbrag - "D:\codes\nbrag\nbrag\core.py:579" - embed - ERROR - [0;37;45mEmbedding API error: Client error '429 Too Many Requests' for url 'https://api.siliconflow.cn/v1/embeddings'
+For more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429 , attempt :1[0m[0m
+[0;36m2026-06-17 10:51:54 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:50377 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:52:08 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type CallToolRequest[0m[0m
+[0;36m2026-06-17 10:52:09 - httpx - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\httpx\_client.py:1025" - _send_single_request - INFO - [0;30;46mHTTP Request: POST https://api.siliconflow.cn/v1/embeddings "HTTP/1.1 200 OK"[0m[0m
+INFO:     127.0.0.1:63516 - "GET /.well-known/oauth-authorization-server/mcp HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63516 - "GET /mcp/.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:63516 - "GET /.well-known/oauth-authorization-server HTTP/1.1" 404 Not Found
+[0;36m2026-06-17 10:52:48 - mcp.server.streamable_http_manager - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http_manager.py:240" - _handle_stateful_request - INFO - [0;30;46mCreated new transport with session ID: 8f6ef2a43c944a82b6be5a377eb25556[0m[0m
+INFO:     127.0.0.1:63519 - "POST /mcp HTTP/1.1" 200 OK
+[0;35m2026-06-17 10:52:48 - asyncio - "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\base_events.py:1833" - default_exception_handler - ERROR - [0;37;45mException in callback _ProactorBasePipeTransport._call_connection_lost(None)
+handle: <Handle _ProactorBasePipeTransport._call_connection_lost(None)>[0m
+Traceback (most recent call last):
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\events.py", line 88, in _run
+    self._context.run(self._callback, *self._args)
+  File "D:\ProgramData\miniconda3\envs\py312\Lib\asyncio\proactor_events.py", line 165, in _call_connection_lost
+    self._sock.shutdown(socket.SHUT_RDWR)
+ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。[0m
+INFO:     127.0.0.1:63520 - "POST /mcp HTTP/1.1" 202 Accepted
+INFO:     127.0.0.1:63521 - "GET /mcp HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63522 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:52:48 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListToolsRequest[0m[0m
+INFO:     127.0.0.1:63526 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:52:48 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourcesRequest[0m[0m
+INFO:     127.0.0.1:63527 - "POST /mcp HTTP/1.1" 200 OK
+[0;36m2026-06-17 10:52:48 - mcp.server.lowlevel.server - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\lowlevel\server.py:720" - _handle_request - INFO - [0;30;46mProcessing request of type ListResourceTemplatesRequest[0m[0m
+[0;36m2026-06-17 10:52:48 - mcp.server.streamable_http - "D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\mcp\server\streamable_http.py:779" - terminate - INFO - [0;30;46mTerminating session: 8f6ef2a43c944a82b6be5a377eb25556[0m[0m
+INFO:     127.0.0.1:63528 - "DELETE /mcp HTTP/1.1" 200 OK

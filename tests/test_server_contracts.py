@@ -73,6 +73,26 @@ def test_docs_present_help_as_optional_navigation_not_required_skill():
     assert "nbrag_help" in skill
 
 
+def test_python_source_workflow_is_visible_without_copying_the_skill():
+    root = Path(server.__file__).resolve().parents[1]
+    readme = (root / "README.md").read_text(encoding="utf-8")
+    skill = (root / "nbrag" / "skills" / "nbrag-workflow" / "SKILL.md").read_text(encoding="utf-8")
+    help_text = server.nbrag_help()
+    search_doc = inspect.getdoc(server.nbrag_search)
+    fetch_doc = inspect.getdoc(server.nbrag_search_and_fetch)
+
+    required = [
+        "Python source workflow",
+        "nbrag_grep",
+        "nbrag_find_definition",
+        "nbrag_get_raw_file",
+    ]
+
+    for text in (readme, skill, help_text, search_doc or "", fetch_doc or ""):
+        for needle in required:
+            assert needle in text
+
+
 def test_mcp_docstrings_lead_with_general_text_before_python_source():
     grep_doc = inspect.getdoc(server.nbrag_grep)
     find_doc = inspect.getdoc(server.nbrag_find_definition)
