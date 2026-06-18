@@ -17,7 +17,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 import my_load_config
-from nbrag.core import batch_ingest
+from nbrag import batch_ingest, set_collection_profile
 
 batch_ingest(
     paths=["D:/codes/nbrag/scripts/ingest_ex2_marriage_law"],
@@ -27,4 +27,12 @@ batch_ingest(
     delete_first=True,
     verbose=True,
     sleep_interval=1,
+)
+
+set_collection_profile(
+    "marriage_law",
+    display_name="婚姻家庭法知识库",
+    description="包含婚姻家庭相关法律和司法解释文本，适合查询离婚、夫妻共同财产、子女抚养、婚姻家庭编解释等问题。",
+    aliases=["婚姻法", "婚姻家庭法", "民法典婚姻家庭编", "夫妻共同财产", "离婚", "抚养"],
+    tags=["法律", "婚姻家庭", "司法解释"],
 )

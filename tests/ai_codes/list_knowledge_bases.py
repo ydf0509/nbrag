@@ -3,7 +3,7 @@
 用法:
     D:/ProgramData/miniconda3/envs/py312/python.exe tests/ai_codes/list_knowledge_bases.py
 """
-from nbrag.core import list_collections
+from nbrag import list_collections
 
 
 def main():

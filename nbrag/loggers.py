@@ -1,4 +1,4 @@
 ﻿
-import nb_log
+import logging
 
-logger = nb_log.get_logger("nbrag")
+logger = logging.getLogger("nbrag")

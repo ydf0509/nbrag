@@ -13,7 +13,7 @@ import shutil
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
-from nbrag.core import (
+from nbrag.bm25_index import (
     _preprocess_for_bm25,
     _rrf_fusion,
     _weighted_rrf_fusion,

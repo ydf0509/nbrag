@@ -1,7 +1,7 @@
 
 
 import my_load_config
-from nbrag.core import batch_ingest
+from nbrag import batch_ingest
 
 
 batch_ingest(

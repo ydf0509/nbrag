@@ -13,7 +13,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 import my_load_config  # noqa: F401
 
-from nbrag.core import batch_ingest
+from nbrag import batch_ingest
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 CHAPTERS_DIR = SCRIPT_DIR / "doomsday_chapters"

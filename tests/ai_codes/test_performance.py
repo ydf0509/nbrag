@@ -7,10 +7,14 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 from my_load_config import *
 
-from nbrag.core import (
-    grep_knowledge, find_symbol_definition, search, get_stats,
+from nbrag import grep_knowledge, find_symbol_definition, search, get_stats
+from nbrag.symbol_index import (
     build_symbol_index, _load_symbol_index, invalidate_symbol_cache,
+)
+from nbrag.retrieval import (
     _find_definition_full_scan, _find_definition_via_index,
+)
+from nbrag.storage import (
     _raw_files_dir,
 )
 

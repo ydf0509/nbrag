@@ -14,7 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 import my_load_config  # noqa: F401
 
-from nbrag.core import batch_ingest
+from nbrag import batch_ingest, set_collection_profile
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 CHAPTERS_DIR = SCRIPT_DIR / "shen_diao_chapters"
@@ -37,6 +37,13 @@ def main():
         delete_first=True,
         verbose=True,
         sleep_interval=0.1,
+    )
+    set_collection_profile(
+        COLLECTION_NAME,
+        display_name="神雕同人小说知识库",
+        description="包含《穿越神雕，从爱上黄蓉开始》章节正文，适合查询黄蓉、郭靖、杨过、小龙女等人物和剧情。",
+        aliases=["神雕", "黄蓉", "郭靖", "杨过", "小龙女", "神雕同人"],
+        tags=["小说", "同人", "剧情"],
     )
     print(f"[done] collection '{COLLECTION_NAME}' ready")
 

@@ -14,7 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 import my_load_config  # noqa: F401
 
-from nbrag.core import batch_ingest
+from nbrag import batch_ingest, set_collection_profile
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 CHAPTERS_DIR = SCRIPT_DIR / "sanguo_chapters"
@@ -37,6 +37,13 @@ def main():
         delete_first=True,
         verbose=True,
         sleep_interval=0.1,
+    )
+    set_collection_profile(
+        COLLECTION_NAME,
+        display_name="三国演义知识库",
+        description="包含《三国演义》章节正文，适合查询刘备、关羽、张飞、曹操、诸葛亮、孙权等人物与经典情节。",
+        aliases=["三国", "三国演义", "罗贯中", "刘备", "关羽", "张飞", "曹操", "诸葛亮", "孙权"],
+        tags=["古典小说", "文学", "人物关系"],
     )
     print(f"[done] collection '{COLLECTION_NAME}' ready")
 

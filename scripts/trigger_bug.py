@@ -4,7 +4,8 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import my_load_config
 from nbrag.config import load_config
-from nbrag.core import find_symbol_definition, _get_doc_id_map, list_documents, get_stats
+from nbrag import find_symbol_definition, list_documents, get_stats
+from nbrag.storage import _get_doc_id_map
 
 load_config()
 

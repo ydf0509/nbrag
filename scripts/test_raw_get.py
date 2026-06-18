@@ -4,7 +4,7 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import my_load_config
 from nbrag.config import load_config
-from nbrag.core import _get_existing_collection
+from nbrag.storage import _get_existing_collection
 
 load_config()
 

@@ -7,7 +7,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 from my_load_config import *
 
-from nbrag.core import batch_ingest, search, list_documents, find_symbol_definition, get_stats
+from nbrag import batch_ingest, search, list_documents, find_symbol_definition, get_stats
 
 
 def main():

@@ -32,6 +32,7 @@ rag_db/
 
 # Test data
 tests/test_data/
+tmp/
 
 # Auto-generated docs (by nb_ai_context)
 *_all_docs_and_codes.md

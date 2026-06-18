@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, 'd:/codes/nbrag')
 import my_load_config  # noqa
-from nbrag.core import search
+from nbrag import search
 
 documents, metadatas, distances, rerank_used, total, rerank_scores = search(
     '太阳熄灭后地球发生了什么变化',

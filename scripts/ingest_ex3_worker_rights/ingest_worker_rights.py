@@ -14,7 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 import my_load_config
-from nbrag.core import batch_ingest
+from nbrag import batch_ingest, set_collection_profile
 
 batch_ingest(
     paths=["D:/codes/nbrag/scripts/ingest_ex3_worker_rights"],
@@ -24,4 +24,12 @@ batch_ingest(
     delete_first=True,
     verbose=True,
     sleep_interval=1,
+)
+
+set_collection_profile(
+    "worker_rights",
+    display_name="劳动者权益知识库",
+    description="包含劳动者权益、劳动合同、试用期、工资、社保、工伤、加班等劳动法律和政策资料，适合查询劳动争议和员工权益问题。",
+    aliases=["劳动法", "劳动合同法", "劳动者权益", "试用期", "工资", "社保", "工伤", "加班"],
+    tags=["法律", "劳动", "权益"],
 )

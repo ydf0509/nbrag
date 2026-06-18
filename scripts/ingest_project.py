@@ -9,7 +9,7 @@
     python scripts/ingest_project.py
 """
 
-from nbrag.core import batch_ingest
+from nbrag import batch_ingest, set_collection_profile
 
 batch_ingest(
     paths=[
@@ -20,4 +20,12 @@ batch_ingest(
     collection_name="your_project",
     delete_first=True,
     verbose=True,
+)
+
+set_collection_profile(
+    "your_project",
+    display_name="你的项目知识库",
+    description="替换为这个 collection 覆盖的项目、文档、业务范围，以及 AI 什么时候应该选择它。",
+    aliases=["替换为项目名", "替换为业务名", "替换为常见简称"],
+    tags=["项目", "文档"],
 )

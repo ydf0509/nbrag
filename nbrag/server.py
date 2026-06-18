@@ -26,7 +26,7 @@ from pydantic import Field
 from mcp.server.fastmcp import FastMCP
 from nbrag.config import get_config
 from nbrag.chunker import DEFAULT_CHUNK_SIZE, DEFAULT_CHUNK_OVERLAP
-from nbrag.core import (
+from nbrag import (
     ingest_path, search, list_documents, delete_document, get_stats,
     get_file_chunks, get_context_chunks, grep_knowledge, find_symbol_definition,
     find_files,
@@ -738,8 +738,9 @@ def nbrag_delete(
 @mcp.tool()
 def nbrag_stats() -> str:
     """Get all available knowledge bases (知识库) and their stats. CALL THIS FIRST if you don't know the collection_name.
-    Returns: all collection names, doc count, chunk count, embedding/rerank model, storage path.
+    Returns: all collection names, doc count, chunk count, embedding/rerank model, storage path, and optional collection profiles.
     Glossary: collection_name = knowledge base name = 知识库名字 (e.g. "project_docs", "law_docs").
+    When a profile exists, it shows display_name / description / aliases to help AI choose the right collection.
     If you are unsure how to chain tools, call nbrag_help for a compact workflow guide.
     After getting collection names, use nbrag_search_and_fetch for most knowledge/usage questions.
     Use nbrag_search only when you need metadata-only results or fine-grained retrieval controls."""
@@ -761,10 +762,22 @@ def nbrag_stats() -> str:
     for name, info in stats["collections"].items():
         if "error" in info:
             lines.append(f"  [{name}] error: {info['error']}")
-        elif info["chunk_count"] > 0:
-            lines.append(f"  [{name}] {info['doc_count']} docs, {info['chunk_count']} chunks")
         else:
-            lines.append(f"  [{name}] empty")
+            display_name = info.get("display_name", "")
+            header = f"  [{name}] {display_name}" if display_name else f"  [{name}]"
+            header += f" {info['doc_count']} docs, {info['chunk_count']} chunks"
+            lines.append(header)
+            description = info.get("description", "")
+            aliases = info.get("aliases", [])
+            tags = info.get("tags", [])
+            if description:
+                lines.append(f"    description: {description}")
+            if aliases:
+                lines.append(f"    aliases: {', '.join(aliases)}")
+            if tags:
+                lines.append(f"    tags: {', '.join(tags)}")
+            if info["chunk_count"] == 0:
+                lines.append("    empty")
 
     return "\n".join(lines)
 

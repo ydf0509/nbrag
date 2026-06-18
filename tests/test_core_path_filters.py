@@ -3,7 +3,8 @@
 import shutil
 from pathlib import Path
 
-from nbrag import core
+from nbrag import retrieval
+from nbrag.storage import _normalize_path
 
 
 def _empty_result():
@@ -34,7 +35,7 @@ def _chunk_result(source, filename="config.py", doc_id="doc1", ranges=None):
 def _doc(filename, source, chunk_count=1, total_chunks=None):
     return {
         "filename": filename,
-        "source": core._normalize_path(source),
+        "source": _normalize_path(source),
         "chunk_count": chunk_count,
         "total_chunks": total_chunks or chunk_count,
     }
@@ -84,11 +85,11 @@ class FakeSearchCollection:
 
 
 def test_get_context_chunks_line_range_is_inclusive(monkeypatch):
-    source = core._normalize_path("D:/repo/pkg/config.py")
+    source = _normalize_path("D:/repo/pkg/config.py")
     collection = FakeGetCollection({("doc_id", "doc1"): _chunk_result(source)})
-    monkeypatch.setattr(core, "_get_existing_collection", lambda name: collection)
+    monkeypatch.setattr(retrieval, "_get_existing_collection", lambda name: collection)
 
-    result = core.get_context_chunks(
+    result = retrieval.get_context_chunks(
         "doc1",
         collection_name="test",
         line_start=20,
@@ -100,21 +101,21 @@ def test_get_context_chunks_line_range_is_inclusive(monkeypatch):
 
 
 def test_file_lookup_rejects_short_filename_even_if_basename_matches():
-    source = core._normalize_path("D:/repo/pkg/config.py")
+    source = _normalize_path("D:/repo/pkg/config.py")
     collection = FakeGetCollection({("filename", "config.py"): _chunk_result(source)})
 
-    result = core._query_file_by_identifier(collection, "config.py")
+    result = retrieval._query_file_by_identifier(collection, "config.py")
 
     assert result == _empty_result()
     assert all(query["where"] != {"filename": "config.py"} for query in collection.queries)
 
 
 def test_get_file_chunks_rejects_relative_path(monkeypatch):
-    source = core._normalize_path("D:/repo/pkg/config.py")
+    source = _normalize_path("D:/repo/pkg/config.py")
     collection = FakeGetCollection({("source", source): _chunk_result(source)})
-    monkeypatch.setattr(core, "_get_existing_collection", lambda name: collection)
+    monkeypatch.setattr(retrieval, "_get_existing_collection", lambda name: collection)
 
-    result = core.get_file_chunks("pkg/config.py", collection_name="test")
+    result = retrieval.get_file_chunks("pkg/config.py", collection_name="test")
 
     assert result["found"] is False
     assert "Full absolute file_path is required" in result["error"]
@@ -122,11 +123,11 @@ def test_get_file_chunks_rejects_relative_path(monkeypatch):
 
 
 def test_file_lookup_does_not_fallback_from_full_path_to_basename():
-    source = core._normalize_path("D:/repo/pkg/config.py")
-    missing_source = core._normalize_path("D:/repo/other/config.py")
+    source = _normalize_path("D:/repo/pkg/config.py")
+    missing_source = _normalize_path("D:/repo/other/config.py")
     collection = FakeGetCollection({("filename", "config.py"): _chunk_result(source)})
 
-    result = core._query_file_by_identifier(collection, missing_source)
+    result = retrieval._query_file_by_identifier(collection, missing_source)
 
     assert result == _empty_result()
     assert collection.queries == [{
@@ -137,12 +138,12 @@ def test_file_lookup_does_not_fallback_from_full_path_to_basename():
 
 
 def test_search_filter_file_path_uses_source_metadata(monkeypatch):
-    source = core._normalize_path("D:/repo/pkg/config.py")
+    source = _normalize_path("D:/repo/pkg/config.py")
     collection = FakeSearchCollection(source)
-    monkeypatch.setattr(core, "_get_existing_collection", lambda name: collection)
-    monkeypatch.setattr(core, "embed", lambda texts: [[0.1, 0.2]])
+    monkeypatch.setattr(retrieval, "_get_existing_collection", lambda name: collection)
+    monkeypatch.setattr(retrieval, "embed", lambda texts: [[0.1, 0.2]])
 
-    documents, metadatas, distances, rerank_used, total, rerank_scores = core.search(
+    documents, metadatas, distances, rerank_used, total, rerank_scores = retrieval.search(
         "config settings",
         collection_name="test",
         use_bm25=True,
@@ -160,12 +161,12 @@ def test_search_filter_file_path_uses_source_metadata(monkeypatch):
 
 
 def test_search_filter_file_path_rejects_relative_path(monkeypatch):
-    source = core._normalize_path("D:/repo/pkg/config.py")
+    source = _normalize_path("D:/repo/pkg/config.py")
     collection = FakeSearchCollection(source)
-    monkeypatch.setattr(core, "_get_existing_collection", lambda name: collection)
-    monkeypatch.setattr(core, "embed", lambda texts: [[0.1, 0.2]])
+    monkeypatch.setattr(retrieval, "_get_existing_collection", lambda name: collection)
+    monkeypatch.setattr(retrieval, "embed", lambda texts: [[0.1, 0.2]])
 
-    documents, metadatas, distances, rerank_used, total, rerank_scores = core.search(
+    documents, metadatas, distances, rerank_used, total, rerank_scores = retrieval.search(
         "config settings",
         collection_name="test",
         filter_file_path="pkg/config.py",
@@ -189,15 +190,15 @@ def test_grep_filter_file_path_matches_source_metadata(monkeypatch):
         (collection_dir / "doc1.py").write_text("needle\n", encoding="utf-8")
         (collection_dir / "doc2.py").write_text("needle\n", encoding="utf-8")
 
-        source1 = core._normalize_path("D:/repo/pkg/a.py")
-        source2 = core._normalize_path("D:/repo/pkg/b.py")
-        monkeypatch.setattr(core, "_raw_files_dir", lambda: str(raw_root))
-        monkeypatch.setattr(core, "_get_doc_id_map", lambda collection_name: {
+        source1 = _normalize_path("D:/repo/pkg/a.py")
+        source2 = _normalize_path("D:/repo/pkg/b.py")
+        monkeypatch.setattr(retrieval, "_raw_files_dir", lambda: str(raw_root))
+        monkeypatch.setattr(retrieval, "_get_doc_id_map", lambda collection_name: {
             "doc1": {"filename": "a.py", "source": source1},
             "doc2": {"filename": "b.py", "source": source2},
         })
 
-        results = core.grep_knowledge(
+        results = retrieval.grep_knowledge(
             "needle",
             collection_name="test",
             filter_file_path="D:/repo/pkg/b.py",
@@ -217,12 +218,12 @@ def test_grep_filter_file_path_rejects_relative_path(monkeypatch):
         collection_dir.mkdir(parents=True)
         (collection_dir / "doc1.py").write_text("needle\n", encoding="utf-8")
 
-        monkeypatch.setattr(core, "_raw_files_dir", lambda: str(raw_root))
-        monkeypatch.setattr(core, "_get_doc_id_map", lambda collection_name: {
-            "doc1": {"filename": "a.py", "source": core._normalize_path("D:/repo/pkg/a.py")},
+        monkeypatch.setattr(retrieval, "_raw_files_dir", lambda: str(raw_root))
+        monkeypatch.setattr(retrieval, "_get_doc_id_map", lambda collection_name: {
+            "doc1": {"filename": "a.py", "source": _normalize_path("D:/repo/pkg/a.py")},
         })
 
-        results = core.grep_knowledge(
+        results = retrieval.grep_knowledge(
             "needle",
             collection_name="test",
             filter_file_path="pkg/a.py",
@@ -234,13 +235,13 @@ def test_grep_filter_file_path_rejects_relative_path(monkeypatch):
 
 
 def test_find_files_matches_short_filename_and_returns_full_paths(monkeypatch):
-    monkeypatch.setattr(core, "list_documents", lambda collection_name: {
+    monkeypatch.setattr(retrieval, "list_documents", lambda collection_name: {
         "doc1": _doc("history.py", "D:/repo/langchain_core/runnables/history.py", 20),
         "doc2": _doc("chat_history.py", "D:/repo/langchain_core/chat_history.py", 3),
         "doc3": _doc("other.py", "D:/repo/other.py", 1),
     })
 
-    results = core.find_files("history.py", collection_name="test", max_results=10)
+    results = retrieval.find_files("history.py", collection_name="test", max_results=10)
 
     assert [r["doc_id"] for r in results] == ["doc1", "doc2"]
     assert results[0]["match"] == "filename"
@@ -249,13 +250,13 @@ def test_find_files_matches_short_filename_and_returns_full_paths(monkeypatch):
 
 
 def test_find_files_supports_regex_and_case_sensitive(monkeypatch):
-    monkeypatch.setattr(core, "list_documents", lambda collection_name: {
+    monkeypatch.setattr(retrieval, "list_documents", lambda collection_name: {
         "doc1": _doc("History.py", "D:/repo/History.py"),
         "doc2": _doc("history.py", "D:/repo/history.py"),
     })
 
-    insensitive = core.find_files(r"^history\.py$", collection_name="test", case_sensitive=False)
-    sensitive = core.find_files(r"^history\.py$", collection_name="test", case_sensitive=True)
+    insensitive = retrieval.find_files(r"^history\.py$", collection_name="test", case_sensitive=False)
+    sensitive = retrieval.find_files(r"^history\.py$", collection_name="test", case_sensitive=True)
 
     assert [r["doc_id"] for r in insensitive] == ["doc1", "doc2"]
     assert [r["doc_id"] for r in sensitive] == ["doc2"]

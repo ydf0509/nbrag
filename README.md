@@ -95,7 +95,7 @@ Ingestion is intentionally a manual Python operation, not an MCP tool. This keep
 Create an ingest script:
 
 ```python
-from nbrag.core import batch_ingest
+from nbrag import batch_ingest, set_collection_profile
 
 batch_ingest(
     paths=[
@@ -107,12 +107,20 @@ batch_ingest(
     delete_first=True,
     verbose=True,
 )
+
+set_collection_profile(
+    "company_knowledge",
+    display_name="Company Knowledge Base",
+    description="Internal labor-law notes and product manuals. Use this for company policy, labor contract, and product operation questions.",
+    aliases=["company docs", "labor contract", "product manuals"],
+    tags=["internal", "policy", "manual"],
+)
 ```
 
 Windows paths are also fine:
 
 ```python
-from nbrag.core import batch_ingest
+from nbrag import batch_ingest, set_collection_profile
 
 batch_ingest(
     paths=[
@@ -124,12 +132,20 @@ batch_ingest(
     delete_first=True,
     verbose=True,
 )
+
+set_collection_profile(
+    "company_knowledge",
+    display_name="公司知识库",
+    description="包含劳动合同资料和产品手册，适合查询公司制度、劳动合同和产品操作问题。",
+    aliases=["公司资料", "劳动合同", "产品手册"],
+    tags=["内部资料", "制度", "手册"],
+)
 ```
 
 For Python docs/source code:
 
 ```python
-from nbrag.core import batch_ingest
+from nbrag import batch_ingest, set_collection_profile
 
 batch_ingest(
     paths=[
@@ -141,6 +157,14 @@ batch_ingest(
     delete_first=True,
     verbose=True,
 )
+
+set_collection_profile(
+    "my_framework",
+    display_name="My Framework Source And Docs",
+    description="Python source and documentation for my_framework. Use this for API usage, implementation details, classes, functions, and examples.",
+    aliases=["my_framework", "framework docs", "framework source"],
+    tags=["Python", "source", "docs"],
+)
 ```
 
 Example ingest scripts are available under `scripts/`:
@@ -150,7 +174,19 @@ Example ingest scripts are available under `scripts/`:
 - `scripts/ingest_ex2_marriage_law/` — marriage/family law example
 - `scripts/ingest_ex3_worker_rights/` — worker rights and labor law example
 
-### 4. Start MCP Server
+### 4. Describe Collections For AI Routing
+
+ChromaDB collection names must be ASCII-like slugs such as `sanguo_yanyi`, so `nbrag` keeps human-readable collection profiles in:
+
+```text
+rag_db/collection_profiles.json
+```
+
+Use `set_collection_profile()` in your ingest script to describe what the knowledge base contains. `nbrag_stats()` merges this manifest into its output, so agents can choose the right `collection_name` from display names, descriptions, aliases, and tags.
+
+This manifest is separate from Chroma collection metadata. Chroma metadata remains reserved for vector-store configuration such as `hnsw:space`; `collection_profiles.json` stores business meaning and AI routing hints.
+
+### 5. Start MCP Server
 
 #### stdio mode
 
@@ -211,7 +247,7 @@ Client config:
 }
 ```
 
-### 5. Ask The Agent To Discover Collections
+### 6. Ask The Agent To Discover Collections
 
 After ingestion, ask the MCP client:
 

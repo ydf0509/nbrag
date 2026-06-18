@@ -93,7 +93,7 @@ $env:NBRAG_API_KEY = "sk-xxx"
 创建一个导入脚本：
 
 ```python
-from nbrag.core import batch_ingest
+from nbrag import batch_ingest, set_collection_profile
 
 batch_ingest(
     paths=[
@@ -105,12 +105,20 @@ batch_ingest(
     delete_first=True,
     verbose=True,
 )
+
+set_collection_profile(
+    "company_knowledge",
+    display_name="公司知识库",
+    description="包含劳动合同资料和产品手册，适合查询公司制度、劳动合同和产品操作问题。",
+    aliases=["公司资料", "劳动合同", "产品手册"],
+    tags=["内部资料", "制度", "手册"],
+)
 ```
 
 Windows 路径也可以：
 
 ```python
-from nbrag.core import batch_ingest
+from nbrag import batch_ingest, set_collection_profile
 
 batch_ingest(
     paths=[
@@ -122,12 +130,20 @@ batch_ingest(
     delete_first=True,
     verbose=True,
 )
+
+set_collection_profile(
+    "company_knowledge",
+    display_name="公司知识库",
+    description="包含劳动合同资料和产品手册，适合查询公司制度、劳动合同和产品操作问题。",
+    aliases=["公司资料", "劳动合同", "产品手册"],
+    tags=["内部资料", "制度", "手册"],
+)
 ```
 
 导入 Python 文档/源码：
 
 ```python
-from nbrag.core import batch_ingest
+from nbrag import batch_ingest, set_collection_profile
 
 batch_ingest(
     paths=[
@@ -139,6 +155,14 @@ batch_ingest(
     delete_first=True,
     verbose=True,
 )
+
+set_collection_profile(
+    "my_framework",
+    display_name="my_framework 源码与文档知识库",
+    description="包含 my_framework 的 Python 源码和文档，适合查询 API 用法、实现细节、类、函数和示例。",
+    aliases=["my_framework", "框架文档", "框架源码"],
+    tags=["Python", "源码", "文档"],
+)
 ```
 
 `scripts/` 下有示例：
@@ -148,7 +172,19 @@ batch_ingest(
 - `scripts/ingest_ex2_marriage_law/` — 婚姻家庭法示例
 - `scripts/ingest_ex3_worker_rights/` — 劳动者权益和劳动法示例
 
-### 4. 启动 MCP Server
+### 4. 描述知识库，帮助 AI 选对 collection
+
+ChromaDB 的 collection name 必须是类似 `sanguo_yanyi` 的 ASCII slug，不能直接写中文。所以 `nbrag` 把给人和 AI 看的知识库说明保存在：
+
+```text
+rag_db/collection_profiles.json
+```
+
+建议在导入脚本里调用 `set_collection_profile()`，写清楚这个知识库的中文名、描述、别名和标签。`nbrag_stats()` 会把这些信息合并到输出里，AI 就能从“关羽、张飞、三国演义”等别名判断应该使用 `sanguo_yanyi`，而不是只靠英文 slug 猜。
+
+这个 manifest 和 Chroma collection metadata 是分开的：Chroma metadata 只保留向量库底层配置，例如 `hnsw:space`；`collection_profiles.json` 才保存业务语义和 AI 路由信息。
+
+### 5. 启动 MCP Server
 
 #### stdio 模式
 
@@ -209,7 +245,7 @@ nbrag --transport streamable-http --port 9101
 }
 ```
 
-### 5. 让 AI 发现知识库
+### 6. 让 AI 发现知识库
 
 导入后，让 MCP 客户端先调用：
 

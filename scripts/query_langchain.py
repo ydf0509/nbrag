@@ -4,7 +4,7 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 import my_load_config
 from nbrag.config import load_config
-from nbrag.core import search, find_symbol_definition, get_raw_file
+from nbrag import search, find_symbol_definition, get_raw_file
 
 load_config()
 

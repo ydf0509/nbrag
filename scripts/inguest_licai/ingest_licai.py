@@ -20,7 +20,7 @@ sys.path.insert(0, str(PROJECT_ROOT))
 
 import my_load_config  # noqa: F401  加载 NBRAG_API_KEY
 import pdfplumber
-from nbrag.core import batch_ingest
+from nbrag import batch_ingest, set_collection_profile
 
 
 PDF_DIR = Path(__file__).resolve().parent
@@ -80,6 +80,13 @@ def main():
         delete_first=True,
         verbose=True,
         sleep_interval=0.1,
+    )
+    set_collection_profile(
+        COLLECTION_NAME,
+        display_name="金融报告知识库",
+        description="包含金融、理财或投资报告类文本，适合查询报告观点、投资主题、资产配置、市场分析等内容。",
+        aliases=["金融报告", "理财", "财报", "投资", "资产配置"],
+        tags=["金融", "投资", "报告"],
     )
     print("\n[OK] 完成")
 
