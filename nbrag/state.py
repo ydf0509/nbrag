@@ -15,6 +15,10 @@ _doc_id_cache = {}
 _doc_id_cache_ts = {}
 _stats_cache = None
 _stats_cache_ts = 0.0
+_document_list_cache = {}
+_document_list_cache_ts = {}
+_raw_text_cache = None
+_raw_text_cache_ts = 0.0
 
 _bm25_cache = {}
 _symbol_cache = {}

@@ -167,7 +167,7 @@ Skill 中新增硬规则：
 
 ## 验收项
 
-1. MCP `list_tools` 暴露 11 个检索/读取类工具 + `nbrag_help` 导航工具。
+1. MCP `list_tools` 暴露 10+ 个检索/读取类工具 + `nbrag_help` 导航工具。
 2. `nbrag_search` / `nbrag_search_and_fetch` / `nbrag_grep` 暴露 `filter_file_path`。
 3. `nbrag_find_files` 能根据文件名/路径片段返回完整绝对 `file_path`。
 4. `nbrag_search` 支持 `include_content` 和 `preview_chars`，默认仍返回较充分 preview。

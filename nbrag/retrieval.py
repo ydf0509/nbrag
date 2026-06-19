@@ -42,10 +42,65 @@ from nbrag.symbol_index import (
 )
 
 _STATS_CACHE_TTL_SECONDS = 300.0
+_DOCUMENT_LIST_CACHE_TTL_SECONDS = 300.0
+_RAW_TEXT_CACHE_TTL_SECONDS = 300.0
 
 
 def _cfg():
     return get_config()
+
+
+def _load_all_raw_texts_cached():
+    """加载并缓存所有知识库的 raw_files 原文快照，TTL 300 秒。"""
+    now = _time.time()
+    if state._raw_text_cache is not None and now - state._raw_text_cache_ts < _RAW_TEXT_CACHE_TTL_SECONDS:
+        return state._raw_text_cache
+
+    root = _raw_files_dir()
+    collections = {}
+    if os.path.isdir(root):
+        for collection_name in os.listdir(root):
+            collection_dir = os.path.join(root, collection_name)
+            if not os.path.isdir(collection_dir):
+                continue
+            doc_id_to_info = _get_doc_id_map(collection_name)
+            docs = {}
+            for fname in os.listdir(collection_dir):
+                fpath = os.path.join(collection_dir, fname)
+                if not os.path.isfile(fpath):
+                    continue
+                doc_id = os.path.splitext(fname)[0]
+                try:
+                    with open(fpath, "r", encoding="utf-8", errors="replace") as f:
+                        content = f.read()
+                except OSError:
+                    continue
+                info = doc_id_to_info.get(doc_id, {})
+                docs[doc_id] = {
+                    "doc_id": doc_id,
+                    "filename": info.get("filename", fname),
+                    "source": info.get("source", fpath),
+                    "content": content,
+                }
+            collections[collection_name] = docs
+
+    state._raw_text_cache = collections
+    state._raw_text_cache_ts = now
+    return collections
+
+
+def _get_cached_raw_doc(collection_name, doc_id=None, source=None):
+    """从全局 raw text cache 中按 doc_id 或 source 取单个文档。"""
+    cache = _load_all_raw_texts_cached()
+    docs = cache.get(collection_name, {})
+    if doc_id is not None:
+        return docs.get(doc_id)
+    if source is not None:
+        normalized = _normalize_path(source)
+        for item in docs.values():
+            if item.get("source") == normalized:
+                return item
+    return None
 
 
 @_runtime_guarded
@@ -223,13 +278,17 @@ def _query_file_by_identifier(col, file_identifier):
 
 def _get_raw_file_result(collection_name, doc_id, source, filename,
                          total_chunks, total_lines, line_start, line_end):
-    """从缓存读取原始文件，支持按行截取。"""
-    content, _cached_path = _read_raw_file(collection_name, doc_id)
-    if content is None:
-        return {
-            "found": False,
-            "error": f"Stored raw content is unavailable for file_path: {source}",
-        }
+    """从全局 raw text cache 读取原始文件，支持按行截取。"""
+    cached = _get_cached_raw_doc(collection_name, doc_id=doc_id, source=source)
+    if not cached:
+        content, _cached_path = _read_raw_file(collection_name, doc_id)
+        if content is None:
+            return {
+                "found": False,
+                "error": f"Stored raw content is unavailable for file_path: {source}",
+            }
+    else:
+        content = cached["content"]
 
     lines = content.splitlines(keepends=True)
     actual_total = len(lines)
@@ -317,14 +376,13 @@ def get_context_chunks(doc_id, collection_name="default",
 @_runtime_guarded
 def grep_knowledge(keyword, collection_name="default", max_results=10,
                    case_sensitive=False, filter_file_path=None, context_lines=5):
-    """在知识库的原始缓存文件中进行关键词/正则搜索。"""
-    raw_dir = os.path.join(_raw_files_dir(), collection_name)
-    if not os.path.isdir(raw_dir):
-        return []
+    """在知识库的全局 raw text cache 中进行关键词/正则搜索。"""
     if filter_file_path and not _is_absolute_path(filter_file_path):
         return []
 
-    doc_id_to_info = _get_doc_id_map(collection_name)
+    docs = _load_all_raw_texts_cached().get(collection_name, {})
+    if not docs:
+        return []
     normalized_filter_path = _normalize_path(filter_file_path) if filter_file_path else None
 
     flags = 0 if case_sensitive else re.IGNORECASE
@@ -334,20 +392,11 @@ def grep_knowledge(keyword, collection_name="default", max_results=10,
         pattern = re.compile(re.escape(keyword), flags)
 
     results = []
-    for fname in os.listdir(raw_dir):
-        doc_id = os.path.splitext(fname)[0]
-        info = doc_id_to_info.get(doc_id, {})
-
+    for doc_id, info in docs.items():
         if normalized_filter_path and info.get("source", "") != normalized_filter_path:
             continue
 
-        fpath = os.path.join(raw_dir, fname)
-        try:
-            with open(fpath, "r", encoding="utf-8", errors="replace") as f:
-                file_lines = f.readlines()
-        except OSError:
-            continue
-
+        file_lines = info.get("content", "").splitlines()
         for i, line in enumerate(file_lines):
             if pattern.search(line):
                 ctx_start = max(0, i - context_lines)
@@ -358,8 +407,8 @@ def grep_knowledge(keyword, collection_name="default", max_results=10,
                     ctx_parts.append(f"{prefix} {j + 1:>5}| {file_lines[j].rstrip()}")
 
                 results.append({
-                    "filename": info.get("filename", fname),
-                    "source": info.get("source", fpath),
+                    "filename": info.get("filename", f"{doc_id}.txt"),
+                    "source": info.get("source", "?"),
                     "doc_id": doc_id,
                     "line_number": i + 1,
                     "line_content": line.rstrip(),
@@ -428,28 +477,21 @@ def _find_definition_via_index(symbol, collection_name, index, raw_dir, max_resu
         })
 
     if len(results) < max_results:
-        doc_id_to_info = _get_doc_id_map(collection_name)
-        all_files = os.listdir(raw_dir)
-        other_files = [f for f in all_files if not f.lower().endswith(".py")]
         pattern = re.compile(r"\b" + re.escape(symbol) + r"\b")
+        docs = _load_all_raw_texts_cached().get(collection_name, {})
 
-        for fname in other_files:
-            doc_id = os.path.splitext(fname)[0]
-            info = doc_id_to_info.get(doc_id, {})
-            fpath = os.path.join(raw_dir, fname)
-            try:
-                with open(fpath, "r", encoding="utf-8", errors="replace") as f:
-                    content = f.read()
-            except OSError:
+        for doc_id, info in docs.items():
+            source = info.get("source", "")
+            if source.lower().endswith(".py"):
                 continue
-            file_lines = content.splitlines()
+            file_lines = info.get("content", "").splitlines()
             for i, line in enumerate(file_lines):
                 if pattern.search(line):
                     ctx_start = max(0, i - 3)
                     ctx_end = min(len(file_lines), i + 20)
                     results.append({
-                        "filename": info.get("filename", fname),
-                        "source": info.get("source", fpath),
+                        "filename": info.get("filename", f"{doc_id}.txt"),
+                        "source": source,
                         "doc_id": doc_id,
                         "symbol_type": "unknown",
                         "qualified_name": symbol,
@@ -536,23 +578,19 @@ def _find_definition_full_scan(symbol, collection_name, raw_dir, max_results):
 
     if len(results) < max_results:
         pattern = re.compile(r"\b" + re.escape(symbol) + r"\b")
-        for fname in other_files:
-            doc_id = os.path.splitext(fname)[0]
-            info = doc_id_to_info.get(doc_id, {})
-            fpath = os.path.join(raw_dir, fname)
-            try:
-                with open(fpath, "r", encoding="utf-8", errors="replace") as f:
-                    content = f.read()
-            except OSError:
+        docs = _load_all_raw_texts_cached().get(collection_name, {})
+        for doc_id, info in docs.items():
+            source = info.get("source", "")
+            if source.lower().endswith(".py"):
                 continue
-            file_lines = content.splitlines()
+            file_lines = info.get("content", "").splitlines()
             for i, line in enumerate(file_lines):
                 if pattern.search(line):
                     ctx_start = max(0, i - 3)
                     ctx_end = min(len(file_lines), i + 20)
                     results.append({
-                        "filename": info.get("filename", fname),
-                        "source": info.get("source", fpath),
+                        "filename": info.get("filename", f"{doc_id}.txt"),
+                        "source": source,
                         "doc_id": doc_id,
                         "symbol_type": "unknown",
                         "qualified_name": symbol,
@@ -568,9 +606,8 @@ def _find_definition_full_scan(symbol, collection_name, raw_dir, max_results):
     return results
 
 
-@_runtime_guarded
-def list_documents(collection_name="default", offset=0, limit=None):
-    """列出知识库中已导入的文档。支持 offset/limit 分页。"""
+def _list_documents_uncached(collection_name="default"):
+    """列出知识库中已导入的完整文档列表，不做分页。"""
     col = _get_existing_collection(collection_name)
     if col is None:
         return {}
@@ -593,7 +630,31 @@ def list_documents(collection_name="default", offset=0, limit=None):
             }
         docs[did]["chunk_count"] += 1
 
-    sorted_items = sorted(docs.items(), key=lambda x: x[0])
+    return dict(sorted(docs.items(), key=lambda x: x[0]))
+
+
+def _list_documents_cached(collection_name="default"):
+    """缓存去重后的文档列表，避免反复从 Chroma 全量拉取 chunk metadata。"""
+    now = _time.time()
+    cached = state._document_list_cache.get(collection_name)
+    cached_ts = state._document_list_cache_ts.get(collection_name, 0.0)
+    if cached is not None and now - cached_ts < _DOCUMENT_LIST_CACHE_TTL_SECONDS:
+        return cached
+
+    docs = _list_documents_uncached(collection_name)
+    state._document_list_cache[collection_name] = docs
+    state._document_list_cache_ts[collection_name] = now
+    return docs
+
+
+@_runtime_guarded
+def list_documents(collection_name="default", offset=0, limit=None):
+    """列出知识库中已导入的文档。支持 offset/limit 分页。"""
+    docs = _list_documents_cached(collection_name)
+    if not docs:
+        return {}
+
+    sorted_items = list(docs.items())
     if offset:
         sorted_items = sorted_items[offset:]
     if limit is not None:
@@ -674,6 +735,12 @@ def delete_document(doc_id, collection_name="default"):
     filename = doc_data["metadatas"][0].get("filename", "?") if doc_data["metadatas"] else "?"
     col.delete(ids=doc_data["ids"])
     _delete_raw_file(collection_name, doc_id)
+    state._document_list_cache.pop(collection_name, None)
+    state._document_list_cache_ts.pop(collection_name, None)
+    state._stats_cache = None
+    state._stats_cache_ts = 0.0
+    state._raw_text_cache = None
+    state._raw_text_cache_ts = 0.0
     invalidate_bm25_cache(collection_name)
     invalidate_symbol_cache(collection_name)
     return len(doc_data["ids"]), filename

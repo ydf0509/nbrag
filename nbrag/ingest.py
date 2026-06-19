@@ -300,6 +300,12 @@ def ingest_file(file_path, collection_name="default",
     if result["ok"]:
         state._bm25_cache.pop(collection_name, None)
         state._symbol_cache.pop(collection_name, None)
+        state._document_list_cache.pop(collection_name, None)
+        state._document_list_cache_ts.pop(collection_name, None)
+        state._stats_cache = None
+        state._stats_cache_ts = 0.0
+        state._raw_text_cache = None
+        state._raw_text_cache_ts = 0.0
     return result
 
 

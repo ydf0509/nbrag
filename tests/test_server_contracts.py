@@ -4,7 +4,9 @@ import inspect
 from types import SimpleNamespace
 from pathlib import Path
 
-from nbrag import server
+from nbrag import server, state
+import nbrag.mcp_tools as mcp_tools
+import nbrag.retrieval as retrieval
 
 
 def _field_default(func, parameter):
@@ -16,6 +18,30 @@ def test_find_definition_default_max_results_is_three():
     assert _field_default(server.nbrag_find_definition, "max_results") == 3
 
 
+def test_grep_raw_text_cache_loads_markdown_files(tmp_path, monkeypatch):
+    raw_root = tmp_path / "raw_files"
+    collection_dir = raw_root / "docs"
+    collection_dir.mkdir(parents=True)
+    (collection_dir / "doc1.md").write_text("第一行\n试用期不得超过一个月\n", encoding="utf-8")
+
+    monkeypatch.setattr(retrieval, "_raw_files_dir", lambda: str(raw_root))
+    monkeypatch.setattr(
+        retrieval,
+        "_get_doc_id_map",
+        lambda collection_name: {
+            "doc1": {"filename": "劳动合同法.md", "source": "D:/repo/劳动合同法.md"}
+        },
+    )
+    state._raw_text_cache = None
+    state._raw_text_cache_ts = 0.0
+
+    output = mcp_tools.nbrag_grep(keyword="试用期", collection_name="docs", max_results=1)
+
+    assert "file_path: D:/repo/劳动合同法.md" in output
+    assert "matched_line: 2" in output
+    assert "line_range: line:2-2" in output
+
+
 def test_help_is_exposed_as_mcp_tool():
     source = Path(server.__file__).read_text(encoding="utf-8-sig")
 
@@ -23,7 +49,7 @@ def test_help_is_exposed_as_mcp_tool():
     assert "@mcp.tool()\ndef nbrag_help(" in source
 
 
-def test_help_returns_compact_workflow_without_manual_maintenance_tools():
+def test_help_embeds_workflow_skill_and_keeps_short_guidance():
     output = server.nbrag_help()
 
     required = [
@@ -36,6 +62,9 @@ def test_help_returns_compact_workflow_without_manual_maintenance_tools():
         "nbrag_get_adjacent_chunks",
         "file_path",
         "full absolute",
+        "Embedded nbrag workflow guide:",
+        "Common guidance:",
+        "常见调用路径（不是固定流程）",
     ]
     for text in required:
         assert text in output
@@ -108,7 +137,7 @@ def test_mcp_docstrings_lead_with_general_text_before_python_source():
 
 def test_find_definition_non_python_result_guides_to_grep(monkeypatch):
     monkeypatch.setattr(
-        server,
+        mcp_tools,
         "find_symbol_definition",
         lambda symbol, collection_name, max_results: [{
             "symbol_type": "text",
@@ -132,7 +161,7 @@ def test_find_definition_non_python_result_guides_to_grep(monkeypatch):
 
 def test_find_definition_mixed_results_do_not_label_python_ast_as_fallback(monkeypatch):
     monkeypatch.setattr(
-        server,
+        mcp_tools,
         "find_symbol_definition",
         lambda symbol, collection_name, max_results: [
             {
@@ -172,12 +201,12 @@ def test_find_definition_mixed_results_do_not_label_python_ast_as_fallback(monke
 
 def test_search_can_return_metadata_only(monkeypatch):
     monkeypatch.setattr(
-        server,
+        mcp_tools,
         "get_config",
         lambda: SimpleNamespace(rerank=SimpleNamespace(model="rerank-model")),
     )
     monkeypatch.setattr(
-        server,
+        mcp_tools,
         "search",
         lambda *args, **kwargs: (
             ["secret content that should not appear"],
@@ -212,12 +241,12 @@ def test_search_can_return_metadata_only(monkeypatch):
 
 def test_search_preview_chars_limits_content(monkeypatch):
     monkeypatch.setattr(
-        server,
+        mcp_tools,
         "get_config",
         lambda: SimpleNamespace(rerank=SimpleNamespace(model="off")),
     )
     monkeypatch.setattr(
-        server,
+        mcp_tools,
         "search",
         lambda *args, **kwargs: (
             ["abcdefghijklmnopqrstuvwxyz"],
@@ -268,7 +297,7 @@ def test_find_files_wrapper_normalizes_defaults(monkeypatch):
             "match": "filename",
         }]
 
-    monkeypatch.setattr(server, "find_files", fake_find_files)
+    monkeypatch.setattr(mcp_tools, "find_files", fake_find_files)
 
     output = server.nbrag_find_files(pattern="history.py", collection_name="test")
 
@@ -285,7 +314,7 @@ def test_search_and_fetch_wrapper_normalizes_defaults(monkeypatch):
     captured = {}
 
     monkeypatch.setattr(
-        server,
+        mcp_tools,
         "get_config",
         lambda: SimpleNamespace(rerank=SimpleNamespace(model="rerank-model")),
     )
@@ -333,8 +362,8 @@ def test_search_and_fetch_wrapper_normalizes_defaults(monkeypatch):
             "content": "original content",
         }
 
-    monkeypatch.setattr(server, "search", fake_search)
-    monkeypatch.setattr(server, "get_file_chunks", fake_get_file_chunks)
+    monkeypatch.setattr(mcp_tools, "search", fake_search)
+    monkeypatch.setattr(mcp_tools, "get_file_chunks", fake_get_file_chunks)
 
     output = server.nbrag_search_and_fetch(query="history", collection_name="test")
 
@@ -352,13 +381,13 @@ def test_search_and_fetch_wrapper_normalizes_defaults(monkeypatch):
 
 def test_search_and_fetch_uses_ranked_windows_for_same_doc(monkeypatch):
     monkeypatch.setattr(
-        server,
+        mcp_tools,
         "get_config",
         lambda: SimpleNamespace(rerank=SimpleNamespace(model="rerank-model")),
     )
 
     monkeypatch.setattr(
-        server,
+        mcp_tools,
         "search",
         lambda *args, **kwargs: (
             ["top chunk", "second chunk"],
@@ -423,7 +452,7 @@ def test_search_and_fetch_uses_ranked_windows_for_same_doc(monkeypatch):
             "content": f"excerpt {line_start}-{line_end}",
         }
 
-    monkeypatch.setattr(server, "get_file_chunks", fake_get_file_chunks)
+    monkeypatch.setattr(mcp_tools, "get_file_chunks", fake_get_file_chunks)
 
     output = server.nbrag_search_and_fetch(
         query="manual",
@@ -436,3 +465,101 @@ def test_search_and_fetch_uses_ranked_windows_for_same_doc(monkeypatch):
     assert (295, 325) in excerpt_calls
     assert "range: line:95-125" in output
     assert "range: line:295-325" in output
+
+
+def test_list_wrapper_passes_limit_and_offset_by_name(monkeypatch):
+    captured = {}
+
+    def fake_list(collection_name, offset=0, limit=200):
+        captured.update({
+            "collection_name": collection_name,
+            "offset": offset,
+            "limit": limit,
+        })
+        return "listed"
+
+    monkeypatch.setattr(mcp_tools, "nbrag_list", fake_list)
+
+    output = server.nbrag_list(collection_name="docs", limit=5, offset=10)
+
+    assert output == "listed"
+    assert captured == {"collection_name": "docs", "offset": 10, "limit": 5}
+
+
+def test_grep_result_exposes_machine_readable_line_range(monkeypatch):
+    monkeypatch.setattr(
+        mcp_tools,
+        "grep_knowledge",
+        lambda *args, **kwargs: [{
+            "filename": "manual.md",
+            "source": "D:/repo/manual.md",
+            "doc_id": "doc1",
+            "line_number": 42,
+            "context": "40: before\n42: matched\n44: after",
+        }],
+    )
+
+    output = server.nbrag_grep(keyword="matched", collection_name="docs")
+
+    assert "line_range: line:42-42" in output
+    assert "matched_line: 42" in output
+
+
+def test_adjacent_chunks_include_line_ranges_for_follow_up(monkeypatch):
+    monkeypatch.setattr(
+        mcp_tools,
+        "get_context_chunks",
+        lambda *args, **kwargs: {
+            "found": True,
+            "source": "D:/repo/manual.md",
+            "doc_id": "doc1",
+            "total_chunks": 5,
+            "chunks": [{
+                "index": 2,
+                "line_start": 20,
+                "line_end": 35,
+                "content": "chunk body",
+            }],
+        },
+    )
+
+    output = server.nbrag_get_adjacent_chunks(doc_id="doc1", chunk_index=2, collection_name="docs")
+
+    assert "line:20-35" in output
+    assert "file_path: D:/repo/manual.md" in output
+
+
+def test_search_and_fetch_docstring_declares_default_entrypoint():
+    doc = inspect.getdoc(server.nbrag_search_and_fetch) or ""
+
+    assert "Default entry point" in doc
+    assert "most user questions" in doc
+
+
+def test_server_routes_delegate_to_mcp_tools(monkeypatch):
+    calls = {}
+
+    def fake_search_and_fetch(**kwargs):
+        calls.update(kwargs)
+        return "delegated"
+
+    monkeypatch.setattr(mcp_tools, "nbrag_search_and_fetch", fake_search_and_fetch)
+
+    output = server.nbrag_search_and_fetch(
+        query="history",
+        collection_name="docs",
+        top_k=7,
+        fetch_top_n_raw=2,
+        context_lines=15,
+        filter_file_path="D:/repo/history.py",
+    )
+
+    assert output == "delegated"
+    assert calls == {
+        "query": "history",
+        "collection_name": "docs",
+        "top_k": 7,
+        "fetch_top_n_raw": 2,
+        "context_lines": 15,
+        "filter_file_path": "D:/repo/history.py",
+    }

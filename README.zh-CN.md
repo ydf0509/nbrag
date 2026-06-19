@@ -4,7 +4,7 @@
 
 面向 AI Agent 的 Agentic RAG MCP Server，用来从用户自己准备的知识库中检索证据、读取原文，并辅助 AI 基于真实内容回答问题。
 
-`nbrag` 可以把本地文本、文档、法规、手册、笔记和 Python 源码导入为本地知识库。它尤其擅长 Python 项目源码向量化后的检索：源码 chunk 会注入文件路径、行号、AST scope 和函数签名，配合 `grep`、`find_definition`、原文读取等工具，对框架源码、三方库源码和内部 Python 项目有很强的定位效果。兼容 MCP 的 AI Agent 可以通过 11 个聚焦的检索/读取工具和 `nbrag_help` 导航工具，自主搜索、grep、定位文件、读取原文，并基于证据组织答案。
+`nbrag` 可以把本地文本、文档、法规、手册、笔记和 Python 源码导入为本地知识库。它尤其擅长 Python 项目源码向量化后的检索：源码 chunk 会注入文件路径、行号、AST scope 和函数签名，配合 `grep`、`find_definition`、原文读取等工具，对框架源码、三方库源码和内部 Python 项目有很强的定位效果。兼容 MCP 的 AI Agent 可以通过 10+ 个聚焦的检索/读取工具和 `nbrag_help` 导航工具，自主搜索、grep、定位文件、读取原文，并基于证据组织答案。
 
 ## 亮点
 
@@ -41,7 +41,7 @@ Context7 是很有用的托管 MCP 文档服务，适合查询它已经收录的
 | 原文读取 | 受托管片段限制 | 支持按绝对路径和行号读取 |
 | 更新方式 | 取决于服务端索引 | 用户重新导入即可 |
 | 存储 | 托管服务 | 本地 ChromaDB + raw files + BM25/symbol 索引 |
-| 工具数量 | 较小 API 面 | 11 个检索/读取工具 + `nbrag_help` |
+| 工具数量 | 较小 API 面 | 10+ 个检索/读取工具 + `nbrag_help` |
 
 两者互补：Context7 适合快速查它已覆盖的公开文档；`nbrag` 适合私有、专业、刚更新、需要原文证据的本地资料。
 
@@ -263,7 +263,7 @@ In collection company_knowledge, what does the labor contract material say about
 
 ## MCP 工具
 
-`nbrag` 暴露 11 个检索/读取工具和 1 个导航工具。
+`nbrag` 暴露 10+ 个检索/读取工具，以及 `nbrag_help` 导航工具。
 
 | 类别 | 工具 | 用途 |
 |---|---|---|

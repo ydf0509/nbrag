@@ -4,7 +4,7 @@ from types import SimpleNamespace
 
 import nbrag.collection_profiles as collection_profiles
 from nbrag.config import ChunkingConfig, EmbeddingConfig, RagConfig, RerankConfig, StorageConfig
-from nbrag import retrieval, server
+from nbrag import mcp_tools, retrieval, server
 from nbrag.storage import get_collection
 
 
@@ -201,12 +201,12 @@ def test_get_stats_recomputes_after_five_minute_ttl(monkeypatch):
 
 def test_nbrag_stats_renders_collection_profile_summary(monkeypatch):
     monkeypatch.setattr(
-        server,
+        mcp_tools,
         "get_config",
         lambda: SimpleNamespace(chunking=SimpleNamespace(chunk_size=1500, chunk_overlap=200)),
     )
     monkeypatch.setattr(
-        server,
+        mcp_tools,
         "get_stats",
         lambda: {
             "embedding_model": "BAAI/bge-m3",
@@ -229,5 +229,7 @@ def test_nbrag_stats_renders_collection_profile_summary(monkeypatch):
     output = server.nbrag_stats()
 
     assert "三国演义知识库" in output
+    assert "doc_count: 12" in output
+    assert "chunk_count: 88" in output
     assert "description:" in output
     assert "aliases: 三国, 三国演义, 关羽, 张飞, 刘备" in output
