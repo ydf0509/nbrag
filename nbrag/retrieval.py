@@ -8,8 +8,10 @@ from __future__ import annotations
 import ast as _ast
 import os
 import re
+import time as _time
 import warnings as _warnings
 
+from nbrag import state
 from nbrag.bm25_index import (
     _BM25_CHANNEL_WEIGHTS,
     _bm25_search_channels,
@@ -38,6 +40,8 @@ from nbrag.symbol_index import (
     _query_symbol_index,
     invalidate_symbol_cache,
 )
+
+_STATS_CACHE_TTL_SECONDS = 300.0
 
 
 def _cfg():
@@ -678,6 +682,10 @@ def delete_document(doc_id, collection_name="default"):
 @_runtime_guarded
 def get_stats():
     """返回所有知识库的统计信息。"""
+    now = _time.time()
+    if state._stats_cache is not None and now - state._stats_cache_ts < _STATS_CACHE_TTL_SECONDS:
+        return state._stats_cache
+
     cfg = _cfg()
     collections = list_collections()
     profiles = list_collection_profiles()
@@ -713,4 +721,6 @@ def get_stats():
         except Exception as e:
             stats["collections"][name] = {"error": str(e)}
 
+    state._stats_cache = stats
+    state._stats_cache_ts = now
     return stats

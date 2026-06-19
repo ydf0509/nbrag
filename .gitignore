@@ -39,3 +39,4 @@ tmp/
 
 # Distribution
 *.tar.gz
+.tmp/

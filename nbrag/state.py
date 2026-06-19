@@ -13,6 +13,8 @@ _data_dir_initialized = False
 
 _doc_id_cache = {}
 _doc_id_cache_ts = {}
+_stats_cache = None
+_stats_cache_ts = 0.0
 
 _bm25_cache = {}
 _symbol_cache = {}

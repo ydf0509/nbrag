@@ -61,6 +61,9 @@ def test_collection_profile_does_not_write_chroma_metadata(tmp_path, monkeypatch
 
 
 def test_get_stats_merges_collection_profile_fields(monkeypatch):
+    monkeypatch.setattr("nbrag.state._stats_cache", None)
+    monkeypatch.setattr("nbrag.state._stats_cache_ts", 0.0)
+
     class FakeCollection:
         def __init__(self, count):
             self._count = count
@@ -115,6 +118,85 @@ def test_get_stats_merges_collection_profile_fields(monkeypatch):
     assert info["aliases"] == ["三国", "三国演义"]
     assert info["doc_count"] == 2
     assert info["chunk_count"] == 12
+
+
+def test_get_stats_uses_five_minute_in_memory_cache(monkeypatch):
+    monkeypatch.setattr("nbrag.state._stats_cache", None)
+    monkeypatch.setattr("nbrag.state._stats_cache_ts", 0.0)
+
+    calls = {"list_collections": 0, "batch_get": 0}
+    times = iter([1000.0, 1001.0])
+
+    class FakeCollection:
+        def count(self):
+            return 12
+
+    class FakeChroma:
+        def get_collection(self, name):
+            return FakeCollection()
+
+    monkeypatch.setattr(retrieval._time, "time", lambda: next(times))
+    monkeypatch.setattr(
+        retrieval,
+        "list_collections",
+        lambda: calls.__setitem__("list_collections", calls["list_collections"] + 1) or [SimpleNamespace(name="sanguo_yanyi")],
+    )
+    monkeypatch.setattr(retrieval, "_get_chroma", lambda: FakeChroma())
+    monkeypatch.setattr(
+        retrieval,
+        "_batch_get",
+        lambda col, include, ids=None, where=None: calls.__setitem__("batch_get", calls["batch_get"] + 1) or {
+            "ids": ["a", "b"],
+            "metadatas": [{"doc_id": "doc1"}, {"doc_id": "doc2"}],
+        },
+    )
+    monkeypatch.setattr(retrieval, "list_collection_profiles", lambda: {})
+
+    first = retrieval.get_stats()
+    second = retrieval.get_stats()
+
+    assert first == second
+    assert calls["list_collections"] == 1
+    assert calls["batch_get"] == 1
+
+
+def test_get_stats_recomputes_after_five_minute_ttl(monkeypatch):
+    monkeypatch.setattr("nbrag.state._stats_cache", None)
+    monkeypatch.setattr("nbrag.state._stats_cache_ts", 0.0)
+
+    calls = {"list_collections": 0, "batch_get": 0}
+    times = iter([1000.0, 1301.0])
+
+    class FakeCollection:
+        def count(self):
+            return 12
+
+    class FakeChroma:
+        def get_collection(self, name):
+            return FakeCollection()
+
+    monkeypatch.setattr(retrieval._time, "time", lambda: next(times))
+    monkeypatch.setattr(
+        retrieval,
+        "list_collections",
+        lambda: calls.__setitem__("list_collections", calls["list_collections"] + 1) or [SimpleNamespace(name="sanguo_yanyi")],
+    )
+    monkeypatch.setattr(retrieval, "_get_chroma", lambda: FakeChroma())
+    monkeypatch.setattr(
+        retrieval,
+        "_batch_get",
+        lambda col, include, ids=None, where=None: calls.__setitem__("batch_get", calls["batch_get"] + 1) or {
+            "ids": ["a", "b"],
+            "metadatas": [{"doc_id": "doc1"}, {"doc_id": "doc2"}],
+        },
+    )
+    monkeypatch.setattr(retrieval, "list_collection_profiles", lambda: {})
+
+    retrieval.get_stats()
+    retrieval.get_stats()
+
+    assert calls["list_collections"] == 2
+    assert calls["batch_get"] == 2
 
 
 def test_nbrag_stats_renders_collection_profile_summary(monkeypatch):

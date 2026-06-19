@@ -761,23 +761,28 @@ def nbrag_stats() -> str:
 
     for name, info in stats["collections"].items():
         if "error" in info:
-            lines.append(f"  [{name}] error: {info['error']}")
+            lines.append(f"- [{name}] error: {info['error']}")
+            lines.append("")
         else:
             display_name = info.get("display_name", "")
-            header = f"  [{name}] {display_name}" if display_name else f"  [{name}]"
+            header = f"- [{name}] {display_name}" if display_name else f"- [{name}]"
             header += f" {info['doc_count']} docs, {info['chunk_count']} chunks"
             lines.append(header)
             description = info.get("description", "")
             aliases = info.get("aliases", [])
             tags = info.get("tags", [])
             if description:
-                lines.append(f"    description: {description}")
+                lines.append(f"  description: {description}")
             if aliases:
-                lines.append(f"    aliases: {', '.join(aliases)}")
+                lines.append(f"  aliases: {', '.join(aliases)}")
             if tags:
-                lines.append(f"    tags: {', '.join(tags)}")
+                lines.append(f"  tags: {', '.join(tags)}")
             if info["chunk_count"] == 0:
-                lines.append("    empty")
+                lines.append("  empty")
+            lines.append("")
+
+    if lines and lines[-1] == "":
+        lines.pop()
 
     return "\n".join(lines)
 
