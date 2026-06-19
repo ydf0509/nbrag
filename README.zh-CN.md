@@ -270,7 +270,7 @@ In collection company_knowledge, what does the labor contract material say about
 | 导航 | `nbrag_help` | AI 不确定如何组合工具时，返回简短工作流指南 |
 | 搜索 | `nbrag_search` | 混合检索：Vector + BM25 -> RRF -> rerank |
 | 搜索 | `nbrag_search_and_fetch` | 混合检索并自动读取命中位置附近原文 |
-| 精确搜索 | `nbrag_grep` | 关键词/正则搜索，适合条文编号、术语、标题、错误码、API 名 |
+| 精确搜索 | `nbrag_grep` | 逐行字面文本 / 正则匹配，适合条文编号、术语、标题、错误码和 API 名 |
 | Python 源码 | `nbrag_find_definition` | 定位 Python class/function/method 完整定义，优先使用 AST |
 | 文件定位 | `nbrag_find_files` | 根据文件名或路径片段找到唯一绝对 `file_path` |
 | 上下文 | `nbrag_get_file_chunks` | 按 chunk 浏览文件 |
@@ -296,7 +296,7 @@ In collection company_knowledge, what does the labor contract material say about
    用聚焦查询做语义+关键词混合检索，并读取命中位置附近原文。
 
 3. nbrag_grep
-   搜索精确术语、条文编号、标题、错误码或原文短语。
+   用逐行字面文本 / 正则匹配查精确术语、条文编号、标题、错误码或原文短语；如果不确定原文措辞，优先先用 `nbrag_search_and_fetch`。
 
 4. nbrag_get_raw_file / nbrag_get_adjacent_chunks
    回到完整原文上下文，避免只看碎片 chunk。
@@ -327,7 +327,7 @@ AI：
    查相关概念、示例、API 用法。
 
 2. nbrag_grep
-   精确查类名、方法名、常量、import、错误字符串、装饰器、配置 key。
+   用逐行字面文本 / 正则匹配查类名、方法名、常量、import、错误字符串、装饰器、配置 key。
 
 3. nbrag_find_definition
    仅对 Python `.py` 文件，获取完整 class/function/method 定义。

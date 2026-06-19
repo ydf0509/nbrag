@@ -272,7 +272,7 @@ If the agent is unsure which tool to use, it can call `nbrag_help`.
 | Navigation | `nbrag_help` | Compact workflow guide for agents that are unsure how to combine tools |
 | Search | `nbrag_search` | Hybrid search: Vector + BM25 -> RRF -> rerank |
 | Search | `nbrag_search_and_fetch` | Hybrid search plus automatic original-file context fetch |
-| Exact search | `nbrag_grep` | Keyword/regex search for article numbers, terms, headings, error codes, API names |
+| Exact search | `nbrag_grep` | Line-by-line literal text / regex matching for article numbers, terms, headings, error codes, and API names |
 | Python source | `nbrag_find_definition` | Find complete Python class/function/method definitions with AST when available |
 | File lookup | `nbrag_find_files` | Find the unique absolute `file_path` for later reads or filters |
 | Context | `nbrag_get_file_chunks` | Browse a file by chunks with metadata |
@@ -298,7 +298,7 @@ For law, guidelines, manuals, standards, policy documents, and internal wiki mat
    Start with a focused semantic/keyword query and get nearby original text.
 
 3. nbrag_grep
-   Use exact terms, article numbers, headings, error codes, or quoted phrases.
+   Use line-by-line literal text or regex matching for exact terms, article numbers, headings, error codes, or quoted phrases. If you are unsure about the original wording, prefer nbrag_search_and_fetch first.
 
 4. nbrag_get_raw_file / nbrag_get_adjacent_chunks
    Read fuller context before answering.
@@ -331,7 +331,7 @@ Python source workflow: start with semantic/context search, then use exact-name 
    Find relevant concepts, examples, or API usage.
 
 2. nbrag_grep
-   Search exact names, constants, imports, error strings, decorators, or config keys.
+   Use line-by-line literal text or regex matching for exact names, constants, imports, error strings, decorators, or config keys.
 
 3. nbrag_find_definition
    For Python `.py` files only, retrieve the complete class/function/method definition.

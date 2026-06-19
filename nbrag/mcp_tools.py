@@ -108,8 +108,8 @@ def nbrag_help() -> str:
         "- Unknown collection_name? call nbrag_stats.",
         "- Knowledge/docs/law/manual/usage question? usually start with nbrag_search_and_fetch.",
         "- Exact law articles, document headings, terms, phrases, API names, or constants? use nbrag_grep.",
-        "  ⚠️ grep does byte-for-byte literal matching — '空城计' will NOT match if the file says '焚香操琴' instead.",
-        "  When unsure about exact wording, prefer nbrag_search_and_fetch (semantic search).",
+        "  ⚠️ grep does line-by-line literal text or regex matching on stored text — it does NOT infer concepts.",
+        "  '空城计' will NOT match if the file only says '焚香操琴' instead. When unsure about exact wording, prefer nbrag_search_and_fetch (semantic search).",
         "- Python source symbol body? use nbrag_find_definition (Python-only special case).",
         "- Only have filename/path fragment? use nbrag_find_files to get full absolute file_path.",
         "- Need more context? use nbrag_get_raw_file, nbrag_get_adjacent_chunks, or nbrag_get_chunks_by_lines.",
@@ -373,8 +373,8 @@ def nbrag_grep(
 
     if not results:
         return (f"No matches for '{keyword}' (collection: {collection_name}).\n"
-                "Possible adjustments: use a simpler exact term, check spelling/article number, remove regex anchors, "
-                "or switch to nbrag_search_and_fetch for semantic discovery.")
+                "Possible adjustments: use a simpler literal term, check spelling/article number, remove regex anchors, "
+                "or switch to nbrag_search_and_fetch for semantic discovery if this is a concept, alias, or paraphrase rather than exact source wording.")
 
     lines = [f"grep: '{keyword}' | collection_name: {collection_name} | {len(results)} match(es)", ""]
     for i, r in enumerate(results):

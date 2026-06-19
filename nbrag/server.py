@@ -5,7 +5,7 @@ MCP tools (10+ retrieval/reading tools + help):
   0. nbrag_help                 → Short workflow guide for AI agents
   1. nbrag_search               → Semantic search (vector + rerank)
   2. nbrag_search_and_fetch     → Search + auto-fetch original file content (combo tool)
-  3. nbrag_grep                 → Keyword/regex exact search (complements semantic search)
+  3. nbrag_grep                 → Line-by-line literal text / regex matching (complements semantic search)
   4. nbrag_find_definition      → Find Python class/function definition by symbol name
   5. nbrag_find_files           → Find full file_path by filename/path pattern
   6. nbrag_get_file_chunks      → Paginated chunks with scope/line metadata
@@ -88,7 +88,7 @@ def nbrag_search(
     Key fields for follow-up: file_path (for nbrag_get_raw_file), doc_id + chunk_index (for nbrag_get_adjacent_chunks).
 
     Possible follow-up tools when the result suggests you need more evidence:
-      - nbrag_grep(keyword, collection_name) → exact keyword/regex search (legal terms, article numbers, headings, API names)
+      - nbrag_grep(keyword, collection_name) → line-by-line literal text / regex matching (legal terms, article numbers, headings, API names)
       - nbrag_find_definition(symbol, collection_name) → Python source definition lookup (Python .py files ONLY)
       - nbrag_find_files(pattern, collection_name) → find the exact full file_path before path-filtered reads
       - nbrag_get_raw_file(file_path, collection_name) → full file content without chunk overlap
@@ -151,22 +151,28 @@ def nbrag_search_and_fetch(
 
 @mcp.tool()
 def nbrag_grep(
-    keyword: str = Field(description="Literal string or regex to search for in the original file content. This does byte-for-byte exact matching — NOT semantic/concept search. The text must appear verbatim (e.g. '第四十二条' finds the article number, but '试用期' will NOT match if the file says '见习期' instead). If in doubt, use nbrag_search_and_fetch instead (it understands concepts). Examples: '第四十二条', 'MAX_RETRIES', 'UserService', 'Article 42'"),
+    keyword: str = Field(description="Plain text or regex pattern to search in stored original text lines. This is line-by-line literal/regex matching — NOT semantic/concept search. If you pass plain text, that wording must appear literally in the source text (for example, '试用期' will not match text that only says '见习期'). If you pass a valid regex, regex rules apply. Examples: '第四十二条', 'MAX_RETRIES', 'UserService', 'Article 42'. When in doubt about exact wording, use nbrag_search_and_fetch instead."),
     collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats if unknown)"),
     max_results: int = Field(default=10, description="Maximum number of matches to return"),
     case_sensitive: bool = Field(default=False, description="Case-sensitive matching"),
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag_search/search_and_fetch/find_files/list. Basename is not accepted"),
     context_lines: int = Field(default=10, description="Context lines before/after each match (use 20+ for long clauses/sections or class headers)"),
 ) -> str:
-    """Literal string / regex exact search in stored original files. Performs byte-level matching (re.search) on raw file content — NOT semantic or concept search.
+    """Literal text / regex search in stored original text, matched line by line with re.search — NOT semantic or concept search.
 
-    ⚠️ CRITICAL: This tool only matches text that literally appears in the file. It does NOT understand concepts or paraphrases.
-    For example, searching '空城计' will find NOTHING if the original text says '焚香操琴' and '大开四门' but never uses the exact word '空城计'.
+    ⚠️ CRITICAL: This tool only matches wording that literally appears in the stored text, unless you provide a valid regex pattern.
+    It does NOT understand concepts, aliases, synonyms, paraphrases, or summarized labels.
+    For example, searching '空城计' will find nothing if the original text only says '焚香操琴' and '大开四门' but never uses the exact term '空城计'.
     When in doubt about exact wording, use nbrag_search_and_fetch (semantic search) instead.
 
     Best for exact known strings:
-      - 法律条文号 ('第四十二条'), 标题 headings, 专业术语 exact terms, 日期 dates, 编号 codes
+      - Law/docs/manuals: 法律条文号 ('第四十二条'), 标题 headings, 专业术语 exact terms, 日期 dates, 编号 codes
       - Code: class/function names ('UserService'), constants ('MAX_RETRIES'), imports ('from myproject'), error strings
+
+    Important limits:
+      - Plain text only matches wording that literally appears in the source text.
+      - Valid regex patterns follow regex rules rather than literal matching.
+      - Matching is line-based, so cross-line phrases may not match as expected.
 
     NOT suitable for (use nbrag_search_and_fetch instead):
       - Conceptual queries ('劳动法对试用期有什么规定' → search, not grep)

@@ -24,7 +24,7 @@ nbrag 提供 10+ 个 MCP 检索工具 + `nbrag_help` 导航工具，核心分三
 | 不确定该用哪个 nbrag 工具 | `nbrag_help` | 无参数，返回简短 workflow |
 | 知识/用法/示例问题（"试用期合法吗" / "设备报警码E42" / "create_agent怎么用"） | **`nbrag_search_and_fetch`** | 默认首选，一步到位 |
 | 需要精细控制（禁用 BM25/rerank、只要 metadata、调整召回数量） | `nbrag_search` | 仅高级场景 |
-| 精确字符串/术语/条文编号（"第一千零七十七条" / "ThreadPool"） | `nbrag_grep` | 正则匹配，返回上下文。⚠️ 只匹配**逐字出现**的文本，不支持概念理解（'空城计'搜不到原文中的'焚香操琴'） |
+| 精确字符串/术语/条文编号（"第一千零七十七条" / "ThreadPool"） | `nbrag_grep` | 逐行字面文本 / 正则匹配，返回上下文。⚠️ 只匹配原文中实际出现的 wording，不支持概念理解（'空城计'搜不到原文中的'焚香操琴'） |
 | Python 精确符号名（"UserService 在哪定义"） | `nbrag_find_definition` | Python .py 专用增强；非 Python 内容用 `nbrag_grep` |
 | 已知文件名或路径片段，需要完整路径 | `nbrag_find_files` | 返回可用于 `file_path` / `filter_file_path` 的完整绝对路径 |
 
@@ -83,8 +83,10 @@ nbrag_search(query="...", collection_name="xxx", top_k=5)
 nbrag_grep(keyword="第十九条", collection_name="xxx")
 ```
 
-- 在已存储的**原始文件**中进行精确字节匹配（re.search），不是语义搜索
-- ⚠️ 只匹配**原文中逐字出现**的文本。概念性提问（如"空城计"）很可能搜不到，改用 `nbrag_search_and_fetch`
+- 在已存储的原始文本中进行逐行字面文本 / 正则匹配（re.search），不是语义搜索
+- ⚠️ 只匹配原文中实际出现的 wording；如果传的是合法 regex，则按 regex 规则匹配
+- 概念性提问（如"空城计"）很可能搜不到，尤其当原文只写了具体描写而没写这个概括词；这种情况改用 `nbrag_search_and_fetch`
+- 匹配是按行进行的，跨行短语可能无法按预期命中
 - `context_lines=10` 控制上下文（默认 10，匹配行前后各 N 行）
 - 可选 `case_sensitive=True`、`filter_file_path="D:/docs/labor_law/劳动合同法.md"`（必须是完整绝对路径）
 - `>>>` 标记匹配行
