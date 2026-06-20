@@ -74,8 +74,8 @@ nbrag_search(query="...", collection_name="xxx", top_k=5)
 ```
 
 - Vector + BM25 → RRF 融合 → Rerank 精排
-- 可选：`use_bm25=False`、`use_rerank=False`、`include_content=False`、`preview_chars=1200`、`filter_file_path="D:/docs/labor_law/劳动合同法.md"`（必须是完整绝对路径）
-- 返回 chunk preview，可能被截断（加 `...`）
+- 可选：`use_bm25=False`、`use_rerank=False`、`include_content=False`、`filter_file_path="D:/docs/labor_law/劳动合同法.md"`（必须是完整绝对路径）
+- 返回完整 chunk 内容（不再截断）
 - 关键字段：`chunk:X/Y`、`chunk_index:X`、`total_chunks:Y`、`line:N-M`、`scope`（仅 Python）、`doc_id`、`file_path`、`dist`
 - **大多数场景用策略 A 就够了，策略 B 仅用于需要精细控制的场景**
 
@@ -102,7 +102,7 @@ nbrag_grep(keyword="第十九条", collection_name="xxx")
 - ⚠️ 只匹配原文中实际出现的 wording；如果传的是合法 regex，则按 regex 规则匹配
 - 概念性提问（如"空城计"）很可能搜不到，尤其当原文只写了具体描写而没写这个概括词；这种情况改用 `nbrag_search_and_fetch`
 - 匹配是按行进行的，跨行短语可能无法按预期命中
-- `context_lines=10` 控制上下文（默认 10，匹配行前后各 N 行）
+- `context_chars=1000` 控制上下文（默认 1000，匹配行前后约各 500 字符）
 - 可选 `case_sensitive=True`、`filter_file_path="D:/docs/labor_law/劳动合同法.md"`（必须是完整绝对路径）
 - `>>>` 标记匹配行
 

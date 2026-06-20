@@ -62,8 +62,7 @@ def nbrag_search(
     use_rerank: bool = Field(default=True, description="Enable reranker for better accuracy (recommended)"),
     use_bm25: bool = Field(default=True, description="Enable multi-channel BM25 keyword matching + Weighted RRF fusion (recommended for precise names, Chinese terms, codes, article numbers)"),
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag_search/search_and_fetch/find_files/list. Basename is not accepted. BM25 auto-disabled when set"),
-    include_content: bool = Field(default=True, description="Include chunk preview content. Set false for metadata-only lookup"),
-    preview_chars: int = Field(default=-1, description="Max preview chars per result. -1 = generous auto limit, 0 = metadata only"),
+    include_content: bool = Field(default=True, description="Include chunk content. Set false for metadata-only lookup"),
 ) -> str:
     """Search knowledge base (知识库) for relevant content. Works for docs, law, manuals, articles, source code, or any imported text.
 
@@ -72,8 +71,7 @@ def nbrag_search(
 
     **PREFER nbrag_search_and_fetch** when the user asks 'how to do X', 'show me examples of X',
     or any knowledge/usage question — it auto-fetches complete file context and avoids fragmented chunks.
-    **Use nbrag_search** only when you need fine-grained control (disable BM25/rerank),
-    metadata-only lookup (include_content=False), or custom preview length.
+    **Use nbrag_search** only when you need fine-grained control (disable BM25/rerank) or metadata-only lookup (include_content=False).
 
     Python source workflow: .py chunks include AST scope/signature metadata, so source-code questions
     often need several tools. Use nbrag_search_and_fetch for concepts/examples, nbrag_grep for exact
@@ -105,7 +103,6 @@ def nbrag_search(
         use_bm25,
         filter_file_path,
         include_content,
-        preview_chars,
     )
 
 
@@ -115,8 +112,7 @@ def nbrag_search_only_bm25(
     collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats if unknown)"),
     top_k: int = Field(default=5, description="Number of results to return"),
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag_search/search_and_fetch/find_files/list. Basename is not accepted. BM25 auto-disabled when set"),
-    include_content: bool = Field(default=True, description="Include chunk preview content. Set false for metadata-only lookup"),
-    preview_chars: int = Field(default=-1, description="Max preview chars per result. -1 = generous auto limit, 0 = metadata only"),
+    include_content: bool = Field(default=True, description="Include chunk content. Set false for metadata-only lookup"),
 ) -> str:
     """BM25-only lexical retrieval (无向量 / 无 reranker; fixes use_bm25=True, use_rerank=False).
     Pick when: isolating keyword recall, or matching precise terms — Chinese phrases, article numbers ('第四十二条'), abbreviations, codes.
@@ -131,7 +127,6 @@ def nbrag_search_only_bm25(
         True,
         filter_file_path,
         include_content,
-        preview_chars,
     )
 
 
@@ -141,8 +136,7 @@ def nbrag_search_only_vector(
     collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats if unknown)"),
     top_k: int = Field(default=5, description="Number of results to return"),
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag_search/search_and_fetch/find_files/list. Basename is not accepted"),
-    include_content: bool = Field(default=True, description="Include chunk preview content. Set false for metadata-only lookup"),
-    preview_chars: int = Field(default=-1, description="Max preview chars per result. -1 = generous auto limit, 0 = metadata only"),
+    include_content: bool = Field(default=True, description="Include chunk content. Set false for metadata-only lookup"),
 ) -> str:
     """Vector-only semantic retrieval (无 BM25 / 无 reranker; fixes use_bm25=False, use_rerank=False).
     Pick when: isolating embedding recall, or searching by intent/meaning rather than exact terminology.
@@ -157,7 +151,6 @@ def nbrag_search_only_vector(
         False,
         filter_file_path,
         include_content,
-        preview_chars,
     )
 
 
@@ -211,7 +204,7 @@ def nbrag_grep(
     max_results: int = Field(default=10, description="Maximum number of matches to return"),
     case_sensitive: bool = Field(default=False, description="Case-sensitive matching"),
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag_search/search_and_fetch/find_files/list. Basename is not accepted"),
-    context_lines: int = Field(default=10, description="Context lines before/after each match (use 20+ for long clauses/sections or class headers)"),
+    context_chars: int = Field(default=1000, description="Total characters of context around each match. Default 1000 means ~500 chars before and ~500 chars after the matched line"),
 ) -> str:
     """Literal text / regex search in stored original text, matched line by line with re.search — NOT semantic or concept search.
 
@@ -238,9 +231,9 @@ def nbrag_grep(
     names/imports/constants/decorators/error strings, then nbrag_find_definition for complete Python .py symbols,
     and nbrag_get_raw_file for full source context.
 
-    Tip: use context_lines=15 to see surrounding context around the match.
+    Tip: use context_chars=2000 to see more surrounding context around the match.
     Common pattern when extra evidence is needed: semantic discovery → exact-term grep → raw file context."""
-    return mcp_tools.nbrag_grep(keyword, collection_name, max_results, case_sensitive, filter_file_path, context_lines)
+    return mcp_tools.nbrag_grep(keyword, collection_name, max_results, case_sensitive, filter_file_path, context_chars)
 
 
 @mcp.tool()

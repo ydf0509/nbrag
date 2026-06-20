@@ -81,18 +81,18 @@ def main() -> int:
                    {"collection_name": "worker_rights", "limit": 2, "offset": 0})
 
             # ---- 检索类 ----
-            record("nbrag_search(query, top_k=3, preview_chars=700)", "nbrag_search",
+            record("nbrag_search(query, top_k=3, include_content=True)", "nbrag_search",
                    {"query": "1年劳动合同试用期期限上限", "collection_name": "worker_rights",
-                    "top_k": 3, "include_content": True, "preview_chars": 700})
+                    "top_k": 3, "include_content": True})
             record("nbrag_search(metadata-only: include_content=False)", "nbrag_search",
                    {"query": "1年劳动合同试用期期限上限", "collection_name": "worker_rights",
-                    "top_k": 2, "include_content": False, "preview_chars": 0})
+                    "top_k": 2, "include_content": False})
             record("nbrag_search_only_bm25(query='试用期', include_content=False)", "nbrag_search_only_bm25",
                    {"query": "试用期", "collection_name": "worker_rights",
-                    "top_k": 2, "include_content": False, "preview_chars": 0})
+                    "top_k": 2, "include_content": False})
             record("nbrag_search_only_vector(query, include_content=False)", "nbrag_search_only_vector",
                    {"query": "1年劳动合同试用期期限上限", "collection_name": "worker_rights",
-                    "top_k": 2, "include_content": False, "preview_chars": 0})
+                    "top_k": 2, "include_content": False})
             record("nbrag_search_and_fetch(query, top_k=3, fetch_top_n_raw=1, fetch_chars=4000)", "nbrag_search_and_fetch",
                    {"query": "1年劳动合同试用期期限上限", "collection_name": "worker_rights",
                     "top_k": 3, "fetch_top_n_raw": 1, "fetch_chars": 4000})
@@ -100,7 +100,7 @@ def main() -> int:
             # ---- 精确/词法类 ----
             record("nbrag_grep(keyword='试用期', max_results=5)", "nbrag_grep",
                    {"keyword": "试用期", "collection_name": "worker_rights",
-                    "max_results": 5, "context_lines": 6})
+                    "max_results": 5, "context_chars": 1000})
             record("nbrag_grep(无结果路径)", "nbrag_grep",
                    {"keyword": "__THIS_SHOULD_NOT_EXIST_NBRAG_REPORT__",
                     "collection_name": "worker_rights", "max_results": 3})
@@ -125,7 +125,7 @@ def main() -> int:
             print_save_file("[前置] 通过 nbrag_search 获取真实 doc_id")
             search_output = call_mcp_tool("nbrag_search", {
                 "query": "试用期", "collection_name": "worker_rights",
-                "top_k": 1, "include_content": False, "preview_chars": 0,
+                "top_k": 1, "include_content": False,
             })
             worker_doc_id = ""
             for token in search_output.replace("\n", " ").split():

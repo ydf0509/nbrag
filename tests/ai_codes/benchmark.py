@@ -86,7 +86,6 @@ def build_dynamic_cases() -> list[tuple[str, Callable[..., Any], tuple[Any, ...]
         collection_name=WORKER_RIGHTS["collection_name"],
         top_k=3,
         include_content=True,
-        preview_chars=600,
     )
     dynamic_cases.append((
         "nbrag_search(worker_rights)",
@@ -97,7 +96,6 @@ def build_dynamic_cases() -> list[tuple[str, Callable[..., Any], tuple[Any, ...]
             "collection_name": WORKER_RIGHTS["collection_name"],
             "top_k": 3,
             "include_content": True,
-            "preview_chars": 600,
         },
     ))
 
@@ -122,7 +120,7 @@ def build_dynamic_cases() -> list[tuple[str, Callable[..., Any], tuple[Any, ...]
             "keyword": WORKER_RIGHTS["grep_keyword"],
             "collection_name": WORKER_RIGHTS["collection_name"],
             "max_results": 5,
-            "context_lines": 6,
+            "context_chars": 1000,
         },
     ))
 
@@ -180,7 +178,6 @@ def build_dynamic_cases() -> list[tuple[str, Callable[..., Any], tuple[Any, ...]
             "query": FUNBOOST["search_query"],
             "collection_name": FUNBOOST["collection_name"],
             "top_k": 3,
-            "preview_chars": 500,
         },
     ))
 
@@ -192,7 +189,7 @@ def build_dynamic_cases() -> list[tuple[str, Callable[..., Any], tuple[Any, ...]
             "keyword": FUNBOOST["grep_keyword"],
             "collection_name": FUNBOOST["collection_name"],
             "max_results": 5,
-            "context_lines": 8,
+            "context_chars": 1000,
         },
     ))
 
@@ -204,7 +201,6 @@ def build_dynamic_cases() -> list[tuple[str, Callable[..., Any], tuple[Any, ...]
             "query": LANGCHAIN["search_query"],
             "collection_name": LANGCHAIN["collection_name"],
             "top_k": 3,
-            "preview_chars": 500,
         },
     ))
 
@@ -229,7 +225,7 @@ def build_dynamic_cases() -> list[tuple[str, Callable[..., Any], tuple[Any, ...]
             "keyword": LANGCHAIN["grep_keyword"],
             "collection_name": LANGCHAIN["collection_name"],
             "max_results": 5,
-            "context_lines": 6,
+            "context_chars": 1000,
         },
     ))
 

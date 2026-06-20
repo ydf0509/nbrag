@@ -252,7 +252,7 @@ def test_search_can_return_metadata_only(monkeypatch):
     assert "doc_id:doc1" in output
 
 
-def test_search_preview_chars_limits_content(monkeypatch):
+def test_search_include_content_false_omits_content(monkeypatch):
     monkeypatch.setattr(
         mcp_tools,
         "get_config",
@@ -283,11 +283,11 @@ def test_search_preview_chars_limits_content(monkeypatch):
     output = server.nbrag_search(
         query="history",
         collection_name="test",
-        preview_chars=5,
+        include_content=False,
     )
 
-    assert "abcde..." in output
-    assert "abcdef" not in output
+    assert "content omitted" in output
+    assert "abcdefghijklmnopqrstuvwxyz" not in output
 
 
 def test_find_files_wrapper_normalizes_defaults(monkeypatch):
@@ -737,7 +737,7 @@ def test_server_routes_delegate_to_mcp_tools(monkeypatch):
 def test_search_only_bm25_wrapper_forces_bm25_without_rerank(monkeypatch):
     captured = {}
 
-    def fake_search(query, collection_name, top_k, use_rerank, use_bm25, filter_file_path, include_content, preview_chars):
+    def fake_search(query, collection_name, top_k, use_rerank, use_bm25, filter_file_path, include_content):
         captured.update({
             "query": query,
             "collection_name": collection_name,
@@ -746,7 +746,6 @@ def test_search_only_bm25_wrapper_forces_bm25_without_rerank(monkeypatch):
             "use_bm25": use_bm25,
             "filter_file_path": filter_file_path,
             "include_content": include_content,
-            "preview_chars": preview_chars,
         })
         return "bm25-only"
 
@@ -758,7 +757,6 @@ def test_search_only_bm25_wrapper_forces_bm25_without_rerank(monkeypatch):
         top_k=8,
         filter_file_path="D:/repo/labor.md",
         include_content=False,
-        preview_chars=0,
     )
 
     assert output == "bm25-only"
@@ -770,14 +768,13 @@ def test_search_only_bm25_wrapper_forces_bm25_without_rerank(monkeypatch):
         "use_bm25": True,
         "filter_file_path": "D:/repo/labor.md",
         "include_content": False,
-        "preview_chars": 0,
     }
 
 
 def test_search_only_vector_wrapper_forces_vector_without_rerank(monkeypatch):
     captured = {}
 
-    def fake_search(query, collection_name, top_k, use_rerank, use_bm25, filter_file_path, include_content, preview_chars):
+    def fake_search(query, collection_name, top_k, use_rerank, use_bm25, filter_file_path, include_content):
         captured.update({
             "query": query,
             "collection_name": collection_name,
@@ -786,7 +783,6 @@ def test_search_only_vector_wrapper_forces_vector_without_rerank(monkeypatch):
             "use_bm25": use_bm25,
             "filter_file_path": filter_file_path,
             "include_content": include_content,
-            "preview_chars": preview_chars,
         })
         return "vector-only"
 
@@ -798,7 +794,6 @@ def test_search_only_vector_wrapper_forces_vector_without_rerank(monkeypatch):
         top_k=6,
         filter_file_path="D:/repo/labor.md",
         include_content=True,
-        preview_chars=300,
     )
 
     assert output == "vector-only"
@@ -810,5 +805,4 @@ def test_search_only_vector_wrapper_forces_vector_without_rerank(monkeypatch):
         "use_bm25": False,
         "filter_file_path": "D:/repo/labor.md",
         "include_content": True,
-        "preview_chars": 300,
     }

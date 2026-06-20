@@ -16,3 +16,7 @@ D:/ProgramData/miniconda3/envs/py312/python.exe d:/codes/nbrag/scripts/start_htt
 
 ## 验证向量检索能力
  验证向量检索能力写脚本时候， 需要导入 import my_load_config ，以便加载了环境变量
+
+## 禁止使用 superpowers skills
+
+当用户没有明确说明要使用 superpowers skills 时候，ai禁止杀鸡用牛刀自动用 superpowers 的skills

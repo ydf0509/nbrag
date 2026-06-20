@@ -10,14 +10,13 @@ USE_RERANK = True
 USE_BM25 = True
 FILTER_FILE_PATH = ""
 INCLUDE_CONTENT = True
-PREVIEW_CHARS = 700
 # ==========================
 
 params = {
     "query": QUERY, "collection_name": COLLECTION,
     "top_k": TOP_K, "use_rerank": USE_RERANK,
     "use_bm25": USE_BM25, "filter_file_path": FILTER_FILE_PATH,
-    "include_content": INCLUDE_CONTENT, "preview_chars": PREVIEW_CHARS,
+    "include_content": INCLUDE_CONTENT,
 }
 result = call_mcp_tool("nbrag_search", params)
 print(f"调用函数: nbrag_search")

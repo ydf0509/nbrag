@@ -8,13 +8,12 @@ COLLECTION = "worker_rights"
 TOP_K = 3
 FILTER_FILE_PATH = ""
 INCLUDE_CONTENT = True
-PREVIEW_CHARS = 500
 # ==========================
 
 params = {
     "query": QUERY, "collection_name": COLLECTION,
     "top_k": TOP_K, "filter_file_path": FILTER_FILE_PATH,
-    "include_content": INCLUDE_CONTENT, "preview_chars": PREVIEW_CHARS,
+    "include_content": INCLUDE_CONTENT,
 }
 result = call_mcp_tool("nbrag_search_only_vector", params)
 print(f"调用函数: nbrag_search_only_vector")

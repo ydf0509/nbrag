@@ -18,6 +18,7 @@ from nbrag.chunker import (
     collect_files,
     enrich_chunks,
 )
+from nbrag.collection_profiles import set_collection_profile
 from nbrag.embeddings import embed
 from nbrag.storage import (
     _batch_get,
@@ -558,5 +559,13 @@ def batch_ingest(paths, collection_name="default",
                 print(f"  {size / 1024:.1f} KB  {fp}")
             total_large_size = sum(s for _, s in large_files)
             print(f"  Total: {len(large_files)} files, {total_large_size / 1024 / 1024:.2f} MB")
+
+    if results:
+        set_collection_profile(
+            collection_name,
+            chunk_size=chunk_size,
+            chunk_overlap=chunk_overlap,
+            last_ingested_at=_time.strftime("%Y-%m-%d %H:%M:%S", _time.localtime(_time.time())),
+        )
 
     return stats

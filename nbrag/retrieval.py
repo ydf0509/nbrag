@@ -415,7 +415,7 @@ def get_context_chunks(doc_id, collection_name="default",
 
 @_runtime_guarded
 def grep_knowledge(keyword, collection_name="default", max_results=10,
-                   case_sensitive=False, filter_file_path=None, context_lines=5):
+                   case_sensitive=False, filter_file_path=None, context_chars=1000):
     """在知识库的全局 raw text cache 中进行关键词/正则搜索。"""
     if filter_file_path and not _is_absolute_path(filter_file_path):
         return []
@@ -436,27 +436,42 @@ def grep_knowledge(keyword, collection_name="default", max_results=10,
         if normalized_filter_path and info.get("source", "") != normalized_filter_path:
             continue
 
-        file_lines = info.get("content", "").splitlines()
+        content = info.get("content", "")
+        file_lines = content.splitlines()
+        char_offset = 0
         for i, line in enumerate(file_lines):
-            if pattern.search(line):
-                ctx_start = max(0, i - context_lines)
-                ctx_end = min(len(file_lines), i + context_lines + 1)
-                ctx_parts = []
-                for j in range(ctx_start, ctx_end):
-                    prefix = ">>>" if j == i else "   "
-                    ctx_parts.append(f"{prefix} {j + 1:>5}| {file_lines[j].rstrip()}")
+            line_start = char_offset
+            line_end = char_offset + len(line)
+            char_offset = line_end + 1  # +1 for newline
+            if not pattern.search(line):
+                continue
 
-                results.append({
-                    "filename": info.get("filename", f"{doc_id}.txt"),
-                    "source": info.get("source", "?"),
-                    "doc_id": doc_id,
-                    "line_number": i + 1,
-                    "line_content": line.rstrip(),
-                    "context": "\n".join(ctx_parts),
-                })
+            match_center = (line_start + line_end) // 2
+            half = max(context_chars // 2, 0)
+            ctx_char_start = max(0, match_center - half)
+            ctx_char_end = min(len(content), match_center + half)
+            snippet = content[ctx_char_start:ctx_char_end]
 
-                if len(results) >= max_results:
-                    return results
+            # 为 snippet 里的每一行标注行号，匹配行加 >>>
+            snippet_lines = snippet.splitlines()
+            first_line = content[:ctx_char_start].count("\n") + 1
+            ctx_parts = []
+            for j, sline in enumerate(snippet_lines):
+                line_num = first_line + j
+                prefix = ">>>" if line_num == i + 1 else "   "
+                ctx_parts.append(f"{prefix} {line_num:>5}| {sline.rstrip()}")
+
+            results.append({
+                "filename": info.get("filename", f"{doc_id}.txt"),
+                "source": info.get("source", "?"),
+                "doc_id": doc_id,
+                "line_number": i + 1,
+                "line_content": line.rstrip(),
+                "context": "\n".join(ctx_parts),
+            })
+
+            if len(results) >= max_results:
+                return results
 
     return results
 
@@ -821,7 +836,8 @@ def get_stats():
                 stats["collections"][name] = {"doc_count": 0, "chunk_count": 0}
             profile = profiles.get(name)
             if profile:
-                for key in ("display_name", "description", "aliases", "tags"):
+                for key in ("display_name", "description", "aliases", "tags",
+                            "chunk_size", "chunk_overlap", "last_ingested_at"):
                     value = profile.get(key)
                     if value:
                         stats["collections"][name][key] = value

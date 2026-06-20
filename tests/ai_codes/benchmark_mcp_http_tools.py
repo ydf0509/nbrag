@@ -56,7 +56,7 @@ async def one_round(round_idx: int):
                         {
                             "collection_name": "funboost",
                             "keyword": "multi_process_consume",
-                            "context_lines": 12,
+                            "context_chars": 1000,
                             "max_results": 10,
                         },
                     ),

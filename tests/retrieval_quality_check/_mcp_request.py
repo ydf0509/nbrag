@@ -102,4 +102,4 @@ if __name__ == "__main__":
     print(call_mcp_tool("nbrag_stats")[:300])
     print()
     print("测试 nbrag_search:")
-    print(call_mcp_tool("nbrag_search", {"query": "试用期", "collection_name": "worker_rights", "top_k": 2, "include_content": False, "preview_chars": 0})[:300])
+    print(call_mcp_tool("nbrag_search", {"query": "试用期", "collection_name": "worker_rights", "top_k": 2, "include_content": False})[:300])

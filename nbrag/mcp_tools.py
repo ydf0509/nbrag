@@ -1,4 +1,4 @@
-"""MCP 工具实现层：不注册 MCP，只提供可直接测试/调用的函数。"""
+﻿"""MCP 工具实现层：不注册 MCP，只提供可直接测试/调用的函数。"""
 
 from __future__ import annotations
 
@@ -175,7 +175,6 @@ def _format_search_results(
     use_vector: bool = True,
     filter_file_path: str = "",
     include_content: bool = True,
-    preview_chars: int = -1,
 ) -> str:
     cfg = get_config()
     top_k = _int_param(top_k, 5)
@@ -184,7 +183,6 @@ def _format_search_results(
     use_vector = _bool_param(use_vector, True)
     filter_file_path = _str_param(filter_file_path)
     include_content = _bool_param(include_content, True)
-    preview_chars = _int_param(preview_chars, -1)
     path_filter = filter_file_path if filter_file_path else None
     if path_filter and not _is_absolute_file_path(path_filter):
         return "Error: filter_file_path must be a full absolute file_path returned by nbrag_search/nbrag_search_and_fetch/nbrag_find_files/nbrag_list."
@@ -214,12 +212,6 @@ def _format_search_results(
     bm25_str = "off" if path_filter and use_vector else ("on" if use_bm25 else "off")
     lines = [f"[{collection_name}] {total} chunks | bm25: {bm25_str} | rerank: {rerank_str}", ""]
 
-    auto_limit = min(2000, 24000 // max(len(documents), 1))
-    if preview_chars < 0:
-        preview_limit = auto_limit
-    else:
-        preview_limit = max(0, preview_chars)
-
     for i, (doc, meta, dist) in enumerate(zip(documents, metadatas, distances)):
         if meta is None:
             meta = {}
@@ -242,10 +234,9 @@ def _format_search_results(
         lines.append(f"[{i + 1}/{len(documents)}] {meta.get('filename', '?')} {' '.join(meta_parts)}")
         lines.append(f"file_path: {src}")
 
-        if include_content and preview_limit != 0:
-            preview = doc[:preview_limit] + ("..." if len(doc) > preview_limit else "")
-            lines.append(preview)
-        elif not include_content:
+        if include_content:
+            lines.append(doc)
+        else:
             lines.append("content omitted")
         lines.append("")
 
@@ -260,7 +251,6 @@ def nbrag_search(
     use_bm25: bool = True,
     filter_file_path: str = "",
     include_content: bool = True,
-    preview_chars: int = -1,
 ) -> str:
     return _format_search_results(
         query=query,
@@ -271,7 +261,6 @@ def nbrag_search(
         use_vector=True,
         filter_file_path=filter_file_path,
         include_content=include_content,
-        preview_chars=preview_chars,
     )
 
 
@@ -281,7 +270,6 @@ def nbrag_search_only_bm25(
     top_k: int = 5,
     filter_file_path: str = "",
     include_content: bool = True,
-    preview_chars: int = -1,
 ) -> str:
     return _format_search_results(
         query=query,
@@ -292,7 +280,6 @@ def nbrag_search_only_bm25(
         use_vector=False,
         filter_file_path=filter_file_path,
         include_content=include_content,
-        preview_chars=preview_chars,
     )
 
 
@@ -302,7 +289,6 @@ def nbrag_search_only_vector(
     top_k: int = 5,
     filter_file_path: str = "",
     include_content: bool = True,
-    preview_chars: int = -1,
 ) -> str:
     return nbrag_search(
         query=query,
@@ -312,7 +298,6 @@ def nbrag_search_only_vector(
         use_bm25=False,
         filter_file_path=filter_file_path,
         include_content=include_content,
-        preview_chars=preview_chars,
     )
 
 
@@ -360,7 +345,6 @@ def nbrag_search_and_fetch(
         header += f" | filter_file_path: {filter_file_path}"
     lines = [header, "", "Ranked search results:", ""]
 
-    preview_limit = min(8000, 40000 // max(len(documents), 1))
     fetch_targets: dict[str, dict[str, Any]] = {}
     for i, (doc, meta, dist) in enumerate(zip(documents, metadatas, distances)):
         if meta is None:
@@ -387,8 +371,7 @@ def nbrag_search_and_fetch(
 
         lines.append(f"[{i + 1}/{len(documents)}] {meta.get('filename', '?')} {' '.join(meta_parts)}")
         lines.append(f"file_path: {src}")
-        preview = doc[:preview_limit] + ("..." if len(doc) > preview_limit else "")
-        lines.append(preview)
+        lines.append(doc)
         lines.append("")
 
         if i < fetch_top_n_raw and doc_id != "?" and src != "?":
@@ -433,12 +416,12 @@ def nbrag_grep(
     max_results: int = 10,
     case_sensitive: bool = False,
     filter_file_path: str = "",
-    context_lines: int = 10,
+    context_chars: int = 1000,
 ) -> str:
     max_results = _int_param(max_results, 10)
     case_sensitive = _bool_param(case_sensitive, False)
     filter_file_path = _str_param(filter_file_path)
-    context_lines = _int_param(context_lines, 10)
+    context_chars = _int_param(context_chars, 1000)
     path_filter = filter_file_path if filter_file_path else None
     if path_filter and not _is_absolute_file_path(path_filter):
         return "Error: filter_file_path must be a full absolute file_path returned by nbrag_search/nbrag_search_and_fetch/nbrag_find_files/nbrag_list."
@@ -449,7 +432,7 @@ def nbrag_grep(
         max_results,
         case_sensitive,
         filter_file_path=path_filter,
-        context_lines=context_lines,
+        context_chars=context_chars,
     )
     if not results:
         return ("No grep matches. Possible adjustments: check exact wording/case, try regex if appropriate, "
@@ -664,10 +647,14 @@ def nbrag_stats() -> str:
         docs = info.get("docs", info.get("doc_count", 0))
         chunks = info.get("chunks", info.get("chunk_count", 0))
         lines.append(f"- {name}: docs={docs} chunks={chunks}")
+        lines.append(f"  collection_name(知识库名字): {name}")
         display_name = info.get("display_name")
         description = info.get("description")
         aliases = info.get("aliases") or []
         tags = info.get("tags") or []
+        chunk_size = info.get("chunk_size")
+        chunk_overlap = info.get("chunk_overlap")
+        last_ingested_at = info.get("last_ingested_at")
         if display_name:
             lines.append(f"  display_name: {display_name}")
         if description:
@@ -676,6 +663,12 @@ def nbrag_stats() -> str:
             lines.append(f"  aliases: {', '.join(str(item) for item in aliases)}")
         if tags:
             lines.append(f"  tags: {', '.join(str(item) for item in tags)}")
+        if chunk_size:
+            lines.append(f"  chunk_size: {chunk_size}")
+        if chunk_overlap:
+            lines.append(f"  chunk_overlap: {chunk_overlap}")
+        if last_ingested_at:
+            lines.append(f"  last_ingested_at: {last_ingested_at}")
         lines.append("")
     return "\n".join(lines)
 

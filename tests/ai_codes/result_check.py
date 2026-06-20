@@ -311,7 +311,7 @@ def build_cases() -> list[CheckCase]:
                 "keyword": WORKER_RIGHTS["grep_keyword"],
                 "collection_name": WORKER_RIGHTS["collection_name"],
                 "max_results": 5,
-                "context_lines": 6,
+                "context_chars": 1000,
             },
             must_contain=[
                 "grep matches:",
