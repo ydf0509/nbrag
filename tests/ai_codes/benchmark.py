@@ -110,7 +110,7 @@ def build_dynamic_cases() -> list[tuple[str, Callable[..., Any], tuple[Any, ...]
             "collection_name": WORKER_RIGHTS["collection_name"],
             "top_k": 3,
             "fetch_top_n_raw": 1,
-            "context_lines": 15,
+            "fetch_chars": 4000,
         },
     ))
 
@@ -217,7 +217,7 @@ def build_dynamic_cases() -> list[tuple[str, Callable[..., Any], tuple[Any, ...]
             "collection_name": LANGCHAIN["collection_name"],
             "top_k": 3,
             "fetch_top_n_raw": 1,
-            "context_lines": 12,
+            "fetch_chars": 4000,
         },
     ))
 

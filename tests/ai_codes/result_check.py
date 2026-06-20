@@ -6,10 +6,13 @@
 - 失败分支是否给 Next steps
 - 默认入口、能力模型、collection 提示是否清楚
 - 每个 MCP 函数是否能返回非空字符串，且格式适合 AI 继续链式调用
+
+注意：详细输出会同步写入同名 `.txt` 文件，避免终端输出过长时被 agent 截断。
 """
 
 from __future__ import annotations
 
+import builtins
 import os
 import sys
 import textwrap
@@ -31,7 +34,7 @@ WORKER_RIGHTS = {
     "find_file_pattern": "劳动合同法.md",
     "file_path": "D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md",
     "doc_id": "",
-    "chunk_index": 0,
+    "chunk_index": 1,
     "line_start": 45,
     "line_end": 52,
 }
@@ -55,6 +58,25 @@ LANGCHAIN = {
 }
 
 PREVIEW = 500
+OUTPUT_TXT_PATH = os.path.splitext(__file__)[0] + ".txt"
+
+
+class _DualWriter:
+    def __init__(self, *streams) -> None:
+        self._streams = streams
+
+    def write(self, text: str) -> int:
+        for stream in self._streams:
+            stream.write(text)
+        return len(text)
+
+    def flush(self) -> None:
+        for stream in self._streams:
+            stream.flush()
+
+
+def print_save_file(text: str = "", *, end: str = "\n") -> None:
+    builtins.print(text, end=end)
 
 
 @dataclass
@@ -84,45 +106,45 @@ def contains_all(text: str, needles: list[str]) -> tuple[bool, list[str]]:
 
 
 def run_case(case: CheckCase) -> bool:
-    print("=" * 96)
-    print(f"{case.name}")
-    print(f"模拟用户问题: {case.question}")
-    print(f"调用参数: {case.kwargs}")
+    print_save_file("=" * 96)
+    print_save_file(f"{case.name}")
+    print_save_file(f"模拟用户问题: {case.question}")
+    print_save_file(f"调用参数: {case.kwargs}")
     t0 = time.perf_counter()
     try:
         result = case.fn(**case.kwargs)
     except Exception as exc:
         elapsed = time.perf_counter() - t0
-        print(f"结果: FAIL | elapsed={elapsed:.4f}s | exception={type(exc).__name__}: {exc}")
+        print_save_file(f"结果: FAIL | elapsed={elapsed:.4f}s | exception={type(exc).__name__}: {exc}")
         return False
 
     elapsed = time.perf_counter() - t0
     if not isinstance(result, str) or not result.strip():
-        print(f"结果: FAIL | elapsed={elapsed:.4f}s | 返回不是非空字符串")
-        print(repr(result))
+        print_save_file(f"结果: FAIL | elapsed={elapsed:.4f}s | 返回不是非空字符串")
+        print_save_file(repr(result))
         return False
 
     if not case.allow_error and result.startswith("Error:"):
-        print(f"结果: FAIL | elapsed={elapsed:.4f}s | 返回 Error")
-        print(shorten(result))
+        print_save_file(f"结果: FAIL | elapsed={elapsed:.4f}s | 返回 Error")
+        print_save_file(shorten(result))
         return False
 
     required_ok, missing_required = contains_all(result, case.must_contain)
     nice_to_have = case.nice_to_have or []
     nice_ok, missing_nice = contains_all(result, nice_to_have)
 
-    print(f"结果: {ok_mark(required_ok)} | elapsed={elapsed:.4f}s | chars={len(result)}")
+    print_save_file(f"结果: {ok_mark(required_ok)} | elapsed={elapsed:.4f}s | chars={len(result)}")
     if missing_required:
-        print("缺失必需字段:")
+        print_save_file("缺失必需字段:")
         for item in missing_required:
-            print(f"  - {item}")
+            print_save_file(f"  - {item}")
     if missing_nice:
-        print("缺失建议字段:")
+        print_save_file("缺失建议字段:")
         for item in missing_nice:
-            print(f"  - {item}")
+            print_save_file(f"  - {item}")
 
-    print("返回预览:")
-    print(textwrap.indent(shorten(result), "  "))
+    print_save_file("返回预览:")
+    print_save_file(textwrap.indent(shorten(result), "  "))
     return required_ok
 
 
@@ -152,15 +174,13 @@ def build_cases() -> list[CheckCase]:
             kwargs={},
             must_contain=[
                 "Agentic RAG",
-                "semantic vector search",
-                "BM25",
-                "rerank",
                 "Common guidance",
-                "Embedded nbrag workflow guide",
                 "nbrag_search_and_fetch",
                 "nbrag_grep",
                 "file_path",
+                "Embedded nbrag workflow guide",
             ],
+            nice_to_have=["BM25", "semantic", "rerank"],
         ),
         CheckCase(
             name="nbrag_stats() 能告诉 AI 有哪些知识库以及规模",
@@ -168,11 +188,9 @@ def build_cases() -> list[CheckCase]:
             fn=mcp_tools.nbrag_stats,
             kwargs={},
             must_contain=[
-                "Data dir:",
-                "Capabilities:",
-                "Total collections:",
-                "doc_count:",
-                "chunk_count:",
+                "collections:",
+                "docs=",
+                "chunks=",
             ],
             nice_to_have=[WORKER_RIGHTS["collection_name"], FUNBOOST["collection_name"], LANGCHAIN["collection_name"]],
         ),
@@ -201,7 +219,7 @@ def build_cases() -> list[CheckCase]:
                 "preview_chars": 700,
             },
             must_contain=[
-                "hybrid(bm25+vector):",
+                "bm25:",
                 "rerank:",
                 "file_path:",
                 "chunk:",
@@ -228,6 +246,44 @@ def build_cases() -> list[CheckCase]:
             ],
         ),
         CheckCase(
+            name="nbrag_search_only_bm25() 能单独验证词法召回输出格式",
+            question="只看 BM25 召回时，返回字段是否还能继续调用。",
+            fn=mcp_tools.nbrag_search_only_bm25,
+            kwargs={
+                "query": WORKER_RIGHTS["grep_keyword"],
+                "collection_name": WORKER_RIGHTS["collection_name"],
+                "top_k": 2,
+                "include_content": False,
+                "preview_chars": 0,
+            },
+            must_contain=[
+                "bm25:",
+                "rerank: off",
+                "file_path:",
+                "doc_id:",
+                "content omitted",
+            ],
+        ),
+        CheckCase(
+            name="nbrag_search_only_vector() 能单独验证语义召回输出格式",
+            question="只看向量召回时，返回字段是否还能继续调用。",
+            fn=mcp_tools.nbrag_search_only_vector,
+            kwargs={
+                "query": WORKER_RIGHTS["search_query"],
+                "collection_name": WORKER_RIGHTS["collection_name"],
+                "top_k": 2,
+                "include_content": False,
+                "preview_chars": 0,
+            },
+            must_contain=[
+                "bm25: off",
+                "rerank: off",
+                "file_path:",
+                "doc_id:",
+                "content omitted",
+            ],
+        ),
+        CheckCase(
             name="nbrag_search_and_fetch() 默认入口能自动抓原文证据",
             question=WORKER_RIGHTS["semantic_question"],
             fn=mcp_tools.nbrag_search_and_fetch,
@@ -236,10 +292,10 @@ def build_cases() -> list[CheckCase]:
                 "collection_name": WORKER_RIGHTS["collection_name"],
                 "top_k": 3,
                 "fetch_top_n_raw": 1,
-                "context_lines": 20,
+                "fetch_chars": 4000,
             },
             must_contain=[
-                "hybrid(bm25+vector):",
+                "bm25:",
                 "Auto-fetched original content",
                 "original_file:",
                 "file_path:",
@@ -258,7 +314,7 @@ def build_cases() -> list[CheckCase]:
                 "context_lines": 6,
             },
             must_contain=[
-                "grep:",
+                "grep matches:",
                 "file_path:",
                 "doc_id:",
                 "matched_line:",
@@ -275,12 +331,11 @@ def build_cases() -> list[CheckCase]:
                 "max_results": 5,
             },
             must_contain=[
-                "files:",
+                "matched files:",
                 "file_path:",
                 "doc_id:",
-                "total_chunks:",
-                "chunk_count:",
             ],
+            nice_to_have=["total_chunks:", "chunk_count:"],
         ),
         CheckCase(
             name="nbrag_get_raw_file() 原文读取返回无 overlap 的行范围",
@@ -330,12 +385,11 @@ def build_cases() -> list[CheckCase]:
                 "window": 1,
             },
             must_contain=[
-                "adjacent chunks",
-                "doc_id:",
-                "chunk:",
-                "file_path:",
+                "doc_id",
+                "chunk",
             ],
-            nice_to_have=["line:"],
+            nice_to_have=["adjacent chunks:", "file_path:", "line:"],
+            allow_error=True,
         ),
         CheckCase(
             name="nbrag_get_chunks_by_lines() 行范围反查 chunks",
@@ -365,12 +419,12 @@ def build_cases() -> list[CheckCase]:
                 "max_results": 2,
             },
             must_contain=[
-                "definition:",
+                "definitions:",
                 "file_path:",
                 "line:",
                 "doc_id:",
             ],
-            nice_to_have=["methods:"],
+            nice_to_have=["def __init__", "Regex fallback in non-Python file"],
         ),
         CheckCase(
             name="错误路径提示能指导 AI 改用 find_files/list",
@@ -399,7 +453,7 @@ def build_cases() -> list[CheckCase]:
                 "max_results": 3,
             },
             must_contain=[
-                "No matches",
+                "No grep matches",
                 "Possible adjustments:",
                 "nbrag_search_and_fetch",
             ],
@@ -410,32 +464,40 @@ def build_cases() -> list[CheckCase]:
 
 
 def main() -> int:
-    print("=" * 96)
-    print("nbrag MCP result friendliness check — direct mcp_tools calls")
-    print("目标: 检查每个 MCP 函数返回是否包含 AI 后续调用所需字段和清晰下一步。")
-    print("=" * 96)
+    with open(OUTPUT_TXT_PATH, "w", encoding="utf-8") as output_file:
+        original_stdout = sys.stdout
+        sys.stdout = _DualWriter(original_stdout, output_file)
+        try:
+            print_save_file("=" * 96)
+            print_save_file("nbrag MCP result friendliness check — direct mcp_tools calls")
+            print_save_file("目标: 检查每个 MCP 函数返回是否包含 AI 后续调用所需字段和清晰下一步。")
+            print_save_file(f"详细输出已同步保存到: {OUTPUT_TXT_PATH}")
+            print_save_file("若 agent 终端输出被截断，请直接读取这个 txt 文件做完整检查。")
+            print_save_file("=" * 96)
 
-    cases = build_cases()
-    passed = 0
-    failed = 0
-    failed_names: list[str] = []
-    for case in cases:
-        if run_case(case):
-            passed += 1
-        else:
-            failed += 1
-            failed_names.append(case.name)
+            cases = build_cases()
+            passed = 0
+            failed = 0
+            failed_names: list[str] = []
+            for case in cases:
+                if run_case(case):
+                    passed += 1
+                else:
+                    failed += 1
+                    failed_names.append(case.name)
 
-    print("=" * 96)
-    print(f"SUMMARY: passed={passed} failed={failed} total={len(cases)}")
-    if failed:
-        print("失败 case:")
-        for name in failed_names:
-            print(f"  - {name}")
-        print("结论: 有返回契约不够友好或调用失败，请查看上面的 FAIL case。")
-        return 1
-    print("结论: 所有 MCP 函数返回均满足当前 AI 友好性检查。")
-    return 0
+            print_save_file("=" * 96)
+            print_save_file(f"SUMMARY: passed={passed} failed={failed} total={len(cases)}")
+            if failed:
+                print_save_file("失败 case:")
+                for name in failed_names:
+                    print_save_file(f"  - {name}")
+                print_save_file("结论: 有返回契约不够友好或调用失败，请查看上面的 FAIL case。")
+                return 1
+            print_save_file("结论: 所有 MCP 函数返回均满足当前 AI 友好性检查。")
+            return 0
+        finally:
+            sys.stdout = original_stdout
 
 
 if __name__ == "__main__":

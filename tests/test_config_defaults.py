@@ -10,8 +10,8 @@ def test_chunking_defaults_when_env_and_yaml_missing(monkeypatch):
 
     cfg = config.load_config()
 
-    assert cfg.chunking.chunk_size == 1500
-    assert cfg.chunking.chunk_overlap == 200
+    assert cfg.chunking.chunk_size == 1000
+    assert cfg.chunking.chunk_overlap == 150
 
 
 def test_chunking_env_values_override_defaults(monkeypatch):

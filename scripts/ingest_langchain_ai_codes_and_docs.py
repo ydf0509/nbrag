@@ -28,8 +28,8 @@ batch_ingest(
     max_workers = 1,
     delete_first=True,
     verbose=True,
-    chunk_size=1500,
-    chunk_overlap=200,
+    chunk_size=1000,
+    chunk_overlap=150,
     sleep_interval=0.1, 
 )
 

@@ -25,6 +25,8 @@ env/
 # OS
 .DS_Store
 Thumbs.db
+nul
+bash.exe.stackdump
 
 # RAG data (user-generated, not tracked)
 rag_db/

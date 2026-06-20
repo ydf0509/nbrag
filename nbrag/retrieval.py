@@ -105,8 +105,11 @@ def _get_cached_raw_doc(collection_name, doc_id=None, source=None):
 
 @_runtime_guarded
 def search(query, collection_name="default", top_k=5, use_rerank=True,
-           use_bm25=True, filter_file_path=None):
-    """混合检索：Vector + BM25 -> RRF 融合 -> Reranker 精排。"""
+           use_bm25=True, filter_file_path=None, use_vector=True):
+    """混合检索：Vector + BM25 -> RRF 融合 -> Reranker 精排。
+
+    当 use_vector=False 且 use_bm25=True 时，只走 BM25 多通道检索，
+    不生成 query embedding，也不执行 Chroma 向量查询。"""
     col = _get_existing_collection(collection_name)
     if col is None:
         return [], [], [], False, 0, []
@@ -116,6 +119,43 @@ def search(query, collection_name="default", top_k=5, use_rerank=True,
         return [], [], [], False, 0, []
     if filter_file_path and not _is_absolute_path(filter_file_path):
         return [], [], [], False, total, []
+
+    if use_bm25 and not use_vector:
+        recall_k = min(max(top_k * (20 if filter_file_path else 4), top_k), total)
+        channel_results = _bm25_search_channels(query, collection_name, recall_k)
+        if not channel_results:
+            return [], [], [], False, total, []
+
+        ranked_sources = [
+            (channel, ids, _BM25_CHANNEL_WEIGHTS.get(channel, 1.0))
+            for channel, ids in channel_results.items()
+        ]
+        fused_ids = _weighted_rrf_fusion(ranked_sources)
+        normalized_filter_path = _normalize_path(filter_file_path) if filter_file_path else None
+
+        try:
+            extra = _batch_get(col, ids=fused_ids, include=["documents", "metadatas"])
+        except Exception:
+            return [], [], [], False, total, []
+
+        id_to_data = {
+            eid: (extra["documents"][i], extra["metadatas"][i])
+            for i, eid in enumerate(extra["ids"])
+        }
+        documents = []
+        metadatas = []
+        for cid in fused_ids:
+            if cid not in id_to_data:
+                continue
+            doc, meta = id_to_data[cid]
+            if normalized_filter_path and meta.get("source", "") != normalized_filter_path:
+                continue
+            documents.append(doc)
+            metadatas.append(meta)
+            if len(documents) >= top_k:
+                break
+        distances = [0.0] * len(documents)
+        return documents, metadatas, distances, False, total, []
 
     query_vec = embed([query])[0]
     recall_k = min(top_k * 4, total) if (use_rerank or use_bm25) else min(top_k, total)

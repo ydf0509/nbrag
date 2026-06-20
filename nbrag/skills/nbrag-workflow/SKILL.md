@@ -24,6 +24,8 @@ nbrag 提供 10+ 个 MCP 检索工具 + `nbrag_help` 导航工具，核心分三
 | 不确定该用哪个 nbrag 工具 | `nbrag_help` | 无参数，返回简短 workflow |
 | 知识/用法/示例问题（"试用期合法吗" / "设备报警码E42" / "create_agent怎么用"） | **`nbrag_search_and_fetch`** | 默认首选，一步到位 |
 | 需要精细控制（禁用 BM25/rerank、只要 metadata、调整召回数量） | `nbrag_search` | 仅高级场景 |
+| 想单独观察词法召回是否有效（术语、条文号、缩写、关键词组合） | `nbrag_search_only_bm25` | 纯 BM25，无向量、无 rerank |
+| 想单独观察语义召回是否有效（自然语言意图、概念问法） | `nbrag_search_only_vector` | 纯向量，无 BM25、无 rerank |
 | 精确字符串/术语/条文编号（"第一千零七十七条" / "ThreadPool"） | `nbrag_grep` | 逐行字面文本 / 正则匹配，返回上下文。⚠️ 只匹配原文中实际出现的 wording，不支持概念理解（'空城计'搜不到原文中的'焚香操琴'） |
 | Python 精确符号名（"UserService 在哪定义"） | `nbrag_find_definition` | Python .py 专用增强；非 Python 内容用 `nbrag_grep` |
 | 已知文件名或路径片段，需要完整路径 | `nbrag_find_files` | 返回可用于 `file_path` / `filter_file_path` 的完整绝对路径 |
@@ -59,10 +61,10 @@ nbrag_search_and_fetch(query="...", collection_name="xxx")
 ```
 
 - 语义搜索 + 自动抓取匹配文件的原文，**一次调用获得完整上下文，避免碎片化 chunk**
-- 小文件抓全文，大文件抓匹配位置附近 N 行（默认 ±100 行）
+- 小文件抓全文；大文件围绕命中位置按字符预算对称扩窗抓原文（默认 `fetch_chars=4000`）
 - `fetch_top_n_raw=3` 控制抓几个文件原文（设 0 跳过抓取）
-- 同一文件多次命中只抓一次（合并行范围）
-- 结果格式：`[1/5] file_path dist:0.1234` → 搜索排名 → 原文内容
+- 同一文件多次命中只抓一次（合并扩窗后的行范围）
+- 结果包含 `Ranked search results` 和 `Auto-fetched original content` 两段，分别展示搜索排名和自动抓取原文
 - 支持 `filter_file_path` 用搜索结果里的完整绝对 `file_path` 精确限定文件
 
 ### 策略 B：精细搜索
@@ -74,10 +76,23 @@ nbrag_search(query="...", collection_name="xxx", top_k=5)
 - Vector + BM25 → RRF 融合 → Rerank 精排
 - 可选：`use_bm25=False`、`use_rerank=False`、`include_content=False`、`preview_chars=1200`、`filter_file_path="D:/docs/labor_law/劳动合同法.md"`（必须是完整绝对路径）
 - 返回 chunk preview，可能被截断（加 `...`）
-- 关键字段：`chunk:X/Y`、`line:N-M`、`scope`（仅 Python）、`doc_id`、`file_path`、`dist`
+- 关键字段：`chunk:X/Y`、`chunk_index:X`、`total_chunks:Y`、`line:N-M`、`scope`（仅 Python）、`doc_id`、`file_path`、`dist`
 - **大多数场景用策略 A 就够了，策略 B 仅用于需要精细控制的场景**
 
-### 策略 C：精确匹配（仅限逐字字符串，不支持概念）
+### 策略 C：单策略诊断（隔离某一层召回）
+
+```python
+nbrag_search_only_bm25(query="违法约定试用期赔偿金", collection_name="xxx")
+nbrag_search_only_vector(query="试用期被辞退有赔偿吗", collection_name="xxx")
+```
+
+- `nbrag_search_only_bm25`：固定 BM25-only，无向量、无 rerank
+- `nbrag_search_only_vector`：固定 vector-only，无 BM25、无 rerank
+- 适合回答“这次命中是不是 BM25 的功劳”或“embedding 语义召回到底抓到了什么”
+- 不建议把这两个工具当默认入口；默认入口仍然通常是 `nbrag_search_and_fetch`
+- 如果只需要正常混合检索但又要关某个开关，优先用 `nbrag_search`
+
+### 策略 D：精确匹配（仅限逐字字符串，不支持概念）
 
 ```
 nbrag_grep(keyword="第十九条", collection_name="xxx")
@@ -91,7 +106,7 @@ nbrag_grep(keyword="第十九条", collection_name="xxx")
 - 可选 `case_sensitive=True`、`filter_file_path="D:/docs/labor_law/劳动合同法.md"`（必须是完整绝对路径）
 - `>>>` 标记匹配行
 
-### 策略 D：Python 符号定义（源码专用增强）
+### 策略 E：Python 符号定义（源码专用增强）
 
 ```
 nbrag_find_definition(symbol="get_by_id", collection_name="xxx")

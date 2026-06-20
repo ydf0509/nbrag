@@ -24,5 +24,5 @@ def test_repro_nbrag_search_script_calls_mcp_tools_directly():
     assert "calling nbrag.mcp_tools.nbrag_search" in combined
     assert "collection_name=sanguo" in combined
     assert "query=赤壁之战中曹操为什么失败，周瑜和诸葛亮用了什么计策" in combined
-    assert "[sanguo] 575 chunks | hybrid(bm25+vector): on | rerank:" in combined
+    assert "[sanguo] 575 chunks | bm25: on | rerank:" in combined
     assert "file_path: D:/codes/nbrag/scripts/inguest_novel/sanguo_chapters/" in combined

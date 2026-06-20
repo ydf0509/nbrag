@@ -13,7 +13,7 @@ def test_many_chunks():
         client = chromadb.PersistentClient(path=str(tmp))
         col = client.get_or_create_collection("test_large")
 
-        N = 1500  # 超过 SQLite 默认 999 变量限制
+        N = 2000  # 超过 SQLite 默认 999 变量限制
         print(f"[1] 插入 {N} 个 documents...")
         for i in range(0, N, 100):
             batch_end = min(i + 100, N)

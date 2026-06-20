@@ -14,5 +14,5 @@ storage:
   raw_files_path: ""             # 原始文件快照路径（默认 db_path/raw_files）
 
 chunking:
-  chunk_size: 1500               # 分块大小（字符数），推荐 1000-2000
-  chunk_overlap: 200             # 分块重叠（字符数）
+  chunk_size: 1000               # 分块大小（字符数），推荐 500-2000
+  chunk_overlap: 150             # 分块重叠（字符数）

@@ -36,8 +36,8 @@ class StorageConfig:
 
 @dataclass
 class ChunkingConfig:
-    chunk_size: int = 1500
-    chunk_overlap: int = 200
+    chunk_size: int = 1000
+    chunk_overlap: int = 150
 
 
 @dataclass
@@ -149,13 +149,13 @@ def load_config(cli_args=None) -> RagConfig:
     chunk_size = int(
         os.environ.get("NBRAG_CHUNK_SIZE", "")
         or chunking_data.get("chunk_size", 0)
-        or 1500
+        or 1000
     )
 
     chunk_overlap = int(
         os.environ.get("NBRAG_CHUNK_OVERLAP", "")
         or chunking_data.get("chunk_overlap", 0)
-        or 200
+        or 150
     )
 
     _config = RagConfig(

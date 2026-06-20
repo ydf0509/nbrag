@@ -263,13 +263,22 @@ In collection company_knowledge, what does the labor contract material say about
 
 ## MCP 工具
 
-`nbrag` 暴露 10+ 个检索/读取工具，以及 `nbrag_help` 导航工具。
+`nbrag` 暴露 13 个检索/读取工具，以及 `nbrag_help` 导航工具。
+
+从人类使用者视角，可以把检索分成三层：
+- **默认检索**：`nbrag_search_and_fetch` 和 `nbrag_search` 走正常的混合检索流程，覆盖大多数实际使用场景。
+- **诊断检索**：`nbrag_search_only_bm25` 和 `nbrag_search_only_vector` 用于单独观察 BM25-only 或 vector-only 的效果。
+- **精确查找**：`nbrag_grep` 只做字面文本 / 正则匹配，不负责概念理解。
+
+这两个诊断工具更适合评估、调试和检索效果分析，不是大多数终端问题的默认入口。
 
 | 类别 | 工具 | 用途 |
 |---|---|---|
 | 导航 | `nbrag_help` | AI 不确定如何组合工具时，返回简短工作流指南 |
 | 搜索 | `nbrag_search` | 混合检索：Vector + BM25 -> RRF -> rerank |
-| 搜索 | `nbrag_search_and_fetch` | 混合检索并自动读取命中位置附近原文 |
+| 搜索 | `nbrag_search_and_fetch` | 混合检索并按字符预算对称扩窗自动读取命中位置附近原文 |
+| 搜索诊断 | `nbrag_search_only_bm25` | 纯 BM25 检索，用于观察词法召回效果，不走向量和 rerank |
+| 搜索诊断 | `nbrag_search_only_vector` | 纯向量检索，用于观察语义召回效果，不走 BM25 和 rerank |
 | 精确搜索 | `nbrag_grep` | 逐行字面文本 / 正则匹配，适合条文编号、术语、标题、错误码和 API 名 |
 | Python 源码 | `nbrag_find_definition` | 定位 Python class/function/method 完整定义，优先使用 AST |
 | 文件定位 | `nbrag_find_files` | 根据文件名或路径片段找到唯一绝对 `file_path` |
@@ -293,7 +302,7 @@ In collection company_knowledge, what does the labor contract material say about
    发现可用 collection_name。
 
 2. nbrag_search_and_fetch
-   用聚焦查询做语义+关键词混合检索，并读取命中位置附近原文。
+   用聚焦查询做语义+关键词混合检索，并按字符预算对称扩窗读取命中位置附近原文。
 
 3. nbrag_grep
    用逐行字面文本 / 正则匹配查精确术语、条文编号、标题、错误码或原文短语；如果不确定原文措辞，优先先用 `nbrag_search_and_fetch`。
@@ -387,8 +396,8 @@ CLI 参数 > 环境变量 > YAML 配置 > 默认值
 | `NBRAG_RERANK_MODEL` | 否 | `BAAI/bge-reranker-v2-m3` | Rerank 模型 |
 | `NBRAG_DB_PATH` | 否 | `<project>/rag_db` | ChromaDB 和本地索引路径 |
 | `NBRAG_RAW_FILES_PATH` | 否 | `<db_path>/raw_files` | 原始文件快照路径 |
-| `NBRAG_CHUNK_SIZE` | 否 | `1500` | chunk 大小 |
-| `NBRAG_CHUNK_OVERLAP` | 否 | `200` | chunk overlap |
+| `NBRAG_CHUNK_SIZE` | 否 | `1000` | chunk 大小 |
+| `NBRAG_CHUNK_OVERLAP` | 否 | `150` | chunk overlap |
 
 ### YAML 配置
 
@@ -414,8 +423,8 @@ storage:
   db_path: ./rag_db
 
 chunking:
-  chunk_size: 1500
-  chunk_overlap: 200
+  chunk_size: 1000
+  chunk_overlap: 150
 ```
 
 ### CLI

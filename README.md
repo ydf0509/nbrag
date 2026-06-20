@@ -265,13 +265,22 @@ If the agent is unsure which tool to use, it can call `nbrag_help`.
 
 ## MCP Tools
 
-`nbrag` exposes 11 retrieval/read tools plus one navigation tool.
+`nbrag` exposes 13 retrieval/read tools plus one navigation tool.
+
+For human readers, it helps to think of retrieval in three layers:
+- **Default retrieval**: `nbrag_search_and_fetch` and `nbrag_search` use the normal hybrid pipeline and cover most real usage.
+- **Diagnostic retrieval**: `nbrag_search_only_bm25` and `nbrag_search_only_vector` isolate one retrieval mode when you want to inspect BM25-only or vector-only behavior.
+- **Exact lookup**: `nbrag_grep` is for literal strings / regex, not concept search.
+
+The diagnostic tools are mainly for evaluation, debugging, and retrieval tuning. They are not the default starting point for most end-user questions.
 
 | Category | Tool | Purpose |
 |---|---|---|
 | Navigation | `nbrag_help` | Compact workflow guide for agents that are unsure how to combine tools |
 | Search | `nbrag_search` | Hybrid search: Vector + BM25 -> RRF -> rerank |
-| Search | `nbrag_search_and_fetch` | Hybrid search plus automatic original-file context fetch |
+| Search | `nbrag_search_and_fetch` | Hybrid search plus automatic original-file context fetch using a symmetric char budget around hits |
+| Search diagnostics | `nbrag_search_only_bm25` | BM25-only retrieval for inspecting lexical recall without vector search or rerank |
+| Search diagnostics | `nbrag_search_only_vector` | Vector-only retrieval for inspecting semantic recall without BM25 or rerank |
 | Exact search | `nbrag_grep` | Line-by-line literal text / regex matching for article numbers, terms, headings, error codes, and API names |
 | Python source | `nbrag_find_definition` | Find complete Python class/function/method definitions with AST when available |
 | File lookup | `nbrag_find_files` | Find the unique absolute `file_path` for later reads or filters |
@@ -295,7 +304,7 @@ For law, guidelines, manuals, standards, policy documents, and internal wiki mat
    Discover available collection_name values.
 
 2. nbrag_search_and_fetch
-   Start with a focused semantic/keyword query and get nearby original text.
+   Start with a focused semantic/keyword query and auto-fetch symmetric char-bounded original context around the hit.
 
 3. nbrag_grep
    Use line-by-line literal text or regex matching for exact terms, article numbers, headings, error codes, or quoted phrases. If you are unsure about the original wording, prefer nbrag_search_and_fetch first.
@@ -391,7 +400,7 @@ CLI arguments > environment variables > YAML config > defaults
 | `NBRAG_RERANK_MODEL` | No | `BAAI/bge-reranker-v2-m3` | Rerank model |
 | `NBRAG_DB_PATH` | No | `<project>/rag_db` | ChromaDB and local indexes path |
 | `NBRAG_RAW_FILES_PATH` | No | `<db_path>/raw_files` | Original-file snapshot path |
-| `NBRAG_CHUNK_SIZE` | No | `1500` | Chunk size |
+| `NBRAG_CHUNK_SIZE` | No | `1000` | Chunk size |
 | `NBRAG_CHUNK_OVERLAP` | No | `200` | Chunk overlap |
 
 ### YAML Config
@@ -418,8 +427,8 @@ storage:
   db_path: ./rag_db
 
 chunking:
-  chunk_size: 1500
-  chunk_overlap: 200
+  chunk_size: 1000
+  chunk_overlap: 150
 ```
 
 ### CLI

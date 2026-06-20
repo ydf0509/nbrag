@@ -45,7 +45,7 @@ def test_grep_raw_text_cache_loads_markdown_files(tmp_path, monkeypatch):
 def test_help_is_exposed_as_mcp_tool():
     source = Path(server.__file__).read_text(encoding="utf-8-sig")
 
-    assert source.count("@mcp.tool()") == 12
+    assert source.count("@mcp.tool()") == 14
     assert "@mcp.tool()\ndef nbrag_help(" in source
 
 
@@ -100,6 +100,16 @@ def test_docs_present_help_as_optional_navigation_not_required_skill():
     assert "nbrag_help" in readme
     assert "不复制 Skill" in readme
     assert "nbrag_help" in skill
+
+
+def test_chinese_readme_explains_diagnostic_search_for_humans():
+    root = Path(server.__file__).resolve().parents[1]
+    readme_zh = (root / "README.zh-CN.md").read_text(encoding="utf-8")
+
+    assert "从人类使用者视角，可以把检索分成三层" in readme_zh
+    assert "nbrag_search_only_bm25" in readme_zh
+    assert "nbrag_search_only_vector" in readme_zh
+    assert "这两个诊断工具更适合评估、调试和检索效果分析" in readme_zh
 
 
 def test_python_source_workflow_is_visible_without_copying_the_skill():
@@ -196,7 +206,10 @@ def test_find_definition_mixed_results_do_not_label_python_ast_as_fallback(monke
     header = output.split("\n\n", 1)[0]
     assert "non-Python regex fallback" not in header
     assert "[1/2] class BoosterParams" in output
+    assert "[2/2] regex_fallback BoosterParams" in output
+    assert "[2/2] unknown BoosterParams" not in output
     assert "Regex fallback in non-Python file" in output
+    assert "For law/docs/manuals, use nbrag_grep" not in output
 
 
 def test_search_can_return_metadata_only(monkeypatch):
@@ -310,6 +323,27 @@ def test_find_files_wrapper_normalizes_defaults(monkeypatch):
     assert "file_path: D:/repo/langchain_core/runnables/history.py" in output
 
 
+def test_find_files_result_exposes_size_and_match_metadata(monkeypatch):
+    monkeypatch.setattr(
+        mcp_tools,
+        "find_files",
+        lambda *args, **kwargs: [{
+            "doc_id": "doc1",
+            "filename": "history.py",
+            "source": "D:/repo/langchain_core/runnables/history.py",
+            "chunk_count": 20,
+            "total_chunks": 20,
+            "match": "filename",
+        }],
+    )
+
+    output = server.nbrag_find_files(pattern="history.py", collection_name="test")
+
+    assert "chunk_count: 20" in output
+    assert "total_chunks: 20" in output
+    assert "match: filename" in output
+
+
 def test_search_and_fetch_wrapper_normalizes_defaults(monkeypatch):
     captured = {}
 
@@ -359,7 +393,7 @@ def test_search_and_fetch_wrapper_normalizes_defaults(monkeypatch):
             "total_chunks": 1,
             "line_start": 1,
             "line_end": 5,
-            "content": "original content",
+            "content": "line1\nline2\nline3\nline4\nline5\n",
         }
 
     monkeypatch.setattr(mcp_tools, "search", fake_search)
@@ -375,11 +409,13 @@ def test_search_and_fetch_wrapper_normalizes_defaults(monkeypatch):
         "use_bm25": True,
         "filter_file_path": None,
     }
-    assert "Auto-fetched original content (1 file(s))" in output
+    assert "Ranked search results:" in output
+    assert "Auto-fetched original content (1 file(s)):" in output
     assert "original_file: history.py" in output
+    assert "range: line:1-5" in output
 
 
-def test_search_and_fetch_uses_ranked_windows_for_same_doc(monkeypatch):
+def test_search_and_fetch_uses_symmetric_char_windows_for_same_doc(monkeypatch):
     monkeypatch.setattr(
         mcp_tools,
         "get_config",
@@ -398,7 +434,7 @@ def test_search_and_fetch_uses_ranked_windows_for_same_doc(monkeypatch):
                     "chunk_index": 1,
                     "total_chunks": 10,
                     "line_start": 100,
-                    "line_end": 120,
+                    "line_end": 100,
                     "scope": "",
                     "doc_id": "doc1",
                 },
@@ -408,7 +444,7 @@ def test_search_and_fetch_uses_ranked_windows_for_same_doc(monkeypatch):
                     "chunk_index": 8,
                     "total_chunks": 10,
                     "line_start": 300,
-                    "line_end": 320,
+                    "line_end": 300,
                     "scope": "",
                     "doc_id": "doc1",
                 },
@@ -420,26 +456,12 @@ def test_search_and_fetch_uses_ranked_windows_for_same_doc(monkeypatch):
         ),
     )
 
-    excerpt_calls = []
+    full_manual = "".join(f"L{i:03d}\n" for i in range(1, 401))
 
     def fake_get_file_chunks(file_path, collection_name, start_chunk, max_chunks, raw=False, line_start=-1, line_end=-1):
         assert file_path == "D:/repo/manual.md"
         assert collection_name == "docs"
         assert raw is True
-        if line_start == -1 and line_end == -1:
-            return {
-                "found": True,
-                "filename": "manual.md",
-                "doc_id": "doc1",
-                "source": file_path,
-                "total_lines": 400,
-                "total_chunks": 10,
-                "line_start": 1,
-                "line_end": 400,
-                "content": "full manual",
-            }
-
-        excerpt_calls.append((line_start, line_end))
         return {
             "found": True,
             "filename": "manual.md",
@@ -447,9 +469,9 @@ def test_search_and_fetch_uses_ranked_windows_for_same_doc(monkeypatch):
             "source": file_path,
             "total_lines": 400,
             "total_chunks": 10,
-            "line_start": line_start,
-            "line_end": line_end,
-            "content": f"excerpt {line_start}-{line_end}",
+            "line_start": 1,
+            "line_end": 400,
+            "content": full_manual,
         }
 
     monkeypatch.setattr(mcp_tools, "get_file_chunks", fake_get_file_chunks)
@@ -458,13 +480,101 @@ def test_search_and_fetch_uses_ranked_windows_for_same_doc(monkeypatch):
         query="manual",
         collection_name="docs",
         fetch_top_n_raw=2,
-        context_lines=5,
+        fetch_chars=25,
     )
 
-    assert (95, 125) in excerpt_calls
-    assert (295, 325) in excerpt_calls
-    assert "range: line:95-125" in output
-    assert "range: line:295-325" in output
+    assert "range: line:98-102" in output
+    assert "range: line:298-302" in output
+    assert "L098\nL099\nL100\nL101\nL102" in output
+    assert "L298\nL299\nL300\nL301\nL302" in output
+
+
+def test_stats_uses_current_stat_field_names(monkeypatch):
+    monkeypatch.setattr(
+        mcp_tools,
+        "get_stats",
+        lambda: {
+            "collections": {
+                "worker_rights": {"doc_count": 9, "chunk_count": 111},
+                "legacy_docs": {"docs": 2, "chunks": 10},
+            }
+        },
+    )
+
+    output = server.nbrag_stats()
+
+    assert "- worker_rights: docs=9 chunks=111" in output
+    assert "- legacy_docs: docs=2 chunks=10" in output
+
+
+def test_stats_docstring_mentions_collection_profiles():
+    doc = inspect.getdoc(server.nbrag_stats) or ""
+
+    assert "display_name" in doc
+    assert "description" in doc
+    assert "aliases" in doc
+    assert "choose the right collection" in doc
+
+
+def test_list_result_describes_returned_page_not_collection_total(monkeypatch):
+    monkeypatch.setattr(
+        mcp_tools,
+        "list_documents",
+        lambda collection_name, offset=0, limit=200: {
+            "doc1": {
+                "filename": "a.md",
+                "source": "D:/repo/a.md",
+                "chunk_count": 1,
+                "total_chunks": 1,
+            },
+            "doc2": {
+                "filename": "b.md",
+                "source": "D:/repo/b.md",
+                "chunk_count": 2,
+                "total_chunks": 2,
+            },
+        },
+    )
+
+    output = server.nbrag_list(collection_name="docs", offset=10, limit=2)
+
+    assert "documents returned: 2 | offset: 10 | limit: 2" in output
+    assert "documents in collection: 2" not in output
+
+
+def test_search_result_exposes_explicit_chunk_index_and_total(monkeypatch):
+    monkeypatch.setattr(
+        mcp_tools,
+        "get_config",
+        lambda: SimpleNamespace(rerank=SimpleNamespace(model="rerank-model")),
+    )
+    monkeypatch.setattr(
+        mcp_tools,
+        "search",
+        lambda *args, **kwargs: (
+            ["matched chunk"],
+            [{
+                "source": "D:/repo/history.py",
+                "filename": "history.py",
+                "chunk_index": 2,
+                "total_chunks": 9,
+                "line_start": 10,
+                "line_end": 20,
+                "scope": "",
+                "doc_id": "doc1",
+            }],
+            [0.1234],
+            True,
+            9,
+            [0.9876],
+        ),
+    )
+
+    output = server.nbrag_search(query="history", collection_name="docs", include_content=False)
+
+    assert "chunk:2/9" in output
+    assert "chunk_index:2" in output
+    assert "total_chunks:9" in output
 
 
 def test_list_wrapper_passes_limit_and_offset_by_name(monkeypatch):
@@ -484,6 +594,42 @@ def test_list_wrapper_passes_limit_and_offset_by_name(monkeypatch):
 
     assert output == "listed"
     assert captured == {"collection_name": "docs", "offset": 10, "limit": 5}
+
+
+def test_get_raw_file_basename_error_suggests_find_files():
+    output = server.nbrag_get_raw_file(file_path="history.py", collection_name="docs")
+
+    assert "full absolute file_path" in output
+    assert "nbrag_find_files" in output
+    assert "nbrag_search" in output
+    assert "nbrag_list" in output
+
+
+def test_get_file_chunks_range_uses_inclusive_returned_chunk_indexes(monkeypatch):
+    monkeypatch.setattr(
+        mcp_tools,
+        "get_file_chunks",
+        lambda *args, **kwargs: {
+            "found": True,
+            "filename": "manual.md",
+            "doc_id": "doc1",
+            "source": "D:/repo/manual.md",
+            "total_chunks": 5,
+            "total_lines": 100,
+            "start_chunk": 0,
+            "end_chunk": 2,
+            "chunks": [
+                {"index": 0, "line_start": 1, "line_end": 10, "content": "chunk0"},
+                {"index": 1, "line_start": 11, "line_end": 20, "content": "chunk1"},
+            ],
+        },
+    )
+
+    output = server.nbrag_get_file_chunks(file_path="D:/repo/manual.md", collection_name="docs", start_chunk=0, max_chunks=2)
+
+    assert "range: chunk:0-1" in output
+    assert "chunk:0" in output
+    assert "chunk:1" in output
 
 
 def test_grep_result_exposes_machine_readable_line_range(monkeypatch):
@@ -529,6 +675,29 @@ def test_adjacent_chunks_include_line_ranges_for_follow_up(monkeypatch):
     assert "file_path: D:/repo/manual.md" in output
 
 
+def test_adjacent_chunks_passes_collection_and_chunk_index_by_name(monkeypatch):
+    captured = {}
+
+    def fake_get_context_chunks(*args, **kwargs):
+        captured.update({"args": args, "kwargs": kwargs})
+        return {
+            "found": True,
+            "source": "D:/repo/manual.md",
+            "doc_id": "doc1",
+            "total_chunks": 5,
+            "chunks": [],
+        }
+
+    monkeypatch.setattr(mcp_tools, "get_context_chunks", fake_get_context_chunks)
+
+    server.nbrag_get_adjacent_chunks(doc_id="doc1", chunk_index=2, collection_name="docs", window=1)
+
+    assert captured == {
+        "args": ("doc1",),
+        "kwargs": {"collection_name": "docs", "chunk_index": 2, "window": 1},
+    }
+
+
 def test_search_and_fetch_docstring_declares_default_entrypoint():
     doc = inspect.getdoc(server.nbrag_search_and_fetch) or ""
 
@@ -550,7 +719,7 @@ def test_server_routes_delegate_to_mcp_tools(monkeypatch):
         collection_name="docs",
         top_k=7,
         fetch_top_n_raw=2,
-        context_lines=15,
+        fetch_chars=2000,
         filter_file_path="D:/repo/history.py",
     )
 
@@ -560,6 +729,86 @@ def test_server_routes_delegate_to_mcp_tools(monkeypatch):
         "collection_name": "docs",
         "top_k": 7,
         "fetch_top_n_raw": 2,
-        "context_lines": 15,
+        "fetch_chars": 2000,
         "filter_file_path": "D:/repo/history.py",
+    }
+
+
+def test_search_only_bm25_wrapper_forces_bm25_without_rerank(monkeypatch):
+    captured = {}
+
+    def fake_search(query, collection_name, top_k, use_rerank, use_bm25, filter_file_path, include_content, preview_chars):
+        captured.update({
+            "query": query,
+            "collection_name": collection_name,
+            "top_k": top_k,
+            "use_rerank": use_rerank,
+            "use_bm25": use_bm25,
+            "filter_file_path": filter_file_path,
+            "include_content": include_content,
+            "preview_chars": preview_chars,
+        })
+        return "bm25-only"
+
+    monkeypatch.setattr(mcp_tools, "nbrag_search", fake_search)
+
+    output = server.nbrag_search_only_bm25(
+        query="N+1 赔偿",
+        collection_name="worker_rights",
+        top_k=8,
+        filter_file_path="D:/repo/labor.md",
+        include_content=False,
+        preview_chars=0,
+    )
+
+    assert output == "bm25-only"
+    assert captured == {
+        "query": "N+1 赔偿",
+        "collection_name": "worker_rights",
+        "top_k": 8,
+        "use_rerank": False,
+        "use_bm25": True,
+        "filter_file_path": "D:/repo/labor.md",
+        "include_content": False,
+        "preview_chars": 0,
+    }
+
+
+def test_search_only_vector_wrapper_forces_vector_without_rerank(monkeypatch):
+    captured = {}
+
+    def fake_search(query, collection_name, top_k, use_rerank, use_bm25, filter_file_path, include_content, preview_chars):
+        captured.update({
+            "query": query,
+            "collection_name": collection_name,
+            "top_k": top_k,
+            "use_rerank": use_rerank,
+            "use_bm25": use_bm25,
+            "filter_file_path": filter_file_path,
+            "include_content": include_content,
+            "preview_chars": preview_chars,
+        })
+        return "vector-only"
+
+    monkeypatch.setattr(mcp_tools, "nbrag_search", fake_search)
+
+    output = server.nbrag_search_only_vector(
+        query="试用期被辞退有赔偿吗",
+        collection_name="worker_rights",
+        top_k=6,
+        filter_file_path="D:/repo/labor.md",
+        include_content=True,
+        preview_chars=300,
+    )
+
+    assert output == "vector-only"
+    assert captured == {
+        "query": "试用期被辞退有赔偿吗",
+        "collection_name": "worker_rights",
+        "top_k": 6,
+        "use_rerank": False,
+        "use_bm25": False,
+        "filter_file_path": "D:/repo/labor.md",
+        "include_content": True,
+        "preview_chars": 300,
     }

@@ -203,7 +203,7 @@ def test_nbrag_stats_renders_collection_profile_summary(monkeypatch):
     monkeypatch.setattr(
         mcp_tools,
         "get_config",
-        lambda: SimpleNamespace(chunking=SimpleNamespace(chunk_size=1500, chunk_overlap=200)),
+        lambda: SimpleNamespace(chunking=SimpleNamespace(chunk_size=1000, chunk_overlap=150)),
     )
     monkeypatch.setattr(
         mcp_tools,
@@ -228,8 +228,8 @@ def test_nbrag_stats_renders_collection_profile_summary(monkeypatch):
 
     output = server.nbrag_stats()
 
-    assert "三国演义知识库" in output
-    assert "doc_count: 12" in output
-    assert "chunk_count: 88" in output
-    assert "description:" in output
+    assert "- sanguo_yanyi: docs=12 chunks=88" in output
+    assert "display_name: 三国演义知识库" in output
+    assert "description: 包含《三国演义》章节正文，适合查询关羽、张飞、刘备、曹操、诸葛亮等内容。" in output
     assert "aliases: 三国, 三国演义, 关羽, 张飞, 刘备" in output
+    assert "tags: 古典小说" in output

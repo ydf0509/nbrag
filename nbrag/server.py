@@ -1,19 +1,21 @@
 ﻿"""
-nbrag MCP Server — 10+ 个 Agentic RAG MCP 检索工具 + 1 个导航工具。
+nbrag MCP Server — 10+ 个 Agentic RAG MCP 检索/读取工具 + 1 个导航工具。
 
 MCP tools (10+ retrieval/reading tools + help):
-  0. nbrag_help                 → Short workflow guide for AI agents
-  1. nbrag_search               → Semantic search (vector + rerank)
-  2. nbrag_search_and_fetch     → Search + auto-fetch original file content (combo tool)
-  3. nbrag_grep                 → Line-by-line literal text / regex matching (complements semantic search)
-  4. nbrag_find_definition      → Find Python class/function definition by symbol name
-  5. nbrag_find_files           → Find full file_path by filename/path pattern
-  6. nbrag_get_file_chunks      → Paginated chunks with scope/line metadata
-  7. nbrag_get_raw_file         → Original file content without overlap
-  8. nbrag_get_adjacent_chunks  → Adjacent chunks by chunk index
-  9. nbrag_get_chunks_by_lines  → Chunks covering a line range
-  10. nbrag_list                → List imported documents
-  11. nbrag_stats               → Collection overview and config
+  - nbrag_help                 → Short workflow guide for AI agents
+  - nbrag_search               → Hybrid search with fine-grained controls
+  - nbrag_search_and_fetch     → Search + auto-fetch original file content (combo tool)
+  - nbrag_search_only_bm25     → BM25-only diagnostic search
+  - nbrag_search_only_vector   → Vector-only diagnostic search
+  - nbrag_grep                 → Line-by-line literal text / regex matching (complements semantic search)
+  - nbrag_find_definition      → Find Python class/function definition by symbol name
+  - nbrag_find_files           → Find full file_path by filename/path pattern
+  - nbrag_get_file_chunks      → Paginated chunks with scope/line metadata
+  - nbrag_get_raw_file         → Original file content without overlap
+  - nbrag_get_adjacent_chunks  → Adjacent chunks by chunk index
+  - nbrag_get_chunks_by_lines  → Chunks covering a line range
+  - nbrag_list                 → List imported documents
+  - nbrag_stats                → Collection overview and config
 
 启动方式:
   uvx nbrag                          # stdio (默认)
@@ -33,8 +35,8 @@ mcp = FastMCP("nbrag")
 def nbrag_add_document(
     path: str = Field(description="Absolute path to a file or directory. Directory imports all text files recursively"),
     collection_name: str = Field(description="Collection name (required, auto-created if not exists. Use nbrag_stats to see existing)"),
-    chunk_size: int = Field(default=DEFAULT_CHUNK_SIZE, description="Chunk size in chars, default 1500, recommended 1000-2000"),
-    chunk_overlap: int = Field(default=DEFAULT_CHUNK_OVERLAP, description="Chunk overlap in chars, default 200"),
+    chunk_size: int = Field(default=DEFAULT_CHUNK_SIZE, description="Chunk size in chars, default 1000, recommended 1000-2000"),
+    chunk_overlap: int = Field(default=DEFAULT_CHUNK_OVERLAP, description="Chunk overlap in chars, default 150"),
     file_extensions: str = Field(default="", description="Comma-separated file extensions to include (e.g. 'py,md,html'). Empty = all text files"),
 ) -> str:
     """Ingest file or directory into knowledge base (chunking + embedding + indexing). Auto-creates collection if not exists.
@@ -84,7 +86,7 @@ def nbrag_search(
     e.g. user asks "试用期干了5个月不转正，1年合同合法吗" → query="1年劳动合同试用期期限上限"
     Then do a second search: query="违法约定试用期赔偿金" to find penalty clauses.
 
-    Result format: [1/5] filename chunk:X/Y line:N-M scope:xxx doc_id:xxx dist:0.1234 score:0.9876
+    Result format: [1/5] filename chunk:X/Y chunk_index:X total_chunks:Y line:N-M scope:xxx doc_id:xxx dist:0.1234 score:0.9876
     Key fields for follow-up: file_path (for nbrag_get_raw_file), doc_id + chunk_index (for nbrag_get_adjacent_chunks).
 
     Possible follow-up tools when the result suggests you need more evidence:
@@ -108,16 +110,69 @@ def nbrag_search(
 
 
 @mcp.tool()
+def nbrag_search_only_bm25(
+    query: str = Field(description="Focused search query: short natural-language query or concise phrase; keep key legal/technical terms that BM25 can match directly"),
+    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats if unknown)"),
+    top_k: int = Field(default=5, description="Number of results to return"),
+    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag_search/search_and_fetch/find_files/list. Basename is not accepted. BM25 auto-disabled when set"),
+    include_content: bool = Field(default=True, description="Include chunk preview content. Set false for metadata-only lookup"),
+    preview_chars: int = Field(default=-1, description="Max preview chars per result. -1 = generous auto limit, 0 = metadata only"),
+) -> str:
+    """BM25-only lexical retrieval (无向量 / 无 reranker; fixes use_bm25=True, use_rerank=False).
+    Pick when: isolating keyword recall, or matching precise terms — Chinese phrases, article numbers ('第四十二条'), abbreviations, codes.
+    vs nbrag_grep: ranked retrieval, NOT exact line matching (use grep when wording must appear literally).
+    vs nbrag_search_only_vector: stronger on exact terms, weaker on intent/meaning.
+    Switch when: misses semantic intent → nbrag_search_only_vector / nbrag_search · needs literal evidence → nbrag_grep · needs more context → nbrag_get_raw_file / nbrag_get_adjacent_chunks."""
+    return mcp_tools.nbrag_search(
+        query,
+        collection_name,
+        top_k,
+        False,
+        True,
+        filter_file_path,
+        include_content,
+        preview_chars,
+    )
+
+
+@mcp.tool()
+def nbrag_search_only_vector(
+    query: str = Field(description="Focused natural-language query for semantic retrieval; describe the concept or intent instead of splitting into keywords"),
+    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats if unknown)"),
+    top_k: int = Field(default=5, description="Number of results to return"),
+    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag_search/search_and_fetch/find_files/list. Basename is not accepted"),
+    include_content: bool = Field(default=True, description="Include chunk preview content. Set false for metadata-only lookup"),
+    preview_chars: int = Field(default=-1, description="Max preview chars per result. -1 = generous auto limit, 0 = metadata only"),
+) -> str:
+    """Vector-only semantic retrieval (无 BM25 / 无 reranker; fixes use_bm25=False, use_rerank=False).
+    Pick when: isolating embedding recall, or searching by intent/meaning rather than exact terminology.
+    vs nbrag_grep: semantic retrieval, NOT literal line matching.
+    vs nbrag_search_only_bm25: better for natural-language intent questions, weaker for exact article numbers / fixed terms / abbreviations.
+    Switch when: needs exact terms → nbrag_search_only_bm25 / nbrag_grep · wants the normal pipeline → nbrag_search / nbrag_search_and_fetch · needs more context → nbrag_get_raw_file / nbrag_get_adjacent_chunks."""
+    return mcp_tools.nbrag_search(
+        query,
+        collection_name,
+        top_k,
+        False,
+        False,
+        filter_file_path,
+        include_content,
+        preview_chars,
+    )
+
+
+@mcp.tool()
 def nbrag_search_and_fetch(
     query: str = Field(description="Focused search query: short natural-language query or concise phrase; do not mechanically split into space-separated keywords"),
     collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats if unknown)"),
     top_k: int = Field(default=5, description="Number of search results to return"),
     fetch_top_n_raw: int = Field(default=3, description="Auto-fetch original file content for top N results (0 to skip)"),
-    context_lines: int = Field(default=100, description="Lines of context around matched chunk"),
+    fetch_chars: int = Field(default=4000, description="Approximate original-text chars to fetch around each hit. Expansion is symmetric around the matched range and always includes the hit itself"),
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag_search/search_and_fetch/find_files/list. Basename is not accepted"),
 ) -> str:
     """
     Default entry point for most user questions: search + auto-fetch stored original content for top results in one call.
+    This shortcut already uses the recommended hybrid retrieval pipeline by default: vector search + multi-channel BM25 + Weighted RRF fusion + reranker.
 
     **PREFER this over nbrag_search** when:
     - User asks 'how to do X', 'show me examples of X', 'what is X usage', or any knowledge/usage question.
@@ -133,7 +188,7 @@ def nbrag_search_and_fetch(
 
     Uses Vector + BM25 + RRF + rerank by default. When filter_file_path is set,
     BM25 is skipped and ChromaDB source-path filtering is used before rerank.
-    Same doc_id results are grouped by file; distant ranked hits are fetched as separate line windows.
+    Same doc_id results are grouped by file; distant ranked hits are fetched as separate symmetric char windows.
 
     Python source workflow: use this for concepts/examples and first evidence, then call nbrag_grep
     for exact names/imports/constants/decorators, nbrag_find_definition for complete Python .py
@@ -144,7 +199,7 @@ def nbrag_search_and_fetch(
         collection_name=collection_name,
         top_k=top_k,
         fetch_top_n_raw=fetch_top_n_raw,
-        context_lines=context_lines,
+        fetch_chars=fetch_chars,
         filter_file_path=filter_file_path,
     )
 
@@ -304,16 +359,13 @@ def nbrag_delete(
 
 @mcp.tool()
 def nbrag_stats() -> str:
-    """Get all available knowledge bases (知识库) and their stats. CALL THIS FIRST if you don't know the collection_name.
-    Capability model: nbrag is an Agentic RAG MCP retrieval toolkit, not a plain file search tool.
-    It combines semantic vector search, multi-channel BM25 lexical search, Weighted RRF fusion, rerank,
-    raw original-file evidence reading, and Python AST symbol lookup.
-    Returns: all collection names, doc count, chunk count, embedding/rerank model, storage path, and optional collection profiles.
-    Glossary: collection_name = knowledge base name = 知识库名字 (e.g. "project_docs", "law_docs").
-    When a profile exists, it shows display_name / description / aliases to help AI choose the right collection.
-    If you are unsure how to chain tools, call nbrag_help for a compact workflow guide.
-    After getting collection names, use nbrag_search_and_fetch for most knowledge/usage questions.
-    Use nbrag_search only when you need metadata-only results or fine-grained retrieval controls."""
+    """Get available knowledge bases (知识库) and routing hints. CALL THIS FIRST if collection_name is unknown.
+
+    Returns each collection's stable name, docs/chunks count, and optional profile fields:
+    display_name, description, aliases, tags. Use these fields to choose the right collection before searching.
+    Glossary: collection_name = knowledge base name = 知识库名字.
+    Next step / 后续工具: use nbrag_search_and_fetch for most knowledge/usage questions;
+    use nbrag_search for fine-grained controls; call nbrag_help if unsure how to chain tools."""
     return mcp_tools.nbrag_stats()
 
 
