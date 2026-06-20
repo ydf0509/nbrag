@@ -480,13 +480,13 @@ def test_search_and_fetch_uses_symmetric_char_windows_for_same_doc(monkeypatch):
         query="manual",
         collection_name="docs",
         fetch_top_n_raw=2,
-        fetch_chars=25,
+        fetch_context_chars=25,
     )
 
-    assert "range: line:98-102" in output
-    assert "range: line:298-302" in output
-    assert "L098\nL099\nL100\nL101\nL102" in output
-    assert "L298\nL299\nL300\nL301\nL302" in output
+    assert "range: line:97-103" in output
+    assert "range: line:297-303" in output
+    assert "L097\nL098\nL099\nL100\nL101\nL102\nL103" in output
+    assert "L297\nL298\nL299\nL300\nL301\nL302\nL303" in output
 
 
 def test_stats_uses_current_stat_field_names(monkeypatch):
@@ -719,7 +719,7 @@ def test_server_routes_delegate_to_mcp_tools(monkeypatch):
         collection_name="docs",
         top_k=7,
         fetch_top_n_raw=2,
-        fetch_chars=2000,
+        fetch_context_chars=2000,
         filter_file_path="D:/repo/history.py",
     )
 
@@ -729,27 +729,25 @@ def test_server_routes_delegate_to_mcp_tools(monkeypatch):
         "collection_name": "docs",
         "top_k": 7,
         "fetch_top_n_raw": 2,
-        "fetch_chars": 2000,
+        "fetch_context_chars": 2000,
         "filter_file_path": "D:/repo/history.py",
     }
 
 
-def test_search_only_bm25_wrapper_forces_bm25_without_rerank(monkeypatch):
+def test_search_only_bm25_wrapper_delegates_to_bm25_tool(monkeypatch):
     captured = {}
 
-    def fake_search(query, collection_name, top_k, use_rerank, use_bm25, filter_file_path, include_content):
+    def fake_bm25(query, collection_name, top_k, filter_file_path, include_content):
         captured.update({
             "query": query,
             "collection_name": collection_name,
             "top_k": top_k,
-            "use_rerank": use_rerank,
-            "use_bm25": use_bm25,
             "filter_file_path": filter_file_path,
             "include_content": include_content,
         })
         return "bm25-only"
 
-    monkeypatch.setattr(mcp_tools, "nbrag_search", fake_search)
+    monkeypatch.setattr(mcp_tools, "nbrag_search_only_bm25", fake_bm25)
 
     output = server.nbrag_search_only_bm25(
         query="N+1 赔偿",
@@ -764,11 +762,70 @@ def test_search_only_bm25_wrapper_forces_bm25_without_rerank(monkeypatch):
         "query": "N+1 赔偿",
         "collection_name": "worker_rights",
         "top_k": 8,
-        "use_rerank": False,
-        "use_bm25": True,
         "filter_file_path": "D:/repo/labor.md",
         "include_content": False,
     }
+
+
+def test_mcp_tools_bm25_only_disables_vector_and_rerank(monkeypatch):
+    captured = {}
+
+    monkeypatch.setattr(
+        mcp_tools,
+        "get_config",
+        lambda: SimpleNamespace(rerank=SimpleNamespace(model="rerank-model")),
+    )
+
+    def fake_search(query, collection_name, top_k, use_rerank, use_bm25, *, filter_file_path=None, use_vector=True):
+        captured.update({
+            "query": query,
+            "collection_name": collection_name,
+            "top_k": top_k,
+            "use_rerank": use_rerank,
+            "use_bm25": use_bm25,
+            "filter_file_path": filter_file_path,
+            "use_vector": use_vector,
+        })
+        return (
+            ["matched"],
+            [{
+                "source": "D:/repo/labor.md",
+                "filename": "labor.md",
+                "chunk_index": 0,
+                "total_chunks": 1,
+                "line_start": 1,
+                "line_end": 2,
+                "scope": "",
+                "doc_id": "doc1",
+            }],
+            [0.0],
+            False,
+            1,
+            [],
+        )
+
+    monkeypatch.setattr(mcp_tools, "search", fake_search)
+
+    output = mcp_tools.nbrag_search_only_bm25(
+        query="N+1 赔偿",
+        collection_name="worker_rights",
+        top_k=8,
+        filter_file_path="D:/repo/labor.md",
+        include_content=False,
+    )
+
+    assert captured == {
+        "query": "N+1 赔偿",
+        "collection_name": "worker_rights",
+        "top_k": 8,
+        "use_rerank": False,
+        "use_bm25": True,
+        "filter_file_path": "D:/repo/labor.md",
+        "use_vector": False,
+    }
+    assert "bm25: on" in output
+    assert "rerank: off" in output
+    assert "content omitted" in output
 
 
 def test_search_only_vector_wrapper_forces_vector_without_rerank(monkeypatch):

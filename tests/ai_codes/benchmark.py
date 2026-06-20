@@ -108,7 +108,7 @@ def build_dynamic_cases() -> list[tuple[str, Callable[..., Any], tuple[Any, ...]
             "collection_name": WORKER_RIGHTS["collection_name"],
             "top_k": 3,
             "fetch_top_n_raw": 1,
-            "fetch_chars": 4000,
+            "fetch_context_chars": 2000,
         },
     ))
 
@@ -120,7 +120,7 @@ def build_dynamic_cases() -> list[tuple[str, Callable[..., Any], tuple[Any, ...]
             "keyword": WORKER_RIGHTS["grep_keyword"],
             "collection_name": WORKER_RIGHTS["collection_name"],
             "max_results": 5,
-            "context_chars": 1000,
+            "match_context_chars": 2000,
         },
     ))
 
@@ -189,7 +189,7 @@ def build_dynamic_cases() -> list[tuple[str, Callable[..., Any], tuple[Any, ...]
             "keyword": FUNBOOST["grep_keyword"],
             "collection_name": FUNBOOST["collection_name"],
             "max_results": 5,
-            "context_chars": 1000,
+            "match_context_chars": 2000,
         },
     ))
 
@@ -213,7 +213,7 @@ def build_dynamic_cases() -> list[tuple[str, Callable[..., Any], tuple[Any, ...]
             "collection_name": LANGCHAIN["collection_name"],
             "top_k": 3,
             "fetch_top_n_raw": 1,
-            "fetch_chars": 4000,
+            "fetch_context_chars": 2000,
         },
     ))
 
@@ -225,7 +225,7 @@ def build_dynamic_cases() -> list[tuple[str, Callable[..., Any], tuple[Any, ...]
             "keyword": LANGCHAIN["grep_keyword"],
             "collection_name": LANGCHAIN["collection_name"],
             "max_results": 5,
-            "context_chars": 1000,
+            "match_context_chars": 2000,
         },
     ))
 
