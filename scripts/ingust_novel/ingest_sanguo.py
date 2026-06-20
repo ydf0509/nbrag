@@ -48,5 +48,4 @@ def main():
     print(f"[done] collection '{COLLECTION_NAME}' ready")
 
 
-if __name__ == "__main__":
-    main()
+main()
