@@ -338,14 +338,14 @@ def nbrag_search(
 
 
 def nbrag_search_only_bm25(
-    query: str,
+    bm25_query: str,
     collection_name: str,
     top_k: int = 5,
     filter_file_path: str = "",
     include_content: bool = True,
 ) -> str:
     return _format_search_results(
-        query=query,
+        query=  bm25_query,
         collection_name=collection_name,
         top_k=top_k,
         use_rerank=False,

@@ -68,18 +68,26 @@ def nbrag_add_document(
 
 
 
-
+class FuncFields:
+    query: str = Field(description="Natural-language semantic query for vector retrieval and reranking. Use the user's wording, clarified from conversation context when needed; keep it a question or statement, not a keyword list. For lexical BM25 anchors, use bm25_query separately.")
+    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)")
+    top_k: int = Field(default=5, description="Number of ranked hits to return")
+    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking. In the current hybrid implementation, this narrows vector retrieval to that file and skips cross-file BM25 fusion.")
+    bm25_query: str = Field(default="", description="Short keyword version of the query for BM25. Typically pass the user's key terms as space-separated anchors. Does not affect vector retrieval or reranking.")
+    include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only lookup when you only need handles like file_path/doc_id/chunk_index")
+    file_path: str = Field(description="Exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted")
+    
 
 @mcp.tool()
 def nbrag_search(
-    query: str = Field(description="Main natural-language question for semantic retrieval and reranking. Prefer the user's original wording when it is understandable; only apply minimal normalization such as obvious typo fixes or removing irrelevant filler. Do not add unstated assumptions or convert it into a keyword list."),
-    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)"),
-    top_k: int = Field(default=5, description="Number of ranked hits to return"),
+    query: str = FuncFields.query,
+    collection_name: str = FuncFields.collection_name,
+    top_k: int = FuncFields.top_k,
     use_rerank: bool = Field(default=True, description="Enable reranker for better top-hit ordering (recommended)"),
     use_bm25: bool = Field(default=True, description="Enable multi-channel BM25 keyword matching + Weighted RRF fusion (recommended for precise names, Chinese terms, codes, article numbers)"),
-    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking. In the current hybrid implementation, this narrows vector retrieval to that file and skips cross-file BM25 fusion."),
-    include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only lookup when you only need handles like file_path/doc_id/chunk_index"),
-    bm25_query: str = Field(default="", description="Optional BM25-only lexical query. Prefer concise lexical anchors: user wording, conversation context, prior retrieved evidence, and high-confidence domain terms/synonyms/mechanism words. It may be shorter and more term-oriented than query; avoid low-confidence, off-topic, or overly broad expansions. Vector retrieval and reranking still use query."),
+    filter_file_path: str = FuncFields.filter_file_path,
+    include_content: bool = FuncFields.include_content,
+    bm25_query: str = FuncFields.bm25_query,
 ) -> str:
     """Search a knowledge base for relevant chunks from docs, laws, manuals, articles, source code, or any imported text.
 
@@ -89,11 +97,6 @@ def nbrag_search(
     - Use nbrag_search() when you need fine-grained retrieval controls or metadata-only lookup.
 
     Query guidance:
-    - query is the natural-language semantic question for vector retrieval and reranking.
-      Use the user's wording, optionally clarified from conversation context. Do not turn it into a keyword list.
-    - bm25_query is the lexical query for BM25 only. Leave empty to let BM25 use query as-is.
-      When passed, prefer concise lexical anchors: user terms, context-confirmed terminology, relevant domain synonyms, or mechanism words.
-      Keep it focused; avoid unrelated or overly broad expansions.
     - Filling bm25_query does not disable vector retrieval or reranking; it only changes the lexical wording used by BM25.
     - If filter_file_path is set, current behavior narrows vector retrieval to that file and does not run cross-file BM25 fusion.
 
@@ -131,12 +134,12 @@ def nbrag_search(
 
 @mcp.tool()
 def nbrag_search_only_bm25(
-    query: str = Field(description="Lexical query for BM25-only retrieval. Use exact terms, article numbers, abbreviations, codes, or other wording that should appear in the source text; this tool does not use vector retrieval or reranking."),
-    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)"),
-    top_k: int = Field(default=5, description="Number of ranked hits to return"),
-    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, BM25 ranking is restricted to that stored file"),
-    include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only inspection of lexical recall"),
-) -> str:
+    bm25_query: str = FuncFields.bm25_query,
+    collection_name: str = FuncFields.collection_name,
+    top_k: int = FuncFields.top_k,
+    filter_file_path: str = FuncFields.filter_file_path,
+    include_content: bool = FuncFields.include_content,
+    ) -> str:
     """BM25-only lexical retrieval (fixes use_bm25=True, use_rerank=False, use_vector=False).
 
     Pick this when you want to isolate keyword-based recall for exact terminology,
@@ -148,7 +151,7 @@ def nbrag_search_only_bm25(
     - nbrag_search_only_vector() when you want intent/meaning retrieval instead of exact lexical overlap
     - nbrag_search() or nbrag_search_and_fetch() for the normal mixed pipeline"""
     return mcp_tools.nbrag_search_only_bm25(
-        query,
+        bm25_query,
         collection_name,
         top_k,
         filter_file_path,
@@ -158,11 +161,11 @@ def nbrag_search_only_bm25(
 
 @mcp.tool()
 def nbrag_search_only_vector(
-    query: str = Field(description="Natural-language question for semantic retrieval. Prefer the user's original wording when understandable; describe the concept or intent instead of splitting into keywords."),
-    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)"),
-    top_k: int = Field(default=5, description="Number of ranked hits to return"),
-    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, semantic retrieval is restricted to that stored file"),
-    include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only inspection of semantic recall"),
+    query: str = FuncFields.query,
+    collection_name: str = FuncFields.collection_name,
+    top_k: int = FuncFields.top_k,
+    filter_file_path: str = FuncFields.filter_file_path,
+    include_content: bool = FuncFields.include_content,
 ) -> str:
     """Vector-only semantic retrieval (fixes use_bm25=False, use_rerank=False).
 
@@ -184,13 +187,13 @@ def nbrag_search_only_vector(
 
 @mcp.tool()
 def nbrag_search_and_fetch(
-    query: str = Field(description="Main natural-language question for semantic retrieval and reranking. Prefer the user's original wording when it is understandable; only apply minimal normalization such as obvious typo fixes or removing irrelevant filler. Do not add unstated assumptions or convert it into a keyword list."),
-    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)"),
-    top_k: int = Field(default=5, description="Number of ranked search hits to return before auto-fetching raw context"),
+    query: str = FuncFields.query,
+    collection_name: str = FuncFields.collection_name,
+    top_k: int = FuncFields.top_k,
     fetch_top_n_raw: int = Field(default=3, description="Auto-fetch stored original content for the top N ranked hits. 0 disables fetching"),
     fetch_context_chars: int = Field(default=DEFAULT_FETCH_CONTEXT_CHARS, description=f"Per ranked hit: approximate total context chars around the matched line range, split about half before and half after. This is per result, not a total cap across all results. Default {DEFAULT_FETCH_CONTEXT_CHARS} means roughly {DEFAULT_FETCH_CONTEXT_CHARS // 2} chars before and {DEFAULT_FETCH_CONTEXT_CHARS // 2} chars after each hit"),
-    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, search is narrowed to that stored file. In the current hybrid implementation, this narrows vector retrieval to that file and skips cross-file BM25 fusion."),
-    bm25_query: str = Field(default="", description="Optional BM25-only lexical query. Prefer concise lexical anchors: user wording, conversation context, prior retrieved evidence, and high-confidence domain terms/synonyms/mechanism words. It may be shorter and more term-oriented than query; avoid low-confidence, off-topic, or overly broad expansions. Vector retrieval and reranking still use query."),
+    filter_file_path: str = FuncFields.filter_file_path,
+    bm25_query: str = FuncFields.bm25_query,
 ) -> str:
     """Default entry point for most user questions: hybrid retrieval + auto-fetched stored original content in one call.
 
@@ -198,11 +201,6 @@ def nbrag_search_and_fetch(
     wants evidence, or when you need both ranked discovery and original-file context immediately.
 
     Query guidance:
-    - query is the natural-language semantic question for vector retrieval and reranking.
-      Use the user's wording, optionally clarified from conversation context. Do not turn it into a keyword list.
-    - bm25_query is the lexical query for BM25 only. Leave empty to let BM25 use query as-is.
-      When passed, prefer concise lexical anchors: user terms, context-confirmed terminology, relevant domain synonyms, or mechanism words.
-      Keep it focused; avoid unrelated or overly broad expansions.
     - Filling bm25_query does not disable vector retrieval or reranking; it only changes the lexical wording used by BM25.
     - If filter_file_path is set, current behavior narrows vector retrieval to that file and does not run cross-file BM25 fusion.
 
@@ -233,11 +231,11 @@ def nbrag_search_and_fetch(
 @mcp.tool()
 def nbrag_grep(
     keyword: str = Field(description="Plain text or regex pattern to search in stored original text lines. This is line-by-line literal/regex matching, not semantic search. Plain text only matches wording that literally appears in the source text. If you pass a valid regex, regex rules apply. If you need literal matching for regex metacharacters, escape them first. When unsure about exact wording, use nbrag_search_and_fetch instead"),
-    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)"),
+    collection_name: str = FuncFields.collection_name,
     max_results: int = Field(default=10, description="Maximum number of matches to return"),
     case_sensitive: bool = Field(default=False, description="Case-sensitive matching"),
-    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted"),
-    match_context_chars: int = Field(default=DEFAULT_MATCH_CONTEXT_CHARS, description=f"Per grep match: approximate total context chars around the matched line, split about half before and half after. This is per match, not a total cap across all matches. Default {DEFAULT_MATCH_CONTEXT_CHARS} means roughly {DEFAULT_MATCH_CONTEXT_CHARS // 2} chars before and {DEFAULT_MATCH_CONTEXT_CHARS // 2} chars after each match"),
+    filter_file_path: str = FuncFields.filter_file_path,
+    match_context_chars: int = Field(default=DEFAULT_MATCH_CONTEXT_CHARS, description=f"Per match: approximate total context chars around the matched line range, split about half before and half after. This is per match, not a total cap across all matches. Default {DEFAULT_MATCH_CONTEXT_CHARS} means roughly {DEFAULT_MATCH_CONTEXT_CHARS // 2} chars before and {DEFAULT_MATCH_CONTEXT_CHARS // 2} chars after each match"),
 ) -> str:
     """Literal text / regex search in stored original text, matched line by line.
 
@@ -259,7 +257,7 @@ def nbrag_grep(
 @mcp.tool()
 def nbrag_find_definition(
     symbol: str = Field(description="Python symbol name such as 'UserService', 'get_by_id', or 'MyClass.__init__'"),
-    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)"),
+    collection_name: str = FuncFields.collection_name,
     max_results: int = Field(default=3, description="Maximum number of candidate definitions to return"),
 ) -> str:
     """Specialized Python source tool: find complete class/function/method definitions by symbol name.
@@ -276,7 +274,7 @@ def nbrag_find_definition(
 @mcp.tool()
 def nbrag_find_files(
     pattern: str = Field(description="Filename fragment or regex over filename/full path to discover the exact stored file_path (e.g. '劳动合同法.md', 'manuals/install.md', 'history.py')"),
-    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)"),
+    collection_name: str = FuncFields.collection_name,
     max_results: int = Field(default=20, description="Maximum number of matching files to return"),
     case_sensitive: bool = Field(default=False, description="Case-sensitive filename/path matching"),
 ) -> str:
@@ -291,8 +289,8 @@ def nbrag_find_files(
 
 @mcp.tool()
 def nbrag_get_file_chunks(
-    file_path: str = Field(description="Exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted"),
-    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)"),
+    file_path: str = FuncFields.file_path,
+    collection_name: str = FuncFields.collection_name,
     start_chunk: int = Field(default=0, description="Start chunk index (0-based) for pagination"),
     max_chunks: int = Field(default=10, description="Maximum chunks to return for this page"),
 ) -> str:
@@ -308,8 +306,8 @@ def nbrag_get_file_chunks(
 
 @mcp.tool()
 def nbrag_get_raw_file(
-    file_path: str = Field(description="Exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted"),
-    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)"),
+    file_path: str = FuncFields.file_path,
+    collection_name: str = FuncFields.collection_name,
     line_start: int = Field(default=-1, description="Start line (1-based). Use -1 for the beginning"),
     line_end: int = Field(default=-1, description="End line (inclusive). Use -1 for the end of file"),
 ) -> str:
@@ -326,7 +324,7 @@ def nbrag_get_raw_file(
 def nbrag_get_adjacent_chunks(
     doc_id: str = Field(description="Document ID returned by nbrag tools such as search/search_and_fetch/grep/list"),
     chunk_index: int = Field(description="Target chunk index from a search/search_and_fetch result field like chunk:X/Y or chunk_index:X"),
-    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)"),
+    collection_name: str = FuncFields.collection_name,
     window: int = Field(default=3, description="Return chunk_index ± window chunks"),
 ) -> str:
     """Expand chunk context around a known ranked hit.
@@ -344,7 +342,7 @@ def nbrag_get_chunks_by_lines(
     doc_id: str = Field(description="Document ID returned by nbrag tools such as search/search_and_fetch/grep/list"),
     line_start: int = Field(description="Start line (1-based), usually copied from a prior line:N-M style result"),
     line_end: int = Field(description="End line (inclusive), usually copied from a prior line:N-M style result"),
-    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)"),
+    collection_name: str = FuncFields.collection_name,
 ) -> str:
     """Return all chunks covering a line range.
 
@@ -357,7 +355,7 @@ def nbrag_get_chunks_by_lines(
 
 @mcp.tool()
 def nbrag_list(
-    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)"),
+    collection_name: str = FuncFields.collection_name ,
     limit: int = Field(default=100, description="Maximum documents to return for this page (default 100, usually keep <= 500)"),
     offset: int = Field(default=0, description="Skip the first N documents for pagination"),
 ) -> str:
@@ -373,8 +371,8 @@ def nbrag_list(
 # 删除文档：人工维护入口，不注册为 MCP tool。
 def nbrag_delete(
     doc_id: str = Field(description="Document ID to delete (from nbrag_list results)"),
-    collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats to inspect existing collections)"),
-) -> str:
+    collection_name: str = FuncFields.collection_name,
+    ) -> str:
     """Delete a document's vectors and cached files from the collection. Get doc_id from nbrag_list."""
     return mcp_tools.nbrag_delete(doc_id, collection_name)
 
