@@ -213,7 +213,7 @@ Python .py 精确符号定义 → nbrag_find_definition()
 
 **默认先 `nbrag_search_and_fetch`；只有在需要 exact wording、路径发现、chunk 扩展、源码定义时再切专用工具；证据够了就回答。**
 
-[耗时统计] nbrag_help: 0.772 秒
+[耗时统计] nbrag_help: 0.854 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_stats()
@@ -287,7 +287,7 @@ Use collection_name(知识库名字) exactly as shown below when calling retriev
   last_ingested_at: 2026-06-20 22:14:32
 
 
-[耗时统计] nbrag_stats: 12.671 秒
+[耗时统计] nbrag_stats: 0.895 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_list(limit=2, offset=0)
@@ -303,7 +303,7 @@ doc_id: 0ea13b81685c | filename: 劳动保障监察条例.md | chunk_count: 7 | 
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动保障监察条例.md
 
 
-[耗时统计] nbrag_list: 0.698 秒
+[耗时统计] nbrag_list: 0.640 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_search(query, top_k=3, include_content=True)
@@ -313,7 +313,7 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动保障监察条
 
 Returned handle fields for follow-up: file_path, doc_id, chunk_index, line range.
 
-[1/3] 劳动合同法.md chunk:2/17 chunk_index:2 total_chunks:17 line:39-51 doc_id:81ec846f7c63 dist:0.3179 score:0.9368
+[1/3] 劳动合同法.md chunk:2/17 chunk_index:2 total_chunks:17 line:39-51 doc_id:81ec846f7c63 dist:0.3179 score:0.9362
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
 # [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 39-51]
 第十五条 以完成一定工作任务为期限的劳动合同，是指用人单位与劳动者约定以某项工作的完成为合同期限的劳动合同。用人单位与劳动者协商一致，可以订立以完成一定工作任务为期限的劳动合同。
@@ -330,7 +330,7 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
 
 第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
 
-[2/3] 劳动法.md chunk:2/13 chunk_index:2 total_chunks:13 line:42-64 doc_id:2db295f90839 dist:0.3989 score:0.8452
+[2/3] 劳动法.md chunk:2/13 chunk_index:2 total_chunks:13 line:42-64 doc_id:2db295f90839 dist:0.3989 score:0.8453
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
 # [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md] [Lines: 42-64]
 ## 第三章 劳动合同和集体合同
@@ -357,7 +357,7 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
 
 第二十六条 有下列情形之一的，用人单位可以解除劳动合同，但是应当提前三十日以书面形式通知劳动者本人：（一）劳动者患病或者非因工负伤，医疗期满后，不能从事原工作也不能从事由用人单位另行安排的工作的；（二）劳动者不能胜任工作，经过培训或者调整工作岗位，仍不能胜任工作的；（三）劳动合同订立时所依据的客观情况发生重大变化，致使原劳动合同无法履行，经当事人协商不能就变更劳动合同达成协议的。
 
-[3/3] 劳动合同法.md chunk:3/17 chunk_index:3 total_chunks:17 line:51-65 doc_id:81ec846f7c63 dist:0.3246 score:0.6092
+[3/3] 劳动合同法.md chunk:3/17 chunk_index:3 total_chunks:17 line:51-65 doc_id:81ec846f7c63 dist:0.3246 score:0.6152
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
 # [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 51-65]
 第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
@@ -377,7 +377,7 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
 第二十八条 劳动合同被确认无效，劳动者已付出劳动的，用人单位应当向劳动者支付劳动报酬。劳动报酬的数额，参照本单位相同或者相近岗位劳动者的劳动报酬确定。
 
 
-[耗时统计] nbrag_search: 3.819 秒
+[耗时统计] nbrag_search: 1.274 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_search(metadata-only: include_content=False)
@@ -396,7 +396,7 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
 content omitted
 
 
-[耗时统计] nbrag_search: 1.642 秒
+[耗时统计] nbrag_search: 1.032 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_search_only_bm25(query='试用期', include_content=False)
@@ -415,7 +415,7 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
 content omitted
 
 
-[耗时统计] nbrag_search_only_bm25: 0.700 秒
+[耗时统计] nbrag_search_only_bm25: 0.856 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_search_only_vector(query, include_content=False)
@@ -434,7 +434,7 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
 content omitted
 
 
-[耗时统计] nbrag_search_only_vector: 0.812 秒
+[耗时统计] nbrag_search_only_vector: 0.714 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_search_and_fetch(query, top_k=3, fetch_top_n_raw=1, fetch_context_chars=2000)
@@ -465,7 +465,7 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
 
 第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
 
-[2/3] 劳动法.md chunk:2/13 chunk_index:2 total_chunks:13 line:42-64 doc_id:2db295f90839 dist:0.3989 score:0.8452
+[2/3] 劳动法.md chunk:2/13 chunk_index:2 total_chunks:13 line:42-64 doc_id:2db295f90839 dist:0.3989 score:0.8454
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
 # [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md] [Lines: 42-64]
 ## 第三章 劳动合同和集体合同
@@ -492,7 +492,7 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
 
 第二十六条 有下列情形之一的，用人单位可以解除劳动合同，但是应当提前三十日以书面形式通知劳动者本人：（一）劳动者患病或者非因工负伤，医疗期满后，不能从事原工作也不能从事由用人单位另行安排的工作的；（二）劳动者不能胜任工作，经过培训或者调整工作岗位，仍不能胜任工作的；（三）劳动合同订立时所依据的客观情况发生重大变化，致使原劳动合同无法履行，经当事人协商不能就变更劳动合同达成协议的。
 
-[3/3] 劳动合同法.md chunk:3/17 chunk_index:3 total_chunks:17 line:51-65 doc_id:81ec846f7c63 dist:0.3246 score:0.6092
+[3/3] 劳动合同法.md chunk:3/17 chunk_index:3 total_chunks:17 line:51-65 doc_id:81ec846f7c63 dist:0.3246 score:0.6108
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
 # [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 51-65]
 第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
@@ -577,7 +577,7 @@ original_file: 劳动合同法.md | file_path: D:/codes/nbrag/scripts/ingest_ex3
 
 
 
-[耗时统计] nbrag_search_and_fetch: 12.872 秒
+[耗时统计] nbrag_search_and_fetch: 1.121 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_grep(keyword='试用期', max_results=5)
@@ -835,7 +835,7 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
        65| 第二十八条 劳动合同被确认无效，劳动者已付出劳动的，用人单位应当向劳动者支付劳动报酬。劳动报酬的数额，参照本单位相同或者相近岗位劳动者的
 
 
-[耗时统计] nbrag_grep: 0.953 秒
+[耗时统计] nbrag_grep: 0.696 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_grep(无结果路径)
@@ -843,7 +843,7 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
 ------------------------------------------------------------------------------------------------
 No grep matches. Possible adjustments: check exact wording/case, escape regex metacharacters if you intended literal matching, try regex if appropriate, or switch to nbrag_search_and_fetch for semantic discovery when this is a concept, alias, or paraphrase rather than exact source wording.
 
-[耗时统计] nbrag_grep: 0.729 秒
+[耗时统计] nbrag_grep: 0.799 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_find_files(pattern='劳动合同法.md')
@@ -857,7 +857,7 @@ filename: 劳动合同法.md | doc_id: 81ec846f7c63 | chunk_count: 17 | total_ch
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
 
 
-[耗时统计] nbrag_find_files: 0.622 秒
+[耗时统计] nbrag_find_files: 0.602 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_find_definition(symbol='BoosterParams')
@@ -1171,7 +1171,7 @@ def my_task(url):
         response = requests.get(url)
 
 
-[耗时统计] nbrag_find_definition: 0.647 秒
+[耗时统计] nbrag_find_definition: 0.606 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_get_raw_file(line_start=45, line_end=52)
@@ -1190,7 +1190,7 @@ Content source: stored original-file snapshot captured at ingestion time.
 
 
 
-[耗时统计] nbrag_get_raw_file: 1.038 秒
+[耗时统计] nbrag_get_raw_file: 0.926 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_get_raw_file(basename误传=错误路径)
@@ -1198,7 +1198,7 @@ Content source: stored original-file snapshot captured at ingestion time.
 ------------------------------------------------------------------------------------------------
 Error: file_path must be a full absolute file_path returned by nbrag_search/nbrag_search_and_fetch/nbrag_find_files/nbrag_list. Next steps: use nbrag_find_files(pattern, collection_name) when you only know a filename, or nbrag_list(collection_name) to browse available file_path values.
 
-[耗时统计] nbrag_get_raw_file: 0.751 秒
+[耗时统计] nbrag_get_raw_file: 0.661 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_get_file_chunks(start_chunk=0, max_chunks=2)
@@ -1253,7 +1253,7 @@ chunk:1 | line:21-39
 第十五条 以完成一定工作任务为期限的劳动合同，是指用人单位与劳动者约定以某项工作的完成为合同期限的劳动合同。用人单位与劳动者协商一致，可以订立以完成一定工作任务为期限的劳动合同。
 
 
-[耗时统计] nbrag_get_file_chunks: 0.693 秒
+[耗时统计] nbrag_get_file_chunks: 0.608 秒
 
 [前置] 通过 nbrag_search 获取真实 doc_id
 解析到 worker_doc_id = '81ec846f7c63'
@@ -1326,7 +1326,7 @@ chunk:2 | line:39-51
 第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
 
 
-[耗时统计] nbrag_get_adjacent_chunks: 1.104 秒
+[耗时统计] nbrag_get_adjacent_chunks: 0.705 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_get_chunks_by_lines(doc_id=<前置>, line_start=45, line_end=52)
@@ -1371,7 +1371,7 @@ chunk:3 | line:51-65
 第二十八条 劳动合同被确认无效，劳动者已付出劳动的，用人单位应当向劳动者支付劳动报酬。劳动报酬的数额，参照本单位相同或者相近岗位劳动者的劳动报酬确定。
 
 
-[耗时统计] nbrag_get_chunks_by_lines: 0.736 秒
+[耗时统计] nbrag_get_chunks_by_lines: 0.600 秒
 
 ================================================================================================
 报告结束
