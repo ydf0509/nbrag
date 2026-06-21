@@ -4,7 +4,7 @@
 
 Agentic RAG MCP Server for AI agents that need to retrieve evidence from user-prepared knowledge bases.
 
-`nbrag` lets you import local text, documentation, regulations, manuals, notes, and Python source into a local knowledge base. MCP-compatible agents can then use 11 focused retrieval tools plus `nbrag_help` to search, grep, locate files, read original content, and build answers from real evidence instead of relying only on model memory.
+`nbrag` lets you import local text, documentation, regulations, manuals, notes, and Python source into a local knowledge base. MCP-compatible agents can then use 13 focused retrieval/read tools plus `nbrag_help` to search, grep, locate files, read original content, and build answers from real evidence instead of relying only on model memory.
 
 Python source workflow is a first-class use case: `.py` chunks include AST scope and signature metadata, so agents can combine semantic search with `nbrag_grep`, `nbrag_find_definition`, and `nbrag_get_raw_file` for precise source navigation.
 
@@ -43,7 +43,7 @@ Context7 is a useful hosted MCP documentation service for public libraries it ha
 | Original file reading | Limited by hosted snippets | Yes, by absolute file path and line range |
 | Refresh model | Depends on hosted indexing | Re-ingest whenever you want |
 | Storage | Hosted service | Local ChromaDB + raw files + local BM25/symbol indexes |
-| Tools | Small API surface | 11 retrieval/read tools + `nbrag_help` |
+| Tools | Small API surface | 13 retrieval/read tools + `nbrag_help` |
 
 They are complementary: use Context7 for quickly checking public docs it already covers; use `nbrag` for private, specialized, newly changed, or high-evidence local material.
 
@@ -276,7 +276,7 @@ The diagnostic tools are mainly for evaluation, debugging, and retrieval tuning.
 
 | Category | Tool | Purpose |
 |---|---|---|
-| Navigation | `nbrag_help` | Compact workflow guide for agents that are unsure how to combine tools |
+| Navigation | `nbrag_help` | Workflow guide plus follow-up-handle reminders for agents that are unsure how to combine tools |
 | Search | `nbrag_search` | Hybrid search: Vector + BM25 -> RRF -> rerank |
 | Search | `nbrag_search_and_fetch` | Hybrid search plus automatic original-file context fetch using a symmetric char budget around hits |
 | Search diagnostics | `nbrag_search_only_bm25` | BM25-only retrieval for inspecting lexical recall without vector search or rerank |
@@ -289,13 +289,13 @@ The diagnostic tools are mainly for evaluation, debugging, and retrieval tuning.
 | Context | `nbrag_get_adjacent_chunks` | Expand around a search result using `doc_id` + `chunk_index` |
 | Context | `nbrag_get_chunks_by_lines` | Get chunks covering a specific line range |
 | Read-only inventory | `nbrag_list` | List documents in a collection |
-| Read-only inventory | `nbrag_stats` | Show collections, doc counts, chunk counts, and storage config |
+| Read-only inventory | `nbrag_stats` | Show collections, doc counts, chunk counts, and routing hints such as display_name/description/aliases/tags |
 
 Ingestion and deletion are not exposed as MCP tools. Use Python scripts for those operations.
 
 ## Recommended Agent Workflows
 
-### 通用知识场景
+### General knowledge workflow
 
 For law, guidelines, manuals, standards, policy documents, and internal wiki material:
 
@@ -322,14 +322,14 @@ Example:
 User: 一年劳动合同，试用期五个月合法吗？能要什么赔偿？
 
 Agent:
-1. nbrag_search_and_fetch(query="一年劳动合同约定五个月试用期是否合法")
-2. nbrag_search_and_fetch(query="违法约定试用期可以主张什么赔偿")
-3. nbrag_grep("第十九条")
-4. nbrag_grep("第八十三条")
+1. nbrag_search_and_fetch(query="一年劳动合同约定五个月试用期是否合法", collection_name="worker_rights")
+2. nbrag_search_and_fetch(query="违法约定试用期可以主张什么赔偿", collection_name="worker_rights")
+3. nbrag_grep(keyword="第十九条", collection_name="worker_rights")
+4. nbrag_grep(keyword="第八十三条", collection_name="worker_rights")
 5. Answer with cited evidence from original text.
 ```
 
-### 代码场景
+### Code workflow
 
 For Python source code and framework/API documentation:
 
@@ -351,6 +351,32 @@ Python source workflow: start with semantic/context search, then use exact-name 
 5. Repeat across files as new symbols appear.
 ```
 
+### Similar tools: which one should I use?
+
+| If you need... | Prefer | Why |
+|---|---|---|
+| One-call discovery + evidence | `nbrag_search_and_fetch` | Default starting point for most questions; returns ranked hits plus stored original-file context |
+| Fine-grained retrieval controls or metadata-only results | `nbrag_search` | Lets the agent disable rerank/BM25 or omit chunk content while keeping follow-up handles |
+| BM25-only diagnostics | `nbrag_search_only_bm25` | Isolates lexical recall for exact terms, article numbers, abbreviations, and codes |
+| Vector-only diagnostics | `nbrag_search_only_vector` | Isolates semantic recall for intent, meaning, and paraphrases |
+| Literal wording / regex evidence | `nbrag_grep` | Matches stored original text line by line; not a semantic search tool |
+| Clean original text without chunk overlap | `nbrag_get_raw_file` | Best for quoting, larger line-ranged reads, and source-of-truth original text |
+| Chunk/scope browsing | `nbrag_get_file_chunks` | Best when line/scope metadata matters more than overlap-free text |
+| More chunk context around a ranked hit | `nbrag_get_adjacent_chunks` | Expands from a known `doc_id + chunk_index` returned by `search`/`search_and_fetch` |
+| Chunks that cover a known line range | `nbrag_get_chunks_by_lines` | Best when you already have `doc_id + line:N-M` and want chunk-level scope context |
+| Resolve a filename/path fragment to exact `file_path` | `nbrag_find_files` | Produces the full absolute `file_path` required by read/filter tools |
+| Choose the right collection first | `nbrag_stats` | Returns routing hints such as display names, descriptions, aliases, and tags |
+
+### Handle-chaining example
+
+```text
+1. nbrag_search_and_fetch(query="试用期最长多久", collection_name="worker_rights")
+2. Copy a returned file_path from the ranked hits
+3. nbrag_get_raw_file(file_path="D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md", collection_name="worker_rights", line_start=18, line_end=23)
+```
+
+If you need to narrow retrieval to one known file, you can reuse the same `file_path` as `filter_file_path`. In the current implementation, `filter_file_path` on `nbrag_search` / `nbrag_search_and_fetch` narrows vector retrieval to that file and skips cross-file BM25 fusion, so treat it as a focused within-file follow-up rather than a global hybrid search hint.
+
 ### Path Rules
 
 All `file_path` and `filter_file_path` arguments must be complete absolute paths returned by `nbrag` tools, for example:
@@ -364,7 +390,7 @@ Do not pass short paths such as `劳动合同法.md`, `core.py`, or `src/core.py
 
 ## Optional Skill
 
-`nbrag_help` and MCP tool descriptions are enough for MCP-only usage, so users do **not** need to copy a Skill for the tools to work. 换句话说，用户不复制 Skill 也能正常使用 MCP 工具；the bundled Skill is optional workflow guidance for agents that support local skills.
+`nbrag_help` and MCP tool descriptions are enough for MCP-only usage, so users do **not** need to copy a Skill for the tools to work. The bundled Skill is optional workflow guidance for agents that support local skills. In some hosts, `nbrag_help` may also embed that workflow text so the MCP server remains self-explanatory even when local skills are not loaded.
 
 Locate the bundled Skill:
 
@@ -372,15 +398,25 @@ Locate the bundled Skill:
 python -c "import nbrag, os; print(os.path.join(os.path.dirname(nbrag.__file__), 'skills', 'nbrag-workflow'))"
 ```
 
-Copy it to the Skills directory used by your agent, for example:
+Bash example:
 
 ```bash
+SKILL_PATH=$(python -c "import nbrag, os; print(os.path.join(os.path.dirname(nbrag.__file__), 'skills', 'nbrag-workflow'))")
 cp -r "$SKILL_PATH" .agents/skills/
 cp -r "$SKILL_PATH" .claude/skills/
 cp -r "$SKILL_PATH" .cursor/skills/
 ```
 
-Agents that do not copy Skill files can still call `nbrag_help` for a compact workflow guide.
+PowerShell example:
+
+```powershell
+$skillPath = python -c "import nbrag, os; print(os.path.join(os.path.dirname(nbrag.__file__), 'skills', 'nbrag-workflow'))"
+Copy-Item $skillPath -Destination .agents/skills/ -Recurse
+Copy-Item $skillPath -Destination .claude/skills/ -Recurse
+Copy-Item $skillPath -Destination .cursor/skills/ -Recurse
+```
+
+Agents that do not copy Skill files can still call `nbrag_help` for workflow guidance and follow-up-handle reminders.
 
 ## Configuration
 
@@ -401,7 +437,7 @@ CLI arguments > environment variables > YAML config > defaults
 | `NBRAG_DB_PATH` | No | `<project>/rag_db` | ChromaDB and local indexes path |
 | `NBRAG_RAW_FILES_PATH` | No | `<db_path>/raw_files` | Original-file snapshot path |
 | `NBRAG_CHUNK_SIZE` | No | `1000` | Chunk size |
-| `NBRAG_CHUNK_OVERLAP` | No | `200` | Chunk overlap |
+| `NBRAG_CHUNK_OVERLAP` | No | `150` | Chunk overlap |
 
 ### YAML Config
 

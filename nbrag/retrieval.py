@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import ast as _ast
+import bisect
 import os
 import re
 import time as _time
@@ -49,6 +50,24 @@ _RAW_TEXT_CACHE_TTL_SECONDS = 300.0
 
 def _cfg():
     return get_config()
+
+
+def _build_line_char_index(content: str) -> tuple[list[str], list[int]]:
+    """Return raw lines (with line endings) and cumulative char offsets."""
+    lines = content.splitlines(keepends=True)
+    offsets = [0]
+    for line in lines:
+        offsets.append(offsets[-1] + len(line))
+    return lines, offsets
+
+
+def _char_window_to_line_range(offsets: list[int], line_count: int, char_start: int, char_end: int) -> tuple[int, int]:
+    """Convert a char window into an inclusive 1-based line range."""
+    if line_count <= 0:
+        return 1, 1
+    start_line = max(1, min(line_count, bisect.bisect_right(offsets, max(0, char_start))))
+    end_line = max(start_line, min(line_count, bisect.bisect_left(offsets, max(char_start, char_end))))
+    return start_line, end_line
 
 
 def _load_all_raw_texts_cached():
@@ -447,12 +466,11 @@ def grep_knowledge(keyword, collection_name="default", max_results=10,
             continue
 
         content = info.get("content", "")
-        file_lines = content.splitlines()
-        char_offset = 0
-        for i, line in enumerate(file_lines):
-            line_start = char_offset
-            line_end = char_offset + len(line)
-            char_offset = line_end + 1  # +1 for newline
+        raw_lines, offsets = _build_line_char_index(content)
+        search_lines = [line.rstrip("\r\n") for line in raw_lines]
+        for i, line in enumerate(search_lines):
+            line_start = offsets[i]
+            line_end = offsets[i + 1]
             if not pattern.search(line):
                 continue
 
@@ -464,13 +482,12 @@ def grep_knowledge(keyword, collection_name="default", max_results=10,
             snippet = content[ctx_char_start:ctx_char_end]
 
             # 为 snippet 里的每一行标注行号，匹配行加 >>>
-            snippet_lines = snippet.splitlines()
-            first_line = content[:ctx_char_start].count("\n") + 1
+            first_line, last_line = _char_window_to_line_range(offsets, len(raw_lines), ctx_char_start, ctx_char_end)
             ctx_parts = []
-            for j, sline in enumerate(snippet_lines):
-                line_num = first_line + j
+            for line_num in range(first_line, last_line + 1):
+                sline = raw_lines[line_num - 1].rstrip("\r\n")
                 prefix = ">>>" if line_num == i + 1 else "   "
-                ctx_parts.append(f"{prefix} {line_num:>5}| {sline.rstrip()}")
+                ctx_parts.append(f"{prefix} {line_num:>5}| {sline}")
 
             results.append({
                 "filename": info.get("filename", f"{doc_id}.txt"),
@@ -478,7 +495,7 @@ def grep_knowledge(keyword, collection_name="default", max_results=10,
                 "doc_id": doc_id,
                 "line_number": i + 1,
                 "line_content": line.rstrip(),
-                "context": "\n".join(ctx_parts),
+                "context": "\n".join(ctx_parts) if ctx_parts else snippet,
             })
 
             if len(results) >= max_results:

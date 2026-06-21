@@ -2,7 +2,7 @@
 nbrag MCP Server — 面向 AI 的通用知识库 Agentic RAG MCP。
 
 Exposed MCP tools:
-  - nbrag_help                 → Short decision guide for AI agents
+  - nbrag_help                 → Workflow guide + follow-up-handle reminder for AI agents
   - nbrag_search               → Hybrid search with fine-grained controls
   - nbrag_search_and_fetch     → Search + auto-fetch stored original content
   - nbrag_search_only_bm25     → BM25-only diagnostic search
@@ -16,6 +16,11 @@ Exposed MCP tools:
   - nbrag_get_chunks_by_lines  → Chunks covering a line range
   - nbrag_list                 → List imported documents in a collection
   - nbrag_stats                → Collection overview and routing hints
+
+Design goals for AI agents:
+  - prefer plain-text outputs with stable reusable handles
+  - teach when to call each tool, not just what it does
+  - make follow-up chaining explicit: file_path / doc_id / chunk_index / line ranges
 
 启动方式:
   uvx nbrag
@@ -52,12 +57,15 @@ def nbrag_add_document(
 
 @mcp.tool()
 def nbrag_help() -> str:
-    """Short decision guide for AI agents using nbrag without an external Skill.
+    """Workflow guide for AI agents using nbrag without relying on an external Skill.
 
     Call this when you are unsure which nbrag tool to use, how to chain tools,
-    or when you want a quick reminder of path rules and follow-up handles.
+    or when you want a reminder of path rules, retrieval branching, and follow-up handles.
     The returned text explains the default entry tool, exact-vs-semantic branching,
-    and the key fields reused across tool calls such as file_path, doc_id, chunk_index, and line ranges."""
+    and the key fields reused across tool calls such as file_path, doc_id, chunk_index, and line ranges.
+
+    In hosts that do not load local skills automatically, the returned text may also embed
+    the bundled nbrag workflow guide so the MCP server stays self-explanatory."""
     return mcp_tools.nbrag_help()
 
 
@@ -68,7 +76,7 @@ def nbrag_search(
     top_k: int = Field(default=5, description="Number of ranked hits to return"),
     use_rerank: bool = Field(default=True, description="Enable reranker for better top-hit ordering (recommended)"),
     use_bm25: bool = Field(default=True, description="Enable multi-channel BM25 keyword matching + Weighted RRF fusion (recommended for precise names, Chinese terms, codes, article numbers)"),
-    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking"),
+    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking. In the current hybrid implementation, this narrows vector retrieval to that file and skips cross-file BM25 fusion."),
     include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only lookup when you only need handles like file_path/doc_id/chunk_index"),
     bm25_query: str = Field(default="", description="Optional BM25-only lexical query. If bm25_query is empty, BM25 falls back to query. BM25 retrieval is already multi-channel, so in most cases leave this empty and keep query as the main natural-language question. Filling bm25_query does not disable vector retrieval or reranking; those still use query. Use bm25_query only when you already know better exact lexical anchors for BM25, such as article numbers, exact terms, API/class names, abbreviations, error codes, headings, or model names."),
 ) -> str:
@@ -88,6 +96,7 @@ def nbrag_search(
     - Filling bm25_query does not disable vector retrieval or reranking; it only changes the lexical wording used by BM25.
     - Use bm25_query only when you already know better exact lexical anchors than the main query.
     - Do not mechanically convert the main query into a long keyword list just to help BM25.
+    - If filter_file_path is set, current behavior narrows vector retrieval to that file and does not run cross-file BM25 fusion.
 
     Returned text is plain text but intentionally structured for follow-up calls.
     Each hit includes reusable markers such as:
@@ -165,12 +174,10 @@ def nbrag_search_only_vector(
     - nbrag_search_only_bm25() for exact terms / article numbers / abbreviations
     - nbrag_grep() for literal line-by-line evidence
     - nbrag_search() or nbrag_search_and_fetch() for the normal mixed pipeline"""
-    return mcp_tools.nbrag_search(
+    return mcp_tools.nbrag_search_only_vector(
         query,
         collection_name,
         top_k,
-        False,
-        False,
         filter_file_path,
         include_content,
     )
@@ -183,7 +190,7 @@ def nbrag_search_and_fetch(
     top_k: int = Field(default=5, description="Number of ranked search hits to return before auto-fetching raw context"),
     fetch_top_n_raw: int = Field(default=3, description="Auto-fetch stored original content for the top N ranked hits. 0 disables fetching"),
     fetch_context_chars: int = Field(default=DEFAULT_FETCH_CONTEXT_CHARS, description=f"Per ranked hit: approximate total context chars around the matched line range, split about half before and half after. This is per result, not a total cap across all results. Default {DEFAULT_FETCH_CONTEXT_CHARS} means roughly {DEFAULT_FETCH_CONTEXT_CHARS // 2} chars before and {DEFAULT_FETCH_CONTEXT_CHARS // 2} chars after each hit"),
-    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, search is narrowed to that stored file"),
+    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, search is narrowed to that stored file. In the current hybrid implementation, this narrows vector retrieval to that file and skips cross-file BM25 fusion."),
     bm25_query: str = Field(default="", description="Optional BM25-only lexical query. If bm25_query is empty, BM25 falls back to query. BM25 retrieval is already multi-channel, so in most cases leave this empty and keep query as the main natural-language question. Filling bm25_query does not disable vector retrieval or reranking; those still use query. Use bm25_query only when you already know better exact lexical anchors for BM25, such as article numbers, exact terms, API/class names, abbreviations, error codes, headings, or model names."),
 ) -> str:
     """Default entry point for most user questions: hybrid retrieval + auto-fetched stored original content in one call.
@@ -197,6 +204,7 @@ def nbrag_search_and_fetch(
     - Filling bm25_query does not disable vector retrieval or reranking; it only changes the lexical wording used by BM25.
     - Use bm25_query only when you already know better exact lexical anchors than the main query.
     - Do not mechanically rewrite the main query into a space-separated keyword string just to satisfy BM25.
+    - If filter_file_path is set, current behavior narrows vector retrieval to that file and does not run cross-file BM25 fusion.
 
     The returned text has two AI-friendly sections:
     1. Ranked search results

@@ -4,7 +4,7 @@
 
 面向 AI Agent 的 Agentic RAG MCP Server，用来从用户自己准备的知识库中检索证据、读取原文，并辅助 AI 基于真实内容回答问题。
 
-`nbrag` 可以把本地文本、文档、法规、手册、笔记和 Python 源码导入为本地知识库。它尤其擅长 Python 项目源码向量化后的检索：源码 chunk 会注入文件路径、行号、AST scope 和函数签名，配合 `grep`、`find_definition`、原文读取等工具，对框架源码、三方库源码和内部 Python 项目有很强的定位效果。兼容 MCP 的 AI Agent 可以通过 10+ 个聚焦的检索/读取工具和 `nbrag_help` 导航工具，自主搜索、grep、定位文件、读取原文，并基于证据组织答案。
+`nbrag` 可以把本地文本、文档、法规、手册、笔记和 Python 源码导入为本地知识库。它尤其擅长 Python 项目源码向量化后的检索：源码 chunk 会注入文件路径、行号、AST scope 和函数签名，配合 `grep`、`find_definition`、原文读取等工具，对框架源码、三方库源码和内部 Python 项目有很强的定位效果。兼容 MCP 的 AI Agent 可以通过 13 个聚焦的检索/读取工具和 `nbrag_help` 导航工具，自主搜索、grep、定位文件、读取原文，并基于证据组织答案。
 
 ## 亮点
 
@@ -41,7 +41,7 @@ Context7 是很有用的托管 MCP 文档服务，适合查询它已经收录的
 | 原文读取 | 受托管片段限制 | 支持按绝对路径和行号读取 |
 | 更新方式 | 取决于服务端索引 | 用户重新导入即可 |
 | 存储 | 托管服务 | 本地 ChromaDB + raw files + BM25/symbol 索引 |
-| 工具数量 | 较小 API 面 | 10+ 个检索/读取工具 + `nbrag_help` |
+| 工具数量 | 较小 API 面 | 13 个检索/读取工具 + `nbrag_help` |
 
 两者互补：Context7 适合快速查它已覆盖的公开文档；`nbrag` 适合私有、专业、刚更新、需要原文证据的本地资料。
 
@@ -274,7 +274,7 @@ In collection company_knowledge, what does the labor contract material say about
 
 | 类别 | 工具 | 用途 |
 |---|---|---|
-| 导航 | `nbrag_help` | AI 不确定如何组合工具时，返回简短工作流指南 |
+| 导航 | `nbrag_help` | AI 不确定如何组合工具时，返回工作流指南和 follow-up 句柄提醒 |
 | 搜索 | `nbrag_search` | 混合检索：Vector + BM25 -> RRF -> rerank |
 | 搜索 | `nbrag_search_and_fetch` | 混合检索并按字符预算对称扩窗自动读取命中位置附近原文 |
 | 搜索诊断 | `nbrag_search_only_bm25` | 纯 BM25 检索，用于观察词法召回效果，不走向量和 rerank |
@@ -287,7 +287,7 @@ In collection company_knowledge, what does the labor contract material say about
 | 上下文 | `nbrag_get_adjacent_chunks` | 根据 `doc_id` + `chunk_index` 扩展相邻 chunks |
 | 上下文 | `nbrag_get_chunks_by_lines` | 获取覆盖指定行号范围的 chunks |
 | 只读清单 | `nbrag_list` | 列出 collection 中的文档 |
-| 只读清单 | `nbrag_stats` | 查看知识库、文档数、chunk 数和存储配置 |
+| 只读清单 | `nbrag_stats` | 查看知识库、文档数、chunk 数，以及 display_name/description/aliases/tags 等路由提示 |
 
 导入和删除不暴露为 MCP 工具，请使用 Python 脚本人工维护。
 
@@ -320,10 +320,10 @@ In collection company_knowledge, what does the labor contract material say about
 用户：一年劳动合同，试用期五个月合法吗？能要什么赔偿？
 
 AI：
-1. nbrag_search_and_fetch(query="一年劳动合同约定五个月试用期是否合法")
-2. nbrag_search_and_fetch(query="违法约定试用期可以主张什么赔偿")
-3. nbrag_grep("第十九条")
-4. nbrag_grep("第八十三条")
+1. nbrag_search_and_fetch(query="一年劳动合同约定五个月试用期是否合法", collection_name="worker_rights")
+2. nbrag_search_and_fetch(query="违法约定试用期可以主张什么赔偿", collection_name="worker_rights")
+3. nbrag_grep(keyword="第十九条", collection_name="worker_rights")
+4. nbrag_grep(keyword="第八十三条", collection_name="worker_rights")
 5. 基于原文证据回答。
 ```
 
@@ -347,6 +347,32 @@ AI：
 5. 发现新符号后跨文件重复检索。
 ```
 
+### 相似工具怎么选？
+
+| 如果你需要... | 首选 | 原因 |
+|---|---|---|
+| 一次调用同时发现线索 + 证据 | `nbrag_search_and_fetch` | 大多数问题的默认入口；同时返回 ranked hits 和原文上下文 |
+| 更细的检索开关控制或 metadata-only 结果 | `nbrag_search` | 可以关闭 rerank/BM25，或省略 chunk 内容，但保留 follow-up 句柄 |
+| 纯 BM25 诊断 | `nbrag_search_only_bm25` | 单独观察精确术语、条文号、缩写、代码等词法召回 |
+| 纯向量诊断 | `nbrag_search_only_vector` | 单独观察意图、语义、同义改写等语义召回 |
+| 字面 wording / 正则证据 | `nbrag_grep` | 对 stored original text 做逐行匹配，不负责语义理解 |
+| 无 overlap 的 clean 原文 | `nbrag_get_raw_file` | 最适合引用、按行读取和查看 source-of-truth 原文 |
+| 保留 chunk/scope 结构地浏览 | `nbrag_get_file_chunks` | 更适合看行号/scope metadata，而不是 overlap-free 文本 |
+| 围绕某个 ranked hit 扩大 chunk 上下文 | `nbrag_get_adjacent_chunks` | 适合从 `search`/`search_and_fetch` 返回的 `doc_id + chunk_index` 继续扩展 |
+| 根据已知行号范围拿覆盖它的 chunks | `nbrag_get_chunks_by_lines` | 已知 `doc_id + line:N-M` 时，拿 chunk-level scope context |
+| 根据文件名/路径片段拿到精确 `file_path` | `nbrag_find_files` | 产出读取/过滤工具真正需要的完整绝对 `file_path` |
+| 先确定该用哪个 collection | `nbrag_stats` | 返回 display_name、description、aliases、tags 等路由提示 |
+
+### 句柄串联示例
+
+```text
+1. nbrag_search_and_fetch(query="试用期最长多久", collection_name="worker_rights")
+2. 从 ranked hits 里复制一个 file_path
+3. nbrag_get_raw_file(file_path="D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md", collection_name="worker_rights", line_start=18, line_end=23)
+```
+
+如果你已经知道要缩小到某个文件，也可以把同一个 `file_path` 继续用作 `filter_file_path`。但要注意：当前实现中，`nbrag_search` / `nbrag_search_and_fetch` 一旦设置 `filter_file_path`，会把向量检索限制到该文件，并跳过跨文件 BM25 融合。所以应把它理解为“已知文件内继续深挖”的 follow-up，而不是“仍保持全局混合检索，只是稍微偏向这个文件”。
+
 ### 路径规则
 
 所有 `file_path` 和 `filter_file_path` 入参都必须使用 `nbrag` 工具返回的完整绝对路径，例如：
@@ -360,7 +386,7 @@ D:/docs/labor_law/劳动合同法.md
 
 ## 可选 Skill
 
-`nbrag_help` 和 MCP 工具描述已经足够 MCP-only 场景使用，所以用户不复制 Skill 也能正常使用 MCP 工具。内置 Skill 只是给支持本地 Skill 的 Agent 提供更完整的工作流提示。
+`nbrag_help` 和 MCP 工具描述已经足够 MCP-only 场景使用，所以用户不复制 Skill 也能正常使用 MCP 工具。内置 Skill 只是给支持本地 Skill 的 Agent 提供更完整的工作流提示。某些 host 不会自动加载本地 Skill，因此 `nbrag_help` 也可能直接内嵌这份工作流文本，保证 MCP server 本身仍然足够自解释。
 
 定位内置 Skill：
 
@@ -368,15 +394,25 @@ D:/docs/labor_law/劳动合同法.md
 python -c "import nbrag, os; print(os.path.join(os.path.dirname(nbrag.__file__), 'skills', 'nbrag-workflow'))"
 ```
 
-复制到你的 Agent 使用的 Skills 目录，例如：
+Bash 示例：
 
 ```bash
+SKILL_PATH=$(python -c "import nbrag, os; print(os.path.join(os.path.dirname(nbrag.__file__), 'skills', 'nbrag-workflow'))")
 cp -r "$SKILL_PATH" .agents/skills/
 cp -r "$SKILL_PATH" .claude/skills/
 cp -r "$SKILL_PATH" .cursor/skills/
 ```
 
-不支持 Skill 的 Agent 仍然可以通过 `nbrag_help` 获取简短组合拳指南。
+PowerShell 示例：
+
+```powershell
+$skillPath = python -c "import nbrag, os; print(os.path.join(os.path.dirname(nbrag.__file__), 'skills', 'nbrag-workflow'))"
+Copy-Item $skillPath -Destination .agents/skills/ -Recurse
+Copy-Item $skillPath -Destination .claude/skills/ -Recurse
+Copy-Item $skillPath -Destination .cursor/skills/ -Recurse
+```
+
+不支持 Skill 的 Agent 仍然可以通过 `nbrag_help` 获取工作流指引和 follow-up 句柄提醒。
 
 ## 配置
 

@@ -147,6 +147,29 @@ def _collection_issue_text(collection_name: str, total: int) -> str:
     return ""
 
 
+def _collection_presence_issue_text(collection_name: str) -> str:
+    stats = get_stats()
+    collections = stats.get("collections", {})
+    avail = list(collections.keys())
+    info = collections.get(collection_name)
+    if info is None:
+        return (
+            f"collection '{collection_name}' does not exist.\n"
+            f"Available collections: {avail}\n"
+            "Next steps: call nbrag_stats() to inspect valid collection_name values, "
+            "then retry with the correct prepared knowledge base."
+        )
+
+    docs = info.get("docs", info.get("doc_count", 0))
+    chunks = info.get("chunks", info.get("chunk_count", 0))
+    if not docs and not chunks:
+        return (
+            f"collection '{collection_name}' is empty. "
+            "Next steps: ask the user to ingest/prepare this knowledge base before searching."
+        )
+    return ""
+
+
 def _no_search_results_text(total: int) -> str:
     return (
         f"No results (collection has {total} chunks).\n"
@@ -193,7 +216,6 @@ def nbrag_add_document(
 
 def nbrag_help() -> str:
     skill_text = _load_workflow_skill_text()
-    # parts 中要保持简洁，不要加太长的说明，主要依靠 skill_text 提供更多的详细信息
     parts = [
         "nbrag help: Agentic RAG knowledge-base MCP workflow",
         "",
@@ -211,14 +233,21 @@ def nbrag_help() -> str:
         "- doc_id + chunk_index → nbrag_get_adjacent_chunks",
         "- doc_id + line:N-M → nbrag_get_chunks_by_lines",
         "",
+        "Behavior notes:",
+        "- search/search_and_fetch keep query as the main semantic question; use bm25_query only for better exact lexical anchors.",
+        "- If filter_file_path is set in hybrid retrieval, current behavior narrows vector search to that file and skips cross-file BM25 fusion.",
+        "",
         "Path rules:",
         "- file_path and filter_file_path must be full absolute paths returned by nbrag tools.",
         "- Use the actual exposed tool name from the host; other frameworks may add prefixes.",
-        "",
-        "See the embedded workflow guide below for detailed strategy selection, multi-round retrieval, and follow-up patterns.",
     ]
     if skill_text:
-        parts.extend(["", "Embedded nbrag workflow guide:", skill_text])
+        parts.extend([
+            "",
+            "Embedded nbrag workflow guide:",
+            "- The bundled guide is included below because some hosts do not load local Skills automatically.",
+            skill_text,
+        ])
     return "\n".join(parts)
 
 
@@ -266,8 +295,14 @@ def _format_search_results(
     lines.extend([
         "",
         "Returned handle fields for follow-up: file_path, doc_id, chunk_index, line range.",
+        "query remains the semantic question for vector retrieval/rerank; bm25_query only changes BM25 wording when BM25 is active.",
         "",
     ])
+    if path_filter and use_vector:
+        lines.extend([
+            "Behavior note: with filter_file_path set, current hybrid behavior narrows vector retrieval to that single file and does not run cross-file BM25 fusion.",
+            "",
+        ])
 
     for i, (doc, meta, dist) in enumerate(zip(documents, metadatas, distances)):
         if meta is None:
@@ -400,12 +435,20 @@ def nbrag_search_and_fetch(
         header,
         "",
         "This tool returns both ranked hits and auto-fetched stored original content.",
+        "query remains the semantic question for vector retrieval/rerank; bm25_query only changes BM25 wording when BM25 is active.",
         "fetch_context_chars is per ranked hit: roughly N total context chars split half before and half after, not a total response cap.",
         "Reused follow-up handles in ranked hits: file_path, doc_id, chunk_index, line:N-M.",
         "",
+    ]
+    if path_filter:
+        lines.extend([
+            "Behavior note: with filter_file_path set, current hybrid behavior narrows vector retrieval to that single file and does not run cross-file BM25 fusion.",
+            "",
+        ])
+    lines.extend([
         "Ranked search results:",
         "",
-    ]
+    ])
 
     fetch_targets: dict[str, dict[str, Any]] = {}
     for i, (doc, meta, dist) in enumerate(zip(documents, metadatas, distances)):
@@ -498,6 +541,9 @@ def nbrag_grep(
         match_context_chars=match_context_chars,
     )
     if not results:
+        collection_issue = _collection_presence_issue_text(collection_name)
+        if collection_issue:
+            return collection_issue
         return (
             "No grep matches. Possible adjustments: check exact wording/case, escape regex metacharacters if you intended literal matching, "
             "try regex if appropriate, or switch to nbrag_search_and_fetch for semantic discovery when this is a concept, alias, or paraphrase rather than exact source wording."
@@ -527,6 +573,9 @@ def nbrag_find_definition(
     max_results = _int_param(max_results, 3)
     results = find_symbol_definition(symbol, collection_name, max_results)
     if not results:
+        collection_issue = _collection_presence_issue_text(collection_name)
+        if collection_issue:
+            return collection_issue
         return (
             "No definition found. Python source may use a different exact name, or this knowledge base may be non-Python text. "
             "Possible adjustments: try nbrag_grep for exact text/regex, use nbrag_search_and_fetch for concept/example discovery, "
@@ -574,6 +623,9 @@ def nbrag_find_files(pattern: str, collection_name: str, max_results: int = 20, 
     case_sensitive = _bool_param(case_sensitive, False)
     files = find_files(pattern, collection_name, max_results, case_sensitive)
     if not files:
+        collection_issue = _collection_presence_issue_text(collection_name)
+        if collection_issue:
+            return collection_issue
         return (
             "No files matched. Possible adjustments: try a shorter filename fragment, a different suffix, a regex pattern, "
             "or first use nbrag_search_and_fetch/nbrag_grep to discover candidate files."
@@ -740,6 +792,9 @@ def nbrag_list(collection_name: str, offset: int = 0, limit: int = 100) -> str:
     limit = _int_param(limit, 100)
     rows = list_documents(collection_name, offset=offset, limit=limit)
     if not rows:
+        collection_issue = _collection_presence_issue_text(collection_name)
+        if collection_issue:
+            return collection_issue
         return (
             "No documents in this collection. Possible adjustments: verify collection_name with nbrag_stats(), "
             "or ask the user whether this knowledge base has been prepared/ingested."
@@ -800,5 +855,10 @@ def nbrag_stats() -> str:
 
 
 def nbrag_delete(doc_id: str, collection_name: str) -> str:
-    ok = delete_document(doc_id, collection_name)
-    return "Deleted" if ok else "Delete failed or doc_id not found."
+    deleted_count, filename = delete_document(doc_id, collection_name)
+    if deleted_count:
+        return f"Deleted {deleted_count} chunk(s) for filename: {filename} | doc_id: {doc_id}"
+    collection_issue = _collection_presence_issue_text(collection_name)
+    if collection_issue:
+        return collection_issue
+    return "Delete failed or doc_id not found."
