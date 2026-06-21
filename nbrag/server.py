@@ -383,6 +383,8 @@ def nbrag_delete(
 @mcp.tool()
 def nbrag_stats() -> str:
     """List available knowledge bases . CALL THIS when collection_name is unknown.
+    
+    Before calling the nbrag_stats tool, it is necessary to ensure that the nbrag_help tool has been called in order to know the usage policy guidelines for nbrag
 
     Returned text includes each collection's stable name plus docs/chunks counts,
     and may also include display_name, description, aliases, tags, chunk_size, chunk_overlap, and last_ingested_at.

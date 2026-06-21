@@ -830,6 +830,8 @@ def nbrag_stats() -> str:
         if last_ingested_at:
             lines.append(f"  last_ingested_at: {last_ingested_at}")
         lines.append("")
+    nbrag_help_notice = ' It is necessary to ensure that the nbrag_help tool has been called in order to know the usage policy guidelines for nbrag'
+    lines.append(f'\n\n {nbrag_help_notice}')
     return "\n".join(lines)
 
 
