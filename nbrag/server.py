@@ -41,6 +41,18 @@ from nbrag.defaults import (
 mcp = FastMCP("nbrag")
 
 
+@mcp.tool()
+def nbrag_help() -> str:
+    """Workflow guide for AI agents using nbrag.
+
+    Before calling any nbrag tool, this help function must be called first to know the usage strategy of nbrag.
+    If you already know the best way to use nbrag, do not call this help function again.
+
+    The returned text explains path rules, retrieval branching, and reusable follow-up handles
+    such as file_path, doc_id, chunk_index, and line ranges.
+    """
+    return mcp_tools.nbrag_help()
+
 # nbrag_add_document 暂时不暴露为 MCP 函数，向量化一般由人工批量导入，而不是实时导入。
 def nbrag_add_document(
     path: str = Field(description="Absolute path to a file or directory. Directory imports all text files recursively"),
@@ -55,17 +67,7 @@ def nbrag_add_document(
     return mcp_tools.nbrag_add_document(path, collection_name, chunk_size, chunk_overlap, file_extensions)
 
 
-@mcp.tool()
-def nbrag_help() -> str:
-    """Workflow guide for AI agents using nbrag.
 
-    Call this when you are unsure which nbrag tool to use, how to chain tools,
-    or when you want a reminder of path rules, retrieval branching, and follow-up handles.
-    The returned text explains the default entry tool, exact-vs-semantic branching,
-    and the key fields reused across tool calls such as file_path, doc_id, chunk_index, and line ranges.
-
-    """
-    return mcp_tools.nbrag_help()
 
 
 @mcp.tool()
@@ -380,16 +382,13 @@ def nbrag_delete(
 
 @mcp.tool()
 def nbrag_stats() -> str:
-    """List available knowledge bases and routing hints. CALL THIS FIRST when collection_name is unknown.
+    """List available knowledge bases . CALL THIS when collection_name is unknown.
 
     Returned text includes each collection's stable name plus docs/chunks counts,
     and may also include display_name, description, aliases, tags, chunk_size, chunk_overlap, and last_ingested_at.
-    Use these fields to choose the right collection before searching.
+    Use these fields to choose the right collection before retrieval.
 
-    Typical next steps:
-    - nbrag_search_and_fetch() for most knowledge / usage / evidence questions
-    - nbrag_search() for finer retrieval controls
-    - nbrag_help() if you still need strategy guidance"""
+    """
     return mcp_tools.nbrag_stats()
 
 

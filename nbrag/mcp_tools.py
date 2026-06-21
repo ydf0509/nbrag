@@ -217,8 +217,8 @@ def nbrag_add_document(
 def nbrag_help() -> str:
     skill_text = _load_workflow_skill_text()
     parts = [
-        "nbrag help: Agentic RAG knowledge-base MCP workflow",
-        
+        "nbrag help: Agentic RAG knowledge-base MCP workflow guide",
+       
     ]
     if skill_text:
         parts.extend([
@@ -800,6 +800,7 @@ def nbrag_stats() -> str:
     lines = [
         "collections:",
         "Use collection_name(知识库名字) exactly as shown below when calling retrieval tools.",
+       
         "",
     ]
     for name, info in collections.items():
