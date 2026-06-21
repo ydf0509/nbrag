@@ -57,15 +57,14 @@ def nbrag_add_document(
 
 @mcp.tool()
 def nbrag_help() -> str:
-    """Workflow guide for AI agents using nbrag without relying on an external Skill.
+    """Workflow guide for AI agents using nbrag.
 
     Call this when you are unsure which nbrag tool to use, how to chain tools,
     or when you want a reminder of path rules, retrieval branching, and follow-up handles.
     The returned text explains the default entry tool, exact-vs-semantic branching,
     and the key fields reused across tool calls such as file_path, doc_id, chunk_index, and line ranges.
 
-    In hosts that do not load local skills automatically, the returned text may also embed
-    the bundled nbrag workflow guide so the MCP server stays self-explanatory."""
+    """
     return mcp_tools.nbrag_help()
 
 

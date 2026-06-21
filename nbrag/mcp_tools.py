@@ -218,34 +218,12 @@ def nbrag_help() -> str:
     skill_text = _load_workflow_skill_text()
     parts = [
         "nbrag help: Agentic RAG knowledge-base MCP workflow",
-        "",
-        "Common guidance:",
-        "- Unknown collection_name? call nbrag_stats.",
-        "- Most knowledge / usage / evidence questions: usually start with nbrag_search_and_fetch.",
-        "- Need retrieval controls or diagnostic isolation: use nbrag_search / nbrag_search_only_bm25 / nbrag_search_only_vector.",
-        "- Need exact wording / article number / API name / constant: use nbrag_grep.",
-        "- Need Python .py symbol body: use nbrag_find_definition.",
-        "- Need exact full file_path first: use nbrag_find_files.",
-        "- Stop once current evidence is enough to answer; do not call extra tools just to complete a workflow.",
-        "",
-        "Key follow-up handles reused across tools:",
-        "- file_path → nbrag_get_raw_file / nbrag_get_file_chunks / filter_file_path",
-        "- doc_id + chunk_index → nbrag_get_adjacent_chunks",
-        "- doc_id + line:N-M → nbrag_get_chunks_by_lines",
-        "",
-        "Behavior notes:",
-        "- search/search_and_fetch keep query as the main semantic question; use bm25_query only for better exact lexical anchors.",
-        "- If filter_file_path is set in hybrid retrieval, current behavior narrows vector search to that file and skips cross-file BM25 fusion.",
-        "",
-        "Path rules:",
-        "- file_path and filter_file_path must be full absolute paths returned by nbrag tools.",
-        "- Use the actual exposed tool name from the host; other frameworks may add prefixes.",
+        
     ]
     if skill_text:
         parts.extend([
             "",
-            "Embedded nbrag workflow guide:",
-            "- The bundled guide is included below because some hosts do not load local Skills automatically.",
+            "nbrag workflow guide:",
             skill_text,
         ])
     return "\n".join(parts)
