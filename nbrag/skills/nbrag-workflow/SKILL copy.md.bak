@@ -1,0 +1,207 @@
+﻿---
+name: nbrag-workflow
+version: "1.3.0"
+description: >-
+  用于回答基于已准备好的 nbrag 知识库的问题，尤其是在用户提到知识库检索、搜索已导入内容、查询某个项目/框架/文档怎么用、查源码定义、查条文、查手册、查资料时。
+  适用于代码、文档、说明书、业务资料、规范、教程以及其他任意已入库文本。
+---
+
+# nbrag 知识库检索工作流
+
+nbrag 提供一组面向 AI 的知识库 MCP 工具。核心目标不是“把所有工具都调用一遍”，而是：**用最少的调用拿到足够可靠的证据，然后回答。**
+
+> **注意**：本文档中的函数名是 nbrag MCP 自身的函数名。当 nbrag 被接入其他 Agent 框架时，
+> 实际暴露的 function 名称可能带前缀（例如 `xxx_nbrag_search` 或 `mcp__xxx__nbrag_search`），AI 应以实际接收到的 function 名称为准。
+
+如果没有加载本 Skill 或不确定下一步，先调用 `nbrag_help` 获取 MCP 内置的决策指南与 follow-up 句柄说明。某些 host 不会自动加载本地 Skill，因此 `nbrag_help` 可能内嵌完整工作流文本。
+
+## 先记住 4 个核心原则
+
+1. **不知道 `collection_name` 时先 `nbrag_stats`。**
+2. **大多数知识 / 用法 / 证据问题，默认先 `nbrag_search_and_fetch`。**
+3. **只有在确实需要 exact wording 时，才切到 `nbrag_grep`。**
+4. **当前返回已经足够回答时就停止，不要为了走流程继续调工具。**
+
+## 快速决策：先用哪个工具？
+
+| 场景 | 首选工具 | 什么时候切换 |
+|---|---|---|
+| 不知道有哪些知识库 / 不确定 `collection_name` | `nbrag_stats` | 确认知识库后进入检索 |
+| 知识、用法、示例、条文解释、手册问答、源码怎么用 | `nbrag_search_and_fetch` | 默认保留自然语言 `query`；同时建议传一个从用户原话、上下文或已确认证据中抽取的简短 `bm25_query` 作为词法锚点。`bm25_query` 可以比 `query` 更短、更词法化，但不要加入推断出来的宽泛主题词。传入 `bm25_query` 不会关闭向量检索或 rerank，它只影响 BM25 的词法匹配。 |
+| 需要关闭 rerank / BM25、只看 metadata、隔离召回策略 | `nbrag_search` | 若想单独看 BM25 或向量效果，再用单策略工具；只有在词法措辞确实不同于语义问法时才考虑传 `bm25_query`。传入 `bm25_query` 不会关闭向量检索或 rerank。 |
+| 想判断“这次命中是不是 BM25 的功劳” | `nbrag_search_only_bm25` | 诊断完回到正常检索 |
+| 想判断“embedding 语义到底抓到什么” | `nbrag_search_only_vector` | 诊断完回到正常检索 |
+| 精确术语、条文号、标题、类名、函数名、常量、错误字符串 | `nbrag_grep` | 如果其实不是 exact wording 问题，而是概念问题，回到 `nbrag_search_and_fetch` |
+| 已知道 Python 符号名，想看完整定义 | `nbrag_find_definition` | 若不是 Python `.py`，改用 `nbrag_grep` / `nbrag_search_and_fetch` |
+| 只知道文件名或路径片段 | `nbrag_find_files` | 拿到完整 `file_path` 后再读原文或缩小搜索范围 |
+
+## 默认入口：`nbrag_search_and_fetch`
+
+对大多数问题，先用：
+
+```python
+nbrag_search_and_fetch(query="...", collection_name="...")
+```
+
+`query` 默认使用用户原始自然语言问题。只有在必要时才做最小规范化，例如修正明显错别字、去掉无关口头禅、或根据上下文补全代词；不要改变用户意图，不要添加用户没说的假设、领域限定或概念扩展，也不要把主 `query` 改成关键词列表。
+
+如果能整理出简短词法锚点，建议额外传：
+
+```python
+nbrag_search_and_fetch(query="...", bm25_query="...", collection_name="...")
+```
+
+这里的 `query` 仍然是主语义问题，继续用于向量检索和 rerank；`bm25_query` 只影响 BM25 的词法匹配，不会关闭向量检索。如果 `bm25_query` 留空，BM25 默认回退使用 `query`。
+`bm25_query` 可以更短、更词法化，适合放从用户原话、上下文或已确认证据中抽取的词法锚点；不要加入 AI 推断的宽泛主题词。
+
+为什么它通常是默认入口：
+- 一次调用同时给你**排名结果**和**自动抓取的原文上下文**
+- 比只看 chunk 更不容易误解片段
+- 返回里已经包含后续调用常用句柄：`file_path`、`doc_id`、`chunk_index`、`line:N-M`
+- `fetch_context_chars=4000` 默认表示**每条 ranked hit 总上下文约 4000 字符，前后大约各 2000**，不是所有结果总共 4000 字符；`top_k` 很大时不要随意把它设成 10000 这类大值
+
+什么时候不必继续调其他工具：
+- 自动抓到的原文已经足够回答
+- 排名结果和原文证据一致，结论明确
+- 用户只需要结论或简短说明，而不是完整源码漫游
+
+什么时候继续：
+- 需要**精确 wording** 证据 → `nbrag_grep`
+- 需要**更大原文上下文** → `nbrag_get_raw_file`
+- 需要**围绕某个 chunk 扩展** → `nbrag_get_adjacent_chunks`
+- 需要**按行号反查 chunk/scope** → `nbrag_get_chunks_by_lines`
+- 需要**完整文件路径** → `nbrag_find_files`
+
+## exact vs semantic：什么时候用 `nbrag_grep`
+
+`nbrag_grep` 是**字面文本 / 正则匹配**，不是语义检索。
+
+适合：
+- 法律条文号：`第四十二条`
+- 标题 / 专业术语 / 缩写 / 编号
+- Python class/function 名
+- import / decorator / constant / error string
+
+上下文大小：`match_context_chars=2000` 默认表示**每个 grep match 总上下文约 2000 字符，前后大约各 1000**，不是所有匹配结果总共 2000 字符；如果 `max_results=10` 且设成 10000，可能产生非常大的返回。
+
+不适合：
+- 概念问法
+- 同义改写
+- 摘要式表达
+- 原文未出现的概括词
+
+一个简单判断：
+- 你要找的是“这句话 / 这个词 / 这个编号有没有**原样出现**” → `nbrag_grep`
+- 你要找的是“这个意思 / 这个主题 / 这个问题相关内容在哪” → `nbrag_search_and_fetch`
+
+## Python source workflow / Python 源码场景
+
+Python `.py` 是 nbrag 的强场景之一，但也不要迷信单工具。
+
+推荐决策：
+1. `nbrag_search_and_fetch`：先发现概念、调用关系、使用示例
+2. `nbrag_grep`：再确认精确符号名 / import / 常量 / 错误字符串
+3. `nbrag_find_definition`：拿完整 class/function/method 定义
+4. `nbrag_get_raw_file`：需要更大源码上下文时读取原文
+
+如果内容不是 Python `.py`，不要优先用 `nbrag_find_definition`。
+
+## follow-up 句柄怎么接下一跳
+
+### 1. `file_path`
+可用于：
+- `nbrag_get_raw_file(file_path, collection_name)`
+- `nbrag_get_file_chunks(file_path, collection_name)`
+- `filter_file_path=...` 缩小 `search` / `search_and_fetch` / `grep` 范围
+
+注意：当前实现里，如果在 `nbrag_search` / `nbrag_search_and_fetch` 中设置 `filter_file_path`，会把向量检索限制到该文件，并跳过跨文件 BM25 融合。它适合做“已知文件内继续深挖”，不适合当作“仍保持全局混合检索，只是稍微偏向这个文件”的语义理解。
+
+### 2. `doc_id + chunk_index`
+可用于：
+- `nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)`
+
+注意：`chunk_index` 应来自 `nbrag_search` / `nbrag_search_and_fetch` 的 `chunk:X/Y` 或 `chunk_index:X` 字段，不要只拿 grep 的 `doc_id` 就直接调这个工具。
+
+### 3. `doc_id + line:N-M`
+可用于：
+- `nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)`
+
+### 4. `file_path + line range`
+可用于：
+- `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)`
+
+## 路径规则
+
+所有要求 `file_path` / `filter_file_path` 的工具，都应传 **nbrag 返回的完整绝对路径**。
+
+不要传：
+- `劳动合同法.md`
+- `core.py`
+- `src/core.py`
+
+优先来源：
+- `nbrag_search` / `nbrag_search_and_fetch`
+- `nbrag_find_files`
+- `nbrag_list`
+
+## 常见调用路径（不是固定流程）
+
+```text
+不知道 collection_name → nbrag_stats()
+知识/用法/证据问题 → 通常先 nbrag_search_and_fetch()
+只要 metadata 或要控制检索开关 → nbrag_search()
+需要 exact wording / 条文号 / 错误码 / 符号名 → nbrag_grep()
+只有文件名或路径片段 → nbrag_find_files() 换成完整 file_path
+需要引用 clean 原文或扩大上下文 → nbrag_get_raw_file() / nbrag_get_adjacent_chunks()
+Python .py 精确符号定义 → nbrag_find_definition()
+```
+
+这只是决策地图，不是必须走完的流程。当前返回已经足够回答时就停止。
+
+## 多轮检索策略
+
+可以多轮，但每一轮都应更清楚，而不是更机械。
+
+推荐做法：
+- 默认把 `query` 保持为用户原始自然语言问题
+- 只有必要时才做最小规范化：修正明显错别字、去掉无关口头禅、或根据上下文补全代词
+- 不改变用户意图，不添加用户没说的假设、领域限定或概念扩展，不把主 `query` 改成关键词列表
+- `query` 仍然用于向量检索和 rerank；如果 `bm25_query` 留空，BM25 默认回退使用 `query`
+- 建议在常规混合检索中传简短 `bm25_query`：使用用户原话、上下文、已确认证据，以及高置信的领域术语/同义词/机制词
+- `bm25_query` 可以比 `query` 更短、更词法化；避免加入低置信、跑题、过宽的扩展词或新假设
+- 先语义发现，再 exact 验证
+- 必要时缩小到单个 `file_path`
+- 当前证据足够时立即停止
+
+不推荐：
+- 为了照顾 BM25，把主 `query` 机械拆成一长串空格关键词
+- 把用户的咨询/操作意图改成自己假设的检索目标
+- 反复调用同一工具却不改变有效检索条件
+- 明明证据已经够了，还继续“补流程”
+
+## 常见停止条件
+
+以下情况通常可以停止检索并开始回答：
+- 已拿到直接回答问题的原文证据
+- 多个命中相互印证，没有明显冲突
+- 继续调用只会重复现有信息
+
+以下情况说明应继续或换工具：
+- 返回内容相关但不够精确
+- 需要 literal wording 证据
+- 需要更大上下文确认含义
+- 文件或知识库范围过大，需要缩小范围
+
+## 常见问题
+
+| 症状 | 常见原因 | 建议 |
+|---|---|---|
+| collection 不存在 | 名称写错或知识库未准备 | `nbrag_stats()` |
+| 搜索为空 | collection 不对 / 问题含糊 / 精确术语不匹配 | 检查 `collection_name`；必要时最小规范化 `query`；已知精确锚点优先用 `bm25_query`；若仍无结果，再用 `nbrag_grep` |
+| grep 无结果 | 原文没有 exact wording，或 regex/大小写不对 | 检查 wording；如果其实是概念问题，回到 `nbrag_search_and_fetch` |
+| basename 被当成 `file_path` | 路径不是完整绝对路径 | 先 `nbrag_find_files` 或 `nbrag_list` |
+| 想看 clean 原文却还在看 chunk | chunk 会 overlap | 改用 `nbrag_get_raw_file` |
+
+## 一句话总结
+
+**默认先 `nbrag_search_and_fetch`；`query` 保留自然语言语义，`bm25_query` 建议传从用户原话/上下文/已确认证据抽取的简短词法锚点；只有在需要 exact wording、路径发现、chunk 扩展、源码定义时再切专用工具；证据够了就回答。**

@@ -173,8 +173,9 @@ def _collection_presence_issue_text(collection_name: str) -> str:
 def _no_search_results_text(total: int) -> str:
     return (
         f"No results (collection has {total} chunks).\n"
-        "Possible adjustments: rewrite the query as a focused short phrase, try nbrag_grep for exact terms/article numbers/symbols, "
-        "use nbrag_find_files + filter_file_path to narrow to a known file, or call nbrag_stats if collection_name may be wrong."
+        "Possible adjustments: verify collection_name, minimally normalize the natural-language query without changing intent, "
+        "provide a concise bm25_query with lexical anchors from user wording/context/evidence or high-confidence domain terms, "
+        "try nbrag_grep for exact terms/article numbers/symbols, or use nbrag_find_files + filter_file_path to narrow to a known file."
     )
 
 
