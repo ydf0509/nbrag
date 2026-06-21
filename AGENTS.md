@@ -20,3 +20,8 @@ D:/ProgramData/miniconda3/envs/py312/python.exe d:/codes/nbrag/scripts/start_htt
 ## 禁止使用 superpowers skills
 
 当用户没有明确说明要使用 superpowers skills 时候，ai禁止杀鸡用牛刀自动用 superpowers 的skills
+
+## 当修改readme
+当修改readme时候，中英文版本的readme都要改
+
+`readme.md`目的是只给人看，`nbrag\skills\nbrag-workflow\SKILL.md`默认目的是只给ai看

@@ -9,6 +9,8 @@
 import os
 from dataclasses import dataclass, field
 
+from nbrag.defaults import DEFAULT_CHUNK_OVERLAP, DEFAULT_CHUNK_SIZE
+
 
 # 项目根目录（config.py 位于 <PROJECT_ROOT>/nbrag/config.py）
 # 用 __file__ 推导绝对路径，确保不论从哪里启动脚本，db_path 都指向同一个固定位置
@@ -36,8 +38,8 @@ class StorageConfig:
 
 @dataclass
 class ChunkingConfig:
-    chunk_size: int = 1000
-    chunk_overlap: int = 150
+    chunk_size: int = DEFAULT_CHUNK_SIZE
+    chunk_overlap: int = DEFAULT_CHUNK_OVERLAP
 
 
 @dataclass
@@ -149,13 +151,13 @@ def load_config(cli_args=None) -> RagConfig:
     chunk_size = int(
         os.environ.get("NBRAG_CHUNK_SIZE", "")
         or chunking_data.get("chunk_size", 0)
-        or 1000
+        or DEFAULT_CHUNK_SIZE
     )
 
     chunk_overlap = int(
         os.environ.get("NBRAG_CHUNK_OVERLAP", "")
         or chunking_data.get("chunk_overlap", 0)
-        or 150
+        or DEFAULT_CHUNK_OVERLAP
     )
 
     _config = RagConfig(

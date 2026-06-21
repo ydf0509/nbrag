@@ -4,6 +4,7 @@ from _mcp_request import call_mcp_tool
 
 # ===== 可编辑参数区域 =====
 QUERY = "1年劳动合同试用期期限上限"
+BM25_QUERY = "试用期 一年劳动合同"
 COLLECTION = "worker_rights"
 TOP_K = 3
 USE_RERANK = True
@@ -13,7 +14,7 @@ INCLUDE_CONTENT = True
 # ==========================
 
 params = {
-    "query": QUERY, "collection_name": COLLECTION,
+    "query": QUERY, "bm25_query": BM25_QUERY, "collection_name": COLLECTION,
     "top_k": TOP_K, "use_rerank": USE_RERANK,
     "use_bm25": USE_BM25, "filter_file_path": FILTER_FILE_PATH,
     "include_content": INCLUDE_CONTENT,

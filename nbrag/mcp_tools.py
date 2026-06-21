@@ -6,7 +6,12 @@ import bisect
 import os
 from typing import Any
 from nbrag.config import get_config
-from nbrag.chunker import DEFAULT_CHUNK_OVERLAP, DEFAULT_CHUNK_SIZE
+from nbrag.defaults import (
+    DEFAULT_CHUNK_OVERLAP,
+    DEFAULT_CHUNK_SIZE,
+    DEFAULT_FETCH_CONTEXT_CHARS,
+    DEFAULT_MATCH_CONTEXT_CHARS,
+)
 from nbrag import (
     delete_document,
     find_files,
@@ -188,6 +193,7 @@ def nbrag_add_document(
 
 def nbrag_help() -> str:
     skill_text = _load_workflow_skill_text()
+    # parts 中要保持简洁，不要加太长的说明，主要依靠 skill_text 提供更多的详细信息
     parts = [
         "nbrag help: Agentic RAG knowledge-base MCP workflow",
         "",
@@ -225,6 +231,7 @@ def _format_search_results(
     use_vector: bool = True,
     filter_file_path: str = "",
     include_content: bool = True,
+    bm25_query: str = "",
 ) -> str:
     cfg = get_config()
     top_k = _int_param(top_k, 5)
@@ -233,6 +240,7 @@ def _format_search_results(
     use_vector = _bool_param(use_vector, True)
     filter_file_path = _str_param(filter_file_path)
     include_content = _bool_param(include_content, True)
+    bm25_query = _str_param(bm25_query)
     path_filter = filter_file_path if filter_file_path else None
     if path_filter and not _is_absolute_file_path(path_filter):
         return _path_error("filter_file_path")
@@ -240,6 +248,7 @@ def _format_search_results(
     documents, metadatas, distances, rerank_used, total, rerank_scores = search(
         query, collection_name, top_k, use_rerank, use_bm25,
         filter_file_path=path_filter, use_vector=use_vector,
+        bm25_query=(bm25_query or None),
     )
 
     collection_issue = _collection_issue_text(collection_name, total)
@@ -299,6 +308,7 @@ def nbrag_search(
     use_bm25: bool = True,
     filter_file_path: str = "",
     include_content: bool = True,
+    bm25_query: str = "",
 ) -> str:
     return _format_search_results(
         query=query,
@@ -309,6 +319,7 @@ def nbrag_search(
         use_vector=True,
         filter_file_path=filter_file_path,
         include_content=include_content,
+        bm25_query=bm25_query,
     )
 
 
@@ -354,20 +365,23 @@ def nbrag_search_and_fetch(
     collection_name: str,
     top_k: int = 5,
     fetch_top_n_raw: int = 3,
-    fetch_context_chars: int = 2000,
+    fetch_context_chars: int = DEFAULT_FETCH_CONTEXT_CHARS,
     filter_file_path: str = "",
+    bm25_query: str = "",
 ) -> str:
     cfg = get_config()
     top_k = _int_param(top_k, 5)
     fetch_top_n_raw = _int_param(fetch_top_n_raw, 3)
-    fetch_context_chars = max(0, _int_param(fetch_context_chars, 2000))
+    fetch_context_chars = max(0, _int_param(fetch_context_chars, DEFAULT_FETCH_CONTEXT_CHARS))
     filter_file_path = _str_param(filter_file_path)
+    bm25_query = _str_param(bm25_query)
     path_filter = filter_file_path if filter_file_path else None
     if path_filter and not _is_absolute_file_path(path_filter):
         return _path_error("filter_file_path")
 
     documents, metadatas, distances, rerank_used, total, rerank_scores = search(
         query, collection_name, top_k, True, use_bm25=True, filter_file_path=path_filter,
+        bm25_query=(bm25_query or None),
     )
 
     collection_issue = _collection_issue_text(collection_name, total)
@@ -465,12 +479,12 @@ def nbrag_grep(
     max_results: int = 10,
     case_sensitive: bool = False,
     filter_file_path: str = "",
-    match_context_chars: int = 2000,
+    match_context_chars: int = DEFAULT_MATCH_CONTEXT_CHARS,
 ) -> str:
     max_results = _int_param(max_results, 10)
     case_sensitive = _bool_param(case_sensitive, False)
     filter_file_path = _str_param(filter_file_path)
-    match_context_chars = max(0, _int_param(match_context_chars, 2000))
+    match_context_chars = max(0, _int_param(match_context_chars, DEFAULT_MATCH_CONTEXT_CHARS))
     path_filter = filter_file_path if filter_file_path else None
     if path_filter and not _is_absolute_file_path(path_filter):
         return _path_error("filter_file_path")

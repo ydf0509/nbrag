@@ -12,9 +12,7 @@ import warnings
 
 from langchain_text_splitters import Language, RecursiveCharacterTextSplitter
 
-
-DEFAULT_CHUNK_SIZE = 1000
-DEFAULT_CHUNK_OVERLAP = 150
+from nbrag.defaults import DEFAULT_CHUNK_OVERLAP, DEFAULT_CHUNK_SIZE
 
 # ─── 文件类型映射 ─────────────────────────────────────────
 

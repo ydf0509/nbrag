@@ -302,7 +302,7 @@ In collection company_knowledge, what does the labor contract material say about
    发现可用 collection_name。
 
 2. nbrag_search_and_fetch
-   用聚焦查询做语义+关键词混合检索，并按字符预算对称扩窗读取命中位置附近原文。
+   用聚焦自然语言 `query` 做混合检索，并按字符预算对称扩窗读取命中位置附近原文。
 
 3. nbrag_grep
    用逐行字面文本 / 正则匹配查精确术语、条文编号、标题、错误码或原文短语；如果不确定原文措辞，优先先用 `nbrag_search_and_fetch`。
@@ -320,8 +320,8 @@ In collection company_knowledge, what does the labor contract material say about
 用户：一年劳动合同，试用期五个月合法吗？能要什么赔偿？
 
 AI：
-1. nbrag_search_and_fetch("试用期 最长期限 一年劳动合同")
-2. nbrag_search_and_fetch("违法约定试用期 赔偿")
+1. nbrag_search_and_fetch(query="一年劳动合同约定五个月试用期是否合法")
+2. nbrag_search_and_fetch(query="违法约定试用期可以主张什么赔偿")
 3. nbrag_grep("第十九条")
 4. nbrag_grep("第八十三条")
 5. 基于原文证据回答。

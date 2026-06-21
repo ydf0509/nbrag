@@ -81,11 +81,11 @@ def main() -> int:
                    {"collection_name": "worker_rights", "limit": 2, "offset": 0})
 
             # ---- 检索类 ----
-            record("nbrag_search(query, top_k=3, include_content=True)", "nbrag_search",
-                   {"query": "1年劳动合同试用期期限上限", "collection_name": "worker_rights",
+            record("nbrag_search(query, bm25_query, top_k=3, include_content=True)", "nbrag_search",
+                   {"query": "1年劳动合同试用期期限上限", "bm25_query": "试用期 一年劳动合同", "collection_name": "worker_rights",
                     "top_k": 3, "include_content": True})
             record("nbrag_search(metadata-only: include_content=False)", "nbrag_search",
-                   {"query": "1年劳动合同试用期期限上限", "collection_name": "worker_rights",
+                   {"query": "1年劳动合同试用期期限上限", "bm25_query": "试用期 一年劳动合同", "collection_name": "worker_rights",
                     "top_k": 2, "include_content": False})
             record("nbrag_search_only_bm25(query='试用期', include_content=False)", "nbrag_search_only_bm25",
                    {"query": "试用期", "collection_name": "worker_rights",
@@ -93,9 +93,9 @@ def main() -> int:
             record("nbrag_search_only_vector(query, include_content=False)", "nbrag_search_only_vector",
                    {"query": "1年劳动合同试用期期限上限", "collection_name": "worker_rights",
                     "top_k": 2, "include_content": False})
-            record("nbrag_search_and_fetch(query, top_k=3, fetch_top_n_raw=1, fetch_context_chars=2000)", "nbrag_search_and_fetch",
-                   {"query": "1年劳动合同试用期期限上限", "collection_name": "worker_rights",
-                    "top_k": 3, "fetch_top_n_raw": 1, "fetch_context_chars": 2000})
+            record("nbrag_search_and_fetch(query, bm25_query, top_k=3, fetch_top_n_raw=1, fetch_context_chars=4000)", "nbrag_search_and_fetch",
+                   {"query": "1年劳动合同试用期期限上限", "bm25_query": "试用期 一年劳动合同", "collection_name": "worker_rights",
+                    "top_k": 3, "fetch_top_n_raw": 1, "fetch_context_chars": 4000})
 
             # ---- 精确/词法类 ----
             record("nbrag_grep(keyword='试用期', max_results=5)", "nbrag_grep",

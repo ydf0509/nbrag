@@ -304,7 +304,7 @@ For law, guidelines, manuals, standards, policy documents, and internal wiki mat
    Discover available collection_name values.
 
 2. nbrag_search_and_fetch
-   Start with a focused semantic/keyword query and auto-fetch symmetric char-bounded original context around the hit.
+   Start with a focused natural-language query and auto-fetch symmetric char-bounded original context around the hit.
 
 3. nbrag_grep
    Use line-by-line literal text or regex matching for exact terms, article numbers, headings, error codes, or quoted phrases. If you are unsure about the original wording, prefer nbrag_search_and_fetch first.
@@ -322,8 +322,8 @@ Example:
 User: 一年劳动合同，试用期五个月合法吗？能要什么赔偿？
 
 Agent:
-1. nbrag_search_and_fetch("试用期 最长期限 一年劳动合同")
-2. nbrag_search_and_fetch("违法约定试用期 赔偿")
+1. nbrag_search_and_fetch(query="一年劳动合同约定五个月试用期是否合法")
+2. nbrag_search_and_fetch(query="违法约定试用期可以主张什么赔偿")
 3. nbrag_grep("第十九条")
 4. nbrag_grep("第八十三条")
 5. Answer with cited evidence from original text.

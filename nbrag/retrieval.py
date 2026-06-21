@@ -20,6 +20,7 @@ from nbrag.bm25_index import (
 )
 from nbrag.config import get_config
 from nbrag.collection_profiles import list_collection_profiles
+from nbrag.defaults import DEFAULT_MATCH_CONTEXT_CHARS
 from nbrag.embeddings import embed, rerank
 from nbrag.runtime import _runtime_guarded
 from nbrag.storage import (
@@ -105,8 +106,12 @@ def _get_cached_raw_doc(collection_name, doc_id=None, source=None):
 
 @_runtime_guarded
 def search(query, collection_name="default", top_k=5, use_rerank=True,
-           use_bm25=True, filter_file_path=None, use_vector=True):
+           use_bm25=True, filter_file_path=None, use_vector=True,
+           bm25_query=None):
     """混合检索：Vector + BM25 -> RRF 融合 -> Reranker 精排。
+
+    query 是主语义查询：向量检索和 rerank 都使用它。
+    bm25_query 是可选的词法查询覆盖：仅 BM25 检索使用它；未提供时回退到 query。
 
     当 use_vector=False 且 use_bm25=True 时，只走 BM25 多通道检索，
     不生成 query embedding，也不执行 Chroma 向量查询。"""
@@ -120,9 +125,11 @@ def search(query, collection_name="default", top_k=5, use_rerank=True,
     if filter_file_path and not _is_absolute_path(filter_file_path):
         return [], [], [], False, total, []
 
+    bm25_query_text = bm25_query or query
+
     if use_bm25 and not use_vector:
         recall_k = min(max(top_k * (20 if filter_file_path else 4), top_k), total)
-        channel_results = _bm25_search_channels(query, collection_name, recall_k)
+        channel_results = _bm25_search_channels(bm25_query_text, collection_name, recall_k)
         if not channel_results:
             return [], [], [], False, total, []
 
@@ -173,7 +180,7 @@ def search(query, collection_name="default", top_k=5, use_rerank=True,
     vec_dists = vec_results["distances"][0]
 
     if use_bm25 and not filter_file_path:
-        channel_results = _bm25_search_channels(query, collection_name, recall_k)
+        channel_results = _bm25_search_channels(bm25_query_text, collection_name, recall_k)
         if channel_results:
             ranked_sources = [("vector", vec_ids, 1.0)]
             ranked_sources.extend(
@@ -415,7 +422,7 @@ def get_context_chunks(doc_id, collection_name="default",
 
 @_runtime_guarded
 def grep_knowledge(keyword, collection_name="default", max_results=10,
-                   case_sensitive=False, filter_file_path=None, match_context_chars=2000):
+                   case_sensitive=False, filter_file_path=None, match_context_chars=DEFAULT_MATCH_CONTEXT_CHARS):
     """在知识库的全局 raw text cache 中进行关键词/正则搜索。
 
     match_context_chars 是每个匹配结果的总上下文预算，会近似平分到匹配行前后；不是所有结果的总长度上限。

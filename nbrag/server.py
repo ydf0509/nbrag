@@ -1,4 +1,4 @@
-﻿"""
+"""
 nbrag MCP Server — 面向 AI 的通用知识库 Agentic RAG MCP。
 
 Exposed MCP tools:
@@ -26,7 +26,12 @@ from pydantic import Field
 from mcp.server.fastmcp import FastMCP
 
 from nbrag import mcp_tools
-from nbrag.chunker import DEFAULT_CHUNK_OVERLAP, DEFAULT_CHUNK_SIZE
+from nbrag.defaults import (
+    DEFAULT_CHUNK_OVERLAP,
+    DEFAULT_CHUNK_SIZE,
+    DEFAULT_FETCH_CONTEXT_CHARS,
+    DEFAULT_MATCH_CONTEXT_CHARS,
+)
 
 mcp = FastMCP("nbrag")
 
@@ -35,8 +40,8 @@ mcp = FastMCP("nbrag")
 def nbrag_add_document(
     path: str = Field(description="Absolute path to a file or directory. Directory imports all text files recursively"),
     collection_name: str = Field(description="Collection name (required, auto-created if not exists. Use nbrag_stats to see existing)"),
-    chunk_size: int = Field(default=DEFAULT_CHUNK_SIZE, description="Chunk size in chars, default 1000, recommended 1000-2000"),
-    chunk_overlap: int = Field(default=DEFAULT_CHUNK_OVERLAP, description="Chunk overlap in chars, default 150"),
+    chunk_size: int = Field(default=DEFAULT_CHUNK_SIZE, description=f"Chunk size in chars, default {DEFAULT_CHUNK_SIZE}, recommended 1000-2000"),
+    chunk_overlap: int = Field(default=DEFAULT_CHUNK_OVERLAP, description=f"Chunk overlap in chars, default {DEFAULT_CHUNK_OVERLAP}"),
     file_extensions: str = Field(default="", description="Comma-separated file extensions to include (e.g. 'py,md,html'). Empty = all text files"),
 ) -> str:
     """Ingest file or directory into knowledge base (chunking + embedding + indexing). Auto-creates collection if not exists.
@@ -58,13 +63,14 @@ def nbrag_help() -> str:
 
 @mcp.tool()
 def nbrag_search(
-    query: str = Field(description="Focused search query: short natural-language query or concise phrase; keep the core subject/constraints/terms and avoid mechanically splitting into keywords"),
+    query: str = Field(description="Main focused natural-language query for semantic retrieval and reranking. Keep the core subject, constraints, and important terms. Do not mechanically rewrite it into a keyword string just to help BM25."),
     collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)"),
     top_k: int = Field(default=5, description="Number of ranked hits to return"),
     use_rerank: bool = Field(default=True, description="Enable reranker for better top-hit ordering (recommended)"),
     use_bm25: bool = Field(default=True, description="Enable multi-channel BM25 keyword matching + Weighted RRF fusion (recommended for precise names, Chinese terms, codes, article numbers)"),
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking"),
     include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only lookup when you only need handles like file_path/doc_id/chunk_index"),
+    bm25_query: str = Field(default="", description="Optional BM25-only lexical query. If bm25_query is empty, BM25 falls back to query. BM25 retrieval is already multi-channel, so in most cases leave this empty and keep query as the main natural-language question. Filling bm25_query does not disable vector retrieval or reranking; those still use query. Use bm25_query only when you already know better exact lexical anchors for BM25, such as article numbers, exact terms, API/class names, abbreviations, error codes, headings, or model names."),
 ) -> str:
     """Search a knowledge base for relevant chunks from docs, laws, manuals, articles, source code, or any imported text.
 
@@ -76,7 +82,12 @@ def nbrag_search(
     Query guidance:
     - Rewrite long user questions into a focused natural-language search query.
     - Keep the key subject, constraints, and important terminology.
-    - Do not mechanically convert the question into a long keyword list.
+    - query remains the main semantic question for vector retrieval and reranking.
+    - If bm25_query is empty, BM25 falls back to query.
+    - BM25 retrieval is already multi-channel, so you usually do not need to manually split Chinese queries into keyword strings.
+    - Filling bm25_query does not disable vector retrieval or reranking; it only changes the lexical wording used by BM25.
+    - Use bm25_query only when you already know better exact lexical anchors than the main query.
+    - Do not mechanically convert the main query into a long keyword list just to help BM25.
 
     Returned text is plain text but intentionally structured for follow-up calls.
     Each hit includes reusable markers such as:
@@ -106,6 +117,7 @@ def nbrag_search(
         use_bm25,
         filter_file_path,
         include_content,
+        bm25_query,
     )
 
 
@@ -166,17 +178,25 @@ def nbrag_search_only_vector(
 
 @mcp.tool()
 def nbrag_search_and_fetch(
-    query: str = Field(description="Focused search query: short natural-language query or concise phrase; keep core subject/constraints/terms and avoid mechanically splitting into keywords"),
+    query: str = Field(description="Main focused natural-language query for semantic retrieval and reranking. Keep core subject, constraints, and important terms. Do not mechanically rewrite it into a keyword string just to help BM25."),
     collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)"),
     top_k: int = Field(default=5, description="Number of ranked search hits to return before auto-fetching raw context"),
     fetch_top_n_raw: int = Field(default=3, description="Auto-fetch stored original content for the top N ranked hits. 0 disables fetching"),
-    fetch_context_chars: int = Field(default=2000, description="Per ranked hit: approximate total context chars around the matched line range, split about half before and half after. This is per result, not a total cap across all results. Default 2000 means roughly 1000 chars before and 1000 chars after each hit"),
+    fetch_context_chars: int = Field(default=DEFAULT_FETCH_CONTEXT_CHARS, description=f"Per ranked hit: approximate total context chars around the matched line range, split about half before and half after. This is per result, not a total cap across all results. Default {DEFAULT_FETCH_CONTEXT_CHARS} means roughly {DEFAULT_FETCH_CONTEXT_CHARS // 2} chars before and {DEFAULT_FETCH_CONTEXT_CHARS // 2} chars after each hit"),
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, search is narrowed to that stored file"),
+    bm25_query: str = Field(default="", description="Optional BM25-only lexical query. If bm25_query is empty, BM25 falls back to query. BM25 retrieval is already multi-channel, so in most cases leave this empty and keep query as the main natural-language question. Filling bm25_query does not disable vector retrieval or reranking; those still use query. Use bm25_query only when you already know better exact lexical anchors for BM25, such as article numbers, exact terms, API/class names, abbreviations, error codes, headings, or model names."),
 ) -> str:
     """Default entry point for most user questions: hybrid retrieval + auto-fetched stored original content in one call.
 
     Prefer this over nbrag_search() when the user asks how to do something, wants examples,
     wants evidence, or when you need both ranked discovery and original-file context immediately.
+
+    Query guidance:
+    - Keep query as the main natural-language question for vector retrieval and reranking.
+    - BM25 retrieval is already multi-channel, so you usually do not need to manually split Chinese queries into keyword strings.
+    - Filling bm25_query does not disable vector retrieval or reranking; it only changes the lexical wording used by BM25.
+    - Use bm25_query only when you already know better exact lexical anchors than the main query.
+    - Do not mechanically rewrite the main query into a space-separated keyword string just to satisfy BM25.
 
     The returned text has two AI-friendly sections:
     1. Ranked search results
@@ -198,6 +218,7 @@ def nbrag_search_and_fetch(
         fetch_top_n_raw=fetch_top_n_raw,
         fetch_context_chars=fetch_context_chars,
         filter_file_path=filter_file_path,
+        bm25_query=bm25_query,
     )
 
 
@@ -208,7 +229,7 @@ def nbrag_grep(
     max_results: int = Field(default=10, description="Maximum number of matches to return"),
     case_sensitive: bool = Field(default=False, description="Case-sensitive matching"),
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted"),
-    match_context_chars: int = Field(default=2000, description="Per grep match: approximate total context chars around the matched line, split about half before and half after. This is per match, not a total cap across all matches. Default 2000 means roughly 1000 chars before and 1000 chars after each match"),
+    match_context_chars: int = Field(default=DEFAULT_MATCH_CONTEXT_CHARS, description=f"Per grep match: approximate total context chars around the matched line, split about half before and half after. This is per match, not a total cap across all matches. Default {DEFAULT_MATCH_CONTEXT_CHARS} means roughly {DEFAULT_MATCH_CONTEXT_CHARS // 2} chars before and {DEFAULT_MATCH_CONTEXT_CHARS // 2} chars after each match"),
 ) -> str:
     """Literal text / regex search in stored original text, matched line by line.
 
