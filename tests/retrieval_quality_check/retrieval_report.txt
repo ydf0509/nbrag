@@ -3,7 +3,7 @@ nbrag MCP 检索函数返回证据报告（HTTP 端口 9101）
 ================================================================================================
 说明: 本脚本只如实记录每个 MCP 工具的调用入参和返回结果，不做任何质量判定。
 质量判断完全交给读取本 txt 的 AI。
-输出文件: d:\codes\nbrag\tests\retrieval_quality_check\retrieval_report.txt
+输出文件: D:\codes\nbrag\tests\retrieval_quality_check\retrieval_report.txt
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_help()
@@ -14,10 +14,16 @@ nbrag help: Agentic RAG knowledge-base MCP workflow
 Common guidance:
 - Unknown collection_name? call nbrag_stats.
 - Most knowledge / usage / evidence questions: usually start with nbrag_search_and_fetch.
-- Need retrieval controls or strategy isolation: use nbrag_search / nbrag_search_only_bm25 / nbrag_search_only_vector.
-- Exact wording / article number / API name / constant: use nbrag_grep.
-- Python .py exact symbol body: use nbrag_find_definition.
+- Need retrieval controls or diagnostic isolation: use nbrag_search / nbrag_search_only_bm25 / nbrag_search_only_vector.
+- Need exact wording / article number / API name / constant: use nbrag_grep.
+- Need Python .py symbol body: use nbrag_find_definition.
 - Need exact full file_path first: use nbrag_find_files.
+- Stop once current evidence is enough to answer; do not call extra tools just to complete a workflow.
+
+Key follow-up handles reused across tools:
+- file_path → nbrag_get_raw_file / nbrag_get_file_chunks / filter_file_path
+- doc_id + chunk_index → nbrag_get_adjacent_chunks
+- doc_id + line:N-M → nbrag_get_chunks_by_lines
 
 Path rules:
 - file_path and filter_file_path must be full absolute paths returned by nbrag tools.
@@ -26,242 +32,296 @@ Path rules:
 See the embedded workflow guide below for detailed strategy selection, multi-round retrieval, and follow-up patterns.
 
 Embedded nbrag workflow guide:
-﻿---
-name: nbrag-workflow
-version: "1.2.0"
-description: >-
-  用于回答基于已准备好的 nbrag 知识库的问题，尤其是在用户提到知识库检索、搜索已导入内容、查询某个项目/框架/文档怎么用、查源码定义、查条文、查手册、查资料时。
-  适用于代码、文档、说明书、业务资料、规范、教程以及其他任意已入库文本，不要把它局限为某几个固定领域。
----
-
 # nbrag 知识库检索工作流
 
-nbrag 提供 10+ 个 MCP 检索工具 + `nbrag_help` 导航工具，核心分三类：**发现 → 检索 → 深入**。
+nbrag 提供一组面向 AI 的知识库 MCP 工具。核心目标不是“把所有工具都调用一遍”，而是：**用最少的调用拿到足够可靠的证据，然后回答。**
 
 > **注意**：本文档中的函数名是 nbrag MCP 自身的函数名。当 nbrag 被接入其他 Agent 框架时，
 > 实际暴露的 function 名称可能带前缀（例如 `xxx_nbrag_search` 或 `mcp__xxx__nbrag_search`），AI 应以实际接收到的 function 名称为准。
 
-## 快速决策：用哪个工具？
+如果没有加载本 Skill 或不确定下一步，先调用 `nbrag_help` 获取 MCP 内置的简短决策指南。
 
-**核心原则：多数知识/用法/证据类问题可以先用 `nbrag_search_and_fetch`，但不要机械套流程；根据用户目标和返回内容决定是否继续调用其他工具。**
+## 先记住 4 个核心原则
 
-如果没有加载本 Skill 或不确定下一步，先调用 `nbrag_help` 获取 MCP 内置的简短组合拳指南。
+1. **不知道 `collection_name` 时先 `nbrag_stats`。**
+2. **大多数知识 / 用法 / 证据问题，默认先 `nbrag_search_and_fetch`。**
+3. **只有在确实需要 exact wording 时，才切到 `nbrag_grep`。**
+4. **当前返回已经足够回答时就停止，不要为了走流程继续调工具。**
 
-| 用户问的是什么 | 工具 | 备注 |
+## 快速决策：先用哪个工具？
+
+| 场景 | 首选工具 | 什么时候切换 |
 |---|---|---|
-| 不确定该用哪个 nbrag 工具 | `nbrag_help` | 无参数，返回简短 workflow |
-| 知识/用法/示例问题（"试用期合法吗" / "设备报警码E42" / "create_agent怎么用"） | **`nbrag_search_and_fetch`** | 默认首选，一步到位 |
-| 需要精细控制（禁用 BM25/rerank、只要 metadata、调整召回数量） | `nbrag_search` | 仅高级场景 |
-| 想单独观察词法召回是否有效（术语、条文号、缩写、关键词组合） | `nbrag_search_only_bm25` | 纯 BM25，无向量、无 rerank |
-| 想单独观察语义召回是否有效（自然语言意图、概念问法） | `nbrag_search_only_vector` | 纯向量，无 BM25、无 rerank |
-| 精确字符串/术语/条文编号（"第一千零七十七条" / "ThreadPool"） | `nbrag_grep` | 逐行字面文本 / 正则匹配，返回上下文。⚠️ 只匹配原文中实际出现的 wording，不支持概念理解（'空城计'搜不到原文中的'焚香操琴'） |
-| Python 精确符号名（"UserService 在哪定义"） | `nbrag_find_definition` | Python .py 专用增强；非 Python 内容用 `nbrag_grep` |
-| 已知文件名或路径片段，需要完整路径 | `nbrag_find_files` | 返回可用于 `file_path` / `filter_file_path` 的完整绝对路径 |
+| 不知道有哪些知识库 / 不确定 `collection_name` | `nbrag_stats` | 确认知识库后进入检索 |
+| 知识、用法、示例、条文解释、手册问答、源码怎么用 | `nbrag_search_and_fetch` | 如果只想拿 metadata 或想调检索开关，再用 `nbrag_search` |
+| 需要关闭 rerank / BM25、只看 metadata、隔离召回策略 | `nbrag_search` | 若想单独看 BM25 或向量效果，再用单策略工具 |
+| 想判断“这次命中是不是 BM25 的功劳” | `nbrag_search_only_bm25` | 诊断完回到正常检索 |
+| 想判断“embedding 语义到底抓到什么” | `nbrag_search_only_vector` | 诊断完回到正常检索 |
+| 精确术语、条文号、标题、类名、函数名、常量、错误字符串 | `nbrag_grep` | 如果其实不是 exact wording 问题，而是概念问题，回到 `nbrag_search_and_fetch` |
+| 已知道 Python 符号名，想看完整定义 | `nbrag_find_definition` | 若不是 Python `.py`，改用 `nbrag_grep` / `nbrag_search_and_fetch` |
+| 只知道文件名或路径片段 | `nbrag_find_files` | 拿到完整 `file_path` 后再读原文或缩小搜索范围 |
 
-**搜索上限**：10 轮不同策略和关键词都没找到 → 告知用户"知识库中可能没有相关内容"，不要无限重试。
+## 默认入口：`nbrag_search_and_fetch`
 
-## 文件类型与功能支持
-
-| 内容类型 | `nbrag_search` | `nbrag_grep` | `nbrag_find_definition` | AST scope |
-|---|---|---|---|---|
-| `.md` / `.txt` / `.html` 等文档 | ✅ | ✅ | 不适合，改用 `nbrag_grep` | ❌ |
-| `.py` 源码 | ✅ | ✅ | ✅ AST 精确解析 | ✅ |
-
-## Python source workflow / Python 源码检索
-
-Python 源码检索是 nbrag 的首要场景之一，但不应只依赖单一工具。对 `.py` 文件，chunk 会包含文件路径、行号范围、AST scope 和 signature metadata，方便 AI 先发现方向，再精确读取定义和源码上下文。
-
-推荐组合：
-
-1. `nbrag_search_and_fetch` — 找概念、示例、调用关系方向，并自动读取命中文件原文。
-2. `nbrag_grep` — 查精确 class/function 名、import、常量、decorator、错误字符串、配置 key。
-3. `nbrag_find_definition` — 仅对 Python `.py` 文件，读取完整 class/function/method 定义。
-4. `nbrag_get_raw_file` — 用完整绝对 `file_path` 读取更大的源码上下文。
-
-非 Python 文档、法律、手册不要套用符号定义工具；查条文、标题、术语、编号时继续优先 `nbrag_search_and_fetch` + `nbrag_grep`。
-
-## 检索策略
-
-### 策略 A（默认首选）：一站式检索
-
-```
-nbrag_search_and_fetch(query="...", collection_name="xxx")
-```
-
-- 语义搜索 + 自动抓取匹配文件的原文，**一次调用获得完整上下文，避免碎片化 chunk**
-- 小文件抓全文，大文件抓匹配位置附近 N 行（默认 ±100 行）
-- `fetch_top_n_raw=3` 控制抓几个文件原文（设 0 跳过抓取）
-- 同一文件多次命中只抓一次（合并行范围）
-- 结果包含 `Ranked search results` 和 `Auto-fetched original content` 两段，分别展示搜索排名和自动抓取原文
-- 支持 `filter_file_path` 用搜索结果里的完整绝对 `file_path` 精确限定文件
-
-### 策略 B：精细搜索
-
-```
-nbrag_search(query="...", collection_name="xxx", top_k=5)
-```
-
-- Vector + BM25 → RRF 融合 → Rerank 精排
-- 可选：`use_bm25=False`、`use_rerank=False`、`include_content=False`、`preview_chars=1200`、`filter_file_path="D:/docs/labor_law/劳动合同法.md"`（必须是完整绝对路径）
-- 返回 chunk preview，可能被截断（加 `...`）
-- 关键字段：`chunk:X/Y`、`chunk_index:X`、`total_chunks:Y`、`line:N-M`、`scope`（仅 Python）、`doc_id`、`file_path`、`dist`
-- **大多数场景用策略 A 就够了，策略 B 仅用于需要精细控制的场景**
-
-### 策略 C：单策略诊断（隔离某一层召回）
+对大多数问题，先用：
 
 ```python
-nbrag_search_only_bm25(query="违法约定试用期赔偿金", collection_name="xxx")
-nbrag_search_only_vector(query="试用期被辞退有赔偿吗", collection_name="xxx")
+nbrag_search_and_fetch(query="...", collection_name="...")
 ```
 
-- `nbrag_search_only_bm25`：固定 BM25-only，无向量、无 rerank
-- `nbrag_search_only_vector`：固定 vector-only，无 BM25、无 rerank
-- 适合回答“这次命中是不是 BM25 的功劳”或“embedding 语义召回到底抓到了什么”
-- 不建议把这两个工具当默认入口；默认入口仍然通常是 `nbrag_search_and_fetch`
-- 如果只需要正常混合检索但又要关某个开关，优先用 `nbrag_search`
+为什么它通常是默认入口：
+- 一次调用同时给你**排名结果**和**自动抓取的原文上下文**
+- 比只看 chunk 更不容易误解片段
+- 返回里已经包含后续调用常用句柄：`file_path`、`doc_id`、`chunk_index`、`line:N-M`
+- `fetch_context_chars=2000` 默认表示**每条 ranked hit 总上下文约 2000 字符，前后大约各 1000**，不是所有结果总共 2000 字符；`top_k` 很大时不要随意把它设成 10000 这类大值
 
-### 策略 D：精确匹配（仅限逐字字符串，不支持概念）
+什么时候不必继续调其他工具：
+- 自动抓到的原文已经足够回答
+- 排名结果和原文证据一致，结论明确
+- 用户只需要结论或简短说明，而不是完整源码漫游
 
-```
-nbrag_grep(keyword="第十九条", collection_name="xxx")
-```
+什么时候继续：
+- 需要**精确 wording** 证据 → `nbrag_grep`
+- 需要**更大原文上下文** → `nbrag_get_raw_file`
+- 需要**围绕某个 chunk 扩展** → `nbrag_get_adjacent_chunks`
+- 需要**按行号反查 chunk/scope** → `nbrag_get_chunks_by_lines`
+- 需要**完整文件路径** → `nbrag_find_files`
 
-- 在已存储的原始文本中进行逐行字面文本 / 正则匹配（re.search），不是语义搜索
-- ⚠️ 只匹配原文中实际出现的 wording；如果传的是合法 regex，则按 regex 规则匹配
-- 概念性提问（如"空城计"）很可能搜不到，尤其当原文只写了具体描写而没写这个概括词；这种情况改用 `nbrag_search_and_fetch`
-- 匹配是按行进行的，跨行短语可能无法按预期命中
-- `context_lines=10` 控制上下文（默认 10，匹配行前后各 N 行）
-- 可选 `case_sensitive=True`、`filter_file_path="D:/docs/labor_law/劳动合同法.md"`（必须是完整绝对路径）
-- `>>>` 标记匹配行
+## exact vs semantic：什么时候用 `nbrag_grep`
 
-### 策略 E：Python 符号定义（源码专用增强）
+`nbrag_grep` 是**字面文本 / 正则匹配**，不是语义检索。
 
-```
-nbrag_find_definition(symbol="get_by_id", collection_name="xxx")
-```
+适合：
+- 法律条文号：`第四十二条`
+- 标题 / 专业术语 / 缩写 / 编号
+- Python class/function 名
+- import / decorator / constant / error string
 
-- Python：AST 精确解析，返回 class/function 完整定义 + 方法签名列表
-- 非 Python 内容不要优先用它；查条文、标题、术语、错误码请用 `nbrag_grep`
-- `max_results=3`（默认）。公共符号可先设 `max_results=1`，需要候选对比时再加大
+上下文大小：`match_context_chars=2000` 默认表示**每个 grep match 总上下文约 2000 字符，前后大约各 1000**，不是所有匹配结果总共 2000 字符；如果 `max_results=10` 且设成 10000，可能产生非常大的返回。
 
-## 深入：获取更多上下文
+不适合：
+- 概念问法
+- 同义改写
+- 摘要式表达
+- 原文未出现的概括词
 
-| 工具 | 场景 | 关键参数 |
-|------|------|---------|
-| `nbrag_find_files` | 根据文件名/路径片段找到完整路径 | `pattern`, `case_sensitive=False` |
-| `nbrag_get_raw_file` | 看完整文件（无 overlap） | 完整绝对 `file_path`, `line_start`, `line_end` |
-| `nbrag_get_adjacent_chunks` | 扩展搜索结果的上下文 | `doc_id`, `chunk_index`, `window=3` |
-| `nbrag_get_chunks_by_lines` | 按行号取 chunk | `doc_id`, `line_start`, `line_end` |
-| `nbrag_get_file_chunks` | 分页浏览（有 scope） | 完整绝对 `file_path`, `start_chunk=0`, `max_chunks=10` |
+一个简单判断：
+- 你要找的是“这句话 / 这个词 / 这个编号有没有**原样出现**” → `nbrag_grep`
+- 你要找的是“这个意思 / 这个主题 / 这个问题相关内容在哪” → `nbrag_search_and_fetch`
 
-**路径规则**：所有需要 `file_path` / `filter_file_path` 的工具，都必须传搜索结果、`nbrag_find_files` 或 `nbrag_list` 返回的完整绝对路径。不要传 `劳动合同法.md`、`core.py`、`src/core.py` 这类短路径或相对路径。
+## Python source workflow / Python 源码场景
+
+Python `.py` 是 nbrag 的强场景之一，但也不要迷信单工具。
+
+推荐决策：
+1. `nbrag_search_and_fetch`：先发现概念、调用关系、使用示例
+2. `nbrag_grep`：再确认精确符号名 / import / 常量 / 错误字符串
+3. `nbrag_find_definition`：拿完整 class/function/method 定义
+4. `nbrag_get_raw_file`：需要更大源码上下文时读取原文
+
+如果内容不是 Python `.py`，不要优先用 `nbrag_find_definition`。
+
+## follow-up 句柄怎么接下一跳
+
+### 1. `file_path`
+可用于：
+- `nbrag_get_raw_file(file_path, collection_name)`
+- `nbrag_get_file_chunks(file_path, collection_name)`
+- `filter_file_path=...` 缩小 `search` / `search_and_fetch` / `grep` 范围
+
+### 2. `doc_id + chunk_index`
+可用于：
+- `nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)`
+
+注意：`chunk_index` 应来自 `nbrag_search` / `nbrag_search_and_fetch` 的 `chunk:X/Y` 或 `chunk_index:X` 字段，不要只拿 grep 的 `doc_id` 就直接调这个工具。
+
+### 3. `doc_id + line:N-M`
+可用于：
+- `nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)`
+
+### 4. `file_path + line range`
+可用于：
+- `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)`
+
+## 路径规则
+
+所有要求 `file_path` / `filter_file_path` 的工具，都应传 **nbrag 返回的完整绝对路径**。
+
+不要传：
+- `劳动合同法.md`
+- `core.py`
+- `src/core.py`
+
+优先来源：
+- `nbrag_search` / `nbrag_search_and_fetch`
+- `nbrag_find_files`
+- `nbrag_list`
 
 ## 常见调用路径（不是固定流程）
 
-```
+```text
 不知道 collection_name → nbrag_stats()
 知识/用法/证据问题 → 通常先 nbrag_search_and_fetch()
-需要精细控制/只要 metadata → nbrag_search()
-需要精确词、条文号、标题、错误码 → nbrag_grep()
-只有文件名/路径片段 → nbrag_find_files() 换成完整 file_path
-需要引用原文或扩大上下文 → nbrag_get_raw_file() / nbrag_get_adjacent_chunks()
+只要 metadata 或要控制检索开关 → nbrag_search()
+需要 exact wording / 条文号 / 错误码 / 符号名 → nbrag_grep()
+只有文件名或路径片段 → nbrag_find_files() 换成完整 file_path
+需要引用 clean 原文或扩大上下文 → nbrag_get_raw_file() / nbrag_get_adjacent_chunks()
 Python .py 精确符号定义 → nbrag_find_definition()
 ```
 
-不要为了走完流程而调用工具；如果当前返回已经足够回答，就停止检索并作答。
+这只是决策地图，不是必须走完的流程。当前返回已经足够回答时就停止。
 
 ## 多轮检索策略
 
-**核心原则**：可以改写，但应改写成更聚焦、更可检索的自然语言短查询；不要机械改写成大量空格分隔的关键词串。
+可以多轮，但每一轮都应更聚焦，而不是更机械。
 
-优先保留用户问题中的核心对象、约束、条件和专业术语。只有在查条文号、标题、错误码、类名、函数名等精确目标时，才适合使用更短的关键词查询，或改用 `nbrag_grep`。
+推荐做法：
+- 缩短问题，保留核心对象、约束和术语
+- 先语义发现，再 exact 验证
+- 必要时缩小到单个 `file_path`
+- 当前证据足够时立即停止
 
-**示例**：用户问 "公司让我试用期干了5个月不转正，签的1年合同，合法吗？"
-- 第1轮: `nbrag_search_and_fetch("1年劳动合同试用期期限上限")` → 找到试用期上限
-- 第2轮: `nbrag_search_and_fetch("违法约定试用期赔偿金")` → 找到赔偿标准
-- 如需精确原文，可分别尝试 `nbrag_grep("第十九条")`、`nbrag_grep("第八十三条")`；是否继续取决于前两轮证据是否已经足够
+不推荐：
+- 机械拆成一长串空格关键词
+- 反复调用同一工具却不改变问题表述
+- 明明证据已经够了，还继续“补流程”
 
-搜索不理想时的策略：缩短问题 → 更换术语 → 提取少量关键约束 → 换工具（语义→grep）→ 用 `nbrag_find_files` 找完整路径后缩小文件范围 → 跨 collection
+## 常见停止条件
 
-## 常见问题速查
+以下情况通常可以停止检索并开始回答：
+- 已拿到直接回答问题的原文证据
+- 多个命中相互印证，没有明显冲突
+- 继续调用只会重复现有信息
 
-| 症状 | 原因 | 解决 |
-|------|------|------|
-| collection 不存在 | 知识库未准备好或名称错误 | `nbrag_stats()` 确认名称 |
-| 搜索返回空 | 无匹配、关键词不合适、或 collection 名称不对 | 换关键词 / 用 `nbrag_stats` 确认知识库名 |
-| `nbrag_grep` / `nbrag_find_definition` 无结果 | 没有精确匹配（grep 只搜字面串），或该内容不适合该工具 | 换关键词 / 如果是概念性提问改用 `nbrag_search_and_fetch` / 确认原文确实使用了该词汇 |
-| 想查 .md/.txt 条文、标题、术语却用了 `nbrag_find_definition` | 该工具是 Python 源码专用增强 | 改用 `nbrag_grep` |
+以下情况说明应继续或换工具：
+- 返回内容相关但不够精确
+- 需要 literal wording 证据
+- 需要更大上下文确认含义
+- 文件或知识库范围过大，需要缩小范围
 
-**详细错误信息**：各工具的报错信息在 MCP 工具描述中已注明，AI 应根据返回的错误信息判断原因。
+## 常见问题
 
-## 可选只读管理工具
+| 症状 | 常见原因 | 建议 |
+|---|---|---|
+| collection 不存在 | 名称写错或知识库未准备 | `nbrag_stats()` |
+| 搜索为空 | query 太散 / 术语不对 / collection 不对 | 改写 query，必要时改用 `nbrag_grep` |
+| grep 无结果 | 原文没有 exact wording，或 regex/大小写不对 | 检查 wording；如果其实是概念问题，回到 `nbrag_search_and_fetch` |
+| basename 被当成 `file_path` | 路径不是完整绝对路径 | 先 `nbrag_find_files` 或 `nbrag_list` |
+| 想看 clean 原文却还在看 chunk | chunk 会 overlap | 改用 `nbrag_get_raw_file` |
 
-- `nbrag_list` — 除非用户明确要求列出文档
+## 一句话总结
+
+**默认先 `nbrag_search_and_fetch`；只有在需要 exact wording、路径发现、chunk 扩展、源码定义时再切专用工具；证据够了就回答。**
+
+[耗时统计] nbrag_help: 0.772 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_stats()
 入参: {}
 ------------------------------------------------------------------------------------------------
 collections:
+Use collection_name(知识库名字) exactly as shown below when calling retrieval tools.
 
-- finance_reports: docs=2 chunks=145
-  display_name: 金融报告知识库
-  description: 包含金融、理财或投资报告类文本，适合查询报告观点、投资主题、资产配置、市场分析等内容。
-  aliases: 金融报告, 理财, 财报, 投资, 资产配置
-  tags: 金融, 投资, 报告
-- civil_code: docs=8 chunks=181
-  display_name: 民法典知识库
-  description: 包含《中华人民共和国民法典》全文及各分编章节，适合查询民事法律条文、合同、物权、人格权、婚姻家庭、继承、侵权责任等问题。
-  aliases: 民法典, 中华人民共和国民法典, 合同编, 物权编, 人格权编, 婚姻家庭编, 继承编, 侵权责任编
-  tags: 法律, 民法, 法规
-- langchain_ai_codes_and_docs: docs=4818 chunks=38123
+- langchain_ai_codes_and_docs: docs=4818 chunks=57191
+  collection_name(知识库名字): langchain_ai_codes_and_docs
   display_name: LangChain 源码与文档知识库
   description: 包含 LangChain / LangGraph / langchain-ai 相关源码与文档，适合查询 agent、runnable、工具调用、记忆、图工作流和 API 用法。
   aliases: LangChain, LangGraph, langchain-ai, AI agent, Runnable, create_react_agent, create_deep_agent
   tags: Python, AI, 源码, 文档
-- sanguo: docs=120 chunks=575
-  display_name: 三国演义知识库
-  description: 包含《三国演义》章节正文，适合查询刘备、关羽、张飞、曹操、诸葛亮、孙权等人物与经典情节。
-  aliases: 三国, 三国演义, 罗贯中, 刘备, 关羽, 张飞, 曹操, 诸葛亮, 孙权
-  tags: 古典小说, 文学, 人物关系
-- worker_rights: docs=18 chunks=111
-  display_name: 劳动者权益知识库
-  description: 包含劳动者权益、劳动合同、试用期、工资、社保、工伤、加班等劳动法律和政策资料，适合查询劳动争议和员工权益问题。
-  aliases: 劳动法, 劳动合同法, 劳动者权益, 试用期, 工资, 社保, 工伤, 加班
-  tags: 法律, 劳动, 权益
-- marriage_law: docs=5 chunks=27
+
+- marriage_law: docs=5 chunks=39
+  collection_name(知识库名字): marriage_law
   display_name: 婚姻家庭法知识库
   description: 包含婚姻家庭相关法律和司法解释文本，适合查询离婚、夫妻共同财产、子女抚养、婚姻家庭编解释等问题。
   aliases: 婚姻法, 婚姻家庭法, 民法典婚姻家庭编, 夫妻共同财产, 离婚, 抚养
   tags: 法律, 婚姻家庭, 司法解释
-- funboost: docs=960 chunks=4424
+  chunk_size: 1000
+  chunk_overlap: 150
+  last_ingested_at: 2026-06-20 22:14:19
+
+- finance_reports: docs=2 chunks=225
+  collection_name(知识库名字): finance_reports
+  display_name: 金融报告知识库
+  description: 包含金融、理财或投资报告类文本，适合查询报告观点、投资主题、资产配置、市场分析等内容。
+  aliases: 金融报告, 理财, 财报, 投资, 资产配置
+  tags: 金融, 投资, 报告
+  chunk_size: 1000
+  chunk_overlap: 150
+  last_ingested_at: 2026-06-20 22:14:48
+
+- sanguo: docs=120 chunks=575
+  collection_name(知识库名字): sanguo
+  display_name: 三国演义知识库
+  description: 包含《三国演义》章节正文，适合查询刘备、关羽、张飞、曹操、诸葛亮、孙权等人物与经典情节。
+  aliases: 三国, 三国演义, 罗贯中, 刘备, 关羽, 张飞, 曹操, 诸葛亮, 孙权
+  tags: 古典小说, 文学, 人物关系
+
+- civil_code: docs=8 chunks=273
+  collection_name(知识库名字): civil_code
+  display_name: 民法典知识库
+  description: 包含《中华人民共和国民法典》全文及各分编章节，适合查询民事法律条文、合同、物权、人格权、婚姻家庭、继承、侵权责任等问题。
+  aliases: 民法典, 中华人民共和国民法典, 合同编, 物权编, 人格权编, 婚姻家庭编, 继承编, 侵权责任编
+  tags: 法律, 民法, 法规
+  chunk_size: 1000
+  chunk_overlap: 150
+  last_ingested_at: 2026-06-20 22:14:14
+
+- funboost: docs=960 chunks=6548
+  collection_name(知识库名字): funboost
   display_name: funboost 源码与文档知识库
   description: 包含 funboost 项目源码和文档，适合查询函数调度、消息队列、broker、BoosterParams、发布消费、重试等实现细节。
   aliases: funboost, 分布式函数调度, Python 队列, BrokerEnum, BoosterParams
   tags: Python, 源码, 消息队列
+  chunk_size: 1000
+  chunk_overlap: 150
+  last_ingested_at: 2026-06-20 22:21:53
+
+- worker_rights: docs=18 chunks=157
+  collection_name(知识库名字): worker_rights
+  display_name: 劳动者权益知识库
+  description: 包含劳动者权益、劳动合同、试用期、工资、社保、工伤、加班等劳动法律和政策资料，适合查询劳动争议和员工权益问题。
+  aliases: 劳动法, 劳动合同法, 劳动者权益, 试用期, 工资, 社保, 工伤, 加班
+  tags: 法律, 劳动, 权益
+  chunk_size: 1000
+  chunk_overlap: 150
+  last_ingested_at: 2026-06-20 22:14:32
+
+
+[耗时统计] nbrag_stats: 12.671 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_list(limit=2, offset=0)
 入参: {'collection_name': 'worker_rights', 'limit': 2, 'offset': 0}
 ------------------------------------------------------------------------------------------------
 documents returned: 2 | offset: 0 | limit: 2
+Returned handle fields for follow-up: doc_id, file_path.
 
-doc_id: 08a28ebff4a8 | filename: 工资支付暂行规定.md | chunk_count: 2 | total_chunks: 2
+doc_id: 08a28ebff4a8 | filename: 工资支付暂行规定.md | chunk_count: 3 | total_chunks: 3
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/工资支付暂行规定.md
 
-doc_id: 0ea13b81685c | filename: 劳动保障监察条例.md | chunk_count: 6 | total_chunks: 6
+doc_id: 0ea13b81685c | filename: 劳动保障监察条例.md | chunk_count: 7 | total_chunks: 7
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动保障监察条例.md
 
 
-------------------------------------------------------------------------------------------------
-调用函数: nbrag_search(query, top_k=3, preview_chars=700)
-入参: {'query': '1年劳动合同试用期期限上限', 'collection_name': 'worker_rights', 'top_k': 3, 'include_content': True, 'preview_chars': 700}
-------------------------------------------------------------------------------------------------
-[worker_rights] 111 chunks | bm25: on | rerank: BAAI/bge-reranker-v2-m3
+[耗时统计] nbrag_list: 0.698 秒
 
-[1/3] 劳动合同法.md chunk:2/13 chunk_index:2 total_chunks:13 line:45-65 doc_id:81ec846f7c63 dist:0.2865 score:0.8902
+------------------------------------------------------------------------------------------------
+调用函数: nbrag_search(query, top_k=3, include_content=True)
+入参: {'query': '1年劳动合同试用期期限上限', 'collection_name': 'worker_rights', 'top_k': 3, 'include_content': True}
+------------------------------------------------------------------------------------------------
+[worker_rights] 157 chunks | bm25: on | rerank: BAAI/bge-reranker-v2-m3
+
+Returned handle fields for follow-up: file_path, doc_id, chunk_index, line range.
+
+[1/3] 劳动合同法.md chunk:2/17 chunk_index:2 total_chunks:17 line:39-51 doc_id:81ec846f7c63 dist:0.3179 score:0.9368
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
-# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 45-65]
+# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 39-51]
+第十五条 以完成一定工作任务为期限的劳动合同，是指用人单位与劳动者约定以某项工作的完成为合同期限的劳动合同。用人单位与劳动者协商一致，可以订立以完成一定工作任务为期限的劳动合同。
+
+第十六条 劳动合同由用人单位与劳动者协商一致，并经用人单位与劳动者在劳动合同文本上签字或者盖章生效。劳动合同文本由用人单位和劳动者各执一份。
+
+第十七条 劳动合同应当具备以下条款:（一）用人单位的名称、住所和法定代表人或者主要负责人；（二）劳动者的姓名、住址和居民身份证或者其他有效身份证件号码；（三）劳动合同期限；（四）工作内容和工作地点；（五）工作时间和休息休假；（六）劳动报酬；（七）社会保险；（八）劳动保护、劳动条件和职业危害防护；（九）法律、法规规定应当纳入劳动合同的其他事项。劳动合同除前款规定的必备条款外，用人单位与劳动者可以约定试用期、培训、保守秘密、补充保险和福利待遇等其他事项。
+
 第十八条 劳动合同对劳动报酬和劳动条件等标准约定不明确，引发争议的，用人单位与劳动者可以重新协商；协商不成的，适用集体合同规定；没有集体合同或者集体合同未规定劳动报酬的，实行同工同酬；没有集体合同或者集体合同未规定劳动条件等标准的，适用国家有关规定。
 
 第十九条 劳动合同期限三个月以上不满一年的，试用期不得超过一个月；劳动合同期限一年以上不满三年的，试用期不得超过二个月；三年以上固定期限和无固定期限的劳动合同，试用期不得超过六个月。同一用人单位与同一劳动者只能约定一次试用期。以完成一定工作任务为期限的劳动合同或者劳动合同期限不满三个月的，不得约定试用期。试用期包含在劳动合同期限内。劳动合同仅约定试用期的，试用期不成立，该期限为劳动合同期限。
@@ -270,120 +330,9 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
 
 第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
 
-第二十二条 用人单位为劳动者提供专项培训费用，对其进行专业技术培训的，可以与该劳动者订立协议，约定服务期。劳动者违反服务期约定的，应当按照约定向用人单位支付违约金。违约金的数额不得超过用人单位提供的培训费用。用人单位要求劳动者支付的违约金不得超过服务期尚未履行部分所应分摊的...
-
-[2/3] 劳动法.md chunk:1/8 chunk_index:1 total_chunks:8 line:42-74 doc_id:2db295f90839 dist:0.4005 score:0.8400
+[2/3] 劳动法.md chunk:2/13 chunk_index:2 total_chunks:13 line:42-64 doc_id:2db295f90839 dist:0.3989 score:0.8452
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
-# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md] [Lines: 42-74]
-## 第三章 劳动合同和集体合同
-
-第十六条 劳动合同是劳动者与用人单位确立劳动关系、明确双方权利和义务的协议。建立劳动关系应当订立劳动合同。
-
-第十七条 订立和变更劳动合同，应当遵循平等自愿、协商一致的原则，不得违反法律、行政法规的规定。劳动合同依法订立即具有法律约束力，当事人必须履行劳动合同规定的义务。
-
-第十八条 下列劳动合同无效：（一）违反法律、行政法规的劳动合同；（二）采取欺诈、威胁等手段订立的劳动合同。无效的劳动合同，从订立的时候起，就没有法律约束力。确认劳动合同部分无效的，如果不影响其余部分的效力，其余部分仍然有效。劳动合同的无效，由劳动争议仲裁委员会或者人民法院确认。
-
-第十九条 劳动合同应当以书面形式订立，并具备以下条款：（一）劳动合同期限；（二）工作内容；（三）劳动保护和劳动条件；（四）劳动报酬；（五）劳动纪律；（六）劳动合同终止的条件；（七）违反劳动合同的责任。劳动合同除前款规定的必备条款外，当事人可以协商约定其他内容。
-
-第二十条 劳动合同的期限分为有固定期限、无固定期限和以完成一定的工作为期限。劳动者在同一用人单位连续工作满十年以上，当事人双方同意续延劳动合同的，如果劳动者提出订立无固定期限的劳动合同，应当订立无固定期限的劳动合同。
-
-第二十一条 劳动合同可以约定试用期。试用期最长不得超过六个月。
-
-第二十二条 劳动合同当事人可以在劳动合同中约定保守用人单位商业秘密的有关事项。
-
-第二十三条 劳...
-
-[3/3] 劳动合同法实施条例.md chunk:2/6 chunk_index:2 total_chunks:6 line:43-47 doc_id:fa8c6ff3a095 dist:0.2953 score:0.5633
-file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法实施条例.md
-# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法实施条例.md] [Lines: 43-47]
-第十五条 劳动者在试用期的工资不得低于本单位相同岗位最低档工资的80%或者不得低于劳动合同约定工资的80%，并不得低于用人单位所在地的最低工资标准。
-
-第十六条 劳动合同法第二十二条第二款规定的培训费用，包括用人单位为了对劳动者进行专业技术培训而支付的有凭证的培训费用、培训期间的差旅费用以及因培训产生的用于该劳动者的其他直接费用。
-
-第十七条 劳动合同期满，但是用人单位与劳动者依照劳动合同法第二十二条的规定约定的服务期尚未到期的，劳动合同应当续延至服务期满；双方另有约定的，从其约定。
-
-
-------------------------------------------------------------------------------------------------
-调用函数: nbrag_search(metadata-only: include_content=False)
-入参: {'query': '1年劳动合同试用期期限上限', 'collection_name': 'worker_rights', 'top_k': 2, 'include_content': False, 'preview_chars': 0}
-------------------------------------------------------------------------------------------------
-[worker_rights] 111 chunks | bm25: on | rerank: BAAI/bge-reranker-v2-m3
-
-[1/2] 劳动合同法.md chunk:2/13 chunk_index:2 total_chunks:13 line:45-65 doc_id:81ec846f7c63 dist:0.2865 score:0.8936
-file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
-content omitted
-
-[2/2] 劳动法.md chunk:1/8 chunk_index:1 total_chunks:8 line:42-74 doc_id:2db295f90839 dist:0.4005 score:0.8399
-file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
-content omitted
-
-
-------------------------------------------------------------------------------------------------
-调用函数: nbrag_search_only_bm25(query='试用期', include_content=False)
-入参: {'query': '试用期', 'collection_name': 'worker_rights', 'top_k': 2, 'include_content': False, 'preview_chars': 0}
-------------------------------------------------------------------------------------------------
-[worker_rights] 111 chunks | bm25: on | rerank: off
-
-[1/2] 劳动合同法实施条例.md chunk:2/6 chunk_index:2 total_chunks:6 line:43-47 doc_id:fa8c6ff3a095 dist:0.3555
-file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法实施条例.md
-content omitted
-
-[2/2] 劳动合同法.md chunk:2/13 chunk_index:2 total_chunks:13 line:45-65 doc_id:81ec846f7c63 dist:0.3669
-file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
-content omitted
-
-
-------------------------------------------------------------------------------------------------
-调用函数: nbrag_search_only_vector(query, include_content=False)
-入参: {'query': '1年劳动合同试用期期限上限', 'collection_name': 'worker_rights', 'top_k': 2, 'include_content': False, 'preview_chars': 0}
-------------------------------------------------------------------------------------------------
-[worker_rights] 111 chunks | bm25: off | rerank: off
-
-[1/2] 劳动合同法.md chunk:2/13 chunk_index:2 total_chunks:13 line:45-65 doc_id:81ec846f7c63 dist:0.2865
-file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
-content omitted
-
-[2/2] 劳动合同法实施条例.md chunk:2/6 chunk_index:2 total_chunks:6 line:43-47 doc_id:fa8c6ff3a095 dist:0.2953
-file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法实施条例.md
-content omitted
-
-
-------------------------------------------------------------------------------------------------
-调用函数: nbrag_search_and_fetch(query, top_k=3, fetch_top_n_raw=1)
-入参: {'query': '1年劳动合同试用期期限上限', 'collection_name': 'worker_rights', 'top_k': 3, 'fetch_top_n_raw': 1, 'context_lines': 20}
-------------------------------------------------------------------------------------------------
-[worker_rights] 111 chunks | bm25: on | rerank: BAAI/bge-reranker-v2-m3
-
-Ranked search results:
-
-[1/3] 劳动合同法.md chunk:2/13 chunk_index:2 total_chunks:13 line:45-65 doc_id:81ec846f7c63 dist:0.2864 score:0.8902
-file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
-# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 45-65]
-第十八条 劳动合同对劳动报酬和劳动条件等标准约定不明确，引发争议的，用人单位与劳动者可以重新协商；协商不成的，适用集体合同规定；没有集体合同或者集体合同未规定劳动报酬的，实行同工同酬；没有集体合同或者集体合同未规定劳动条件等标准的，适用国家有关规定。
-
-第十九条 劳动合同期限三个月以上不满一年的，试用期不得超过一个月；劳动合同期限一年以上不满三年的，试用期不得超过二个月；三年以上固定期限和无固定期限的劳动合同，试用期不得超过六个月。同一用人单位与同一劳动者只能约定一次试用期。以完成一定工作任务为期限的劳动合同或者劳动合同期限不满三个月的，不得约定试用期。试用期包含在劳动合同期限内。劳动合同仅约定试用期的，试用期不成立，该期限为劳动合同期限。
-
-第二十条 劳动者在试用期的工资不得低于本单位相同岗位最低档工资或者劳动合同约定工资的百分之八十，并不得低于用人单位所在地的最低工资标准。
-
-第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
-
-第二十二条 用人单位为劳动者提供专项培训费用，对其进行专业技术培训的，可以与该劳动者订立协议，约定服务期。劳动者违反服务期约定的，应当按照约定向用人单位支付违约金。违约金的数额不得超过用人单位提供的培训费用。用人单位要求劳动者支付的违约金不得超过服务期尚未履行部分所应分摊的培训费用。用人单位与劳动者约定服务期的，不影响按照正常的工资调整机制提高劳动者在服务期期间的劳动报酬。
-
-第二十三条 用人单位与劳动者可以在劳动合同中约定保守用人单位的商业秘密和与知识产权相关的保密事项。对负有保密义务的劳动者，用人单位可以在劳动合同或者保密协议中与劳动者约定竞业限制条款，并约定在解除或者终止劳动合同后，在竞业限制期限内按月给予劳动者经济补偿。劳动者违反竞业限制约定的，应当按照约定向用人单位支付违约金。
-
-第二十四条 竞业限制的人员限于用人单位的高级管理人员、高级技术人员和其他负有保密义务的人员。竞业限制的范围、地域、期限由用人单位与劳动者约定，竞业限制的约定不得违反法律、法规的规定。在解除或者终止劳动合同后，前款规定的人员到与本单位生产或者经营同类产品、从事同类业务的有竞争关系的其他用人单位，或者自己开业生产或者经营同类产品、从事同类业务的竞业限制期限，不得超过二年。
-
-第二十五条 除本法第二十二条和第二十三条规定的情形外，用人单位不得与劳动者约定由劳动者承担违约金。
-
-第二十六条 下列劳动合同无效或者部分无效:（一）以欺诈、胁迫的手段或者乘人之危，使对方在违背真实意思的情况下订立或者变更劳动合同的；（二）用人单位免除自己的法定责任、排除劳动者权利的；（三）违反法律、行政法规强制性规定的。对劳动合同的无效或者部分无效有争议的，由劳动争议仲裁机构或者人民法院确认。
-
-第二十七条 劳动合同部分无效，不影响其他部分效力的，其他部分仍然有效。
-
-第二十八条 劳动合同被确认无效，劳动者已付出劳动的，用人单位应当向劳动者支付劳动报酬。劳动报酬的数额，参照本单位相同或者相近岗位劳动者的劳动报酬确定。
-
-[2/3] 劳动法.md chunk:1/8 chunk_index:1 total_chunks:8 line:42-74 doc_id:2db295f90839 dist:0.4005 score:0.8400
-file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
-# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md] [Lines: 42-74]
+# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md] [Lines: 42-64]
 ## 第三章 劳动合同和集体合同
 
 第十六条 劳动合同是劳动者与用人单位确立劳动关系、明确双方权利和义务的协议。建立劳动关系应当订立劳动合同。
@@ -408,28 +357,175 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
 
 第二十六条 有下列情形之一的，用人单位可以解除劳动合同，但是应当提前三十日以书面形式通知劳动者本人：（一）劳动者患病或者非因工负伤，医疗期满后，不能从事原工作也不能从事由用人单位另行安排的工作的；（二）劳动者不能胜任工作，经过培训或者调整工作岗位，仍不能胜任工作的；（三）劳动合同订立时所依据的客观情况发生重大变化，致使原劳动合同无法履行，经当事人协商不能就变更劳动合同达成协议的。
 
-第二十七条 用人单位濒临破产进行法定整顿期间或者生产经营状况发生严重困难，确需裁减人员的，应当提前三十日向工会或者全体职工说明情况，听取工会或者职工的意见，经向劳动行政部门报告后，可以裁减人员。用人单位依据本条规定裁减人员，在六个月内录用人员的，应当优先录用被裁减的人员。
+[3/3] 劳动合同法.md chunk:3/17 chunk_index:3 total_chunks:17 line:51-65 doc_id:81ec846f7c63 dist:0.3246 score:0.6092
+file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
+# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 51-65]
+第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
 
-第二十八条 用人单位依据本法第二十四条、第二十六条、第二十七条的规定解除劳动合同的，应当依照国家有关规定给予经济补偿。
+第二十二条 用人单位为劳动者提供专项培训费用，对其进行专业技术培训的，可以与该劳动者订立协议，约定服务期。劳动者违反服务期约定的，应当按照约定向用人单位支付违约金。违约金的数额不得超过用人单位提供的培训费用。用人单位要求劳动者支付的违约金不得超过服务期尚未履行部分所应分摊的培训费用。用人单位与劳动者约定服务期的，不影响按照正常的工资调整机制提高劳动者在服务期期间的劳动报酬。
 
-第二十九条 劳动者有下列情形之一的，用人单位不得依据本法第二十六条、第二十七条的规定解除劳动合同：（一）患职业病或者因工负伤并被确认丧失或者部分丧失劳动能力的；（二）患病或者负伤，在规定的医疗期内的；（三）女职工在孕期、产期、哺乳期内的；（四）法律、行政法规规定的其他情形。
+第二十三条 用人单位与劳动者可以在劳动合同中约定保守用人单位的商业秘密和与知识产权相关的保密事项。对负有保密义务的劳动者，用人单位可以在劳动合同或者保密协议中与劳动者约定竞业限制条款，并约定在解除或者终止劳动合同后，在竞业限制期限内按月给予劳动者经济补偿。劳动者违反竞业限制约定的，应当按照约定向用人单位支付违约金。
 
-第三十条 用人单位解除劳动合同，工会认为不适当的，有权提出意见。如果用人单位违反法律、法规或者劳动合同，工会有权要求重新处理；劳动者申请仲裁或者提起诉讼的，工会应当依法给予支持和帮助。
+第二十四条 竞业限制的人员限于用人单位的高级管理人员、高级技术人员和其他负有保密义务的人员。竞业限制的范围、地域、期限由用人单位与劳动者约定，竞业限制的约定不得违反法律、法规的规定。在解除或者终止劳动合同后，前款规定的人员到与本单位生产或者经营同类产品、从事同类业务的有竞争关系的其他用人单位，或者自己开业生产或者经营同类产品、从事同类业务的竞业限制期限，不得超过二年。
 
-第三十一条 劳动者解除劳动合同，应当提前三十日以书面形式通知用人单位。
+第二十五条 除本法第二十二条和第二十三条规定的情形外，用人单位不得与劳动者约定由劳动者承担违约金。
 
-[3/3] 劳动合同法实施条例.md chunk:2/6 chunk_index:2 total_chunks:6 line:43-47 doc_id:fa8c6ff3a095 dist:0.2952 score:0.5633
-file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法实施条例.md
-# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法实施条例.md] [Lines: 43-47]
-第十五条 劳动者在试用期的工资不得低于本单位相同岗位最低档工资的80%或者不得低于劳动合同约定工资的80%，并不得低于用人单位所在地的最低工资标准。
+第二十六条 下列劳动合同无效或者部分无效:（一）以欺诈、胁迫的手段或者乘人之危，使对方在违背真实意思的情况下订立或者变更劳动合同的；（二）用人单位免除自己的法定责任、排除劳动者权利的；（三）违反法律、行政法规强制性规定的。对劳动合同的无效或者部分无效有争议的，由劳动争议仲裁机构或者人民法院确认。
 
-第十六条 劳动合同法第二十二条第二款规定的培训费用，包括用人单位为了对劳动者进行专业技术培训而支付的有凭证的培训费用、培训期间的差旅费用以及因培训产生的用于该劳动者的其他直接费用。
+第二十七条 劳动合同部分无效，不影响其他部分效力的，其他部分仍然有效。
 
-第十七条 劳动合同期满，但是用人单位与劳动者依照劳动合同法第二十二条的规定约定的服务期尚未到期的，劳动合同应当续延至服务期满；双方另有约定的，从其约定。
+第二十八条 劳动合同被确认无效，劳动者已付出劳动的，用人单位应当向劳动者支付劳动报酬。劳动报酬的数额，参照本单位相同或者相近岗位劳动者的劳动报酬确定。
+
+
+[耗时统计] nbrag_search: 3.819 秒
+
+------------------------------------------------------------------------------------------------
+调用函数: nbrag_search(metadata-only: include_content=False)
+入参: {'query': '1年劳动合同试用期期限上限', 'collection_name': 'worker_rights', 'top_k': 2, 'include_content': False}
+------------------------------------------------------------------------------------------------
+[worker_rights] 157 chunks | bm25: on | rerank: BAAI/bge-reranker-v2-m3
+
+Returned handle fields for follow-up: file_path, doc_id, chunk_index, line range.
+
+[1/2] 劳动合同法.md chunk:2/17 chunk_index:2 total_chunks:17 line:39-51 doc_id:81ec846f7c63 dist:0.3179 score:0.9368
+file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
+content omitted
+
+[2/2] 劳动法.md chunk:2/13 chunk_index:2 total_chunks:13 line:42-64 doc_id:2db295f90839 dist:0.3989 score:0.8443
+file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
+content omitted
+
+
+[耗时统计] nbrag_search: 1.642 秒
+
+------------------------------------------------------------------------------------------------
+调用函数: nbrag_search_only_bm25(query='试用期', include_content=False)
+入参: {'query': '试用期', 'collection_name': 'worker_rights', 'top_k': 2, 'include_content': False}
+------------------------------------------------------------------------------------------------
+[worker_rights] 157 chunks | bm25: on | rerank: off
+
+Returned handle fields for follow-up: file_path, doc_id, chunk_index, line range.
+
+[1/2] 劳动合同法.md chunk:11/17 chunk_index:11 total_chunks:17 line:161-171 doc_id:81ec846f7c63 dist:0.0000
+file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
+content omitted
+
+[2/2] 劳动合同法.md chunk:13/17 chunk_index:13 total_chunks:17 line:191-207 doc_id:81ec846f7c63 dist:0.0000
+file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
+content omitted
+
+
+[耗时统计] nbrag_search_only_bm25: 0.700 秒
+
+------------------------------------------------------------------------------------------------
+调用函数: nbrag_search_only_vector(query, include_content=False)
+入参: {'query': '1年劳动合同试用期期限上限', 'collection_name': 'worker_rights', 'top_k': 2, 'include_content': False}
+------------------------------------------------------------------------------------------------
+[worker_rights] 157 chunks | bm25: off | rerank: off
+
+Returned handle fields for follow-up: file_path, doc_id, chunk_index, line range.
+
+[1/2] 劳动合同法.md chunk:2/17 chunk_index:2 total_chunks:17 line:39-51 doc_id:81ec846f7c63 dist:0.3179
+file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
+content omitted
+
+[2/2] 劳动合同法.md chunk:3/17 chunk_index:3 total_chunks:17 line:51-65 doc_id:81ec846f7c63 dist:0.3246
+file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
+content omitted
+
+
+[耗时统计] nbrag_search_only_vector: 0.812 秒
+
+------------------------------------------------------------------------------------------------
+调用函数: nbrag_search_and_fetch(query, top_k=3, fetch_top_n_raw=1, fetch_context_chars=2000)
+入参: {'query': '1年劳动合同试用期期限上限', 'collection_name': 'worker_rights', 'top_k': 3, 'fetch_top_n_raw': 1, 'fetch_context_chars': 2000}
+------------------------------------------------------------------------------------------------
+[worker_rights] 157 chunks | bm25: on | rerank: BAAI/bge-reranker-v2-m3
+
+This tool returns both ranked hits and auto-fetched stored original content.
+fetch_context_chars is per ranked hit: roughly N total context chars split half before and half after, not a total response cap.
+Reused follow-up handles in ranked hits: file_path, doc_id, chunk_index, line:N-M.
+
+Ranked search results:
+
+[1/3] 劳动合同法.md chunk:2/17 chunk_index:2 total_chunks:17 line:39-51 doc_id:81ec846f7c63 dist:0.3179 score:0.9368
+file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
+# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 39-51]
+第十五条 以完成一定工作任务为期限的劳动合同，是指用人单位与劳动者约定以某项工作的完成为合同期限的劳动合同。用人单位与劳动者协商一致，可以订立以完成一定工作任务为期限的劳动合同。
+
+第十六条 劳动合同由用人单位与劳动者协商一致，并经用人单位与劳动者在劳动合同文本上签字或者盖章生效。劳动合同文本由用人单位和劳动者各执一份。
+
+第十七条 劳动合同应当具备以下条款:（一）用人单位的名称、住所和法定代表人或者主要负责人；（二）劳动者的姓名、住址和居民身份证或者其他有效身份证件号码；（三）劳动合同期限；（四）工作内容和工作地点；（五）工作时间和休息休假；（六）劳动报酬；（七）社会保险；（八）劳动保护、劳动条件和职业危害防护；（九）法律、法规规定应当纳入劳动合同的其他事项。劳动合同除前款规定的必备条款外，用人单位与劳动者可以约定试用期、培训、保守秘密、补充保险和福利待遇等其他事项。
+
+第十八条 劳动合同对劳动报酬和劳动条件等标准约定不明确，引发争议的，用人单位与劳动者可以重新协商；协商不成的，适用集体合同规定；没有集体合同或者集体合同未规定劳动报酬的，实行同工同酬；没有集体合同或者集体合同未规定劳动条件等标准的，适用国家有关规定。
+
+第十九条 劳动合同期限三个月以上不满一年的，试用期不得超过一个月；劳动合同期限一年以上不满三年的，试用期不得超过二个月；三年以上固定期限和无固定期限的劳动合同，试用期不得超过六个月。同一用人单位与同一劳动者只能约定一次试用期。以完成一定工作任务为期限的劳动合同或者劳动合同期限不满三个月的，不得约定试用期。试用期包含在劳动合同期限内。劳动合同仅约定试用期的，试用期不成立，该期限为劳动合同期限。
+
+第二十条 劳动者在试用期的工资不得低于本单位相同岗位最低档工资或者劳动合同约定工资的百分之八十，并不得低于用人单位所在地的最低工资标准。
+
+第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
+
+[2/3] 劳动法.md chunk:2/13 chunk_index:2 total_chunks:13 line:42-64 doc_id:2db295f90839 dist:0.3989 score:0.8452
+file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
+# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md] [Lines: 42-64]
+## 第三章 劳动合同和集体合同
+
+第十六条 劳动合同是劳动者与用人单位确立劳动关系、明确双方权利和义务的协议。建立劳动关系应当订立劳动合同。
+
+第十七条 订立和变更劳动合同，应当遵循平等自愿、协商一致的原则，不得违反法律、行政法规的规定。劳动合同依法订立即具有法律约束力，当事人必须履行劳动合同规定的义务。
+
+第十八条 下列劳动合同无效：（一）违反法律、行政法规的劳动合同；（二）采取欺诈、威胁等手段订立的劳动合同。无效的劳动合同，从订立的时候起，就没有法律约束力。确认劳动合同部分无效的，如果不影响其余部分的效力，其余部分仍然有效。劳动合同的无效，由劳动争议仲裁委员会或者人民法院确认。
+
+第十九条 劳动合同应当以书面形式订立，并具备以下条款：（一）劳动合同期限；（二）工作内容；（三）劳动保护和劳动条件；（四）劳动报酬；（五）劳动纪律；（六）劳动合同终止的条件；（七）违反劳动合同的责任。劳动合同除前款规定的必备条款外，当事人可以协商约定其他内容。
+
+第二十条 劳动合同的期限分为有固定期限、无固定期限和以完成一定的工作为期限。劳动者在同一用人单位连续工作满十年以上，当事人双方同意续延劳动合同的，如果劳动者提出订立无固定期限的劳动合同，应当订立无固定期限的劳动合同。
+
+第二十一条 劳动合同可以约定试用期。试用期最长不得超过六个月。
+
+第二十二条 劳动合同当事人可以在劳动合同中约定保守用人单位商业秘密的有关事项。
+
+第二十三条 劳动合同期满或者当事人约定的劳动合同终止条件出现，劳动合同即行终止。
+
+第二十四条 经劳动合同当事人协商一致，劳动合同可以解除。
+
+第二十五条 劳动者有下列情形之一的，用人单位可以解除劳动合同：（一）在试用期间被证明不符合录用条件的；（二）严重违反劳动纪律或者用人单位规章制度的；（三）严重失职，营私舞弊，对用人单位利益造成重大损害的；（四）被依法追究刑事责任的。
+
+第二十六条 有下列情形之一的，用人单位可以解除劳动合同，但是应当提前三十日以书面形式通知劳动者本人：（一）劳动者患病或者非因工负伤，医疗期满后，不能从事原工作也不能从事由用人单位另行安排的工作的；（二）劳动者不能胜任工作，经过培训或者调整工作岗位，仍不能胜任工作的；（三）劳动合同订立时所依据的客观情况发生重大变化，致使原劳动合同无法履行，经当事人协商不能就变更劳动合同达成协议的。
+
+[3/3] 劳动合同法.md chunk:3/17 chunk_index:3 total_chunks:17 line:51-65 doc_id:81ec846f7c63 dist:0.3246 score:0.6092
+file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
+# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 51-65]
+第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
+
+第二十二条 用人单位为劳动者提供专项培训费用，对其进行专业技术培训的，可以与该劳动者订立协议，约定服务期。劳动者违反服务期约定的，应当按照约定向用人单位支付违约金。违约金的数额不得超过用人单位提供的培训费用。用人单位要求劳动者支付的违约金不得超过服务期尚未履行部分所应分摊的培训费用。用人单位与劳动者约定服务期的，不影响按照正常的工资调整机制提高劳动者在服务期期间的劳动报酬。
+
+第二十三条 用人单位与劳动者可以在劳动合同中约定保守用人单位的商业秘密和与知识产权相关的保密事项。对负有保密义务的劳动者，用人单位可以在劳动合同或者保密协议中与劳动者约定竞业限制条款，并约定在解除或者终止劳动合同后，在竞业限制期限内按月给予劳动者经济补偿。劳动者违反竞业限制约定的，应当按照约定向用人单位支付违约金。
+
+第二十四条 竞业限制的人员限于用人单位的高级管理人员、高级技术人员和其他负有保密义务的人员。竞业限制的范围、地域、期限由用人单位与劳动者约定，竞业限制的约定不得违反法律、法规的规定。在解除或者终止劳动合同后，前款规定的人员到与本单位生产或者经营同类产品、从事同类业务的有竞争关系的其他用人单位，或者自己开业生产或者经营同类产品、从事同类业务的竞业限制期限，不得超过二年。
+
+第二十五条 除本法第二十二条和第二十三条规定的情形外，用人单位不得与劳动者约定由劳动者承担违约金。
+
+第二十六条 下列劳动合同无效或者部分无效:（一）以欺诈、胁迫的手段或者乘人之危，使对方在违背真实意思的情况下订立或者变更劳动合同的；（二）用人单位免除自己的法定责任、排除劳动者权利的；（三）违反法律、行政法规强制性规定的。对劳动合同的无效或者部分无效有争议的，由劳动争议仲裁机构或者人民法院确认。
+
+第二十七条 劳动合同部分无效，不影响其他部分效力的，其他部分仍然有效。
+
+第二十八条 劳动合同被确认无效，劳动者已付出劳动的，用人单位应当向劳动者支付劳动报酬。劳动报酬的数额，参照本单位相同或者相近岗位劳动者的劳动报酬确定。
 
 Auto-fetched original content (1 file(s)):
+Returned raw snippets come from the stored original-file snapshot captured at ingestion time.
 
-original_file: 劳动合同法.md | file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md | doc_id: 81ec846f7c63 | range: line:25-85
+original_file: 劳动合同法.md | file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md | doc_id: 81ec846f7c63 | range: line:14-72
+第四条 用人单位应当依法建立和完善劳动规章制度，保障劳动者享有劳动权利、履行劳动义务。用人单位在制定、修改或者决定有关劳动报酬、工作时间、休息休假、劳动安全卫生、保险福利、职工培训、劳动纪律以及劳动定额管理等直接涉及劳动者切身利益的规章制度或者重大事项时，应当经职工代表大会或者全体职工讨论，提出方案和意见，与工会或者职工代表平等协商确定。在规章制度和重大事项决定实施过程中，工会或者职工认为不适当的，有权向用人单位提出，通过协商予以修改完善。用人单位应当将直接涉及劳动者切身利益的规章制度和重大事项决定公示，或者告知劳动者。
+
+第五条 县级以上人民政府劳动行政部门会同工会和企业方面代表，建立健全协调劳动关系三方机制，共同研究解决有关劳动关系的重大问题。
+
+第六条 工会应当帮助、指导劳动者与用人单位依法订立和履行劳动合同，并与用人单位建立集体协商机制，维护劳动者的合法权益。
+
+
+## 第二章 劳动合同的订立
+
+第七条 用人单位自用工之日起即与劳动者建立劳动关系。用人单位应当建立职工名册备查。
+
 第八条 用人单位招用劳动者时，应当如实告知劳动者工作内容、工作条件、工作地点、职业危害、安全生产状况、劳动报酬，以及劳动者要求了解的其他情况；用人单位有权了解劳动者与劳动合同直接相关的基本情况，劳动者应当如实说明。
 
 第九条 用人单位招用劳动者，不得扣押劳动者的居民身份证和其他证件，不得要求劳动者提供担保或者以其他名义向劳动者收取财物。
@@ -479,29 +575,47 @@ original_file: 劳动合同法.md | file_path: D:/codes/nbrag/scripts/ingest_ex3
 
 第三十条 用人单位应当按照劳动合同约定和国家规定，向劳动者及时足额支付劳动报酬。用人单位拖欠或者未足额支付劳动报酬的，劳动者可以依法向当地人民法院申请支付令，人民法院应当依法发出支付令。
 
-第三十一条 用人单位应当严格执行劳动定额标准，不得强迫或者变相强迫劳动者加班。用人单位安排加班的，应当按照国家有关规定向劳动者支付加班费。
-
-第三十二条 劳动者拒绝用人单位管理人员违章指挥、强令冒险作业的，不视为违反劳动合同。劳动者对危害生命安全和身体健康的劳动条件，有权对用人单位提出批评、检举和控告。
-
-第三十三条 用人单位变更名称、法定代表人、主要负责人或者投资人等事项，不影响劳动合同的履行。
-
-第三十四条 用人单位发生合并或者分立等情况，原劳动合同继续有效，劳动合同由承继其权利和义务的用人单位继续履行。
-
-第三十五条 用人单位与劳动者协商一致，可以变更劳动合同约定的内容。变更劳动合同，应当采用书面形式。变更后的劳动合同文本由用人单位和劳动者各执一份。
 
 
-## 第四章 劳动合同的解除和终止
-
-
+[耗时统计] nbrag_search_and_fetch: 12.872 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_grep(keyword='试用期', max_results=5)
-入参: {'keyword': '试用期', 'collection_name': 'worker_rights', 'max_results': 5, 'context_lines': 6}
+入参: {'keyword': '试用期', 'collection_name': 'worker_rights', 'max_results': 5, 'match_context_chars': 2000}
 ------------------------------------------------------------------------------------------------
 grep matches: 5
 
+match_context_chars is per grep match: roughly N total context chars split half before and half after, not a total response cap.
+Returned handle fields for follow-up: file_path, doc_id, matched_line, line_range.
+
 劳动法.md | matched_line: 54 | line_range: line:54-54 | doc_id: 2db295f90839
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
+       22| 行平等协商。
+       23| 
+       24| 第九条 国务院劳动行政部门主管全国劳动工作。县级以上地方人民政府劳动行政部门主管本行政区域内的劳动工作。
+       25| 
+       26| 
+       27| ## 第二章 促进就业
+       28| 
+       29| 第十条 国家通过促进经济和社会发展，创造就业条件，扩大就业机会。国家鼓励企业、事业组织、社会团体在法律、行政法规规定的范围内兴办产业或者拓展经营，增加就业。国家支持劳动者自愿组织起来就业和从事个体经营实现就业。
+       30| 
+       31| 第十一条 地方各级人民政府应当采取措施，发展多种类型的职业介绍机构，提供就业服务。
+       32| 
+       33| 第十二条 劳动者就业，不因民族、种族、性别、宗教信仰不同而受歧视。
+       34| 
+       35| 第十三条 妇女享有与男子平等的就业权利。在录用职工时，除国家规定的不适合妇女的工种或者岗位外，不得以性别为由拒绝录用妇女或者提高对妇女的录用标准。
+       36| 
+       37| 第十四条 残疾人、少数民族人员、退出现役的军人的就业，法律、法规有特别规定的，从其规定。
+       38| 
+       39| 第十五条 禁止用人单位招用未满十六周岁的未成年人。文艺、体育和特种工艺单位招用未满十六周岁的未成年人，必须遵守国家有关规定，并保障其接受义务教育的权利。
+       40| 
+       41| 
+       42| ## 第三章 劳动合同和集体合同
+       43| 
+       44| 第十六条 劳动合同是劳动者与用人单位确立劳动关系、明确双方权利和义务的协议。建立劳动关系应当订立劳动合同。
+       45| 
+       46| 第十七条 订立和变更劳动合同，应当遵循平等自愿、协商一致的原则，不得违反法律、行政法规的规定。劳动合同依法订立即具有法律约束力，当事人必须履行劳动合同规定的义务。
+       47| 
        48| 第十八条 下列劳动合同无效：（一）违反法律、行政法规的劳动合同；（二）采取欺诈、威胁等手段订立的劳动合同。无效的劳动合同，从订立的时候起，就没有法律约束力。确认劳动合同部分无效的，如果不影响其余部分的效力，其余部分仍然有效。劳动合同的无效，由劳动争议仲裁委员会或者人民法院确认。
        49| 
        50| 第十九条 劳动合同应当以书面形式订立，并具备以下条款：（一）劳动合同期限；（二）工作内容；（三）劳动保护和劳动条件；（四）劳动报酬；（五）劳动纪律；（六）劳动合同终止的条件；（七）违反劳动合同的责任。劳动合同除前款规定的必备条款外，当事人可以协商约定其他内容。
@@ -515,9 +629,52 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
        58| 第二十三条 劳动合同期满或者当事人约定的劳动合同终止条件出现，劳动合同即行终止。
        59| 
        60| 第二十四条 经劳动合同当事人协商一致，劳动合同可以解除。
+       61| 
+       62| 第二十五条 劳动者有下列情形之一的，用人单位可以解除劳动合同：（一）在试用期间被证明不符合录用条件的；（二）严重违反劳动纪律或者用人单位规章制度的；（三）严重失职，营私舞弊，对用人单位利益造成重大损害的；（四）被依法追究刑事责任的。
+       63| 
+       64| 第二十六条 有下列情形之一的，用人单位可以解除劳动合同，但是应当提前三十日以书面形式通知劳动者本人：（一）劳动者患病或者非因工负伤，医疗期满后，不能从事原工作也不能从事由用人单位另行安排的工作的；（二）劳动者不能胜任工作，经过培训或者调整工作岗位，仍不能胜任工作的；（三）劳动合同订立时所依据的客观情况发生重大变化，致使原劳动合同无法履行，经当事人协商不能就变更劳动合同达成协议的。
+       65| 
+       66| 第二十七条 用人单位濒临破产进行法定整顿期间或者生产经营状况发生严重困难，确需裁减人员的，应当提前三十日向工会或者全体职工说明情况，听取工会或者职工的意见，经向劳动行政部门报告后，可以裁减人员。用人单位依据本条规定裁减人员，在六个月内录用人员的，应当优先录用被裁减的人员。
+       67| 
+       68| 第二十八条 用人单位依据本法第二十四条、第二十六条、第二十七条的规定解除劳动合同的，应当依照国家有关规定给予经济补偿。
+       69| 
+       70| 第二十九条 劳动者有下列情形之一的，用人单位不得依据本法第二十六条、第二十七条的规定解除劳动合同：（一）患职业病或者因工负伤并被确认丧失或者部分丧失劳动能力的；（二）患病或者负伤，在规定的医疗期内的；（三）女职工在孕期、产期、哺乳期内的；（四）法律、行政法规规定的其他情形。
+       71| 
+       72| 第三十条 用人单位解除劳动合同，工会认为不适当的，有权提出意见。如果用人单位违反法律、法规或者劳动合同，工会有权要求重新处理；劳动者申请仲裁或者提起诉讼的，工会应当依法给予支持和帮助。
+       73| 
+       74| 第三十一条 劳动者解除劳动合同，应当提前三十日以书面形式通知用人单位。
+       75| 
+       76| 第三十二条 有下列情形之一的，劳动者可以随时通知用人单位解除劳动合同：（一）在试用期内的；（二）用人单位以暴力、威胁或者非法限制人身自由的手段强迫劳动的；（三）用人单位未按照劳动合同约定支付劳动报酬或者提供劳动
 
 劳动法.md | matched_line: 62 | line_range: line:62-62 | doc_id: 2db295f90839
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
+       29| 经营，增加就业。国家支持劳动者自愿组织起来就业和从事个体经营实现就业。
+       30| 
+       31| 第十一条 地方各级人民政府应当采取措施，发展多种类型的职业介绍机构，提供就业服务。
+       32| 
+       33| 第十二条 劳动者就业，不因民族、种族、性别、宗教信仰不同而受歧视。
+       34| 
+       35| 第十三条 妇女享有与男子平等的就业权利。在录用职工时，除国家规定的不适合妇女的工种或者岗位外，不得以性别为由拒绝录用妇女或者提高对妇女的录用标准。
+       36| 
+       37| 第十四条 残疾人、少数民族人员、退出现役的军人的就业，法律、法规有特别规定的，从其规定。
+       38| 
+       39| 第十五条 禁止用人单位招用未满十六周岁的未成年人。文艺、体育和特种工艺单位招用未满十六周岁的未成年人，必须遵守国家有关规定，并保障其接受义务教育的权利。
+       40| 
+       41| 
+       42| ## 第三章 劳动合同和集体合同
+       43| 
+       44| 第十六条 劳动合同是劳动者与用人单位确立劳动关系、明确双方权利和义务的协议。建立劳动关系应当订立劳动合同。
+       45| 
+       46| 第十七条 订立和变更劳动合同，应当遵循平等自愿、协商一致的原则，不得违反法律、行政法规的规定。劳动合同依法订立即具有法律约束力，当事人必须履行劳动合同规定的义务。
+       47| 
+       48| 第十八条 下列劳动合同无效：（一）违反法律、行政法规的劳动合同；（二）采取欺诈、威胁等手段订立的劳动合同。无效的劳动合同，从订立的时候起，就没有法律约束力。确认劳动合同部分无效的，如果不影响其余部分的效力，其余部分仍然有效。劳动合同的无效，由劳动争议仲裁委员会或者人民法院确认。
+       49| 
+       50| 第十九条 劳动合同应当以书面形式订立，并具备以下条款：（一）劳动合同期限；（二）工作内容；（三）劳动保护和劳动条件；（四）劳动报酬；（五）劳动纪律；（六）劳动合同终止的条件；（七）违反劳动合同的责任。劳动合同除前款规定的必备条款外，当事人可以协商约定其他内容。
+       51| 
+       52| 第二十条 劳动合同的期限分为有固定期限、无固定期限和以完成一定的工作为期限。劳动者在同一用人单位连续工作满十年以上，当事人双方同意续延劳动合同的，如果劳动者提出订立无固定期限的劳动合同，应当订立无固定期限的劳动合同。
+       53| 
+       54| 第二十一条 劳动合同可以约定试用期。试用期最长不得超过六个月。
+       55| 
        56| 第二十二条 劳动合同当事人可以在劳动合同中约定保守用人单位商业秘密的有关事项。
        57| 
        58| 第二十三条 劳动合同期满或者当事人约定的劳动合同终止条件出现，劳动合同即行终止。
@@ -531,9 +688,41 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
        66| 第二十七条 用人单位濒临破产进行法定整顿期间或者生产经营状况发生严重困难，确需裁减人员的，应当提前三十日向工会或者全体职工说明情况，听取工会或者职工的意见，经向劳动行政部门报告后，可以裁减人员。用人单位依据本条规定裁减人员，在六个月内录用人员的，应当优先录用被裁减的人员。
        67| 
        68| 第二十八条 用人单位依据本法第二十四条、第二十六条、第二十七条的规定解除劳动合同的，应当依照国家有关规定给予经济补偿。
+       69| 
+       70| 第二十九条 劳动者有下列情形之一的，用人单位不得依据本法第二十六条、第二十七条的规定解除劳动合同：（一）患职业病或者因工负伤并被确认丧失或者部分丧失劳动能力的；（二）患病或者负伤，在规定的医疗期内的；（三）女职工在孕期、产期、哺乳期内的；（四）法律、行政法规规定的其他情形。
+       71| 
+       72| 第三十条 用人单位解除劳动合同，工会认为不适当的，有权提出意见。如果用人单位违反法律、法规或者劳动合同，工会有权要求重新处理；劳动者申请仲裁或者提起诉讼的，工会应当依法给予支持和帮助。
+       73| 
+       74| 第三十一条 劳动者解除劳动合同，应当提前三十日以书面形式通知用人单位。
+       75| 
+       76| 第三十二条 有下列情形之一的，劳动者可以随时通知用人单位解除劳动合同：（一）在试用期内的；（二）用人单位以暴力、威胁或者非法限制人身自由的手段强迫劳动的；（三）用人单位未按照劳动合同约定支付劳动报酬或者提供劳动条件的。
+       77| 
+       78| 第三十三条 企业职工一方与企业可以就劳动报酬、工作时间、休息休假、劳动安全卫生、保险福利等事项，签订集体合同。集体合同草案应当提交职工代表大会或者全体职工讨论通过。集体合同由工会代表职工与企业签订；没有建立工会的企业，由职工推举的代表与企业签订。
+       79| 
+       80| 第三十四条 集体合同签订后应当报送劳动行政部门；劳动行政部门自收到集体合同文本之日起十五日内未提出异议的，集体合同即行生效。
+       81| 
+       82| 第三十五条 依法签订的集体合同对企业和企业全体职工具有约束力。职工个人与
 
 劳动法.md | matched_line: 76 | line_range: line:76-76 | doc_id: 2db295f90839
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
+       52| 限。劳动者在同一用人单位连续工作满十年以上，当事人双方同意续延劳动合同的，如果劳动者提出订立无固定期限的劳动合同，应当订立无固定期限的劳动合同。
+       53| 
+       54| 第二十一条 劳动合同可以约定试用期。试用期最长不得超过六个月。
+       55| 
+       56| 第二十二条 劳动合同当事人可以在劳动合同中约定保守用人单位商业秘密的有关事项。
+       57| 
+       58| 第二十三条 劳动合同期满或者当事人约定的劳动合同终止条件出现，劳动合同即行终止。
+       59| 
+       60| 第二十四条 经劳动合同当事人协商一致，劳动合同可以解除。
+       61| 
+       62| 第二十五条 劳动者有下列情形之一的，用人单位可以解除劳动合同：（一）在试用期间被证明不符合录用条件的；（二）严重违反劳动纪律或者用人单位规章制度的；（三）严重失职，营私舞弊，对用人单位利益造成重大损害的；（四）被依法追究刑事责任的。
+       63| 
+       64| 第二十六条 有下列情形之一的，用人单位可以解除劳动合同，但是应当提前三十日以书面形式通知劳动者本人：（一）劳动者患病或者非因工负伤，医疗期满后，不能从事原工作也不能从事由用人单位另行安排的工作的；（二）劳动者不能胜任工作，经过培训或者调整工作岗位，仍不能胜任工作的；（三）劳动合同订立时所依据的客观情况发生重大变化，致使原劳动合同无法履行，经当事人协商不能就变更劳动合同达成协议的。
+       65| 
+       66| 第二十七条 用人单位濒临破产进行法定整顿期间或者生产经营状况发生严重困难，确需裁减人员的，应当提前三十日向工会或者全体职工说明情况，听取工会或者职工的意见，经向劳动行政部门报告后，可以裁减人员。用人单位依据本条规定裁减人员，在六个月内录用人员的，应当优先录用被裁减的人员。
+       67| 
+       68| 第二十八条 用人单位依据本法第二十四条、第二十六条、第二十七条的规定解除劳动合同的，应当依照国家有关规定给予经济补偿。
+       69| 
        70| 第二十九条 劳动者有下列情形之一的，用人单位不得依据本法第二十六条、第二十七条的规定解除劳动合同：（一）患职业病或者因工负伤并被确认丧失或者部分丧失劳动能力的；（二）患病或者负伤，在规定的医疗期内的；（三）女职工在孕期、产期、哺乳期内的；（四）法律、行政法规规定的其他情形。
        71| 
        72| 第三十条 用人单位解除劳动合同，工会认为不适当的，有权提出意见。如果用人单位违反法律、法规或者劳动合同，工会有权要求重新处理；劳动者申请仲裁或者提起诉讼的，工会应当依法给予支持和帮助。
@@ -547,9 +736,44 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动法.md
        80| 第三十四条 集体合同签订后应当报送劳动行政部门；劳动行政部门自收到集体合同文本之日起十五日内未提出异议的，集体合同即行生效。
        81| 
        82| 第三十五条 依法签订的集体合同对企业和企业全体职工具有约束力。职工个人与企业订立的劳动合同中劳动条件和劳动报酬等标准不得低于集体合同的规定。
+       83| 
+       84| 
+       85| ## 第四章 工作时间和休息休假
+       86| 
+       87| 第三十六条 国家实行劳动者每日工作时间不超过八小时、平均每周工作时间不超过四十四小时的工时制度。
+       88| 
+       89| 第三十七条 对实行计件工作的劳动者，用人单位应当根据本法第三十六条规定的工时制度合理确定其劳动定额和计件报酬标准。
+       90| 
+       91| 第三十八条 用人单位应当保证劳动者每周至少休息一日。
+       92| 
+       93| 第三十九条 企业因生产特点不能实行本法第三十六条、第三十八条规定的，经劳动行政部门批准，可以实行其他工作和休息办法。
+       94| 
+       95| 第四十条 用人单位在下列节日期间应当依法安排劳动者休假：（一）元旦；（二）春节；（三）国际劳动节；（四）国庆节；（五）法律、法规规定的其他休假节日。
+       96| 
+       97| 第四十一条 用人单位由于生产经营需要，经与工会和劳动者协商后可以延长工作时间，一般每日不得超过一小时；因特殊原因需要延长工作时间的，在保障劳动者身体健康的条件下延长工作时间每日不得超过三小时，但是每月不得超过三十六小时。
+       98| 
+       99| 第四十二条 有下列情形之一的，延长工作时间不受本法第四十一条规定的限制：（一）发生自然灾害、事故或者因其他原因，威胁劳动者生命健康和财产安全，需要紧急处理的；（二）生产设备、交通运输线路、公共设施发生故障，影响生产和公众利益，必须及时抢修的；（三）法律、行政法规规定的其他情形。
+      100| 
+      101| 第四十三条 用人单位不得违反本法规定延长劳动者的工作时间。
+      102| 
+      103| 第四十四条 有下列情形之一的，用人单位应当按照下列标准支付高于劳动者正常工作时间工资的工资报酬：（一）安排劳动者延长工作时间的，支付不低于工资的百分之一百五十的工资报酬；（二）休息日安排劳动者工作又不能安排补休的，支付不低于工资的百分之二百的工资报酬；（三）法定休假日安排劳动者工作的，支付不低于工资的百分之三百的工资报酬
 
 劳动合同法.md | matched_line: 43 | line_range: line:43-43 | doc_id: 81ec846f7c63
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
+       23| 自用工之日起即与劳动者建立劳动关系。用人单位应当建立职工名册备查。
+       24| 
+       25| 第八条 用人单位招用劳动者时，应当如实告知劳动者工作内容、工作条件、工作地点、职业危害、安全生产状况、劳动报酬，以及劳动者要求了解的其他情况；用人单位有权了解劳动者与劳动合同直接相关的基本情况，劳动者应当如实说明。
+       26| 
+       27| 第九条 用人单位招用劳动者，不得扣押劳动者的居民身份证和其他证件，不得要求劳动者提供担保或者以其他名义向劳动者收取财物。
+       28| 
+       29| 第十条 建立劳动关系，应当订立书面劳动合同。已建立劳动关系，未同时订立书面劳动合同的，应当自用工之日起一个月内订立书面劳动合同。用人单位与劳动者在用工前订立劳动合同的，劳动关系自用工之日起建立。
+       30| 
+       31| 第十一条 用人单位未在用工的同时订立书面劳动合同，与劳动者约定的劳动报酬不明确的，新招用的劳动者的劳动报酬按照集体合同规定的标准执行；没有集体合同或者集体合同未规定的，实行同工同酬。
+       32| 
+       33| 第十二条 劳动合同分为固定期限劳动合同、无固定期限劳动合同和以完成一定工作任务为期限的劳动合同。
+       34| 
+       35| 第十三条 固定期限劳动合同，是指用人单位与劳动者约定合同终止时间的劳动合同。用人单位与劳动者协商一致，可以订立固定期限劳动合同。
+       36| 
        37| 第十四条 无固定期限劳动合同，是指用人单位与劳动者约定无确定终止时间的劳动合同。用人单位与劳动者协商一致，可以订立无固定期限劳动合同。有下列情形之一，劳动者提出或者同意续订、订立劳动合同的，除劳动者提出订立固定期限劳动合同外，应当订立无固定期限劳动合同:（一）劳动者在该用人单位连续工作满十年的；（二）用人单位初次实行劳动合同制度或者国有企业改制重新订立劳动合同时，劳动者在该用人单位连续工作满十年且距法定退休年龄不足十年的；（三）连续订立二次固定期限劳动合同，且劳动者没有本法第三十九条和第四十条第一项、第二项规定的情形，续订劳动合同的。用人单位自用工之日起满一年不与劳动者订立书面劳动合同的，视为用人单位与劳动者已订立无固定期限劳动合同。
        38| 
        39| 第十五条 以完成一定工作任务为期限的劳动合同，是指用人单位与劳动者约定以某项工作的完成为合同期限的劳动合同。用人单位与劳动者协商一致，可以订立以完成一定工作任务为期限的劳动合同。
@@ -563,9 +787,27 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
        47| 第十九条 劳动合同期限三个月以上不满一年的，试用期不得超过一个月；劳动合同期限一年以上不满三年的，试用期不得超过二个月；三年以上固定期限和无固定期限的劳动合同，试用期不得超过六个月。同一用人单位与同一劳动者只能约定一次试用期。以完成一定工作任务为期限的劳动合同或者劳动合同期限不满三个月的，不得约定试用期。试用期包含在劳动合同期限内。劳动合同仅约定试用期的，试用期不成立，该期限为劳动合同期限。
        48| 
        49| 第二十条 劳动者在试用期的工资不得低于本单位相同岗位最低档工资或者劳动合同约定工资的百分之八十，并不得低于用人单位所在地的最低工资标准。
+       50| 
+       51| 第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
+       52| 
+       53| 第二十二条 用人单位为劳动者提供专项培训费用，对其进行专业技术培训的，可以与该劳动者订立协议，约定服务期。劳动者违反服务期约定的，应当按照约定向用人单位支付违约金。违约金的数额不得超过用人单位提供的培训费用。用人单位要求劳动者支付的违约金不得超过服务期尚未履行部分所应分摊的培训费用。用人单位与劳动者约定服务期的，不影响按照正常的工资调整机制提高劳动者在服务期期间的劳动报酬。
+       54| 
+       55| 第二十三条 用人单位与劳动者可以在劳动合同中约定保守用人单位的商业秘密和与知识产权相关的保密事项。对负有保密义务的劳动者，用人单位可以在劳动合同或者保密协议中与劳动者约定竞业限制条款，并约定在解除或者终止劳动合同后，在竞业限制期限内按月给予劳动者经济补偿。劳动者违反竞业限制约定的，应当按照约定向用人单位支付违约金。
+       56| 
+       57| 第二十四条 竞业限制的人员限于用人单位的高级管理人员、高级技术人员和其他负有保密义务的人员。竞业限制的范围、地域、期限由用人单位与劳动者约定，竞业限制的约定不得违反法律、法规的规定。在解除或者终止劳动合同后，前款规定的人员到与本单位生产或者经营同类产品、从事同类业务的有竞争关系的其他用人单位，或者自己开业生产或者经营同类产品、从事同
 
 劳动合同法.md | matched_line: 47 | line_range: line:47-47 | doc_id: 81ec846f7c63
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
+       31| 报酬按照集体合同规定的标准执行；没有集体合同或者集体合同未规定的，实行同工同酬。
+       32| 
+       33| 第十二条 劳动合同分为固定期限劳动合同、无固定期限劳动合同和以完成一定工作任务为期限的劳动合同。
+       34| 
+       35| 第十三条 固定期限劳动合同，是指用人单位与劳动者约定合同终止时间的劳动合同。用人单位与劳动者协商一致，可以订立固定期限劳动合同。
+       36| 
+       37| 第十四条 无固定期限劳动合同，是指用人单位与劳动者约定无确定终止时间的劳动合同。用人单位与劳动者协商一致，可以订立无固定期限劳动合同。有下列情形之一，劳动者提出或者同意续订、订立劳动合同的，除劳动者提出订立固定期限劳动合同外，应当订立无固定期限劳动合同:（一）劳动者在该用人单位连续工作满十年的；（二）用人单位初次实行劳动合同制度或者国有企业改制重新订立劳动合同时，劳动者在该用人单位连续工作满十年且距法定退休年龄不足十年的；（三）连续订立二次固定期限劳动合同，且劳动者没有本法第三十九条和第四十条第一项、第二项规定的情形，续订劳动合同的。用人单位自用工之日起满一年不与劳动者订立书面劳动合同的，视为用人单位与劳动者已订立无固定期限劳动合同。
+       38| 
+       39| 第十五条 以完成一定工作任务为期限的劳动合同，是指用人单位与劳动者约定以某项工作的完成为合同期限的劳动合同。用人单位与劳动者协商一致，可以订立以完成一定工作任务为期限的劳动合同。
+       40| 
        41| 第十六条 劳动合同由用人单位与劳动者协商一致，并经用人单位与劳动者在劳动合同文本上签字或者盖章生效。劳动合同文本由用人单位和劳动者各执一份。
        42| 
        43| 第十七条 劳动合同应当具备以下条款:（一）用人单位的名称、住所和法定代表人或者主要负责人；（二）劳动者的姓名、住址和居民身份证或者其他有效身份证件号码；（三）劳动合同期限；（四）工作内容和工作地点；（五）工作时间和休息休假；（六）劳动报酬；（七）社会保险；（八）劳动保护、劳动条件和职业危害防护；（九）法律、法规规定应当纳入劳动合同的其他事项。劳动合同除前款规定的必备条款外，用人单位与劳动者可以约定试用期、培训、保守秘密、补充保险和福利待遇等其他事项。
@@ -579,13 +821,29 @@ file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
        51| 第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
        52| 
        53| 第二十二条 用人单位为劳动者提供专项培训费用，对其进行专业技术培训的，可以与该劳动者订立协议，约定服务期。劳动者违反服务期约定的，应当按照约定向用人单位支付违约金。违约金的数额不得超过用人单位提供的培训费用。用人单位要求劳动者支付的违约金不得超过服务期尚未履行部分所应分摊的培训费用。用人单位与劳动者约定服务期的，不影响按照正常的工资调整机制提高劳动者在服务期期间的劳动报酬。
+       54| 
+       55| 第二十三条 用人单位与劳动者可以在劳动合同中约定保守用人单位的商业秘密和与知识产权相关的保密事项。对负有保密义务的劳动者，用人单位可以在劳动合同或者保密协议中与劳动者约定竞业限制条款，并约定在解除或者终止劳动合同后，在竞业限制期限内按月给予劳动者经济补偿。劳动者违反竞业限制约定的，应当按照约定向用人单位支付违约金。
+       56| 
+       57| 第二十四条 竞业限制的人员限于用人单位的高级管理人员、高级技术人员和其他负有保密义务的人员。竞业限制的范围、地域、期限由用人单位与劳动者约定，竞业限制的约定不得违反法律、法规的规定。在解除或者终止劳动合同后，前款规定的人员到与本单位生产或者经营同类产品、从事同类业务的有竞争关系的其他用人单位，或者自己开业生产或者经营同类产品、从事同类业务的竞业限制期限，不得超过二年。
+       58| 
+       59| 第二十五条 除本法第二十二条和第二十三条规定的情形外，用人单位不得与劳动者约定由劳动者承担违约金。
+       60| 
+       61| 第二十六条 下列劳动合同无效或者部分无效:（一）以欺诈、胁迫的手段或者乘人之危，使对方在违背真实意思的情况下订立或者变更劳动合同的；（二）用人单位免除自己的法定责任、排除劳动者权利的；（三）违反法律、行政法规强制性规定的。对劳动合同的无效或者部分无效有争议的，由劳动争议仲裁机构或者人民法院确认。
+       62| 
+       63| 第二十七条 劳动合同部分无效，不影响其他部分效力的，其他部分仍然有效。
+       64| 
+       65| 第二十八条 劳动合同被确认无效，劳动者已付出劳动的，用人单位应当向劳动者支付劳动报酬。劳动报酬的数额，参照本单位相同或者相近岗位劳动者的
 
+
+[耗时统计] nbrag_grep: 0.953 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_grep(无结果路径)
 入参: {'keyword': '__THIS_SHOULD_NOT_EXIST_NBRAG_REPORT__', 'collection_name': 'worker_rights', 'max_results': 3}
 ------------------------------------------------------------------------------------------------
-No grep matches. Possible adjustments: check exact wording/case, try regex if appropriate, or switch to nbrag_search_and_fetch for semantic discovery if this is a concept, alias, or paraphrase rather than exact source wording.
+No grep matches. Possible adjustments: check exact wording/case, escape regex metacharacters if you intended literal matching, try regex if appropriate, or switch to nbrag_search_and_fetch for semantic discovery when this is a concept, alias, or paraphrase rather than exact source wording.
+
+[耗时统计] nbrag_grep: 0.729 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_find_files(pattern='劳动合同法.md')
@@ -593,15 +851,21 @@ No grep matches. Possible adjustments: check exact wording/case, try regex if ap
 ------------------------------------------------------------------------------------------------
 matched files: 1
 
-filename: 劳动合同法.md | doc_id: 81ec846f7c63 | chunk_count: 13 | total_chunks: 13 | match: filename
+Returned handle field for follow-up: file_path.
+
+filename: 劳动合同法.md | doc_id: 81ec846f7c63 | chunk_count: 17 | total_chunks: 17 | match: filename
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md
 
+
+[耗时统计] nbrag_find_files: 0.622 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_find_definition(symbol='BoosterParams')
 入参: {'symbol': 'BoosterParams', 'collection_name': 'funboost', 'max_results': 2}
 ------------------------------------------------------------------------------------------------
 definitions: 2
+
+Returned handle fields for follow-up: file_path, doc_id, line range.
 
 [1/2] class BoosterParams | line:61-330 | doc_id:9efa589345b6
 file_path: D:/codes/funboost/funboost/core/func_params_model.py
@@ -907,12 +1171,15 @@ def my_task(url):
         response = requests.get(url)
 
 
+[耗时统计] nbrag_find_definition: 0.647 秒
+
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_get_raw_file(line_start=45, line_end=52)
 入参: {'file_path': 'D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md', 'collection_name': 'worker_rights', 'line_start': 45, 'line_end': 52}
 ------------------------------------------------------------------------------------------------
 original_file: 劳动合同法.md | file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md | doc_id: 81ec846f7c63
 total_lines: 232 | range: line:45-52
+Content source: stored original-file snapshot captured at ingestion time.
 第十八条 劳动合同对劳动报酬和劳动条件等标准约定不明确，引发争议的，用人单位与劳动者可以重新协商；协商不成的，适用集体合同规定；没有集体合同或者集体合同未规定劳动报酬的，实行同工同酬；没有集体合同或者集体合同未规定劳动条件等标准的，适用国家有关规定。
 
 第十九条 劳动合同期限三个月以上不满一年的，试用期不得超过一个月；劳动合同期限一年以上不满三年的，试用期不得超过二个月；三年以上固定期限和无固定期限的劳动合同，试用期不得超过六个月。同一用人单位与同一劳动者只能约定一次试用期。以完成一定工作任务为期限的劳动合同或者劳动合同期限不满三个月的，不得约定试用期。试用期包含在劳动合同期限内。劳动合同仅约定试用期的，试用期不成立，该期限为劳动合同期限。
@@ -923,19 +1190,24 @@ total_lines: 232 | range: line:45-52
 
 
 
+[耗时统计] nbrag_get_raw_file: 1.038 秒
+
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_get_raw_file(basename误传=错误路径)
 入参: {'file_path': '劳动合同法.md', 'collection_name': 'worker_rights'}
 ------------------------------------------------------------------------------------------------
 Error: file_path must be a full absolute file_path returned by nbrag_search/nbrag_search_and_fetch/nbrag_find_files/nbrag_list. Next steps: use nbrag_find_files(pattern, collection_name) when you only know a filename, or nbrag_list(collection_name) to browse available file_path values.
 
+[耗时统计] nbrag_get_raw_file: 0.751 秒
+
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_get_file_chunks(start_chunk=0, max_chunks=2)
 入参: {'file_path': 'D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md', 'collection_name': 'worker_rights', 'start_chunk': 0, 'max_chunks': 2}
 ------------------------------------------------------------------------------------------------
 file chunks: 2 | filename: 劳动合同法.md | doc_id: 81ec846f7c63
-file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md | total_chunks: 13 | total_lines: 232
+file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md | total_chunks: 17 | total_lines: 232
 range: chunk:0-1
+This view keeps chunk/scope structure and may contain overlap. Use nbrag_get_raw_file for overlap-free source text.
 
 chunk:0 | line:1-18
 # [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 1-18]
@@ -958,8 +1230,8 @@ chunk:0 | line:1-18
 
 第六条 工会应当帮助、指导劳动者与用人单位依法订立和履行劳动合同，并与用人单位建立集体协商机制，维护劳动者的合法权益。
 
-chunk:1 | line:21-45
-# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 21-45]
+chunk:1 | line:21-39
+# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 21-39]
 ## 第二章 劳动合同的订立
 
 第七条 用人单位自用工之日起即与劳动者建立劳动关系。用人单位应当建立职工名册备查。
@@ -980,12 +1252,8 @@ chunk:1 | line:21-45
 
 第十五条 以完成一定工作任务为期限的劳动合同，是指用人单位与劳动者约定以某项工作的完成为合同期限的劳动合同。用人单位与劳动者协商一致，可以订立以完成一定工作任务为期限的劳动合同。
 
-第十六条 劳动合同由用人单位与劳动者协商一致，并经用人单位与劳动者在劳动合同文本上签字或者盖章生效。劳动合同文本由用人单位和劳动者各执一份。
 
-第十七条 劳动合同应当具备以下条款:（一）用人单位的名称、住所和法定代表人或者主要负责人；（二）劳动者的姓名、住址和居民身份证或者其他有效身份证件号码；（三）劳动合同期限；（四）工作内容和工作地点；（五）工作时间和休息休假；（六）劳动报酬；（七）社会保险；（八）劳动保护、劳动条件和职业危害防护；（九）法律、法规规定应当纳入劳动合同的其他事项。劳动合同除前款规定的必备条款外，用人单位与劳动者可以约定试用期、培训、保守秘密、补充保险和福利待遇等其他事项。
-
-第十八条 劳动合同对劳动报酬和劳动条件等标准约定不明确，引发争议的，用人单位与劳动者可以重新协商；协商不成的，适用集体合同规定；没有集体合同或者集体合同未规定劳动报酬的，实行同工同酬；没有集体合同或者集体合同未规定劳动条件等标准的，适用国家有关规定。
-
+[耗时统计] nbrag_get_file_chunks: 0.693 秒
 
 [前置] 通过 nbrag_search 获取真实 doc_id
 解析到 worker_doc_id = '81ec846f7c63'
@@ -994,7 +1262,9 @@ chunk:1 | line:21-45
 调用函数: nbrag_get_adjacent_chunks(doc_id=<前置>, chunk_index=1, window=1)
 入参: {'doc_id': '81ec846f7c63', 'chunk_index': 1, 'collection_name': 'worker_rights', 'window': 1}
 ------------------------------------------------------------------------------------------------
-adjacent chunks: 3 | file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md | doc_id: 81ec846f7c63 | total_chunks: 13
+adjacent chunks: 3 | file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md | doc_id: 81ec846f7c63 | total_chunks: 17
+
+Returned context is chunk-level and may overlap. Use file_path with nbrag_get_raw_file for overlap-free source text.
 
 chunk:0 | line:1-18
 # [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 1-18]
@@ -1017,8 +1287,8 @@ chunk:0 | line:1-18
 
 第六条 工会应当帮助、指导劳动者与用人单位依法订立和履行劳动合同，并与用人单位建立集体协商机制，维护劳动者的合法权益。
 
-chunk:1 | line:21-45
-# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 21-45]
+chunk:1 | line:21-39
+# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 21-39]
 ## 第二章 劳动合同的订立
 
 第七条 用人单位自用工之日起即与劳动者建立劳动关系。用人单位应当建立职工名册备查。
@@ -1039,14 +1309,14 @@ chunk:1 | line:21-45
 
 第十五条 以完成一定工作任务为期限的劳动合同，是指用人单位与劳动者约定以某项工作的完成为合同期限的劳动合同。用人单位与劳动者协商一致，可以订立以完成一定工作任务为期限的劳动合同。
 
+chunk:2 | line:39-51
+# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 39-51]
+第十五条 以完成一定工作任务为期限的劳动合同，是指用人单位与劳动者约定以某项工作的完成为合同期限的劳动合同。用人单位与劳动者协商一致，可以订立以完成一定工作任务为期限的劳动合同。
+
 第十六条 劳动合同由用人单位与劳动者协商一致，并经用人单位与劳动者在劳动合同文本上签字或者盖章生效。劳动合同文本由用人单位和劳动者各执一份。
 
 第十七条 劳动合同应当具备以下条款:（一）用人单位的名称、住所和法定代表人或者主要负责人；（二）劳动者的姓名、住址和居民身份证或者其他有效身份证件号码；（三）劳动合同期限；（四）工作内容和工作地点；（五）工作时间和休息休假；（六）劳动报酬；（七）社会保险；（八）劳动保护、劳动条件和职业危害防护；（九）法律、法规规定应当纳入劳动合同的其他事项。劳动合同除前款规定的必备条款外，用人单位与劳动者可以约定试用期、培训、保守秘密、补充保险和福利待遇等其他事项。
 
-第十八条 劳动合同对劳动报酬和劳动条件等标准约定不明确，引发争议的，用人单位与劳动者可以重新协商；协商不成的，适用集体合同规定；没有集体合同或者集体合同未规定劳动报酬的，实行同工同酬；没有集体合同或者集体合同未规定劳动条件等标准的，适用国家有关规定。
-
-chunk:2 | line:45-65
-# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 45-65]
 第十八条 劳动合同对劳动报酬和劳动条件等标准约定不明确，引发争议的，用人单位与劳动者可以重新协商；协商不成的，适用集体合同规定；没有集体合同或者集体合同未规定劳动报酬的，实行同工同酬；没有集体合同或者集体合同未规定劳动条件等标准的，适用国家有关规定。
 
 第十九条 劳动合同期限三个月以上不满一年的，试用期不得超过一个月；劳动合同期限一年以上不满三年的，试用期不得超过二个月；三年以上固定期限和无固定期限的劳动合同，试用期不得超过六个月。同一用人单位与同一劳动者只能约定一次试用期。以完成一定工作任务为期限的劳动合同或者劳动合同期限不满三个月的，不得约定试用期。试用期包含在劳动合同期限内。劳动合同仅约定试用期的，试用期不成立，该期限为劳动合同期限。
@@ -1055,48 +1325,19 @@ chunk:2 | line:45-65
 
 第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
 
-第二十二条 用人单位为劳动者提供专项培训费用，对其进行专业技术培训的，可以与该劳动者订立协议，约定服务期。劳动者违反服务期约定的，应当按照约定向用人单位支付违约金。违约金的数额不得超过用人单位提供的培训费用。用人单位要求劳动者支付的违约金不得超过服务期尚未履行部分所应分摊的培训费用。用人单位与劳动者约定服务期的，不影响按照正常的工资调整机制提高劳动者在服务期期间的劳动报酬。
 
-第二十三条 用人单位与劳动者可以在劳动合同中约定保守用人单位的商业秘密和与知识产权相关的保密事项。对负有保密义务的劳动者，用人单位可以在劳动合同或者保密协议中与劳动者约定竞业限制条款，并约定在解除或者终止劳动合同后，在竞业限制期限内按月给予劳动者经济补偿。劳动者违反竞业限制约定的，应当按照约定向用人单位支付违约金。
-
-第二十四条 竞业限制的人员限于用人单位的高级管理人员、高级技术人员和其他负有保密义务的人员。竞业限制的范围、地域、期限由用人单位与劳动者约定，竞业限制的约定不得违反法律、法规的规定。在解除或者终止劳动合同后，前款规定的人员到与本单位生产或者经营同类产品、从事同类业务的有竞争关系的其他用人单位，或者自己开业生产或者经营同类产品、从事同类业务的竞业限制期限，不得超过二年。
-
-第二十五条 除本法第二十二条和第二十三条规定的情形外，用人单位不得与劳动者约定由劳动者承担违约金。
-
-第二十六条 下列劳动合同无效或者部分无效:（一）以欺诈、胁迫的手段或者乘人之危，使对方在违背真实意思的情况下订立或者变更劳动合同的；（二）用人单位免除自己的法定责任、排除劳动者权利的；（三）违反法律、行政法规强制性规定的。对劳动合同的无效或者部分无效有争议的，由劳动争议仲裁机构或者人民法院确认。
-
-第二十七条 劳动合同部分无效，不影响其他部分效力的，其他部分仍然有效。
-
-第二十八条 劳动合同被确认无效，劳动者已付出劳动的，用人单位应当向劳动者支付劳动报酬。劳动报酬的数额，参照本单位相同或者相近岗位劳动者的劳动报酬确定。
-
+[耗时统计] nbrag_get_adjacent_chunks: 1.104 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_get_chunks_by_lines(doc_id=<前置>, line_start=45, line_end=52)
 入参: {'doc_id': '81ec846f7c63', 'line_start': 45, 'line_end': 52, 'collection_name': 'worker_rights'}
 ------------------------------------------------------------------------------------------------
-chunks by lines: 2 | doc_id: 81ec846f7c63 | total_chunks: 13
+chunks by lines: 2 | doc_id: 81ec846f7c63 | total_chunks: 17
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md | line_range: line:45-52
+This view preserves chunk/scope structure and may overlap with neighboring chunks.
 
-chunk:1 | line:21-45
-# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 21-45]
-## 第二章 劳动合同的订立
-
-第七条 用人单位自用工之日起即与劳动者建立劳动关系。用人单位应当建立职工名册备查。
-
-第八条 用人单位招用劳动者时，应当如实告知劳动者工作内容、工作条件、工作地点、职业危害、安全生产状况、劳动报酬，以及劳动者要求了解的其他情况；用人单位有权了解劳动者与劳动合同直接相关的基本情况，劳动者应当如实说明。
-
-第九条 用人单位招用劳动者，不得扣押劳动者的居民身份证和其他证件，不得要求劳动者提供担保或者以其他名义向劳动者收取财物。
-
-第十条 建立劳动关系，应当订立书面劳动合同。已建立劳动关系，未同时订立书面劳动合同的，应当自用工之日起一个月内订立书面劳动合同。用人单位与劳动者在用工前订立劳动合同的，劳动关系自用工之日起建立。
-
-第十一条 用人单位未在用工的同时订立书面劳动合同，与劳动者约定的劳动报酬不明确的，新招用的劳动者的劳动报酬按照集体合同规定的标准执行；没有集体合同或者集体合同未规定的，实行同工同酬。
-
-第十二条 劳动合同分为固定期限劳动合同、无固定期限劳动合同和以完成一定工作任务为期限的劳动合同。
-
-第十三条 固定期限劳动合同，是指用人单位与劳动者约定合同终止时间的劳动合同。用人单位与劳动者协商一致，可以订立固定期限劳动合同。
-
-第十四条 无固定期限劳动合同，是指用人单位与劳动者约定无确定终止时间的劳动合同。用人单位与劳动者协商一致，可以订立无固定期限劳动合同。有下列情形之一，劳动者提出或者同意续订、订立劳动合同的，除劳动者提出订立固定期限劳动合同外，应当订立无固定期限劳动合同:（一）劳动者在该用人单位连续工作满十年的；（二）用人单位初次实行劳动合同制度或者国有企业改制重新订立劳动合同时，劳动者在该用人单位连续工作满十年且距法定退休年龄不足十年的；（三）连续订立二次固定期限劳动合同，且劳动者没有本法第三十九条和第四十条第一项、第二项规定的情形，续订劳动合同的。用人单位自用工之日起满一年不与劳动者订立书面劳动合同的，视为用人单位与劳动者已订立无固定期限劳动合同。
-
+chunk:2 | line:39-51
+# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 39-51]
 第十五条 以完成一定工作任务为期限的劳动合同，是指用人单位与劳动者约定以某项工作的完成为合同期限的劳动合同。用人单位与劳动者协商一致，可以订立以完成一定工作任务为期限的劳动合同。
 
 第十六条 劳动合同由用人单位与劳动者协商一致，并经用人单位与劳动者在劳动合同文本上签字或者盖章生效。劳动合同文本由用人单位和劳动者各执一份。
@@ -1105,14 +1346,14 @@ chunk:1 | line:21-45
 
 第十八条 劳动合同对劳动报酬和劳动条件等标准约定不明确，引发争议的，用人单位与劳动者可以重新协商；协商不成的，适用集体合同规定；没有集体合同或者集体合同未规定劳动报酬的，实行同工同酬；没有集体合同或者集体合同未规定劳动条件等标准的，适用国家有关规定。
 
-chunk:2 | line:45-65
-# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 45-65]
-第十八条 劳动合同对劳动报酬和劳动条件等标准约定不明确，引发争议的，用人单位与劳动者可以重新协商；协商不成的，适用集体合同规定；没有集体合同或者集体合同未规定劳动报酬的，实行同工同酬；没有集体合同或者集体合同未规定劳动条件等标准的，适用国家有关规定。
-
 第十九条 劳动合同期限三个月以上不满一年的，试用期不得超过一个月；劳动合同期限一年以上不满三年的，试用期不得超过二个月；三年以上固定期限和无固定期限的劳动合同，试用期不得超过六个月。同一用人单位与同一劳动者只能约定一次试用期。以完成一定工作任务为期限的劳动合同或者劳动合同期限不满三个月的，不得约定试用期。试用期包含在劳动合同期限内。劳动合同仅约定试用期的，试用期不成立，该期限为劳动合同期限。
 
 第二十条 劳动者在试用期的工资不得低于本单位相同岗位最低档工资或者劳动合同约定工资的百分之八十，并不得低于用人单位所在地的最低工资标准。
 
+第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
+
+chunk:3 | line:51-65
+# [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 51-65]
 第二十一条 在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。
 
 第二十二条 用人单位为劳动者提供专项培训费用，对其进行专业技术培训的，可以与该劳动者订立协议，约定服务期。劳动者违反服务期约定的，应当按照约定向用人单位支付违约金。违约金的数额不得超过用人单位提供的培训费用。用人单位要求劳动者支付的违约金不得超过服务期尚未履行部分所应分摊的培训费用。用人单位与劳动者约定服务期的，不影响按照正常的工资调整机制提高劳动者在服务期期间的劳动报酬。
@@ -1129,6 +1370,8 @@ chunk:2 | line:45-65
 
 第二十八条 劳动合同被确认无效，劳动者已付出劳动的，用人单位应当向劳动者支付劳动报酬。劳动报酬的数额，参照本单位相同或者相近岗位劳动者的劳动报酬确定。
 
+
+[耗时统计] nbrag_get_chunks_by_lines: 0.736 秒
 
 ================================================================================================
 报告结束

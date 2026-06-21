@@ -21,11 +21,24 @@ from nbrag import (
 )
 
 
+def _strip_markdown_frontmatter(text: str) -> str:
+    text = text.lstrip("\ufeff")
+    if not text.startswith("---"):
+        return text.strip()
+
+    lines = text.splitlines()
+    if len(lines) >= 3 and lines[0].strip() == "---":
+        for index in range(1, len(lines)):
+            if lines[index].strip() == "---":
+                return "\n".join(lines[index + 1:]).strip()
+    return text.strip()
+
+
 def _load_workflow_skill_text() -> str:
     skill_path = os.path.join(os.path.dirname(__file__), "skills", "nbrag-workflow", "SKILL.md")
     try:
         with open(skill_path, "r", encoding="utf-8") as file_handle:
-            return file_handle.read().strip()
+            return _strip_markdown_frontmatter(file_handle.read())
     except OSError:
         return ""
 
@@ -64,8 +77,8 @@ def _build_line_char_index(content: str) -> tuple[list[str], list[int]]:
     return lines, offsets
 
 
-def _line_window_from_chars(lines: list[str], offsets: list[int], line_start: int, line_end: int, fetch_chars: int) -> tuple[int, int]:
-    """Expand around the matched line range using an approximate symmetric char budget."""
+def _line_window_from_context_chars(lines: list[str], offsets: list[int], line_start: int, line_end: int, per_hit_context_chars: int) -> tuple[int, int]:
+    """Expand around the matched line range using a total per-hit context budget split before/after."""
     total_lines = len(lines)
     if total_lines == 0:
         return 1, 1
@@ -75,20 +88,15 @@ def _line_window_from_chars(lines: list[str], offsets: list[int], line_start: in
 
     hit_start = max(1, min(total_lines, line_start))
     hit_end = max(hit_start, min(total_lines, line_end))
-    if fetch_chars <= 0:
+    if per_hit_context_chars <= 0:
         return hit_start, hit_end
 
+    before_chars = per_hit_context_chars // 2
+    after_chars = per_hit_context_chars - before_chars
     hit_char_start = offsets[hit_start - 1]
     hit_char_end = offsets[hit_end]
-    hit_len = hit_char_end - hit_char_start
-    if hit_len >= fetch_chars:
-        return hit_start, hit_end
-
-    extra = fetch_chars - hit_len
-    extra_before = extra // 2
-    extra_after = extra - extra_before
-    win_char_start = max(0, hit_char_start - extra_before)
-    win_char_end = min(offsets[-1], hit_char_end + extra_after)
+    win_char_start = max(0, hit_char_start - before_chars)
+    win_char_end = min(offsets[-1], hit_char_end + after_chars)
 
     window_start = max(1, min(total_lines, bisect.bisect_right(offsets, win_char_start)))
     window_end = max(window_start, min(total_lines, bisect.bisect_left(offsets, win_char_end)))
@@ -104,6 +112,42 @@ def _merge_line_ranges(ranges: list[tuple[int, int]]) -> list[tuple[int, int]]:
         else:
             merged.append((start, end))
     return merged
+
+
+def _path_error(field_name: str) -> str:
+    return (
+        f"Error: {field_name} must be a full absolute file_path returned by "
+        "nbrag_search/nbrag_search_and_fetch/nbrag_find_files/nbrag_list. "
+        "Next steps: use nbrag_find_files(pattern, collection_name) when you only know a filename, "
+        "or nbrag_list(collection_name) to browse available file_path values."
+    )
+
+
+def _collection_issue_text(collection_name: str, total: int) -> str:
+    if total == 0:
+        stats = get_stats()
+        avail = list(stats["collections"].keys())
+        exists = collection_name in avail
+        if not exists:
+            return (
+                f"collection '{collection_name}' does not exist.\n"
+                f"Available collections: {avail}\n"
+                "Next steps: call nbrag_stats() to inspect valid collection_name values, "
+                "then retry with the correct prepared knowledge base."
+            )
+        return (
+            f"collection '{collection_name}' is empty. "
+            "Next steps: ask the user to ingest/prepare this knowledge base before searching."
+        )
+    return ""
+
+
+def _no_search_results_text(total: int) -> str:
+    return (
+        f"No results (collection has {total} chunks).\n"
+        "Possible adjustments: rewrite the query as a focused short phrase, try nbrag_grep for exact terms/article numbers/symbols, "
+        "use nbrag_find_files + filter_file_path to narrow to a known file, or call nbrag_stats if collection_name may be wrong."
+    )
 
 
 def nbrag_add_document(
@@ -150,10 +194,16 @@ def nbrag_help() -> str:
         "Common guidance:",
         "- Unknown collection_name? call nbrag_stats.",
         "- Most knowledge / usage / evidence questions: usually start with nbrag_search_and_fetch.",
-        "- Need retrieval controls or strategy isolation: use nbrag_search / nbrag_search_only_bm25 / nbrag_search_only_vector.",
-        "- Exact wording / article number / API name / constant: use nbrag_grep.",
-        "- Python .py exact symbol body: use nbrag_find_definition.",
+        "- Need retrieval controls or diagnostic isolation: use nbrag_search / nbrag_search_only_bm25 / nbrag_search_only_vector.",
+        "- Need exact wording / article number / API name / constant: use nbrag_grep.",
+        "- Need Python .py symbol body: use nbrag_find_definition.",
         "- Need exact full file_path first: use nbrag_find_files.",
+        "- Stop once current evidence is enough to answer; do not call extra tools just to complete a workflow.",
+        "",
+        "Key follow-up handles reused across tools:",
+        "- file_path → nbrag_get_raw_file / nbrag_get_file_chunks / filter_file_path",
+        "- doc_id + chunk_index → nbrag_get_adjacent_chunks",
+        "- doc_id + line:N-M → nbrag_get_chunks_by_lines",
         "",
         "Path rules:",
         "- file_path and filter_file_path must be full absolute paths returned by nbrag tools.",
@@ -185,32 +235,30 @@ def _format_search_results(
     include_content = _bool_param(include_content, True)
     path_filter = filter_file_path if filter_file_path else None
     if path_filter and not _is_absolute_file_path(path_filter):
-        return "Error: filter_file_path must be a full absolute file_path returned by nbrag_search/nbrag_search_and_fetch/nbrag_find_files/nbrag_list."
+        return _path_error("filter_file_path")
 
     documents, metadatas, distances, rerank_used, total, rerank_scores = search(
         query, collection_name, top_k, use_rerank, use_bm25,
         filter_file_path=path_filter, use_vector=use_vector,
     )
 
-    if total == 0:
-        stats = get_stats()
-        avail = list(stats["collections"].keys())
-        exists = collection_name in avail
-        if not exists:
-            return (f"collection '{collection_name}' does not exist.\n"
-                    f"Available collections: {avail}\n"
-                    f"Ask the user for the correct prepared collection_name.")
-        return (f"collection '{collection_name}' is empty. "
-                f"Ask the user to prepare this knowledge base before searching.")
+    collection_issue = _collection_issue_text(collection_name, total)
+    if collection_issue:
+        return collection_issue
 
     if not documents:
-        return (f"No results (collection has {total} chunks).\n"
-                "Possible adjustments: rewrite the query as a focused short phrase, use nbrag_grep for exact terms/article numbers/symbols, "
-                "or call nbrag_stats if collection_name may be wrong.")
+        return _no_search_results_text(total)
 
     rerank_str = cfg.rerank.model if rerank_used else "off"
     bm25_str = "off" if path_filter and use_vector else ("on" if use_bm25 else "off")
-    lines = [f"[{collection_name}] {total} chunks | bm25: {bm25_str} | rerank: {rerank_str}", ""]
+    lines = [f"[{collection_name}] {total} chunks | bm25: {bm25_str} | rerank: {rerank_str}"]
+    if path_filter:
+        lines[0] += f" | filter_file_path: {path_filter}"
+    lines.extend([
+        "",
+        "Returned handle fields for follow-up: file_path, doc_id, chunk_index, line range.",
+        "",
+    ])
 
     for i, (doc, meta, dist) in enumerate(zip(documents, metadatas, distances)):
         if meta is None:
@@ -306,44 +354,44 @@ def nbrag_search_and_fetch(
     collection_name: str,
     top_k: int = 5,
     fetch_top_n_raw: int = 3,
-    fetch_chars: int = 4000,
+    fetch_context_chars: int = 2000,
     filter_file_path: str = "",
 ) -> str:
     cfg = get_config()
     top_k = _int_param(top_k, 5)
     fetch_top_n_raw = _int_param(fetch_top_n_raw, 3)
-    fetch_chars = max(0, _int_param(fetch_chars, 4000))
+    fetch_context_chars = max(0, _int_param(fetch_context_chars, 2000))
     filter_file_path = _str_param(filter_file_path)
     path_filter = filter_file_path if filter_file_path else None
     if path_filter and not _is_absolute_file_path(path_filter):
-        return "Error: filter_file_path must be a full absolute file_path returned by nbrag_search/nbrag_search_and_fetch/nbrag_find_files/nbrag_list."
+        return _path_error("filter_file_path")
 
     documents, metadatas, distances, rerank_used, total, rerank_scores = search(
         query, collection_name, top_k, True, use_bm25=True, filter_file_path=path_filter,
     )
 
-    if total == 0:
-        stats = get_stats()
-        avail = list(stats["collections"].keys())
-        exists = collection_name in avail
-        if not exists:
-            return (f"collection '{collection_name}' does not exist.\n"
-                    f"Available collections: {avail}\n"
-                    f"Ask the user for the correct prepared collection_name.")
-        return (f"collection '{collection_name}' is empty. "
-                f"Ask the user to prepare this knowledge base before searching.")
+    collection_issue = _collection_issue_text(collection_name, total)
+    if collection_issue:
+        return collection_issue
 
     if not documents:
-        return (f"No results (collection has {total} chunks).\n"
-                "Possible adjustments: rewrite the query as a focused short phrase, use nbrag_grep for exact terms/article numbers/symbols, "
-                "or call nbrag_stats if collection_name may be wrong.")
+        return _no_search_results_text(total)
 
     rerank_str = cfg.rerank.model if rerank_used else "off"
     bm25_str = "off" if path_filter else "on"
     header = f"[{collection_name}] {total} chunks | bm25: {bm25_str} | rerank: {rerank_str}"
     if filter_file_path:
         header += f" | filter_file_path: {filter_file_path}"
-    lines = [header, "", "Ranked search results:", ""]
+    lines = [
+        header,
+        "",
+        "This tool returns both ranked hits and auto-fetched stored original content.",
+        "fetch_context_chars is per ranked hit: roughly N total context chars split half before and half after, not a total response cap.",
+        "Reused follow-up handles in ranked hits: file_path, doc_id, chunk_index, line:N-M.",
+        "",
+        "Ranked search results:",
+        "",
+    ]
 
     fetch_targets: dict[str, dict[str, Any]] = {}
     for i, (doc, meta, dist) in enumerate(zip(documents, metadatas, distances)):
@@ -381,6 +429,7 @@ def nbrag_search_and_fetch(
 
     if fetch_top_n_raw > 0 and fetch_targets:
         lines.append(f"Auto-fetched original content ({len(fetch_targets)} file(s)):")
+        lines.append("Returned raw snippets come from the stored original-file snapshot captured at ingestion time.")
         lines.append("")
         for doc_id, info in fetch_targets.items():
             src = str(info["src"])
@@ -396,7 +445,7 @@ def nbrag_search_and_fetch(
             raw_content = str(raw_data.get("content", ""))
             raw_lines, offsets = _build_line_char_index(raw_content)
             expanded_ranges = [
-                _line_window_from_chars(raw_lines, offsets, ls, le, fetch_chars)
+                _line_window_from_context_chars(raw_lines, offsets, ls, le, fetch_context_chars)
                 for ls, le in ranges
             ]
             merged_ranges = _merge_line_ranges(expanded_ranges)
@@ -416,15 +465,15 @@ def nbrag_grep(
     max_results: int = 10,
     case_sensitive: bool = False,
     filter_file_path: str = "",
-    context_chars: int = 1000,
+    match_context_chars: int = 2000,
 ) -> str:
     max_results = _int_param(max_results, 10)
     case_sensitive = _bool_param(case_sensitive, False)
     filter_file_path = _str_param(filter_file_path)
-    context_chars = _int_param(context_chars, 1000)
+    match_context_chars = max(0, _int_param(match_context_chars, 2000))
     path_filter = filter_file_path if filter_file_path else None
     if path_filter and not _is_absolute_file_path(path_filter):
-        return "Error: filter_file_path must be a full absolute file_path returned by nbrag_search/nbrag_search_and_fetch/nbrag_find_files/nbrag_list."
+        return _path_error("filter_file_path")
 
     results = grep_knowledge(
         keyword,
@@ -432,13 +481,21 @@ def nbrag_grep(
         max_results,
         case_sensitive,
         filter_file_path=path_filter,
-        context_chars=context_chars,
+        match_context_chars=match_context_chars,
     )
     if not results:
-        return ("No grep matches. Possible adjustments: check exact wording/case, try regex if appropriate, "
-                "or switch to nbrag_search_and_fetch for semantic discovery if this is a concept, alias, or paraphrase rather than exact source wording.")
+        return (
+            "No grep matches. Possible adjustments: check exact wording/case, escape regex metacharacters if you intended literal matching, "
+            "try regex if appropriate, or switch to nbrag_search_and_fetch for semantic discovery when this is a concept, alias, or paraphrase rather than exact source wording."
+        )
 
-    lines = [f"grep matches: {len(results)}", ""]
+    lines = [
+        f"grep matches: {len(results)}",
+        "",
+        "match_context_chars is per grep match: roughly N total context chars split half before and half after, not a total response cap.",
+        "Returned handle fields for follow-up: file_path, doc_id, matched_line, line_range.",
+        "",
+    ]
     for item in results:
         line_number = item.get("line_number", "?")
         lines.append(f"{item.get('filename', '?')} | matched_line: {line_number} | line_range: line:{line_number}-{line_number} | doc_id: {item.get('doc_id', '?')}")
@@ -456,16 +513,24 @@ def nbrag_find_definition(
     max_results = _int_param(max_results, 3)
     results = find_symbol_definition(symbol, collection_name, max_results)
     if not results:
-        return ("No definition found. Python source may use a different exact name, or this knowledge base may be non-Python text. "
-                "Try nbrag_grep for exact text/regex, or nbrag_search_and_fetch for concept/example discovery. For law/docs/manuals, use nbrag_grep.")
+        return (
+            "No definition found. Python source may use a different exact name, or this knowledge base may be non-Python text. "
+            "Possible adjustments: try nbrag_grep for exact text/regex, use nbrag_search_and_fetch for concept/example discovery, "
+            "or verify that this collection actually contains Python .py source files."
+        )
 
     python_symbol_types = {"class", "function", "method"}
     has_python_definition = any(str(r.get("symbol_type", "")).lower() in python_symbol_types for r in results)
     has_non_python_fallback = any(str(r.get("symbol_type", "")).lower() not in python_symbol_types for r in results)
 
-    lines = [f"definitions: {len(results)}", ""]
+    lines = [
+        f"definitions: {len(results)}",
+        "",
+        "Returned handle fields for follow-up: file_path, doc_id, line range.",
+        "",
+    ]
     if has_non_python_fallback and not has_python_definition:
-        lines.append("For law/docs/manuals, use nbrag_grep for exact text / article lookup.")
+        lines.append("Only regex fallback results were found. For law/docs/manuals, use nbrag_grep for exact text / article lookup.")
         lines.append("")
 
     for index, r in enumerate(results, 1):
@@ -477,7 +542,6 @@ def nbrag_find_definition(
         doc_id = r.get("doc_id", "?")
         definition = r.get("definition") or r.get("content", "")
         methods_summary = r.get("methods_summary", "")
-        filename = os.path.basename(str(source)) if source not in (None, "") else "?"
 
         display_symbol_type = symbol_type if symbol_type.lower() in python_symbol_types else "regex_fallback"
         lines.append(f"[{index}/{len(results)}] {display_symbol_type} {qualified_name} | line:{line_start}-{line_end} | doc_id:{doc_id}")
@@ -496,9 +560,17 @@ def nbrag_find_files(pattern: str, collection_name: str, max_results: int = 20, 
     case_sensitive = _bool_param(case_sensitive, False)
     files = find_files(pattern, collection_name, max_results, case_sensitive)
     if not files:
-        return ("No files matched. Try a shorter filename fragment, a different suffix, or first use nbrag_search_and_fetch/nbrag_grep to discover candidate files.")
+        return (
+            "No files matched. Possible adjustments: try a shorter filename fragment, a different suffix, a regex pattern, "
+            "or first use nbrag_search_and_fetch/nbrag_grep to discover candidate files."
+        )
 
-    lines = [f"matched files: {len(files)}", ""]
+    lines = [
+        f"matched files: {len(files)}",
+        "",
+        "Returned handle field for follow-up: file_path.",
+        "",
+    ]
     for item in files:
         chunk_count = item.get("chunk_count", item.get("total_chunks", "?"))
         total_chunks = item.get("total_chunks", chunk_count)
@@ -512,17 +584,33 @@ def nbrag_find_files(pattern: str, collection_name: str, max_results: int = 20, 
     return "\n".join(lines)
 
 
-def nbrag_get_adjacent_chunks(doc_id: str, chunk_index: int, collection_name: str, window: int = 2) -> str:
+def nbrag_get_adjacent_chunks(doc_id: str, chunk_index: int, collection_name: str, window: int = 3) -> str:
     chunk_index = _int_param(chunk_index, 0)
-    window = _int_param(window, 2)
+    window = _int_param(window, 3)
     data = get_context_chunks(doc_id, collection_name=collection_name, chunk_index=chunk_index, window=window)
     if not data.get("found"):
         detail = data.get("error") or data.get("message") or ""
         suffix = f" Detail: {detail}" if detail else ""
-        return f"No adjacent chunks found. Check doc_id/chunk_index from search results.{suffix}"
+        return (
+            "No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search/search_and_fetch result field like chunk:X/Y or chunk_index:X."
+            f"{suffix}"
+        )
 
     chunks = data.get("chunks", [])
-    lines = [f"adjacent chunks: {len(chunks)} | file_path: {data.get('source', '?')} | doc_id: {doc_id} | total_chunks: {data.get('total_chunks', '?')}", ""]
+    if not chunks:
+        detail = data.get("message") or data.get("error") or ""
+        suffix = f" Detail: {detail}" if detail else ""
+        return (
+            "No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search/search_and_fetch result field like chunk:X/Y or chunk_index:X."
+            f"{suffix}"
+        )
+
+    lines = [
+        f"adjacent chunks: {len(chunks)} | file_path: {data.get('source', '?')} | doc_id: {doc_id} | total_chunks: {data.get('total_chunks', '?')}",
+        "",
+        "Returned context is chunk-level and may overlap. Use file_path with nbrag_get_raw_file for overlap-free source text.",
+        "",
+    ]
     for chunk in chunks:
         lines.append(f"chunk:{chunk.get('index', '?')} | line:{chunk.get('line_start', '?')}-{chunk.get('line_end', '?')}")
         lines.append(str(chunk.get("content", "")))
@@ -534,18 +622,17 @@ def nbrag_get_file_chunks(file_path: str, collection_name: str, start_chunk: int
     start_chunk = _int_param(start_chunk, 0)
     max_chunks = _int_param(max_chunks, 10)
     if not _is_absolute_file_path(file_path):
-        return ("Error: file_path must be a full absolute file_path returned by "
-                "nbrag_search/nbrag_search_and_fetch/nbrag_find_files/nbrag_list. "
-                "Next steps: use nbrag_find_files(pattern, collection_name) when you only know a filename, "
-                "or nbrag_list(collection_name) to browse available file_path values.")
+        return _path_error("file_path")
 
     data = get_file_chunks(file_path, collection_name, start_chunk, max_chunks, raw=False)
     if not data.get("found"):
         detail = data.get("error") or ""
         suffix = f" Detail: {detail}" if detail else ""
-        return ("File chunks not found. Check file_path from prior nbrag results, "
-                "or use nbrag_find_files/nbrag_list to get the exact full file_path."
-                f"{suffix}")
+        return (
+            "File chunks not found. Check file_path from prior nbrag results, "
+            "or use nbrag_find_files/nbrag_list to get the exact full file_path."
+            f"{suffix}"
+        )
 
     chunks = data.get("chunks", [])
     if chunks:
@@ -558,6 +645,7 @@ def nbrag_get_file_chunks(file_path: str, collection_name: str, start_chunk: int
         f"file chunks: {len(chunks)} | filename: {data.get('filename', '?')} | doc_id: {data.get('doc_id', '?')}",
         f"file_path: {data.get('source', '?')} | total_chunks: {data.get('total_chunks', '?')} | total_lines: {data.get('total_lines', '?')}",
         f"range: chunk:{range_start}-{range_end}",
+        "This view keeps chunk/scope structure and may contain overlap. Use nbrag_get_raw_file for overlap-free source text.",
         "",
     ]
     for chunk in chunks:
@@ -576,12 +664,25 @@ def nbrag_get_chunks_by_lines(doc_id: str, line_start: int, line_end: int, colle
     line_end = _int_param(line_end, line_start)
     data = get_context_chunks(doc_id, collection_name=collection_name, line_start=line_start, line_end=line_end)
     if not data.get("found"):
-        return "No chunks found for that doc_id/line range."
+        return (
+            "No chunks found for that doc_id/line range. Possible adjustments: verify doc_id, copy line_start/line_end from a prior line:N-M result, "
+            "or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata."
+        )
 
     chunks = data.get("chunks", [])
+    if not chunks:
+        detail = data.get("message") or data.get("error") or ""
+        suffix = f" Detail: {detail}" if detail else ""
+        return (
+            "No chunks found for that doc_id/line range. Possible adjustments: verify doc_id, copy line_start/line_end from a prior line:N-M result, "
+            "or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata."
+            f"{suffix}"
+        )
+
     lines = [
         f"chunks by lines: {len(chunks)} | doc_id: {doc_id} | total_chunks: {data.get('total_chunks', '?')}",
         f"file_path: {data.get('source', '?')} | line_range: line:{line_start}-{line_end}",
+        "This view preserves chunk/scope structure and may overlap with neighboring chunks.",
         "",
     ]
     for chunk in chunks:
@@ -599,35 +700,42 @@ def nbrag_get_raw_file(file_path: str, collection_name: str, line_start: int = -
     line_start = _int_param(line_start, -1)
     line_end = _int_param(line_end, -1)
     if not _is_absolute_file_path(file_path):
-        return ("Error: file_path must be a full absolute file_path returned by "
-                "nbrag_search/nbrag_search_and_fetch/nbrag_find_files/nbrag_list. "
-                "Next steps: use nbrag_find_files(pattern, collection_name) when you only know a filename, "
-                "or nbrag_list(collection_name) to browse available file_path values.")
+        return _path_error("file_path")
 
     data = get_file_chunks(file_path, collection_name, 0, 0, raw=True, line_start=line_start, line_end=line_end)
     if not data.get("found"):
         detail = data.get("error") or ""
         suffix = f" Detail: {detail}" if detail else ""
-        return ("Raw file not found. Check file_path from prior nbrag results, "
-                "or use nbrag_find_files/nbrag_list to get the exact full file_path."
-                f"{suffix}")
+        return (
+            "Raw file not found. Check file_path from prior nbrag results, "
+            "or use nbrag_find_files/nbrag_list to get the exact full file_path."
+            f"{suffix}"
+        )
 
     lines = [
         f"original_file: {data.get('filename', '?')} | file_path: {data.get('source', '?')} | doc_id: {data.get('doc_id', '?')}",
         f"total_lines: {data.get('total_lines', '?')} | range: line:{data.get('line_start', '?')}-{data.get('line_end', '?')}",
+        "Content source: stored original-file snapshot captured at ingestion time.",
         str(data.get("content", "")),
     ]
     return "\n".join(lines)
 
 
-def nbrag_list(collection_name: str, offset: int = 0, limit: int = 200) -> str:
+def nbrag_list(collection_name: str, offset: int = 0, limit: int = 100) -> str:
     offset = _int_param(offset, 0)
-    limit = _int_param(limit, 200)
+    limit = _int_param(limit, 100)
     rows = list_documents(collection_name, offset=offset, limit=limit)
     if not rows:
-        return "No documents in this collection."
+        return (
+            "No documents in this collection. Possible adjustments: verify collection_name with nbrag_stats(), "
+            "or ask the user whether this knowledge base has been prepared/ingested."
+        )
 
-    lines = [f"documents returned: {len(rows)} | offset: {offset} | limit: {limit}", ""]
+    lines = [
+        f"documents returned: {len(rows)} | offset: {offset} | limit: {limit}",
+        "Returned handle fields for follow-up: doc_id, file_path.",
+        "",
+    ]
     for doc_id, row in rows.items():
         chunk_count = row.get("chunk_count", row.get("total_chunks", 0))
         lines.append(f"doc_id: {doc_id} | filename: {row.get('filename', '?')} | chunk_count: {chunk_count} | total_chunks: {row.get('total_chunks', chunk_count)}")
@@ -642,7 +750,11 @@ def nbrag_stats() -> str:
     if not collections:
         return "No collections found. Ask the user to prepare/import a knowledge base first."
 
-    lines = ["collections:", ""]
+    lines = [
+        "collections:",
+        "Use collection_name(知识库名字) exactly as shown below when calling retrieval tools.",
+        "",
+    ]
     for name, info in collections.items():
         docs = info.get("docs", info.get("doc_count", 0))
         chunks = info.get("chunks", info.get("chunk_count", 0))

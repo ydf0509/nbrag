@@ -292,7 +292,7 @@ def build_cases() -> list[CheckCase]:
                 "collection_name": WORKER_RIGHTS["collection_name"],
                 "top_k": 3,
                 "fetch_top_n_raw": 1,
-                "fetch_chars": 4000,
+                "fetch_context_chars": 2000,
             },
             must_contain=[
                 "bm25:",
@@ -311,7 +311,7 @@ def build_cases() -> list[CheckCase]:
                 "keyword": WORKER_RIGHTS["grep_keyword"],
                 "collection_name": WORKER_RIGHTS["collection_name"],
                 "max_results": 5,
-                "context_chars": 1000,
+                "match_context_chars": 2000,
             },
             must_contain=[
                 "grep matches:",

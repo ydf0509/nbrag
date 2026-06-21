@@ -43,7 +43,7 @@ async def one_round(round_idx: int):
                             "query": "funboost 多进程消费 is_using_multiprocessing concurrent_num process pool 使用方法",
                             "top_k": 5,
                             "fetch_top_n_raw": 3,
-                            "fetch_chars": 4000,
+                            "fetch_context_chars": 2000,
                         },
                     ),
                 )
@@ -56,7 +56,7 @@ async def one_round(round_idx: int):
                         {
                             "collection_name": "funboost",
                             "keyword": "multi_process_consume",
-                            "context_chars": 1000,
+                            "match_context_chars": 2000,
                             "max_results": 10,
                         },
                     ),

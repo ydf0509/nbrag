@@ -93,14 +93,14 @@ def main() -> int:
             record("nbrag_search_only_vector(query, include_content=False)", "nbrag_search_only_vector",
                    {"query": "1年劳动合同试用期期限上限", "collection_name": "worker_rights",
                     "top_k": 2, "include_content": False})
-            record("nbrag_search_and_fetch(query, top_k=3, fetch_top_n_raw=1, fetch_chars=4000)", "nbrag_search_and_fetch",
+            record("nbrag_search_and_fetch(query, top_k=3, fetch_top_n_raw=1, fetch_context_chars=2000)", "nbrag_search_and_fetch",
                    {"query": "1年劳动合同试用期期限上限", "collection_name": "worker_rights",
-                    "top_k": 3, "fetch_top_n_raw": 1, "fetch_chars": 4000})
+                    "top_k": 3, "fetch_top_n_raw": 1, "fetch_context_chars": 2000})
 
             # ---- 精确/词法类 ----
             record("nbrag_grep(keyword='试用期', max_results=5)", "nbrag_grep",
                    {"keyword": "试用期", "collection_name": "worker_rights",
-                    "max_results": 5, "context_chars": 1000})
+                    "max_results": 5, "match_context_chars": 2000})
             record("nbrag_grep(无结果路径)", "nbrag_grep",
                    {"keyword": "__THIS_SHOULD_NOT_EXIST_NBRAG_REPORT__",
                     "collection_name": "worker_rights", "max_results": 3})

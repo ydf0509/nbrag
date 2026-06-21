@@ -415,8 +415,11 @@ def get_context_chunks(doc_id, collection_name="default",
 
 @_runtime_guarded
 def grep_knowledge(keyword, collection_name="default", max_results=10,
-                   case_sensitive=False, filter_file_path=None, context_chars=1000):
-    """在知识库的全局 raw text cache 中进行关键词/正则搜索。"""
+                   case_sensitive=False, filter_file_path=None, match_context_chars=2000):
+    """在知识库的全局 raw text cache 中进行关键词/正则搜索。
+
+    match_context_chars 是每个匹配结果的总上下文预算，会近似平分到匹配行前后；不是所有结果的总长度上限。
+    """
     if filter_file_path and not _is_absolute_path(filter_file_path):
         return []
 
@@ -446,10 +449,11 @@ def grep_knowledge(keyword, collection_name="default", max_results=10,
             if not pattern.search(line):
                 continue
 
-            match_center = (line_start + line_end) // 2
-            half = max(context_chars // 2, 0)
-            ctx_char_start = max(0, match_center - half)
-            ctx_char_end = min(len(content), match_center + half)
+            total_context = max(match_context_chars, 0)
+            before_chars = total_context // 2
+            after_chars = total_context - before_chars
+            ctx_char_start = max(0, line_start - before_chars)
+            ctx_char_end = min(len(content), line_end + after_chars)
             snippet = content[ctx_char_start:ctx_char_end]
 
             # 为 snippet 里的每一行标注行号，匹配行加 >>>
