@@ -10,7 +10,9 @@ import scripts.ingest_ex3_worker_rights.ingest_worker_rights
 
 import scripts.ingest_finance.ingest_finance
 
-import scripts.ingust_novel.scrape_sanguo
+import scripts.ingest_novel.ingest_sanguo
+
+import scripts.ingest_china_history.ingest_zhongguotongshi
 
 import scripts.ingest_funboost
 

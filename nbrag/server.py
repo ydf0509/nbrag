@@ -45,11 +45,11 @@ mcp = FastMCP("nbrag")
 def nbrag_help() -> str:
     """Routing guide for AI agents using nbrag.
 
-    Use this when you are starting with nbrag in the current task and collection/tool routing is not yet clear.
-    Call it before retrieval when tool routing is not yet established.
+    Default first call for every new nbrag task.
+    Call this before any other nbrag tool so routing, collection choice, and follow-up strategy are established first.
 
     Typical cases:
-    - this is your first nbrag call in the current task and collection/tool routing are still unclear
+    - this is your first nbrag call in the current task
     - collection_name is still unknown
     - you need to choose between nbrag_stats(), nbrag_search_and_fetch(), nbrag_search(), nbrag_grep(), nbrag_find_definition(), or file/chunk follow-up tools
     - you need to decide whether the task is semantic retrieval, lexical retrieval, raw-text reading, chunk-context reading, or Python symbol-definition lookup
@@ -110,9 +110,9 @@ def nbrag_search(
     """
     Search an imported knowledge base for relevant chunks.
 
-    Use this after collection_name is already known and the retrieval path is already established.
-    If this is your first nbrag call in the current task and collection/tool routing are still unclear, consult nbrag_help() first.
-    If collection_name is still unknown, call nbrag_stats() first.
+    Use this after nbrag_help() has already established the routing path for the current task.
+    If this is your first nbrag call in the current task, call nbrag_help() first.
+    If collection_name is still unknown after that, call nbrag_stats() first.
 
     Use this when you need ranked retrieval with fine-grained control over rerank, BM25, file filtering, or content inclusion.
 
@@ -220,8 +220,8 @@ def nbrag_search_and_fetch(
 ) -> str:
     """Default one-call retrieval tool for most questions after routing is established.
 
-    Use this when collection_name is already known and you want both ranked discovery and stored original-text evidence in the same call.
-    This is the normal default once collection and retrieval routing are already clear.
+    Use this after nbrag_help() has already established the routing path for the current task.
+    Once collection_name is known, this is the normal default for most source-backed questions.
 
     Use it for questions about meaning, usage, explanation, examples, or source-backed evidence.
 
@@ -405,11 +405,13 @@ def nbrag_delete(
 def nbrag_stats() -> str:
     """List available knowledge bases and collection routing hints.
 
-    Use this when collection_name is still unknown, or when you need to inspect available collections before retrieval.
+    Use this right after nbrag_help() when you are starting a new nbrag task and collection_name is still unknown.
+    It can also be used later when you need to inspect available collections before retrieval.
 
     This tool resolves collection routing only. It helps you choose the correct stable collection_name, but it does not choose the retrieval strategy for you.
 
     Returned text includes each collection's stable collection_name and document/chunk counts, and may also include display_name, description, aliases, tags, chunk_size, chunk_overlap, and last_ingested_at.
+    After reading the collection list, continue with retrieval planning rather than answering directly from this tool alone.
 
     After choosing collection_name:
     - use nbrag_search_and_fetch() for most semantic/source-backed questions

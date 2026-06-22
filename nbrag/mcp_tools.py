@@ -818,9 +818,11 @@ def nbrag_stats() -> str:
         return "No collections found. Ask the user to prepare/import a knowledge base first."
 
     lines = [
-        "collections:",
+        
         "Use collection_name(知识库名字) exactly as shown below when calling retrieval tools.",
-       
+        "If this is the first nbrag call in the current task, consult nbrag_help() before choosing a retrieval tool.",
+        "This tool resolves collection routing only; it does not choose the retrieval strategy for you.",
+        "\n collections:",
         "",
     ]
     for name, info in collections.items():
@@ -850,8 +852,8 @@ def nbrag_stats() -> str:
         if last_ingested_at:
             lines.append(f"  last_ingested_at: {last_ingested_at}")
         lines.append("")
-    lines.append("After choosing collection_name, this tool does not choose the retrieval strategy for you.")
-    lines.append("If this is the first nbrag use in the current task and routing is not yet established, consult nbrag_help() before retrieval.")
+    lines.append("After choosing collection_name, continue with nbrag_help-guided retrieval planning rather than answering from collection inventory alone.")
+    lines.append("Use nbrag_search_and_fetch() for most semantic/source-backed questions, nbrag_search() for finer control, nbrag_grep() for exact wording, and nbrag_find_definition() only for Python .py symbol definitions.")
     return "\n".join(lines)
 
 
