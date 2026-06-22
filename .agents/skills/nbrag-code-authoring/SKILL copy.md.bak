@@ -1,0 +1,373 @@
+---
+name: nbrag-code-authoring
+description: Use when writing or editing nbrag code, MCP tool docstrings, retrieval behavior, or bundled skills for this agentic RAG MCP so future AI agents receive precise, stable, agent-friendly guidance.
+---
+
+# nbrag Code Authoring
+
+`nbrag` 不是一个普通的 Python 文本检索项目。
+
+它是一个 **agentic RAG MCP**：
+- 面向大模型 agent 使用
+- 核心价值不是“一次 top-k 检索”
+- 而是让 agent 能进行多轮检索、证据追踪、路径收窄、原文扩展、后续 follow-up 调用
+
+因此，修改 `nbrag` 时，不能只从“代码能跑”或“文案看起来通顺”来判断质量。
+真正的标准是：**未来的大模型 agent 能不能更稳定、更少误解地正确调用它。**
+
+
+## 什么时候用
+
+在下面这些场景使用这个 skill：
+
+- 修改 `nbrag/server.py` 的 MCP 工具、参数说明、docstring
+- 修改 `nbrag/mcp_tools.py` 的返回文本、错误提示、follow-up handle 输出
+- 修改 `nbrag/core.py`、`chunker.py`、`config.py` 这类会影响检索边界或工具行为的代码
+- 修改 `nbrag/skills/` 或 `.agents/skills/` 下的 skill 文档
+- 修改 README，且需要明确区分“给人看”与“给 AI 看”的内容边界
+- 新增检索能力、follow-up 字段、参数语义、错误恢复路径
+- 用户要求“让 AI 更容易正确使用 nbrag”或“让 MCP 工具更 AI-friendly”时
+
+不要在与 `nbrag` 无关的普通项目上套用它。
+
+## AI-Facing Surfaces
+
+在 `nbrag` 里，下面这些内容默认是写给大模型 agent 看的，不是普通面向人的说明：
+
+- `nbrag/server.py`：所有 MCP 函数的 `Field(description=...)` 与 docstring
+- `nbrag/mcp_tools.py`：所有函数的返回文本、follow-up handle 输出、错误提示
+- `nbrag/skills/nbrag-workflow/SKILL.md`：`nbrag` 工作流与工具选择说明
+
+判断标准不是“人读起来顺不顺”，而是“agent 能不能据此更稳定地正确调用工具、复用字段、继续 follow-up”。
+
+## What nbrag Is
+
+先建立一个正确前提：
+
+`nbrag` 的核心不是“帮人搜文档”，而是“给大模型 agent 提供可组合的检索工具”。
+
+这意味着你写出来的很多东西，首要读者不是人，而是未来的 agent：
+
+- MCP tool docstring
+- `Field(description=...)`
+- `mcp_tools.py` 的返回文本
+- skill 文档
+
+这些内容不是装饰，不是解释性注释，而是 agent 的**操作界面的一部分**。
+
+如果这些文本写歪了，agent 后续会出现几类典型问题：
+
+- 误用工具
+- 复制不存在的字段名
+- 把建议流程当成强制流程
+- 把 README 当成 AI 工作流说明，README是给人看的，ai通过mcp看不到readme，ai能看到mcp的函数入参和注释和docstring和skill.md的内容和看到mcp函数的调用结果
+- 把 skill 当成工具自身可用性的前提
+
+## Authoring Target
+
+修改 `nbrag` 时，你真正优化的对象不是“文案看上去更专业”，而是下面这几个目标：
+
+1. **正确调用率**
+   - agent 更容易选对工具
+   - agent 更容易写对参数
+   - agent 更容易继续 follow-up
+
+2. **边界稳定性**
+   - semantic retrieval、lexical retrieval、raw text、chunk view、definition lookup 的边界不被写混
+   - 真实字段名、返回标记名长期稳定
+
+3. **低幻觉性**
+   - agent 不会从文案里脑补不存在的能力
+   - agent 不会把模糊提示理解成稳定契约
+
+4. **低机械性**
+   - agent 得到的是判断框架，不是死板流程
+   - 文案应该指导决策，而不是把 AI 训练成只会背顺序
+
+## Primary Judgments
+
+每次改 `nbrag` 时，先做下面几个判断。
+
+### 1. 这是“给人看”的，还是“给 agent 调用”的？
+
+- README：默认给人看
+- MCP tool docstring / `mcp_tools.py` 输出 / skill：默认给 agent 看
+
+这两个受众的写法不同：
+
+- 给人看的内容，目标是帮助理解产品
+- 给 agent 看的内容，目标是帮助做出正确调用决策
+
+不要把 README 写成 prompt 文档。
+也不要把 MCP 工具 docstring 写成人类散文介绍。
+
+### 2. 这是 semantic retrieval 问题，还是 lexical retrieval 问题？
+
+这是 `nbrag` 最基础的判断之一。
+
+- semantic retrieval：意义、概念、用法、示例、释义、关系
+- lexical retrieval：精确术语、编号、错误码、符号名、标题、短语、常量、原文字符串
+
+如果这是 semantic 问题，主要路径通常是：
+- `nbrag_search()`
+- `nbrag_search_and_fetch()`
+
+如果这是 lexical 问题，主要路径通常是：
+- `bm25_query`
+- `nbrag_grep()`
+
+不要把 `nbrag_grep()` 写成“也适合概念搜索”。
+也不要把 `bm25_query` 写成“另一个自然语言问题”。
+
+### 3. 这是 raw text 需求，还是 chunk view 需求？
+
+这两个需求经常被 AI 写混。
+
+- raw text：需要原文、无 overlap、便于引用、便于大段上下文查看
+- chunk view：需要 chunk 边界、scope、line metadata、围绕命中继续扩展
+
+因此边界必须长期稳定：
+
+- `nbrag_get_raw_file()` = stored original text, overlap-free view
+- `nbrag_get_file_chunks()` / `nbrag_get_chunks_by_lines()` = chunk-based view, can include overlapping content by design
+
+### 4. 这是 Python symbol definition 问题，还是普通文本定位问题？
+
+- Python `.py` 符号定义：`nbrag_find_definition()`
+- 普通文本、法律、文档标题、术语、条文：`nbrag_grep()` 或 `nbrag_search_and_fetch()`
+
+不要把 `find_definition` 写成通用“查定义”工具。
+它的强能力边界是 Python `.py`。
+非 Python 结果如果有，也只是弱 regex fallback，不应被写成同等级能力。
+
+### 5. 这是工具行为问题，还是文案问题？
+
+如果真实行为和当前文案不一致，优先判断是哪一边错：
+
+- 如果行为正确、说明歪了：改文案
+- 如果文案合理、行为歪了：改代码
+- 如果两边都不稳：先定行为边界，再重写文案
+
+不要用更花哨的说明掩盖行为本身的不稳定。
+
+## Stable Boundaries
+
+下面这些边界是 `nbrag` 长期不能写混的。
+
+### 1. `query` vs `bm25_query`
+
+- `query`：主语义问句，服务于向量检索和 rerank
+- `bm25_query`：词法锚点，服务于 BM25
+
+二者可以相同，但职责不同。
+
+不要误导 AI：
+- 不要把 `bm25_query` 写成“空格关键词模板”
+- 不要把它写成“query 的弱化版”
+- 不要把它写成“另一句自然语言问题”
+
+更准确的理解是：
+- `query` 保持语义完整性
+- `bm25_query` 提供高精度 lexical anchors
+
+典型 lexical anchors：
+- 法条编号
+- API 名
+- class / function 名
+- 常量名
+- 错误码
+- 精确术语
+- 命中结果中出现过的关键短语
+
+### 2. `nbrag_search(_and_fetch)` vs `nbrag_grep()`
+
+- `nbrag_search()` / `nbrag_search_and_fetch()`：语义/混合检索
+- `nbrag_grep()`：stored original text 上的 line-by-line literal / regex matching
+
+`nbrag_grep()` 适合：
+- 条文编号
+- 标题
+- 常量名
+- 错误字符串
+- 精确短语
+- 符号名
+
+`nbrag_grep()` 不适合：
+- 概念搜索
+- 同义改写
+- 释义搜索
+- 模糊意图理解
+
+### 3. raw file vs chunk tools
+
+- `nbrag_get_raw_file()`：原文快照、无 overlap
+- `nbrag_get_file_chunks()` / `nbrag_get_chunks_by_lines()` / `nbrag_get_adjacent_chunks()`：chunk 结构视图
+
+如果某个说明需要引用这几个工具，必须明确当前说的是：
+- 原文视图
+- 还是 chunk 视图
+
+### 4. Python AST definition vs non-Python fallback
+
+`nbrag_find_definition()` 的强能力是：
+- Python `.py` 的 AST-aware symbol boundaries
+
+非 Python 结果如果存在：
+- 只能当 fallback
+- 不能写成“同样可靠的定义查找”
+
+### 5. absolute `file_path` rule
+
+在 `nbrag` 里：
+- `file_path`
+- `filter_file_path`
+
+都不是让用户或 agent 随手猜一个 basename / 相对路径。
+
+必须长期明确：
+- 这些参数应来自 `nbrag` 工具返回的完整绝对路径
+- 只知道文件名片段时，先用 `nbrag_find_files()`
+
+### 6. logical tool name vs exposed tool name
+
+skill 和文档里可以用逻辑名解释工作流，例如：
+- `nbrag_search`
+- `nbrag_grep`
+
+但调用时必须提醒：
+- 实际暴露的 function/tool name 可能带 host 前缀
+- 例如 `xxx_nbrag_search`、`mcp__xxx__nbrag_search`
+- agent 必须以实际接收到的暴露名为准
+
+## File-Specific Responsibilities
+
+## `nbrag/server.py`
+
+这里是 MCP 暴露层。
+
+这里最重要的不是“实现多复杂”，而是：
+- 工具边界是否单一职责
+- 参数契约是否清晰
+- docstring 是否能独立教会 AI 调用
+
+在这里应关注：
+- `Field(description=...)` 是否写清参数契约
+- docstring 是否说明何时用 / 何时不用 / 下一步通常调什么
+- 是否明确返回哪些可复用字段或 handle
+
+不要在这里：
+- 堆过多实现细节
+- 用 `mode` 参数把多个工具揉成一个大工具
+- 写对人类很热情、对 agent 没帮助的背景说明
+
+## `nbrag/mcp_tools.py`
+
+这里是 agent 实际最常读到的返回文本层。
+
+这里的文本不是普通日志，而是 agent 下一轮动作的输入。
+
+在这里应关注：
+- 返回文本能否支持下一轮 follow-up
+- 是否稳定输出 `file_path / doc_id / chunk_index / line:N-M`
+- 错误提示是否提供自救路径
+- header 是否准确反映当前检索模式
+
+不要在这里：
+- 用随意措辞替代真实字段名
+- 把 semantic retrieval、literal matching、raw text、chunk view 写混
+- 用漂亮话掩盖行为边界不清
+
+## `nbrag/core.py`
+
+这里是 retrieval / embedding / rerank / ingest / storage 行为层。
+
+在这里应关注：
+- 公开函数 docstring
+- 返回结构稳定性
+- vector / BM25 / RRF / rerank 的职责分工
+- metadata 路径规范化
+
+不要在这里：
+- 为一次临时改动造长期维护成本很高的抽象
+- 把文案问题当成逻辑修复
+- 把不稳定行为留给上层文案兜底
+
+## `nbrag/chunker.py`
+
+这里是文本切分和 Python AST scope 注入层。
+
+在这里应关注：
+- `.py` chunk 的 file / scope / signature / lines 注入稳定性
+- 非 Python 文件不要假装有 AST 能力
+- line 计算可靠性
+
+不要在这里：
+- 依赖 ChromaDB
+- 依赖 config
+- 混入检索策略
+
+## `nbrag/skills/` 与 `.agents/skills/`
+
+这里是补充判断框架层，不是第一道防线。
+
+在这里应关注：
+- skill 的 frontmatter `description` 是否清楚说明何时调用
+- 内容是否帮助 AI 做判断
+- 是否补充 MCP 工具工作流，而不是替代 docstring
+
+不要在这里：
+- 复述 README
+- 堆 prompt 口号
+- 给绝对命令但不给触发条件
+- 假设用户一定会复制 skill 到别的项目里
+
+## `README.md` / `README.zh-CN.md`
+
+README 默认给人看，不负责承载完整 AI 调用策略。
+
+README 应该解释：
+- 产品是什么
+- 怎么安装
+- 怎么启动
+- 大概有哪些能力
+
+README 不应该承担：
+- 完整 MCP 工具工作流规范
+- prompt engineering 指导
+- 细粒度 agent 调用决策
+
+当修改 README 时，中英文版本都要同步修改。
+
+## Failure Smells
+
+看到下面这些味道，应该停下来重写：
+
+- 写不存在的术语，例如 `read tools`、`document handle`
+- 把工具定义写成领域穷举，好像只适用于 `docs, laws, manuals, source code`
+- 写 `永远第一步`、`必须先调用`、`必须按顺序` 这类机械流程
+- 一句话里同时混入功能定义、作者心理活动、设计意图
+- 用 `may` 掩盖其实已经确定的系统行为
+- 用 README 承担本应属于 MCP docstring 或 skill 的 AI 调用策略
+- 把 skill 当成工具可用性的前提，而不是补充层
+- 忘了提醒“实际暴露的工具名可能带前缀”
+- 把 `find_definition` 写成通用定义查找
+- 把 `grep` 写成 semantic retrieval
+- 把 raw text 和 chunk view 混成一个概念
+
+## Final Standard
+
+一个好的 `nbrag` 改动，不是“当前这段话看起来更会说话”。
+
+而是同时满足：
+- 对人类维护者来说，结构没乱，职责没串
+- 对未来 agent 来说，工具更容易被正确调用
+- 对检索边界来说，semantic / lexical / raw / chunk / definition 没有被写混
+- 对 AI-facing 文案来说，术语稳定、契约清楚、低幻觉、低机械性
+
+如果改完后你仍然怀疑：
+- agent 会误选工具
+- agent 会复制错误字段名
+- agent 会把建议流程误当成强制顺序
+- agent 会把 README 当 skill
+
+那就说明这次修改还不够好，继续改。

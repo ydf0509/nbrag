@@ -1,70 +1,258 @@
-﻿---
+---
 name: nbrag-workflow
-description: Use when the user asks a question that requires searching imported knowledge bases
+description: Use when the task requires searching imported nbrag knowledge bases or choosing between nbrag retrieval and follow-up tools.
 ---
 
-> **注意**：本文档中的函数名是 nbrag MCP 自身的函数名。当 nbrag 被接入其他 Agent 框架时，
-> 实际暴露的 function 名称可能带前缀（例如 `xxx_nbrag_search` 或 `mcp__xxx__nbrag_search`），AI 应以实际接收到的 function 名称为准。
+# nbrag workflow for AI agents
 
-# nbrag agentic RAG 工作流
+`nbrag` is an **agentic RAG MCP**, not a one-shot search box.
 
-nbrag 是一组 MCP 检索工具。你的目标不是机械调用，而是用最少轮次拿到足够证据回答。
+Your goal is to use as few tool calls as needed to get enough reliable evidence from a prepared knowledge base, then answer.
+Do not mechanically call every tool. Each next call should either:
+- choose the right `collection_name`
+- choose the right retrieval mode
+- narrow to the right file / lines / chunks
+- or stop because the current evidence is already sufficient
 
-## 决策框架（不是流程）
+> Use the actual exposed tool names you received from the MCP host.
+> Host wrappers may prefix names such as `xxx_nbrag_search` or `mcp__xxx__nbrag_search`.
+> Do not assume the bare logical names are the callable names in the current host.
 
-每一轮问自己三件事：
-1. 我现在有什么信息？（用户原话、历史上下文、上一轮返回）
-2. 还缺什么？（精确条文？完整上下文？文件路径？）
-3. 哪个工具能最快补上？
+Do not assume this local skill is always visible to the host agent.
+When routing is unclear inside the current task, `nbrag_help()` is the MCP-level fallback guide.
 
-补够了就回答。没够就继续，但继续时应该比上一轮更聚焦。
+## 1. First routing questions
 
-## 部分工具速查
+Before calling a retrieval tool, decide:
 
-| 你需要什么 | 工具 | 备注 |
-|---|---|---|
-| 列出可用知识库 | nbrag_stats | 仅当 collection_name 未知或需要确认可用知识库时使用 |
-| 语义检索 + 自动取原文 | nbrag_search_and_fetch | 默认检索入口 |
-| 精确字面匹配 | nbrag_grep | 条文号、符号名、错误码 |
-| 只看 metadata 或控制检索参数 | nbrag_search | 能精细化控制更多入参 |
-| 找到完整文件路径 | nbrag_find_files | 知道文件名但没路径时 |
-| 查看完整原文 | nbrag_get_raw_file | 需要全文或大段上下文时 |
-| 查找函数 类的定义| nbrag_find_definition|只对python源码生效|
+1. Is `collection_name` already known?
+2. Is this a **semantic retrieval** question or a **lexical exact-wording** question?
+3. Do you need **stored original text** or **chunk-structured context**?
+4. Is this specifically a **Python `.py` symbol-definition** lookup?
 
-## 关于nbrag_search_and_fetch的 query 和 bm25_query 入参
+## 2. Usual starting points
 
-query 是给向量检索和 rerank 的主语义问句，bm25_query 是给 BM25 的词法查询。
-两者职责不同，可以不同。
+- When this is your first `nbrag` call in the current task and collection/tool routing is still unclear, call `nbrag_help()`.
+- When `collection_name` is unknown, call `nbrag_stats()` next. It helps choose the correct stable `collection_name`, not the retrieval strategy by itself.
+- Once collection and routing are clear, the usual default for source-backed answering is `nbrag_search_and_fetch()`.
+- Use `nbrag_search()` instead when you need finer retrieval controls or metadata-only output.
+- If the current result already answers the question, stop and answer. Do not continue just to complete a workflow.
 
-典型用法：
-- query: 保持自然语言语义的语句，禁止拆成不连贯的关键词列表（那是bm25_query入参才需要这样），可以基于用户原话、对话上下文或检索中发现来组织
-- bm25_query: 简短的词法锚点——用户原话关键词、上下文中确认的术语、高置信的拼写变体/同义词
+## 3. Tool selection map
 
-bm25_query 留空也没问题，BM25 此时会回退使用 query的值，nbrag内部自身本身就会使用分词再bm25检索。
+| Need | Preferred tool | Use it when | Avoid / switch when |
+|---|---|---|---|
+| First nbrag call or routing unclear | `nbrag_help()` | You need the MCP-level routing guide and stable follow-up-handle reminders | Collection and tool path are already clear |
+| Unknown `collection_name` | `nbrag_stats()` | You need the exact stable collection name before retrieval | You already know the correct collection |
+| Default semantic + evidence retrieval | `nbrag_search_and_fetch()` | You want ranked discovery plus stored original-text evidence in one call | You only need metadata, or need retrieval switches |
+| Ranked retrieval with finer control | `nbrag_search()` | You need to control rerank / BM25 / `include_content` / `filter_file_path` | You mainly want one-call search + auto-fetched evidence |
+| Lexical-only diagnostics | `nbrag_search_only_bm25()` | You are checking exact-term recall or comparing strategies | Normal answering flow |
+| Vector-only diagnostics | `nbrag_search_only_vector()` | You are checking semantic recall without BM25 | Normal answering flow |
+| Exact wording or regex | `nbrag_grep()` | You need literal line-by-line matches in stored original text | The question is about meaning, paraphrase, or concept similarity |
+| Python class/function/method definition | `nbrag_find_definition()` | You already know or nearly know the Python symbol name | The target is non-Python text or only a vague concept |
+| Discover exact stored `file_path` | `nbrag_find_files()` | You only know a filename fragment or partial path | You already have a full absolute `file_path` |
+| Browse imported documents | `nbrag_list()` | You need inventory handles like `doc_id` and `file_path`, or the user explicitly wants to browse what is imported | You are trying to answer a semantic question and do not need inventory first |
+| Overlap-free original text | `nbrag_get_raw_file()` | You need clean quoting, wider source reading, or a specific line range | You need chunk boundaries / scope metadata |
+| Paginated chunk view for one file | `nbrag_get_file_chunks()` | You want chunk-by-chunk browsing with line/scope metadata | You need overlap-free original text |
+| Expand around a known hit | `nbrag_get_adjacent_chunks()` | You have `doc_id` + `chunk_index` from search results and want nearby chunks | You only have grep output without `chunk_index` |
+| Chunk view covering a line range | `nbrag_get_chunks_by_lines()` | You know `doc_id` + `line:N-M` and want chunk/scope context | You only need raw source text |
 
-bm25_query 的目标不是完整表达用户问题，而是给 BM25 提供高精度词法锚点。从用户原话、上下文或历史检索中发现中提取高置信度的精确术语即可，不必保持句子完整性。
+## 4. Semantic retrieval vs lexical retrieval
 
-## 多轮策略
+Use **semantic retrieval** when the user is asking about:
+- meaning
+- explanation
+- usage
+- examples
+- concepts
+- paraphrases
+- related material
 
-每一轮都基于已有的信息更精确地提问：
-- 如果第一轮返回了相关 chunk，从 chunk 里提取出现过的精确术语用于后续 grep/bm25_query
-- 如果结果太泛，缩小范围：加 file_path filter、换更精确的术语
-- 如果结果相关但不完整，用 get_raw_file 或 get_adjacent_chunks 扩展上下文
-- 如果完全搜不到，尝试不同术语或切到 grep 验证原文里有没有这些词
+Usual path:
+- `nbrag_search_and_fetch()`
+- `nbrag_search()`
 
-## 停止条件
+Use **lexical retrieval** when exact wording matters. In the normal mixed pipeline, `bm25_query` is the lexical-targeting channel; `nbrag_grep()` becomes the more direct tool when you need literal/regex matching over stored original text:
+- article numbers
+- headings
+- exact phrases
+- identifiers
+- class / function names
+- constants
+- imports / decorators
+- error strings
+- codes / abbreviations
 
-能回答时停止。具体来说：
-- 原文证据直接回答了用户问题
-- 多个来源互相印证
-- 继续搜只会重复已有信息
+Usual path:
+- `bm25_query` inside `nbrag_search()` / `nbrag_search_and_fetch()`
+- `nbrag_grep()` for literal / regex matching in stored original text
 
+Do not describe `nbrag_grep()` as semantic search.
+Do not treat `bm25_query` as another semantic question; it is the lexical-targeting channel inside mixed retrieval.
 
-# 使用原则
+## 5. `query` vs `bm25_query`
 
-Skill 用法指南不能穷举所有场景。AI 应根据检索策略做以下判断：
+These two fields work together in hybrid retrieval, and strong agents should plan them together.
 
-- query 是语义问句（给向量检索 + rerank），禁止拆成不连贯的关键词列表；bm25_query 是词法锚点（给 BM25），使用精确术语而非完整句子
-- 当前 n 轮检索结果影响第 n+1 轮的关键词选择：从命中 chunk 中提取出现过的精确术语，用于后续 grep / bm25_query
-- 知道文件名但缺完整路径时先调 nbrag_find_files，拿到绝对路径再传给 filter_file_path / file_path
-- Python 源码符号用 nbrag_find_definition，非 Python 内容用 nbrag_grep
+### `query`
+- Main semantic question used by vector retrieval and reranking
+- Keep it as a natural-language question or statement that preserves the real retrieval target
+- Use the ongoing dialogue and earlier tool results to improve clarity when needed: resolve pronouns, restore omitted entities, fix obvious typos, or sharpen the event / relation / attribute wording once the target is clear
+- Keep the user's specificity. For example, if the user asks `关羽怎么死的`, keep `query` close to that meaning, such as `关羽怎么死的` or `关羽的死因是什么`
+- Let `query` stay semantic and readable rather than turning it into a keyword bag
+
+### `bm25_query`
+- Required lexical-anchor query used only by BM25 on BM25-enabled retrieval tools
+- On `nbrag_search()`, `nbrag_search_and_fetch()`, and `nbrag_search_only_bm25()`, this field carries the lexical-targeting side of the retrieval plan
+- Compared with `query`, `bm25_query` is more lexical, anchor-rich, and source-facing
+- Build it from wording likely to appear literally in the source: names, aliases, article numbers, abbreviations, codes, API names, class/function names, headings, constants, error strings, place names, event markers, or short phrases
+- Good anchors can come from the user's wording, the surrounding conversation, and precise terms already surfaced by earlier hits
+- A single `bm25_query` can combine multiple grounded anchors when they all help target the same evidence
+
+Practical guidance:
+- In agentic multi-turn retrieval, plan `query` and `bm25_query` together rather than treating `bm25_query` as an afterthought
+- `query` keeps the semantic target clear; `bm25_query` gives BM25 richer lexical traction on the same target
+- Improve `bm25_query` across turns as retrieval reveals better wording, aliases, identifiers, titles, place names, event markers, and repeated phrases
+- A stronger `bm25_query` is usually not the shortest one; it is the one that gives BM25 a more precise lexical path to the same evidence
+- Example: if the user asks `关羽怎么死的`, keep `query` close to that meaning. If conversation context or earlier retrieval reveals grounded wording such as `麦城`, `败走麦城`, or `遇害`, those clues can productively enter later `bm25_query` values because historical texts may describe the death-related evidence through event/location wording rather than the modern literal word `死`
+- The same pattern applies in other domains: article numbers and legal terms for laws, class names + method names + exception text for code, error codes + API names for troubleshooting, or titles + repeated phrases for manuals
+- `query` and `bm25_query` stay distinct in role: `query` carries the semantic target, while `bm25_query` carries richer lexical anchors for the same target
+
+## 6. Raw text vs chunk view
+
+### Use `nbrag_get_raw_file()` when you need:
+- stored original text captured at ingestion time
+- overlap-free reading
+- clean quoting
+- broader source context
+- a specific file line range
+
+### Use chunk tools when you need:
+- chunk boundaries
+- scope metadata
+- line metadata together with chunk structure
+- local expansion around a known hit
+
+Chunk tools:
+- `nbrag_get_file_chunks()`
+- `nbrag_get_adjacent_chunks()`
+- `nbrag_get_chunks_by_lines()`
+
+Important boundary:
+- raw-file view = stored original snapshot without chunk overlap
+- chunk view = chunk-structured context and may overlap by design
+
+## 7. Python symbol-definition lookup
+
+`nbrag_find_definition()` is specialized for Python `.py` class/function/method definitions.
+It is strongest after search, grep, or prior retrieval context has already narrowed the symbol name.
+
+Use it for:
+- `UserService`
+- `get_by_id`
+- `MyClass.__init__`
+
+Do not treat it as a general “find definition anywhere” tool.
+For non-Python text, the normal paths are:
+- `nbrag_grep()` for exact wording
+- `nbrag_search_and_fetch()` for semantic/source-backed discovery
+
+## 8. Stable follow-up handles
+
+The most important reusable handles are:
+- `file_path`
+- `doc_id`
+- `chunk_index`
+- `line:N-M`
+
+### `file_path`
+Use it with:
+- `nbrag_get_raw_file(file_path, collection_name)`
+- `nbrag_get_file_chunks(file_path, collection_name)`
+- `filter_file_path=...` in search or grep tools
+
+Rules:
+- `file_path` and `filter_file_path` should be full absolute paths returned by `nbrag`
+- Do not guess with a basename or relative path
+- If you only know a partial filename/path, call `nbrag_find_files()` first
+- `nbrag_list()` can also provide valid `file_path` values
+
+### `doc_id + chunk_index`
+Use with:
+- `nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)`
+
+Get `chunk_index` from search results such as:
+- `chunk:X/Y`
+- `chunk_index:X`
+
+Do not try this from grep output alone, because grep does not provide `chunk_index`.
+
+### `doc_id + line:N-M`
+Use with:
+- `nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)`
+
+### `file_path + line range`
+Use with:
+- `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)`
+
+## 9. `filter_file_path` behavior
+
+`filter_file_path` is for narrowing retrieval to one stored file when that file is already known.
+
+Current hybrid behavior matters:
+- it narrows vector retrieval to that single file
+- and it skips cross-file BM25 fusion
+
+Use it when you are intentionally deepening inside a known file.
+Do not use it as if it were only a light ranking preference over the whole collection.
+
+## 10. Normal multi-turn pattern
+
+A good multi-turn retrieval flow usually looks like this:
+
+1. Establish the collection if needed
+2. Start with semantic discovery or exact matching as appropriate
+3. Reuse precise terms from returned evidence as lexical anchors, and strengthen `bm25_query` as better wording appears
+4. Narrow to a file only when a specific file clearly becomes the target
+5. Expand with raw text or chunk context only when the current excerpt is insufficient
+6. Stop once the evidence is enough to answer
+
+Good behavior:
+- each new call changes the retrieval condition in a useful way
+- later rounds are more focused than earlier rounds
+- returned handles are reused instead of guessed
+
+Bad behavior:
+- repeating the same retrieval without changing the query or scope
+- using grep for concept search
+- forcing every task through every tool
+- continuing after the evidence is already sufficient
+
+## 11. Recovery hints
+
+If a retrieval attempt fails or is weak:
+
+- `collection_name` unknown or suspicious → `nbrag_stats()`
+- ranked search misses exact citation / identifier → strengthen `bm25_query` with grounded anchors from the user wording, ongoing dialogue, or earlier hits, or use `nbrag_grep()`
+- grep misses because wording may be paraphrased → go back to `nbrag_search_and_fetch()`
+- only partial filename/path is known → `nbrag_find_files()`
+- only inventory handles are needed → `nbrag_list()`
+- need to compare lexical-only vs semantic-only behavior → `nbrag_search_only_bm25()` / `nbrag_search_only_vector()`
+
+If the result is relevant but still too small:
+- use `nbrag_get_raw_file()` for broader overlap-free source text
+- use `nbrag_get_adjacent_chunks()` for nearby chunk context
+- use `nbrag_get_chunks_by_lines()` when a line range is already known
+
+## 12. Budget awareness
+
+Context-size knobs are per-result budgets, not global response caps:
+- `fetch_context_chars` in `nbrag_search_and_fetch()` is per ranked hit
+- `match_context_chars` in `nbrag_grep()` is per grep match
+
+Increase them only when more source context is necessary.
+Large values combined with many hits can create unnecessarily large outputs.
+
+## One-line summary
+
+Use `nbrag` as a retrieval workflow, not as a rigid script: choose the right collection, choose semantic vs lexical retrieval, keep `query` and `bm25_query` roles distinct, reuse stable follow-up handles, and stop once the evidence is enough to answer.

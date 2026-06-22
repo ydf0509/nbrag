@@ -1,4 +1,4 @@
-﻿"""MCP 工具实现层：不注册 MCP，只提供可直接测试/调用的函数。"""
+"""MCP 工具实现层：不注册 MCP，只提供可直接测试/调用的函数。"""
 
 from __future__ import annotations
 
@@ -218,16 +218,29 @@ def nbrag_add_document(
 def nbrag_help() -> str:
     skill_text = _load_workflow_skill_text()
     skeleton = [
-        "nbrag help: Agentic RAG knowledge-base MCP workflow guide",
+        "nbrag help: routing guide for AI agents using nbrag",
         "",
-        "Core strategy (use the actual exposed tool names, which may have prefixes such as xxx_nbrag_search):",
-        "- Use nbrag_stats() when collection_name is unknown.",
-        "- Use nbrag_search_and_fetch() as the default one-call retrieval entry for most questions.",
-        "- Use nbrag_search() when you need retrieval controls or metadata-only output.",
-        "- Use nbrag_grep() for exact wording in stored original text.",
+        "Use the actual exposed tool names you received from the MCP host. They may include prefixes such as xxx_nbrag_search.",
+        "",
+        "Call nbrag_help() first when:",
+        "- this is your first nbrag call in the current task",
+        "- collection_name is still unknown",
+        "- retrieval routing is not yet established",
+        "- a previous retrieval attempt failed and you need to switch strategy",
+        "",
+        "Step 1: decide the collection",
+        "- If collection_name is unknown, call nbrag_stats() next.",
+        "",
+        "Step 2: choose the retrieval path",
+        "- Use nbrag_search_and_fetch() for most questions about meaning, explanation, usage, examples, or source-backed evidence after collection routing is already clear.",
+        "- Use nbrag_search() when you need ranked retrieval with finer controls or metadata-only output.",
+        "- Use nbrag_grep() when exact wording matters in stored original text: article numbers, exact phrases, identifiers, headings, constants, imports, decorators, or error strings.",
         "- Use nbrag_find_definition() only for Python .py symbol definitions.",
-        "- Use nbrag_get_raw_file() for overlap-free original text.",
-        "- Use nbrag_find_files() when exact file_path is still unknown.",
+        "",
+        "Step 3: choose the follow-up reading tool",
+        "- Use nbrag_get_raw_file() for stored original text without chunk overlap.",
+        "- Use nbrag_get_file_chunks(), nbrag_get_adjacent_chunks(), or nbrag_get_chunks_by_lines() when you need chunk boundaries, scope metadata, or local chunk context.",
+        "- Use nbrag_find_files() when you only know a filename fragment and do not yet have the exact full absolute file_path.",
         "",
         "Stable follow-up fields: file_path, doc_id, chunk_index, line:N-M.",
     ]
@@ -578,7 +591,7 @@ def nbrag_find_definition(
         "",
     ]
     if has_non_python_fallback and not has_python_definition:
-        lines.append("Only regex fallback results were found. For law/docs/manuals, use nbrag_grep for exact text / article lookup.")
+        lines.append("Only regex fallback results were found. For non-Python text, use nbrag_grep for exact wording lookup.")
         lines.append("")
 
     for index, r in enumerate(results, 1):
@@ -733,7 +746,7 @@ def nbrag_get_chunks_by_lines(doc_id: str, line_start: int, line_end: int, colle
     lines = [
         f"chunks by lines: {len(chunks)} | doc_id: {doc_id} | total_chunks: {data.get('total_chunks', '?')}",
         f"file_path: {data.get('source', '?')} | line_range: line:{line_start}-{line_end}",
-        "This view preserves chunk/scope structure and may overlap with neighboring chunks.",
+        "This view preserves chunk/scope structure and can include overlapping content by design.",
         "",
     ]
     for chunk in chunks:
@@ -837,8 +850,8 @@ def nbrag_stats() -> str:
         if last_ingested_at:
             lines.append(f"  last_ingested_at: {last_ingested_at}")
         lines.append("")
-    nbrag_help_notice = ' It is necessary to ensure that the nbrag_help tool has been called in order to know the usage policy guidelines for nbrag'
-    lines.append(f'\n\n {nbrag_help_notice}')
+    lines.append("After choosing collection_name, this tool does not choose the retrieval strategy for you.")
+    lines.append("If this is the first nbrag use in the current task and routing is not yet established, consult nbrag_help() before retrieval.")
     return "\n".join(lines)
 
 

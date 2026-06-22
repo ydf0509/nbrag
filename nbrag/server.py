@@ -43,13 +43,29 @@ mcp = FastMCP("nbrag")
 
 @mcp.tool()
 def nbrag_help() -> str:
-    """Workflow guide for AI agents using nbrag.
+    """Routing guide for AI agents using nbrag.
 
-    Call this when retrieval strategy or tool selection is still unclear.
-    Consult it before choosing among nbrag_stats(), nbrag_search(), nbrag_search_and_fetch(), nbrag_grep(), and follow-up file/chunk tools.
-    If strategy is already clear from prior nbrag_help() guidance, do not call it again.
+    Use this when you are starting with nbrag in the current task and collection/tool routing is not yet clear.
+    Call it before retrieval when tool routing is not yet established.
 
-    The returned text explains retrieval strategy, path rules, and reusable follow-up fields such as file_path, doc_id, chunk_index, and line:N-M.
+    Typical cases:
+    - this is your first nbrag call in the current task and collection/tool routing are still unclear
+    - collection_name is still unknown
+    - you need to choose between nbrag_stats(), nbrag_search_and_fetch(), nbrag_search(), nbrag_grep(), nbrag_find_definition(), or file/chunk follow-up tools
+    - you need to decide whether the task is semantic retrieval, lexical retrieval, raw-text reading, chunk-context reading, or Python symbol-definition lookup
+    - a previous retrieval attempt did not answer the question and you need to change strategy
+
+    Usual next step:
+    - if collection_name is unknown, call nbrag_stats() next
+    - otherwise choose the retrieval or follow-up tool based on the returned routing guidance
+
+    You usually do not need to call nbrag_help() again once the collection and retrieval path are already clear in the current task.
+
+    Returned guidance explains:
+    - when to use each nbrag tool
+    - how to choose between semantic vs lexical retrieval
+    - when to use raw-file vs chunk tools
+    - stable follow-up fields such as file_path, doc_id, chunk_index, and line:N-M
     """
     return mcp_tools.nbrag_help()
 
@@ -61,19 +77,21 @@ def nbrag_add_document(
     chunk_overlap: int = Field(default=DEFAULT_CHUNK_OVERLAP, description=f"Chunk overlap in chars, default {DEFAULT_CHUNK_OVERLAP}"),
     file_extensions: str = Field(default="", description="Comma-separated file extensions to include (e.g. 'py,md,html'). Empty = all text files"),
 ) -> str:
-    """Ingest file or directory into knowledge base (chunking + embedding + indexing). Auto-creates collection if not exists.
-    Supports any text file: code, docs, law, articles, manuals, etc. Python files get extra class/function scope enrichment.
+    """Ingest file or directory into a knowledge base (chunking + embedding + indexing).
+
+    Auto-creates the collection if it does not exist.
+    Supports imported text files in general; Python files also get class/function scope enrichment.
     Use scripts or Python APIs for batch ingestion workflows."""
     return mcp_tools.nbrag_add_document(path, collection_name, chunk_size, chunk_overlap, file_extensions)
 
 
 
 class FuncFields:
-    query: str = Field(description="Main semantic query used by vector retrieval and reranking. Keep it as a natural-language question or statement that captures the user's intent. Do not compress it into a keyword list; use bm25_query separately for lexical anchors.")
+    query: str = Field(description="Main semantic query used by vector retrieval and reranking. Keep it as a natural-language question or statement that preserves the real retrieval target. Use ongoing dialogue or earlier retrieval results to resolve pronouns, restore omitted entities, fix obvious typos, or sharpen the event/relation/attribute wording once the target is clear. Let query stay semantically complete and readable; use bm25_query separately for lexical anchors.")
     collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)")
     top_k: int = Field(default=5, description="Number of ranked hits to return")
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking. In the current hybrid implementation, this narrows vector retrieval to that file and skips cross-file BM25 fusion.")
-    bm25_query: str = Field(default="", description="Lexical anchor query used only by BM25. Use this for exact terms, article numbers, abbreviations, codes, API/class names, or other high-precision lexical anchors. It does not affect vector retrieval or reranking.")
+    bm25_query: str = Field(description="Lexical-anchor query used only by BM25. Build it from grounded wording likely to appear literally in the source: exact terms, aliases, article numbers, abbreviations, codes, API/class names, symbol names, titles, place names, event markers, error strings, or short phrases. Compared with query, bm25_query carries more source-facing lexical anchors and can combine multiple grounded anchors refined across turns from the user's wording, ongoing dialogue, or earlier hits. It does not affect vector retrieval or reranking.")
     include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only lookup when you only need handles like file_path/doc_id/chunk_index")
     file_path: str = Field(description="Exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted")
     
@@ -84,7 +102,7 @@ def nbrag_search(
     collection_name: str = FuncFields.collection_name,
     top_k: int = FuncFields.top_k,
     use_rerank: bool = Field(default=True, description="Enable reranker for better top-hit ordering (recommended)"),
-    use_bm25: bool = Field(default=True, description="Enable multi-channel BM25 keyword matching + Weighted RRF fusion (recommended for precise names, Chinese terms, codes, article numbers)"),
+    use_bm25: bool = Field(default=True, description="Enable multi-channel BM25 lexical retrieval + Weighted RRF fusion (recommended for precise names, aliases, Chinese terms, codes, article numbers, titles, and other exact-wording anchors)"),
     filter_file_path: str = FuncFields.filter_file_path,
     include_content: bool = FuncFields.include_content,
     bm25_query: str = FuncFields.bm25_query,
@@ -92,12 +110,18 @@ def nbrag_search(
     """
     Search an imported knowledge base for relevant chunks.
 
+    Use this after collection_name is already known and the retrieval path is already established.
+    If this is your first nbrag call in the current task and collection/tool routing are still unclear, consult nbrag_help() first.
+    If collection_name is still unknown, call nbrag_stats() first.
+
     Use this when you need ranked retrieval with fine-grained control over rerank, BM25, file filtering, or content inclusion.
-    If collection_name is unknown, call nbrag_stats() first. If retrieval strategy is still unclear, consult nbrag_help() first.
 
     Query guidance:
-    - query is the main semantic query used by vector retrieval and reranking
-    - bm25_query is an optional lexical-anchor query used only by BM25
+    - query is the main semantic query used by vector retrieval and reranking; keep it as the real question/statement you want answered
+    - query may be clarified across turns using ongoing dialogue or earlier hits, for example by restoring omitted entities, resolving pronouns, or sharpening the event/relation/attribute wording once the target is clear
+    - bm25_query is the lexical-anchor query used only by BM25
+    - compared with query, bm25_query should carry more source-facing lexical anchors and be improved across turns using grounded wording discovered from the conversation or earlier hits
+    - a single bm25_query can combine multiple anchors when they all target the same evidence, such as exact terms, aliases, titles, article numbers, symbol names, place names, event markers, or repeated phrases from earlier results
     - setting bm25_query does not disable vector retrieval or reranking
     - setting filter_file_path narrows retrieval to one stored file; in the current hybrid implementation this also disables cross-file BM25 fusion
 
@@ -138,8 +162,9 @@ def nbrag_search_only_bm25(
     ) -> str:
     """BM25-only ranked retrieval.
 
-    Use this to isolate lexical recall when exact terms matter: article numbers, abbreviations, error codes, identifiers, exact phrases, or other high-precision wording.
+    Use this to isolate lexical recall when exact terms matter: article numbers, abbreviations, error codes, identifiers, exact phrases, titles, aliases, or other high-precision wording.
     This is ranked retrieval, not literal line matching.
+    A single bm25_query can combine multiple grounded lexical anchors when you want to test whether BM25 can target the right evidence by wording alone.
 
     Use instead:
     - nbrag_grep() for literal line-by-line matching in stored original text
@@ -167,6 +192,7 @@ def nbrag_search_only_vector(
 
     Use this to isolate semantic recall when meaning, intent, or paraphrase matters more than exact lexical overlap.
     This is useful for inspecting embedding behavior without BM25 or reranking.
+    Keep query semantically clear here; lexical anchor planning belongs in bm25_query on the mixed retrieval tools.
 
     Use instead:
     - nbrag_search_only_bm25() for lexical-only inspection
@@ -192,14 +218,19 @@ def nbrag_search_and_fetch(
     filter_file_path: str = FuncFields.filter_file_path,
     bm25_query: str = FuncFields.bm25_query,
 ) -> str:
-    """Default one-call retrieval entry point for most user questions.
+    """Default one-call retrieval tool for most questions after routing is established.
 
-    Use this when you want both ranked discovery and stored original-text evidence in the same call.
-    This is the normal default for questions about meaning, usage, examples, evidence, or source-backed answers.
+    Use this when collection_name is already known and you want both ranked discovery and stored original-text evidence in the same call.
+    This is the normal default once collection and retrieval routing are already clear.
+
+    Use it for questions about meaning, usage, explanation, examples, or source-backed evidence.
 
     Query guidance:
-    - query is the main semantic query used by vector retrieval and reranking
-    - bm25_query is an optional lexical-anchor query used only by BM25
+    - query is the main semantic query used by vector retrieval and reranking; keep it as the real question/statement you want answered
+    - query may be clarified across turns using ongoing dialogue or earlier hits, for example by restoring omitted entities, resolving pronouns, or sharpening the event/relation/attribute wording once the target is clear
+    - bm25_query is the lexical-anchor query used only by BM25
+    - compared with query, bm25_query should carry more source-facing lexical anchors and be improved across turns using grounded wording discovered from the conversation or earlier hits
+    - a single bm25_query can combine multiple anchors when they all target the same evidence, such as exact terms, aliases, titles, article numbers, symbol names, place names, event markers, or repeated phrases from earlier results
     - setting bm25_query does not disable vector retrieval or reranking
     - setting filter_file_path narrows retrieval to one stored file; in the current hybrid implementation this also disables cross-file BM25 fusion
 
@@ -235,6 +266,7 @@ def nbrag_grep(
     """Literal text or regex search over stored original text, matched line by line.
 
     Use this when exact wording matters: article numbers, headings, exact phrases, API names, class/function names, constants, imports, decorators, error strings, or other precise text.
+    This is for literal/regex matching after you already know or suspect the wording to target; it is not the tool for semantic discovery.
     Do not use it for concept search, synonym search, or paraphrase search.
 
     Returned text includes reusable follow-up fields such as matched_line, line_range, doc_id, and file_path.
@@ -253,7 +285,7 @@ def nbrag_find_definition(
     This tool is specialized for Python .py source. When possible it uses AST-aware symbol boundaries.
     If a result comes from non-Python text, it should be clearly treated as regex fallback rather than as a strong symbol-definition result.
 
-    Use this after search or grep has already narrowed the symbol name.
+    Use this after search, grep, or prior retrieval context has already narrowed the symbol name.
     Returned text includes doc_id, file_path, line range, and the definition body.
     """
     return mcp_tools.nbrag_find_definition(symbol, collection_name, max_results)
@@ -270,6 +302,7 @@ def nbrag_find_files(
 
     Use this when nbrag tools return file info but you only have a partial filename or path.
     Returns the full absolute file_path that other tools require for file_path / filter_file_path parameters.
+    This is a handle-discovery step, not a semantic retrieval step.
 
     Returned text includes matched file_path, filename, and doc_id.
     """
@@ -353,6 +386,7 @@ def nbrag_list(
 
     Use this when the user explicitly wants to browse imported documents,
     or when you need inventory handles such as doc_id and file_path before a follow-up read.
+    This is for collection inventory and handle discovery, not the default path for semantic question answering.
 
     Returned text includes per-document doc_id, filename, chunk_count, total_chunks, and file_path."""
     return mcp_tools.nbrag_list(collection_name=collection_name, offset=offset, limit=limit)
@@ -369,12 +403,19 @@ def nbrag_delete(
 
 @mcp.tool()
 def nbrag_stats() -> str:
-    """List available knowledge bases and routing hints.
+    """List available knowledge bases and collection routing hints.
 
-    Call this when collection_name is unknown or when you need to inspect available collections before retrieval.
+    Use this when collection_name is still unknown, or when you need to inspect available collections before retrieval.
+
+    This tool resolves collection routing only. It helps you choose the correct stable collection_name, but it does not choose the retrieval strategy for you.
+
     Returned text includes each collection's stable collection_name and document/chunk counts, and may also include display_name, description, aliases, tags, chunk_size, chunk_overlap, and last_ingested_at.
 
-    Before retrieval, ensure that retrieval strategy is already clear. If strategy selection is still unclear, consult nbrag_help().
+    After choosing collection_name:
+    - use nbrag_search_and_fetch() for most semantic/source-backed questions
+    - use nbrag_search() when you need finer retrieval control
+    - use nbrag_grep() for exact wording
+    - use nbrag_find_definition() only for Python .py symbol definitions
     """
     return mcp_tools.nbrag_stats()
 

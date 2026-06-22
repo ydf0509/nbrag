@@ -221,8 +221,6 @@ python -m nbrag --transport streamable-http --port 9101
 | 扩展与定位 | `nbrag_get_adjacent_chunks`, `nbrag_get_chunks_by_lines`, `nbrag_find_files` | 围绕命中扩展上下文，或定位精确文件路径 |
 | 清单与路由 | `nbrag_stats`, `nbrag_list` | 查看有哪些 collection / 文档 |
 
-更细的 AI 调用策略应该放在 MCP tool docstring 和 skill 文档里，而不是放在这个 README 里。
-
 ## 和 Naive RAG 的区别
 
 Naive RAG 往往是固定的一次性 top-k 检索：取回若干 chunk，然后直接塞进 prompt。

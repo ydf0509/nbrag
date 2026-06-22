@@ -216,8 +216,6 @@ After the server starts, `nbrag` exposes a set of retrieval-oriented MCP tools. 
 | Expansion and lookup | `nbrag_get_adjacent_chunks`, `nbrag_get_chunks_by_lines`, `nbrag_find_files` | expanding context around hits and resolving exact file paths |
 | Inventory and routing | `nbrag_stats`, `nbrag_list` | discovering collections and browsing imported documents |
 
-Detailed AI-facing tool workflow belongs in MCP tool descriptions and bundled skills rather than in this README.
-
 ## How this differs from naive RAG
 
 Naive RAG is usually a fixed one-shot pipeline: retrieve top-k chunks once and place them into the prompt.
