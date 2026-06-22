@@ -174,7 +174,7 @@ def _no_search_results_text(total: int) -> str:
     return (
         f"No results (collection has {total} chunks).\n"
         "Possible adjustments: verify collection_name, minimally normalize the natural-language query without changing intent, "
-        "provide a concise bm25_query with lexical anchors from user wording/context/evidence or high-confidence domain terms, "
+        "provide a bm25_query as lexical anchors for BM25 (not a keyword list — use exact terms/article numbers/symbols from user wording or context), "
         "try nbrag_grep for exact terms/article numbers/symbols, or use nbrag_find_files + filter_file_path to narrow to a known file."
     )
 
@@ -217,17 +217,23 @@ def nbrag_add_document(
 
 def nbrag_help() -> str:
     skill_text = _load_workflow_skill_text()
-    parts = [
+    skeleton = [
         "nbrag help: Agentic RAG knowledge-base MCP workflow guide",
-       
+        "",
+        "Core strategy (use the actual exposed tool names, which may have prefixes such as xxx_nbrag_search):",
+        "- Use nbrag_stats() when collection_name is unknown.",
+        "- Use nbrag_search_and_fetch() as the default one-call retrieval entry for most questions.",
+        "- Use nbrag_search() when you need retrieval controls or metadata-only output.",
+        "- Use nbrag_grep() for exact wording in stored original text.",
+        "- Use nbrag_find_definition() only for Python .py symbol definitions.",
+        "- Use nbrag_get_raw_file() for overlap-free original text.",
+        "- Use nbrag_find_files() when exact file_path is still unknown.",
+        "",
+        "Stable follow-up fields: file_path, doc_id, chunk_index, line:N-M.",
     ]
     if skill_text:
-        parts.extend([
-            "",
-            "nbrag workflow guide:",
-            skill_text,
-        ])
-    return "\n".join(parts)
+        skeleton.extend(["", "nbrag workflow skill:", skill_text])
+    return "\n".join(skeleton)
 
 
 def _format_search_results(
@@ -274,7 +280,7 @@ def _format_search_results(
     lines.extend([
         "",
         "Returned handle fields for follow-up: file_path, doc_id, chunk_index, line range.",
-        "query remains the semantic question for vector retrieval/rerank; bm25_query only changes BM25 wording when BM25 is active.",
+        "query is the main semantic query used by vector retrieval and reranking. bm25_query, when provided, is the lexical-anchor query used only by BM25.",
         "",
     ])
     if path_filter and use_vector:
@@ -414,7 +420,7 @@ def nbrag_search_and_fetch(
         header,
         "",
         "This tool returns both ranked hits and auto-fetched stored original content.",
-        "query remains the semantic question for vector retrieval/rerank; bm25_query only changes BM25 wording when BM25 is active.",
+        "query is the main semantic query used by vector retrieval and reranking. bm25_query, when provided, is the lexical-anchor query used only by BM25.",
         "fetch_context_chars is per ranked hit: roughly N total context chars split half before and half after, not a total response cap.",
         "Reused follow-up handles in ranked hits: file_path, doc_id, chunk_index, line:N-M.",
         "",
