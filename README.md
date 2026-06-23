@@ -6,6 +6,8 @@
 
 Use it when you want an MCP-compatible client to retrieve evidence from files you control, such as internal documentation, regulations, manuals, notes, local project docs, or Python source code.
 
+nbrag comes with vector search, BM25 search, and hybrid search built in. Through well-crafted prompts and 10+ MCP tools, an AI agent can retrieve the most relevant evidence.
+
 ## When to use nbrag
 
 `nbrag` is a good fit when you want to:
