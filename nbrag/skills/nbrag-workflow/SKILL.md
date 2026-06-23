@@ -124,7 +124,36 @@ Practical guidance:
 - The same pattern applies in other domains: article numbers and legal terms for laws, class names + method names + exception text for code, error codes + API names for troubleshooting, or titles + repeated phrases for manuals
 - `query` and `bm25_query` stay distinct in role: `query` carries the semantic target, while `bm25_query` carries richer lexical anchors for the same target
 
-## 6. Raw text vs chunk view
+## 6. Query rewriting and retrieval phrasing
+
+Good retrieval phrasing improves recall, reranking quality, and follow-up precision. Use the following principles:
+
+- Preserve the real semantic target in `query` rather than turning it into a keyword bag.
+- Use `bm25_query` to supply lexical anchors that are likely to appear literally in the source.
+- When the latest user wording is too short, too modern, too indirect, or too weak for strong recall, strengthen retrieval with source-facing wording such as aliases, titles, dates, places, relation terms, event markers, headings, identifiers, and repeated source phrases.
+- Reuse useful wording already surfaced in earlier retrieved evidence and relevant conversation history to sharpen later retrieval rounds.
+- Let earlier evidence strengthen later `bm25_query` values and, when appropriate, clarify the semantic target of `query`.
+- For comparison questions, collect evidence for A, evidence for B, and evidence for the relationship between them rather than assuming one comparison-style retrieval is always enough.
+- For multi-part questions, decompose the retrieval target before deciding whether to retrieve once or in parallel.
+- Use expansions as retrieval hypotheses to improve recall, then confirm the final answer against retrieved evidence.
+
+### Examples
+
+These examples illustrate the pattern. Apply the same reasoning in other domains rather than copying the wording mechanically.
+
+#### Historical death question
+If the user asks `关羽怎么死的`, keep `query` close to that meaning. If conversation context or earlier hits reveal wording such as `麦城`, `败走麦城`, `遇害`, `孙权`, or `吕蒙`, those clues can strengthen later `bm25_query` values because historical texts may describe the death through event, location, or participant wording rather than the modern literal word `死`.
+
+#### API comparison question
+If the user asks for the difference between create_agent and create_deep_agent, start with a comparison-oriented retrieval using the user’s own wording. If the source does not directly compare them, retrieve what create_agent is, retrieve what create_deep_agent is, and then compare the evidence you collected. If later hits surface relationship wording that clearly links the two, reuse that wording to sharpen follow-up retrieval.
+
+#### Legal article question
+If the user asks about a specific law article, keep `query` aligned to the requested meaning, and use `bm25_query` to anchor the law name, article number, and likely source wording. For example, a question about `民法典第一千零六十四条` should keep the semantic target in `query`, while `bm25_query` can include anchors such as `民法典 1064 第一千零八十九条 夫妻共同债务` when they help target the requested provision.
+
+#### Multi-entity verification question
+If the user asks about multiple entities or people, avoid relying on one undersized retrieval budget to cover all targets. Split the work into manageable retrieval targets or batches, verify each target with grounded evidence, and merge the answer only after the per-target evidence is clear.
+
+## 7. Raw text vs chunk view
 
 ### Use `nbrag_get_raw_file()` when you need:
 - stored original text captured at ingestion time
@@ -148,7 +177,7 @@ Important boundary:
 - raw-file view = stored original snapshot without chunk overlap
 - chunk view = chunk-structured context and may overlap by design
 
-## 7. Python symbol-definition lookup
+## 8. Python symbol-definition lookup
 
 `nbrag_find_definition()` is specialized for Python `.py` class/function/method definitions.
 It is strongest after search, grep, or prior retrieval context has already narrowed the symbol name.
@@ -163,7 +192,7 @@ For non-Python text, the normal paths are:
 - `nbrag_grep()` for exact wording
 - `nbrag_search_and_fetch()` for semantic/source-backed discovery
 
-## 8. Stable follow-up handles
+## 9. Stable follow-up handles
 
 The most important reusable handles are:
 - `file_path`
@@ -201,7 +230,7 @@ Use with:
 Use with:
 - `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)`
 
-## 9. `filter_file_path` behavior
+## 10. `filter_file_path` behavior
 
 `filter_file_path` is for narrowing retrieval to one stored file when that file is already known.
 
@@ -212,7 +241,7 @@ Current hybrid behavior matters:
 Use it when you are intentionally deepening inside a known file.
 Do not use it as if it were only a light ranking preference over the whole collection.
 
-## 10. Normal multi-turn pattern
+## 11. Normal multi-turn pattern
 
 A good multi-turn retrieval flow usually looks like this:
 
@@ -234,7 +263,7 @@ Bad behavior:
 - forcing every task through every tool
 - continuing after the evidence is already sufficient
 
-## 11. Recovery hints
+## 12. Recovery hints
 
 If a retrieval attempt fails or is weak:
 
@@ -250,7 +279,7 @@ If the result is relevant but still too small:
 - use `nbrag_get_adjacent_chunks()` for nearby chunk context
 - use `nbrag_get_chunks_by_lines()` when a line range is already known
 
-## 12. Budget awareness
+## 13. Budget awareness
 
 Context-size knobs are per-result budgets, not global response caps:
 - `fetch_context_chars` in `nbrag_search_and_fetch()` is per ranked hit
