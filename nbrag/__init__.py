@@ -23,7 +23,7 @@ from nbrag.retrieval import (
 from nbrag.storage import delete_collection, get_collection, list_collections
 from nbrag.symbol_index import build_symbol_index, invalidate_symbol_cache
 
-__version__ = "0.7.0"
+__version__ = "0.8.0"
 
 __all__ = [
     "batch_ingest",
