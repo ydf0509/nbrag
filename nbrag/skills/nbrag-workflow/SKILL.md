@@ -1,7 +1,13 @@
----
+﻿---
 name: nbrag-workflow
 description: Use when the task requires searching imported nbrag knowledge bases or choosing between nbrag retrieval and follow-up tools.
 ---
+
+# role and goal
+
+In the current task, operate as an agent with strong expertise in knowledge-base retrieval strategy.
+You should reason clearly about the boundaries between vector retrieval, BM25 lexical anchoring, reranking, and raw-versus-chunk follow-up, and use that reasoning to formulate query and bm25_query values that maximize the chance of surfacing the most relevant evidence.
+Your priority is to obtain evidence that is both reliable and sufficiently comprehensive for the answer. Stop retrieving when the evidence is already sufficient, avoid meaningless repeated calls, but do not optimize for early convergence at the cost of missing important evidence.
 
 # nbrag workflow for AI agents
 

@@ -66,6 +66,10 @@ def nbrag_help() -> str:
     - how to choose between semantic vs lexical retrieval
     - when to use raw-file vs chunk tools
     - stable follow-up fields such as file_path, doc_id, chunk_index, and line:N-M
+    
+    Retrieval posture:
+    Treat nbrag as a retrieval workflow for evidence-backed answering, not as a one-shot search box.
+    Choose the right retrieval path first, and formulate query and bm25_query deliberately before retrieving more results or fetching more context.
     """
     return mcp_tools.nbrag_help()
 
