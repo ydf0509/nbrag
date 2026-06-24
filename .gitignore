@@ -42,3 +42,4 @@ tmp/
 # Distribution
 *.tar.gz
 .tmp/
+git_ignore_dir/
