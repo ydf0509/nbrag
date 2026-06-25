@@ -26,7 +26,7 @@ def _symbol_index_dir(collection_name):
 
 def build_symbol_index(collection_name):
     """扫描 raw_files 中所有 .py 文件的 AST，构建 symbol 索引并持久化到磁盘。"""
-    from nbrag.chunker import _extract_signature
+    from nbrag.chunker import _extract_signature, get_ast_definition_line_range
 
     raw_dir = os.path.join(_raw_files_dir(), collection_name)
     if not os.path.isdir(raw_dir):
@@ -59,8 +59,7 @@ def build_symbol_index(collection_name):
                     continue
                 name = child.name
                 qualified = f"{parent_chain}.{name}" if parent_chain else name
-                start = child.lineno
-                end = child.end_lineno if hasattr(child, "end_lineno") and child.end_lineno else start
+                start, end = get_ast_definition_line_range(child)
                 sym_type = "class" if isinstance(child, _ast.ClassDef) else "function"
                 sig = _extract_signature(child)
 
