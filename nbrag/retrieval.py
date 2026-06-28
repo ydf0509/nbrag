@@ -616,6 +616,7 @@ def _find_definition_full_scan(symbol, collection_name, raw_dir, max_results):
             return
 
         file_lines = content.splitlines()
+        from nbrag.chunker import get_ast_definition_line_range
 
         def _search_nodes(node, parent_chain=""):
             for child in _ast.iter_child_nodes(node):
@@ -623,8 +624,7 @@ def _find_definition_full_scan(symbol, collection_name, raw_dir, max_results):
                     name = child.name
                     qualified = f"{parent_chain}.{name}" if parent_chain else name
                     if name == symbol or qualified == symbol or qualified.endswith(f".{symbol}"):
-                        start = child.lineno
-                        end = child.end_lineno if hasattr(child, "end_lineno") and child.end_lineno else start
+                        start, end = get_ast_definition_line_range(child)
                         definition_lines = file_lines[start - 1:end]
                         sym_type = "class" if isinstance(child, _ast.ClassDef) else "function"
 

@@ -157,6 +157,22 @@ def _extract_signature(node):
     return ""
 
 
+def get_ast_definition_line_range(node):
+    """Return the 1-based source line range for a Python definition, including decorators.
+
+    Python AST lineno for ClassDef/FunctionDef/AsyncFunctionDef points to the
+    class/def line. For definition lookup and scope metadata, decorators are part
+    of the reusable definition and must be included in the start line.
+    """
+    start = getattr(node, "lineno", 1)
+    decorators = getattr(node, "decorator_list", None) or []
+    decorator_lines = [getattr(dec, "lineno", start) for dec in decorators]
+    if decorator_lines:
+        start = min([start, *decorator_lines])
+    end = getattr(node, "end_lineno", None) or start
+    return start, end
+
+
 def _build_python_scope_map(text):
     """解析 Python 代码，构建 scope 列表。
 
@@ -178,8 +194,7 @@ def _build_python_scope_map(text):
             if isinstance(child, (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)):
                 name = child.name
                 scope_str = f"{parent_chain}.{name}" if parent_chain else name
-                start = child.lineno
-                end = child.end_lineno if hasattr(child, 'end_lineno') and child.end_lineno else start
+                start, end = get_ast_definition_line_range(child)
                 sig = _extract_signature(child)
                 scopes.append((start, end, scope_str, sig))
                 _walk(child, scope_str)

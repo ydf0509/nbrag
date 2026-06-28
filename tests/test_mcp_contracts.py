@@ -4,7 +4,7 @@ import unittest
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from nbrag import mcp_tools, retrieval, server
+from nbrag import chunker, mcp_tools, retrieval, server
 
 
 class McpContractTests(unittest.TestCase):
@@ -143,6 +143,29 @@ class McpContractTests(unittest.TestCase):
         self.assertIn(">>>     2| match", results[0]["context"])
         self.assertIn("    1| first", results[0]["context"])
         self.assertIn("    3| third", results[0]["context"])
+
+    def test_python_ast_definition_range_includes_decorators(self) -> None:
+        source = """\
+@outer
+@inner(x=1)
+class Demo:
+    @classmethod
+    @retry(times=3)
+    async def fetch(cls):
+        return 1
+"""
+        tree = chunker.ast.parse(source)
+        cls = tree.body[0]
+        method = cls.body[0]
+
+        self.assertEqual(chunker.get_ast_definition_line_range(cls), (1, 7))
+        self.assertEqual(chunker.get_ast_definition_line_range(method), (4, 7))
+
+        scope_map = chunker._build_python_scope_map(source)
+        class_entry = next(entry for entry in scope_map if entry[2] == "Demo")
+        method_entry = next(entry for entry in scope_map if entry[2] == "Demo.fetch")
+        self.assertEqual(class_entry[:2], (1, 7))
+        self.assertEqual(method_entry[:2], (4, 7))
 
 
 if __name__ == "__main__":
