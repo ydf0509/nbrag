@@ -12,7 +12,7 @@ from nbrag import batch_ingest, set_collection_profile
 batch_ingest(
     paths=[
         r"D:\codes\feapder\feapder",
-        r"D:\codes\feapder\tests",
+        r"D:\codes\feapder\docs",
         r"D:\codes\feapder\README.md",
     ],
     collection_name="feapder",
