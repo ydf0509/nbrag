@@ -292,7 +292,36 @@ def enrich_chunks(chunks, full_text, file_path="", file_ext=""):
     return enriched, line_ranges, scopes
 
 
-def collect_files(path, file_extensions=None):
+def _normalize_path_for_match(path):
+    return os.path.normcase(os.path.normpath(os.path.abspath(os.path.expanduser(str(path)))))
+
+
+def _prepare_excluded_paths(excluded_paths=None):
+    if not excluded_paths:
+        return []
+    if isinstance(excluded_paths, (str, os.PathLike)):
+        excluded_paths = [excluded_paths]
+    return [_normalize_path_for_match(path) for path in excluded_paths]
+
+
+def _is_path_under_or_equal(path, candidate_parent):
+    path = _normalize_path_for_match(path)
+    candidate_parent = _normalize_path_for_match(candidate_parent)
+    if path == candidate_parent:
+        return True
+    try:
+        return os.path.commonpath([path, candidate_parent]) == candidate_parent
+    except ValueError:
+        return False
+
+
+def _is_excluded_path(path, prepared_excluded_paths):
+    if not prepared_excluded_paths:
+        return False
+    return any(_is_path_under_or_equal(path, excluded) for excluded in prepared_excluded_paths)
+
+
+def collect_files(path, file_extensions=None, excluded_paths=None):
     """收集路径下所有文本文件（支持单文件或递归目录）。
 
     Args:
@@ -300,6 +329,8 @@ def collect_files(path, file_extensions=None):
         file_extensions: 可选，限定的后缀列表（如 [".py", ".md"]）。
                          传入时只收集这些后缀；不传则使用 TEXT_EXTENSIONS 全集。
                          后缀不区分大小写，自动补 "." 前缀（"py" → ".py"）。
+        excluded_paths: 可选，排除的文件或目录路径列表。路径会规范化为绝对路径匹配，
+                        兼容 Windows 反斜杠和 POSIX 顺斜杠。
     """
     if file_extensions is not None:
         allowed = set()
@@ -311,14 +342,25 @@ def collect_files(path, file_extensions=None):
     else:
         allowed = TEXT_EXTENSIONS
 
+    prepared_excluded_paths = _prepare_excluded_paths(excluded_paths)
+    if _is_excluded_path(path, prepared_excluded_paths):
+        return []
+
     if os.path.isfile(path):
         ext = os.path.splitext(path)[1].lower()
         if ext in allowed:
             return [path]
         return []
     files = []
-    for root, _, fnames in os.walk(path):
+    for root, dirnames, fnames in os.walk(path):
+        dirnames[:] = [
+            dirname for dirname in dirnames
+            if not _is_excluded_path(os.path.join(root, dirname), prepared_excluded_paths)
+        ]
         for fn in sorted(fnames):
+            file_path = os.path.join(root, fn)
+            if _is_excluded_path(file_path, prepared_excluded_paths):
+                continue
             if os.path.splitext(fn)[1].lower() in allowed:
-                files.append(os.path.join(root, fn))
+                files.append(file_path)
     return files

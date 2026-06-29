@@ -1,10 +1,15 @@
 from __future__ import annotations
 
+import sys
+import tempfile
 import unittest
+from pathlib import Path
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from nbrag import chunker, mcp_tools, retrieval, server
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from nbrag import chunker, ingest, mcp_tools, retrieval, server
 
 
 class McpContractTests(unittest.TestCase):
@@ -143,6 +148,103 @@ class McpContractTests(unittest.TestCase):
         self.assertIn(">>>     2| match", results[0]["context"])
         self.assertIn("    1| first", results[0]["context"])
         self.assertIn("    3| third", results[0]["context"])
+
+    def test_collect_files_excludes_paths_with_mixed_separators(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "proj"
+            tests_dir = root / "tests"
+            tests_old_dir = root / "tests_old"
+            dist_dir = root / "dist"
+            src_dir = root / "src"
+            for directory in (tests_dir, tests_old_dir, dist_dir, src_dir):
+                directory.mkdir(parents=True, exist_ok=True)
+
+            keep_file = src_dir / "main.py"
+            tests_file = tests_dir / "test_main.py"
+            tests_old_file = tests_old_dir / "test_old.py"
+            dist_file = dist_dir / "bundle.py"
+            readme_file = root / "README.md"
+            for file_path in (keep_file, tests_file, tests_old_file, dist_file, readme_file):
+                file_path.write_text("content", encoding="utf-8")
+
+            excluded_tests = str(tests_dir).replace("/", "\\")
+            excluded_dist = str(dist_dir).replace("\\", "/")
+            excluded_readme = str(readme_file)
+
+            files = chunker.collect_files(
+                str(root),
+                file_extensions=[".py", ".md"],
+                excluded_paths=[excluded_tests, excluded_dist, excluded_readme],
+            )
+            normalized = {Path(path).resolve() for path in files}
+
+            self.assertIn(keep_file.resolve(), normalized)
+            self.assertIn(tests_old_file.resolve(), normalized)
+            self.assertNotIn(tests_file.resolve(), normalized)
+            self.assertNotIn(dist_file.resolve(), normalized)
+            self.assertNotIn(readme_file.resolve(), normalized)
+
+    def test_batch_ingest_auto_excludes_git_for_directory_paths(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "proj"
+            git_dir = root / ".git"
+            src_dir = root / "src"
+            root.mkdir(parents=True, exist_ok=True)
+            git_dir.mkdir(parents=True, exist_ok=True)
+            src_dir.mkdir(parents=True, exist_ok=True)
+            (git_dir / "HEAD").write_text("ref: refs/heads/main", encoding="utf-8")
+            (src_dir / "main.py").write_text("print('ok')", encoding="utf-8")
+
+            captured = {}
+
+            def fake_check_file_cache(fp, collection_name):
+                return False, None
+
+            def fake_prepare_file_no_embed(fp, chunk_size, chunk_overlap):
+                captured.setdefault("files", []).append(fp)
+                return {
+                    "ok": True,
+                    "filename": Path(fp).name,
+                    "source": fp,
+                    "content": "x",
+                    "chunks": 1,
+                    "char_count": 1,
+                }
+
+            def fake_batch_embed_prepared(prepared_list, sleep_interval=0.0, verbose=False):
+                return prepared_list
+
+            def fake_write_to_db(prepared, collection_name):
+                return {"ok": True, "chunks": prepared["chunks"], "chars": prepared["char_count"]}
+
+            def fake_get_collection(collection_name):
+                return object()
+
+            def fake_batch_get(col, include=None):
+                return {"documents": [], "ids": []}
+
+            with patch("nbrag.ingest.check_file_cache", side_effect=fake_check_file_cache), \
+                 patch("nbrag.ingest.prepare_file_no_embed", side_effect=fake_prepare_file_no_embed), \
+                 patch("nbrag.ingest.batch_embed_prepared", side_effect=fake_batch_embed_prepared), \
+                 patch("nbrag.ingest._write_to_db", side_effect=fake_write_to_db), \
+                 patch("nbrag.ingest.get_collection", side_effect=fake_get_collection), \
+                 patch("nbrag.ingest._batch_get", side_effect=fake_batch_get), \
+                 patch("nbrag.ingest.build_bm25_index"), \
+                 patch("nbrag.ingest.build_symbol_index", return_value={}), \
+                 patch("nbrag.ingest.set_collection_profile"):
+                ingest.batch_ingest(
+                    paths=[str(root)],
+                    collection_name="kb",
+                    file_extensions=[".py", ".md"],
+                    delete_first=False,
+                    verbose=False,
+                    max_workers=1,
+                    use_cache=False,
+                )
+
+            processed = {Path(path).resolve() for path in captured.get("files", [])}
+            self.assertIn((src_dir / "main.py").resolve(), processed)
+            self.assertNotIn((git_dir / "HEAD").resolve(), processed)
 
     def test_python_ast_definition_range_includes_decorators(self) -> None:
         source = """\

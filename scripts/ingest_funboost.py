@@ -35,9 +35,14 @@ batch_ingest(
         "D:/codes/funboost_docs/source/articles/c14.md",
         "D:/codes/funboost_docs/source/articles/c15.md",
         "D:/codes/funboost_docs/source/articles/c20.md",
+        "D:/codes/boost_spider",
     ],
     collection_name="funboost",
-    file_extensions=[".py", ".md",".html"],
+    file_extensions=[".py", ".md", ".html"],
+    excluded_paths=[
+        r"D:\codes\boost_spider\tests",
+        "D:/codes/boost_spider/dist",
+    ],
     max_workers = 1,
     delete_first=True,
     verbose=True,
@@ -48,6 +53,6 @@ set_collection_profile(
     "funboost",
     display_name="funboost 源码与文档知识库",
     description="包含 funboost 项目源码和文档，适合查询函数调度、消息队列、broker、BoosterParams、发布消费、重试等实现细节。",
-    aliases=["funboost", "分布式函数调度", "Python 队列", "BrokerEnum", "BoosterParams"],
+    aliases=["funboost", "分布式函数调度", "Python 队列", "BrokerEnum", "BoosterParams","funspider","boost_spider"],
     tags=["Python", "源码", "消息队列"],
 )

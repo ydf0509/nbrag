@@ -6,7 +6,7 @@ from nbrag import batch_ingest, set_collection_profile
 
 batch_ingest(
     paths=[
-       r'D:\codes\docs\src',
+       r'D:\codes\langchain_docs\src',
        r"D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\langchain_anthropic",
        r"D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\langchain_classic",
        r"D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\langchain_community",

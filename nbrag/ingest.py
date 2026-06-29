@@ -314,6 +314,7 @@ def ingest_path(path, collection_name="default",
                 chunk_size=DEFAULT_CHUNK_SIZE,
                 chunk_overlap=DEFAULT_CHUNK_OVERLAP,
                 file_extensions=None,
+                excluded_paths=None,
                 sleep_interval=0.0,
                 use_cache=True,
                 verbose=False):
@@ -322,7 +323,7 @@ def ingest_path(path, collection_name="default",
     if not os.path.exists(path):
         return [], [f"Path not found: {path}"], 0
 
-    files = collect_files(path, file_extensions=file_extensions)
+    files = collect_files(path, file_extensions=file_extensions, excluded_paths=excluded_paths)
     if not files:
         return [], [f"No text files found in: {path}"], 0
 
@@ -352,15 +353,32 @@ def batch_ingest(paths, collection_name="default",
                  chunk_size=DEFAULT_CHUNK_SIZE,
                  chunk_overlap=DEFAULT_CHUNK_OVERLAP,
                  file_extensions=None,
+                 excluded_paths=None,
                  delete_first=False, on_progress=None,
                  verbose=False, max_workers=1,
                  sleep_interval=0.01,
                  use_cache=True):
-    """批量导入多个路径到知识库（一站式封装）。"""
+    """批量导入多个路径到知识库（一站式封装）。
+
+    excluded_paths 可显式排除文件或目录。
+    另外，batch_ingest() 会对每个目录型 path 自动追加排除 path/.git，
+    避免把 Git 元数据目录当作知识库内容扫描。
+    """
     if isinstance(paths, str):
         paths = [paths]
 
     t0 = _time.time()
+
+    effective_excluded_paths = []
+    if excluded_paths:
+        if isinstance(excluded_paths, str):
+            effective_excluded_paths = [excluded_paths]
+        else:
+            effective_excluded_paths = list(excluded_paths)
+    for p in paths:
+        expanded = os.path.expanduser(p)
+        if os.path.isdir(expanded):
+            effective_excluded_paths.append(os.path.join(expanded, ".git"))
 
     if delete_first:
         deleted_col = False
@@ -383,10 +401,11 @@ def batch_ingest(paths, collection_name="default",
     for p in paths:
         p = os.path.expanduser(p)
         if os.path.exists(p):
-            found = collect_files(p, file_extensions=file_extensions)
+            found = collect_files(p, file_extensions=file_extensions, excluded_paths=effective_excluded_paths)
             if verbose:
                 ext_info = f" (filter: {file_extensions})" if file_extensions else ""
-                print(f"[rag] {p} -> {len(found)} files{ext_info}")
+                exclude_info = f" excluded_paths: {len(effective_excluded_paths) if not isinstance(effective_excluded_paths, str) else 1}" if effective_excluded_paths else ""
+                print(f"[rag] {p} -> {len(found)} files{ext_info}{exclude_info}")
             all_files.extend(found)
 
     files_to_process = []
