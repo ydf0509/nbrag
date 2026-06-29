@@ -35,7 +35,14 @@ batch_ingest(
         "D:/codes/funboost_docs/source/articles/c14.md",
         "D:/codes/funboost_docs/source/articles/c15.md",
         "D:/codes/funboost_docs/source/articles/c20.md",
-        "D:/codes/boost_spider",
+        # "D:/codes/boost_spider",
+        r"D:\codes\funboost\.agents",
+        
+        r'D:\codes\boost_spider\boost_scrapy',
+        r'D:\codes\boost_spider\boost_spider',
+        r'D:\codes\boost_spider\demo_crawler',
+        r'D:\codes\boost_spider\README.md',
+      
     ],
     collection_name="funboost",
     file_extensions=[".py", ".md", ".html"],
