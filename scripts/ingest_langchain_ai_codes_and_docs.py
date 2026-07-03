@@ -18,9 +18,12 @@ batch_ingest(
        r"D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\langchain_text_splitters",
        r"D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\langdetect",
        r"D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\langgraph",
+       r"D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\langgraph_api"
        r"D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\langgraph_sdk",
+       r"D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\langgraph_runtime",
        r"D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\langsmith",
        r"D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\langchain",
+       r"D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\langchain_agentskills",
        r"D:\ProgramData\miniconda3\envs\py312\Lib\site-packages\deepagents",
     ],
     collection_name="langchain_ai_codes_and_docs",
@@ -37,6 +40,6 @@ set_collection_profile(
     "langchain_ai_codes_and_docs",
     display_name="LangChain 源码与文档知识库",
     description="包含 LangChain / LangGraph / langchain-ai 相关源码与文档，适合查询 agent、runnable、工具调用、记忆、图工作流和 API 用法。",
-    aliases=["LangChain", "LangGraph", "langchain-ai", "AI agent", "Runnable", "create_react_agent", "create_deep_agent"],
+    aliases=["LangChain", "LangGraph", "langchain-ai", "AI agent", "Runnable", "create_agent", "create_deep_agent"],
     tags=["Python", "AI", "源码", "文档"],
 )

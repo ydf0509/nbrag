@@ -61,5 +61,5 @@ set_collection_profile(
     display_name="funboost 源码与文档知识库",
     description="包含 funboost 项目源码和文档，适合查询函数调度、消息队列、broker、BoosterParams、发布消费、重试等实现细节。",
     aliases=["funboost", "分布式函数调度", "Python 队列", "BrokerEnum", "BoosterParams","funspider","boost_spider"],
-    tags=["Python", "源码", "消息队列"],
+    tags=["Python", "源码","教程", "消息队列"],
 )
