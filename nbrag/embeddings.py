@@ -7,6 +7,7 @@ import time as _time
 import httpx
 
 from nbrag.config import get_config
+from nbrag.constants import NetworkTimeout
 from nbrag import state
 from nbrag.loggers import logger
 
@@ -20,7 +21,7 @@ def _cfg():
 
 def _get_http_client():
     if state._http_client is None or state._http_client.is_closed:
-        state._http_client = httpx.Client(timeout=120)
+        state._http_client = httpx.Client(timeout=NetworkTimeout.HTTP_CLIENT)
     return state._http_client
 
 

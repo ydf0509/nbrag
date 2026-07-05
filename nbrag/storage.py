@@ -11,6 +11,7 @@ import time as _time
 import chromadb
 
 from nbrag.config import get_config
+from nbrag.constants import CacheTTL
 from nbrag import state
 from nbrag.runtime import _runtime_guarded
 
@@ -116,6 +117,12 @@ def delete_collection(name):
 
     _get_chroma().delete_collection(name)
     invalidate_doc_id_cache(name)
+    state._document_list_cache.pop(name, None)
+    state._document_list_cache_ts.pop(name, None)
+    state._stats_cache = None
+    state._stats_cache_ts = 0.0
+    state._raw_text_cache = None
+    state._raw_text_cache_ts = 0.0
     invalidate_bm25_cache(name)
     invalidate_symbol_cache(name)
 
@@ -192,7 +199,7 @@ def _get_doc_id_map(collection_name):
     now = _time.time()
     if (
         collection_name in state._doc_id_cache
-        and now - state._doc_id_cache_ts.get(collection_name, 0) < 600
+        and now - state._doc_id_cache_ts.get(collection_name, 0) < CacheTTL.DOC_ID_MAP
     ):
         return state._doc_id_cache[collection_name]
 

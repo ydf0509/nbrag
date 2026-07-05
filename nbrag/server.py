@@ -453,6 +453,9 @@ def main():
     from nbrag.config import load_config
     load_config(args)
 
+    from nbrag.cache_watcher import start_cache_watcher
+    start_cache_watcher()
+
     if args.transport != "stdio":
         mcp.settings.port = args.port
 

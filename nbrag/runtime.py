@@ -8,6 +8,7 @@ from __future__ import annotations
 from functools import wraps
 
 from nbrag import state
+from nbrag.constants import CacheTTL
 
 
 def _refresh_runtime_caches_if_due_locked():
@@ -17,7 +18,7 @@ def _refresh_runtime_caches_if_due_locked():
     这只影响内存态缓存，不会删除磁盘上的 BM25 / symbol / raw / Chroma 数据。
     """
     now = state._runtime_clock.monotonic()
-    if now - state._last_runtime_cache_refresh_ts < state._RUNTIME_CACHE_REFRESH_INTERVAL:
+    if now - state._last_runtime_cache_refresh_ts < CacheTTL.RUNTIME_REFRESH:
         return False
 
     state._chroma_client = None

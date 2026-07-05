@@ -21,6 +21,7 @@ from nbrag.bm25_index import (
 )
 from nbrag.config import get_config
 from nbrag.collection_profiles import list_collection_profiles
+from nbrag.constants import CacheTTL
 from nbrag.defaults import DEFAULT_MATCH_CONTEXT_CHARS
 from nbrag.embeddings import embed, rerank
 from nbrag.runtime import _runtime_guarded
@@ -43,9 +44,6 @@ from nbrag.symbol_index import (
     invalidate_symbol_cache,
 )
 
-_STATS_CACHE_TTL_SECONDS = 300.0
-_DOCUMENT_LIST_CACHE_TTL_SECONDS = 300.0
-_RAW_TEXT_CACHE_TTL_SECONDS = 300.0
 
 
 def _cfg():
@@ -71,9 +69,9 @@ def _char_window_to_line_range(offsets: list[int], line_count: int, char_start: 
 
 
 def _load_all_raw_texts_cached():
-    """加载并缓存所有知识库的 raw_files 原文快照，TTL 300 秒。"""
+    """加载并缓存所有知识库的 raw_files 原文快照，TTL 见 CacheTTL.RAW_TEXT。"""
     now = _time.time()
-    if state._raw_text_cache is not None and now - state._raw_text_cache_ts < _RAW_TEXT_CACHE_TTL_SECONDS:
+    if state._raw_text_cache is not None and now - state._raw_text_cache_ts < CacheTTL.RAW_TEXT:
         return state._raw_text_cache
 
     root = _raw_files_dir()
@@ -721,7 +719,7 @@ def _list_documents_cached(collection_name="default"):
     now = _time.time()
     cached = state._document_list_cache.get(collection_name)
     cached_ts = state._document_list_cache_ts.get(collection_name, 0.0)
-    if cached is not None and now - cached_ts < _DOCUMENT_LIST_CACHE_TTL_SECONDS:
+    if cached is not None and now - cached_ts < CacheTTL.DOCUMENT_LIST:
         return cached
 
     docs = _list_documents_uncached(collection_name)
@@ -818,6 +816,8 @@ def delete_document(doc_id, collection_name="default"):
     filename = doc_data["metadatas"][0].get("filename", "?") if doc_data["metadatas"] else "?"
     col.delete(ids=doc_data["ids"])
     _delete_raw_file(collection_name, doc_id)
+    state._doc_id_cache.pop(collection_name, None)
+    state._doc_id_cache_ts.pop(collection_name, None)
     state._document_list_cache.pop(collection_name, None)
     state._document_list_cache_ts.pop(collection_name, None)
     state._stats_cache = None
@@ -833,7 +833,7 @@ def delete_document(doc_id, collection_name="default"):
 def get_stats():
     """返回所有知识库的统计信息。"""
     now = _time.time()
-    if state._stats_cache is not None and now - state._stats_cache_ts < _STATS_CACHE_TTL_SECONDS:
+    if state._stats_cache is not None and now - state._stats_cache_ts < CacheTTL.STATS:
         return state._stats_cache
 
     cfg = _cfg()
@@ -853,15 +853,11 @@ def get_stats():
         try:
             col = chroma.get_collection(name)
             count = col.count()
-            if count > 0:
-                all_meta = _batch_get(col, include=["metadatas"])
-                doc_ids = set(m.get("doc_id", "") for m in all_meta["metadatas"] if m is not None)
-                stats["collections"][name] = {
-                    "doc_count": len(doc_ids),
-                    "chunk_count": count,
-                }
-            else:
-                stats["collections"][name] = {"doc_count": 0, "chunk_count": 0}
+            doc_id_map = _get_doc_id_map(name)
+            stats["collections"][name] = {
+                "doc_count": len(doc_id_map),
+                "chunk_count": count,
+            }
             profile = profiles.get(name)
             if profile:
                 for key in ("display_name", "description", "aliases", "tags",

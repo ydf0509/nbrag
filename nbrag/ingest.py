@@ -299,6 +299,8 @@ def ingest_file(file_path, collection_name="default",
         return prepared
     result = _write_to_db(prepared, collection_name)
     if result["ok"]:
+        state._doc_id_cache.pop(collection_name, None)
+        state._doc_id_cache_ts.pop(collection_name, None)
         state._bm25_cache.pop(collection_name, None)
         state._symbol_cache.pop(collection_name, None)
         state._document_list_cache.pop(collection_name, None)

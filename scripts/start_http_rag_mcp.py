@@ -18,6 +18,9 @@ from nbrag.server import mcp
 
 load_config()
 
+from nbrag.cache_watcher import start_cache_watcher
+start_cache_watcher()
+
 PORT = 9101
 mcp.settings.port = PORT
 

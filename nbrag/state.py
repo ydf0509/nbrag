@@ -25,6 +25,5 @@ _symbol_cache = {}
 
 _http_client = None
 
-_RUNTIME_CACHE_REFRESH_INTERVAL = 300.0
 _runtime_cache_lock = threading.RLock()
 _last_runtime_cache_refresh_ts = _runtime_clock.monotonic()
