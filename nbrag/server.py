@@ -65,7 +65,7 @@ def nbrag_help() -> str:
     - when to use each nbrag tool
     - how to choose between semantic vs lexical retrieval
     - when to use raw-file vs chunk tools
-    - stable follow-up fields such as file_path, doc_id, chunk_index, and line:N-M
+    - stable follow-up fields such as file_path, doc_id, chunk_index, and line_start + line_end
     
     Retrieval posture:
     Treat nbrag as a retrieval workflow for evidence-backed answering, not as a one-shot search box.
@@ -94,7 +94,7 @@ class FuncFields:
     query: str = Field(description="Main semantic query used by vector retrieval and reranking. Keep it as a natural-language question or statement that preserves the real retrieval target. Use ongoing dialogue or earlier retrieval results to resolve pronouns, restore omitted entities, fix obvious typos, or sharpen the event/relation/attribute wording once the target is clear. Let query stay semantically complete and readable; use bm25_query separately for lexical anchors.")
     collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)")
     top_k: int = Field(default=5, description="Number of ranked hits to return")
-    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking. In the current hybrid implementation, this narrows vector retrieval to that file and skips cross-file BM25 fusion.")
+    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking. In the current hybrid implementation, this narrows vector retrieval to that file and skips cross-file BM25 fusion. Value comes from the file_path handle returned by nbrag tools.")
     bm25_query: str = Field(description="Lexical-anchor query used only by BM25. Build it from grounded wording likely to appear literally in the source: exact terms, aliases, article numbers, abbreviations, codes, API/class names, symbol names, titles, place names, event markers, error strings, or short phrases. Compared with query, bm25_query carries more source-facing lexical anchors and can combine multiple grounded anchors refined across turns from the user's wording, ongoing dialogue, or earlier hits. It does not affect vector retrieval or reranking.")
     include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only lookup when you only need handles like file_path/doc_id/chunk_index")
     file_path: str = Field(description="Exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted")
@@ -130,10 +130,10 @@ def nbrag_search(
     - setting filter_file_path narrows retrieval to one stored file; in the current hybrid implementation this also disables cross-file BM25 fusion
 
     Returned text is structured for follow-up calls. Each hit includes stable reusable fields such as:
-    - chunk:X/Y
+    - chunk_index + total_chunks
     - chunk_index:X
     - total_chunks:Y
-    - line:N-M
+    - line_start + line_end
     - doc_id:...
     - file_path:...
 
@@ -242,7 +242,7 @@ def nbrag_search_and_fetch(
     1. ranked search results
     2. auto-fetched stored original content
 
-    Follow-up fields preserved in ranked hits include file_path, doc_id, chunk_index, and line:N-M.
+    Follow-up fields preserved in ranked hits include file_path, doc_id, chunk_index, and line_start + line_end.
     fetch_context_chars is a per-hit raw-context budget used during original-text expansion, not a final total response budget.
 
     Use nbrag_search() instead when you need fine-grained retrieval switches or metadata-only output.
@@ -273,7 +273,7 @@ def nbrag_grep(
     This is for literal/regex matching after you already know or suspect the wording to target; it is not the tool for semantic discovery.
     Do not use it for concept search, synonym search, or paraphrase search.
 
-    Returned text includes reusable follow-up fields such as matched_line, line_range, doc_id, and file_path.
+    Returned text includes reusable follow-up fields such as line_start == line_end, line_start + line_end, doc_id, and file_path.
     """
     return mcp_tools.nbrag_grep(keyword, collection_name, max_results, case_sensitive, filter_file_path, match_context_chars)
 
@@ -317,7 +317,7 @@ def nbrag_find_files(
 def nbrag_get_file_chunks(
     file_path: str = FuncFields.file_path,
     collection_name: str = FuncFields.collection_name,
-    start_chunk: int = Field(default=0, description="Start chunk index (0-based) for pagination"),
+    start_chunk: int = Field(default=0, description="Start chunk index (0-based) for pagination. 0-based chunk index; same value space as the chunk_index handle, but used as a pagination cursor (semantic: 'start browsing from chunk N')."),
     max_chunks: int = Field(default=10, description="Maximum chunks to return for this page"),
 ) -> str:
     """Paginated chunk view for a stored file.
@@ -350,7 +350,7 @@ def nbrag_get_raw_file(
 @mcp.tool()
 def nbrag_get_adjacent_chunks(
     doc_id: str = Field(description="Document ID returned by nbrag tools such as search/search_and_fetch/grep/list"),
-    chunk_index: int = Field(description="Target chunk index from a search/search_and_fetch result field like chunk:X/Y or chunk_index:X"),
+    chunk_index: int = Field(description="Target chunk index from a search/search_and_fetch result field like chunk_index + total_chunks or chunk_index:X"),
     collection_name: str = FuncFields.collection_name,
     window: int = Field(default=3, description="Return chunk_index ± window chunks"),
 ) -> str:
@@ -367,8 +367,8 @@ def nbrag_get_adjacent_chunks(
 @mcp.tool()
 def nbrag_get_chunks_by_lines(
     doc_id: str = Field(description="Document ID returned by nbrag tools such as search/search_and_fetch/grep/list"),
-    line_start: int = Field(description="Start line (1-based), usually copied from a prior line:N-M style result"),
-    line_end: int = Field(description="End line (inclusive), usually copied from a prior line:N-M style result"),
+    line_start: int = Field(description="Start line (1-based), usually copied from a prior line_start + line_end style result"),
+    line_end: int = Field(description="End line (inclusive), usually copied from a prior line_start + line_end style result"),
     collection_name: str = FuncFields.collection_name,
 ) -> str:
     """Return all chunks covering a line range.
@@ -376,7 +376,7 @@ def nbrag_get_chunks_by_lines(
     Use this when you already know a line range and want chunk-level context with scope metadata.
     Compared with nbrag_get_raw_file(), this keeps chunk/scope structure but can include overlapping content by design.
 
-    Returned text includes doc_id, file_path, requested line_range, and all overlapping chunks."""
+    Returned text includes doc_id, file_path, requested line_start + line_end, and all overlapping chunks."""
     return mcp_tools.nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)
 
 
@@ -392,7 +392,7 @@ def nbrag_list(
     or when you need inventory handles such as doc_id and file_path before a follow-up read.
     This is for collection inventory and handle discovery, not the default path for semantic question answering.
 
-    Returned text includes per-document doc_id, filename, chunk_count, total_chunks, and file_path."""
+    Returned text includes per-document doc_id, filename, total_chunks, and file_path."""
     return mcp_tools.nbrag_list(collection_name=collection_name, offset=offset, limit=limit)
 
 
