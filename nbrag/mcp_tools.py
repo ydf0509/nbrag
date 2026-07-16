@@ -681,31 +681,59 @@ def nbrag_get_adjacent_chunks(doc_id: str, chunk_index: int, collection_name: st
     data = get_context_chunks(doc_id, collection_name=collection_name, chunk_index=chunk_index, window=window)
     if not data.get("found"):
         detail = data.get("error") or data.get("message") or ""
-        suffix = f" Detail: {detail}" if detail else ""
+        suffix = f" Detail: {detail}." if detail else ""
         return (
-            "No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search/search_and_fetch result field like chunk:X/Y or chunk_index:X."
-            f"{suffix}"
+            f'<error type="not_found" field="doc_id">\n'
+            f"No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search result.{suffix}\n"
+            f"Recovery: copy doc_id and chunk_index from a prior nbrag_search / nbrag_search_and_fetch <hit>, "
+            f"or use nbrag_get_raw_file if you only need original text without chunk boundaries.\n"
+            f'</error>'
         )
 
     chunks = data.get("chunks", [])
     if not chunks:
         detail = data.get("message") or data.get("error") or ""
-        suffix = f" Detail: {detail}" if detail else ""
+        suffix = f" Detail: {detail}." if detail else ""
         return (
-            "No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search/search_and_fetch result field like chunk:X/Y or chunk_index:X."
-            f"{suffix}"
+            f'<error type="not_found" field="doc_id">\n'
+            f"No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search result.{suffix}\n"
+            f"Recovery: copy doc_id and chunk_index from a prior nbrag_search / nbrag_search_and_fetch <hit>, "
+            f"or use nbrag_get_raw_file if you only need original text without chunk boundaries.\n"
+            f'</error>'
         )
 
+    file_path = str(data.get("source", "?"))
+    total_chunks = str(data.get("total_chunks", "?"))
+    doc_id_str = str(data.get("doc_id", doc_id))
+
     lines = [
-        f"adjacent chunks: {len(chunks)} | file_path: {data.get('source', '?')} | doc_id: {doc_id} | total_chunks: {data.get('total_chunks', '?')}",
+        f'<nbrag_get_adjacent_chunks file_path="{file_path}" doc_id="{doc_id_str}" total_chunks="{total_chunks}" window="{window}" anchor_chunk_index="{chunk_index}">',
+        "Follow-up handles in <chunk>: chunk_index, line_start, line_end.",
         "",
-        "Returned context is chunk-level and may overlap. Use file_path with nbrag_get_raw_file for overlap-free source text.",
-        "",
+        "<chunks>",
     ]
     for chunk in chunks:
-        lines.append(f"chunk:{chunk.get('index', '?')} | line:{chunk.get('line_start', '?')}-{chunk.get('line_end', '?')}")
-        lines.append(str(chunk.get("content", "")))
-        lines.append("")
+        ci = _meta_chunk_index(chunk)
+        ls = str(chunk.get("line_start", "?"))
+        le = str(chunk.get("line_end", "?"))
+        scope = str(chunk.get("scope", ""))
+        attrs = [
+            f'chunk_index="{ci}"',
+            f'total_chunks="{total_chunks}"',
+            f'line_start="{ls}"',
+            f'line_end="{le}"',
+        ]
+        if scope:
+            attrs.append(f'scope="{scope}"')
+        content = str(chunk.get("content", ""))
+        lines.append(f'<chunk {" ".join(attrs)}>')
+        lines.append("<content>")
+        lines.append(content)
+        lines.append("</content>")
+        lines.append("</chunk>")
+    lines.append("</chunks>")
+    lines.append("")
+    lines.append("</nbrag_get_adjacent_chunks>")
     return "\n".join(lines)
 
 
@@ -718,35 +746,50 @@ def nbrag_get_file_chunks(file_path: str, collection_name: str, start_chunk: int
     data = get_file_chunks(file_path, collection_name, start_chunk, max_chunks, raw=False)
     if not data.get("found"):
         detail = data.get("error") or ""
-        suffix = f" Detail: {detail}" if detail else ""
+        suffix = f" Detail: {detail}." if detail else ""
         return (
-            "File chunks not found. Check file_path from prior nbrag results, "
-            "or use nbrag_find_files/nbrag_list to get the exact full file_path."
-            f"{suffix}"
+            f'<error type="not_found" field="file_path">\n'
+            f"File chunks not found.{suffix}\n"
+            f"Recovery: copy file_path from prior nbrag results, "
+            f"or use nbrag_find_files / nbrag_list to get the exact full file_path.\n"
+            f'</error>'
         )
 
     chunks = data.get("chunks", [])
-    if chunks:
-        range_start = chunks[0].get("index", data.get("start_chunk", "?"))
-        range_end = chunks[-1].get("index", data.get("end_chunk", "?"))
-    else:
-        range_start = data.get("start_chunk", "?")
-        range_end = data.get("end_chunk", "?")
+    file_path_str = str(data.get("source", file_path))
+    doc_id_str = str(data.get("doc_id", "?"))
+    total_chunks = str(data.get("total_chunks", "?"))
+    total_lines = str(data.get("total_lines", "?"))
+    has_more = str(data.get("end_chunk", 0) < data.get("total_chunks", 0) - 1).lower()
+
     lines = [
-        f"file chunks: {len(chunks)} | filename: {data.get('filename', '?')} | doc_id: {data.get('doc_id', '?')}",
-        f"file_path: {data.get('source', '?')} | total_chunks: {data.get('total_chunks', '?')} | total_lines: {data.get('total_lines', '?')}",
-        f"range: chunk:{range_start}-{range_end}",
-        "This view keeps chunk/scope structure and may contain overlap. Use nbrag_get_raw_file for overlap-free source text.",
+        f'<nbrag_get_file_chunks file_path="{file_path_str}" doc_id="{doc_id_str}" total_chunks="{total_chunks}" total_lines="{total_lines}" start_chunk="{start_chunk}" max_chunks="{max_chunks}" has_more="{has_more}">',
+        "Follow-up handles in <chunk>: chunk_index, line_start, line_end.",
         "",
+        "<chunks>",
     ]
     for chunk in chunks:
+        ci = _meta_chunk_index(chunk)
+        ls = str(chunk.get("line_start", "?"))
+        le = str(chunk.get("line_end", "?"))
         scope = str(chunk.get("scope", ""))
-        chunk_meta = f"chunk:{chunk.get('index', '?')} | line:{chunk.get('line_start', '?')}-{chunk.get('line_end', '?')}"
+        attrs = [
+            f'chunk_index="{ci}"',
+            f'total_chunks="{total_chunks}"',
+            f'line_start="{ls}"',
+            f'line_end="{le}"',
+        ]
         if scope:
-            chunk_meta += f" | scope:{scope}"
-        lines.append(chunk_meta)
-        lines.append(str(chunk.get("content", "")))
-        lines.append("")
+            attrs.append(f'scope="{scope}"')
+        content = str(chunk.get("content", ""))
+        lines.append(f'<chunk {" ".join(attrs)}>')
+        lines.append("<content>")
+        lines.append(content)
+        lines.append("</content>")
+        lines.append("</chunk>")
+    lines.append("</chunks>")
+    lines.append("")
+    lines.append("</nbrag_get_file_chunks>")
     return "\n".join(lines)
 
 
@@ -756,34 +799,57 @@ def nbrag_get_chunks_by_lines(doc_id: str, line_start: int, line_end: int, colle
     data = get_context_chunks(doc_id, collection_name=collection_name, line_start=line_start, line_end=line_end)
     if not data.get("found"):
         return (
-            "No chunks found for that doc_id/line range. Possible adjustments: verify doc_id, copy line_start/line_end from a prior line:N-M result, "
-            "or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata."
+            f'<error type="not_found" field="doc_id">\n'
+            f"No chunks found for that doc_id / line range.\n"
+            f"Recovery: verify doc_id, copy line_start / line_end from a prior <chunk> handle, "
+            f"or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata.\n"
+            f'</error>'
         )
 
     chunks = data.get("chunks", [])
     if not chunks:
         detail = data.get("message") or data.get("error") or ""
-        suffix = f" Detail: {detail}" if detail else ""
+        suffix = f" Detail: {detail}." if detail else ""
         return (
-            "No chunks found for that doc_id/line range. Possible adjustments: verify doc_id, copy line_start/line_end from a prior line:N-M result, "
-            "or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata."
-            f"{suffix}"
+            f'<error type="not_found" field="doc_id">\n'
+            f"No chunks found for that doc_id / line range.{suffix}\n"
+            f"Recovery: verify doc_id, copy line_start / line_end from a prior <chunk> handle, "
+            f"or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata.\n"
+            f'</error>'
         )
 
+    file_path = str(data.get("source", "?"))
+    doc_id_str = str(data.get("doc_id", doc_id))
+    total_chunks = str(data.get("total_chunks", "?"))
+
     lines = [
-        f"chunks by lines: {len(chunks)} | doc_id: {doc_id} | total_chunks: {data.get('total_chunks', '?')}",
-        f"file_path: {data.get('source', '?')} | line_range: line:{line_start}-{line_end}",
-        "This view preserves chunk/scope structure and can include overlapping content by design.",
+        f'<nbrag_get_chunks_by_lines doc_id="{doc_id_str}" file_path="{file_path}" total_chunks="{total_chunks}" requested_line_start="{line_start}" requested_line_end="{line_end}">',
+        "Follow-up handles in <chunk>: chunk_index, line_start, line_end.",
         "",
+        "<chunks>",
     ]
     for chunk in chunks:
+        ci = _meta_chunk_index(chunk)
+        ls = str(chunk.get("line_start", "?"))
+        le = str(chunk.get("line_end", "?"))
         scope = str(chunk.get("scope", ""))
-        chunk_meta = f"chunk:{chunk.get('index', '?')} | line:{chunk.get('line_start', '?')}-{chunk.get('line_end', '?')}"
+        attrs = [
+            f'chunk_index="{ci}"',
+            f'total_chunks="{total_chunks}"',
+            f'line_start="{ls}"',
+            f'line_end="{le}"',
+        ]
         if scope:
-            chunk_meta += f" | scope:{scope}"
-        lines.append(chunk_meta)
-        lines.append(str(chunk.get("content", "")))
-        lines.append("")
+            attrs.append(f'scope="{scope}"')
+        content = str(chunk.get("content", ""))
+        lines.append(f'<chunk {" ".join(attrs)}>')
+        lines.append("<content>")
+        lines.append(content)
+        lines.append("</content>")
+        lines.append("</chunk>")
+    lines.append("</chunks>")
+    lines.append("")
+    lines.append("</nbrag_get_chunks_by_lines>")
     return "\n".join(lines)
 
 
@@ -796,18 +862,29 @@ def nbrag_get_raw_file(file_path: str, collection_name: str, line_start: int = -
     data = get_file_chunks(file_path, collection_name, 0, 0, raw=True, line_start=line_start, line_end=line_end)
     if not data.get("found"):
         detail = data.get("error") or ""
-        suffix = f" Detail: {detail}" if detail else ""
+        suffix = f" Detail: {detail}." if detail else ""
         return (
-            "Raw file not found. Check file_path from prior nbrag results, "
-            "or use nbrag_find_files/nbrag_list to get the exact full file_path."
-            f"{suffix}"
+            f'<error type="not_found" field="file_path">\n'
+            f"Raw file not found.{suffix}\n"
+            f"Recovery: copy file_path from prior nbrag results, "
+            f"or use nbrag_find_files / nbrag_list to get the exact full file_path.\n"
+            f'</error>'
         )
 
+    file_path_str = str(data.get("source", file_path))
+    doc_id_str = str(data.get("doc_id", "?"))
+    total_lines = str(data.get("total_lines", "?"))
+    ls = str(data.get("line_start", "?"))
+    le = str(data.get("line_end", "?"))
+    content = str(data.get("content", ""))
+
     lines = [
-        f"original_file: {data.get('filename', '?')} | file_path: {data.get('source', '?')} | doc_id: {data.get('doc_id', '?')}",
-        f"total_lines: {data.get('total_lines', '?')} | range: line:{data.get('line_start', '?')}-{data.get('line_end', '?')}",
-        "Content source: stored original-file snapshot captured at ingestion time.",
-        str(data.get("content", "")),
+        f'<nbrag_get_raw_file file_path="{file_path_str}" doc_id="{doc_id_str}" total_lines="{total_lines}" line_start="{ls}" line_end="{le}">',
+        "<content>",
+        content,
+        "</content>",
+        "",
+        "</nbrag_get_raw_file>",
     ]
     return "\n".join(lines)
 
