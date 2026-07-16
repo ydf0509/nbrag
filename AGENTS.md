@@ -33,7 +33,7 @@ D:/ProgramData/miniconda3/envs/py312/python.exe d:/codes/nbrag/scripts/start_htt
 尤其是在修改下面这些文件时候，特别要注意server.py 的mcp函数入参注释、docstring、 mcp_tools返回值内容
 D:/codes/nbrag/nbrag/mcp_tools.py
 D:/codes/nbrag/nbrag/server.py
-D:/codes/nbrag/nbrag/skills/nbrag-workflow/SKILL.md
+D:/codes/nbrag/nbrag/skills/nbrag-workflow/SKILL.md 
 
 这些文件的文字说明和函数返回都是面向ai的，而不是面向人的
 要参考 D:/codes/nbrag/.agents/skills/nbrag-code-authoring/SKILL.md 这个 nbrag-code-authoring 这个skill
