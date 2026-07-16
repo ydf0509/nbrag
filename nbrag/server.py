@@ -131,7 +131,7 @@ def nbrag_search(
 
     Returned text is structured for follow-up calls. Each hit includes stable reusable fields such as:
     - chunk_index + total_chunks
-    - chunk_index:X
+    - chunk_index="..." (XML attribute on <hit>)
     - total_chunks:Y
     - line_start + line_end
     - doc_id:...
@@ -350,7 +350,7 @@ def nbrag_get_raw_file(
 @mcp.tool()
 def nbrag_get_adjacent_chunks(
     doc_id: str = Field(description="Document ID returned by nbrag tools such as search/search_and_fetch/grep/list"),
-    chunk_index: int = Field(description="Target chunk index from a search/search_and_fetch result field like chunk_index + total_chunks or chunk_index:X"),
+    chunk_index: int = Field(description="Target chunk index from a search/search_and_fetch result field like chunk_index + total_chunks"),
     collection_name: str = FuncFields.collection_name,
     window: int = Field(default=3, description="Return chunk_index ± window chunks"),
 ) -> str:
