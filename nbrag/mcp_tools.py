@@ -280,6 +280,7 @@ def _format_search_results(
     filter_file_path: str = "",
     include_content: bool = True,
     bm25_query: str = "",
+    root_tag: str = "nbrag_search",
 ) -> str:
     cfg = get_config()
     top_k = _int_param(top_k, 5)
@@ -308,49 +309,54 @@ def _format_search_results(
 
     rerank_str = cfg.rerank.model if rerank_used else "off"
     bm25_str = "off" if path_filter and use_vector else ("on" if use_bm25 else "off")
-    lines = [f"[{collection_name}] {total} chunks | bm25: {bm25_str} | rerank: {rerank_str}"]
+
+    # 根标签属性
+    root_attrs = [f'collection_name="{collection_name}"', f'total_chunks="{total}"', f'bm25="{bm25_str}"', f'rerank="{rerank_str}"']
     if path_filter:
-        lines[0] += f" | filter_file_path: {path_filter}"
-    lines.extend([
-        "",
-        "Returned handle fields for follow-up: file_path, doc_id, chunk_index, line range.",
-        "query is the main semantic query used by vector retrieval and reranking. bm25_query, when provided, is the lexical-anchor query used only by BM25.",
-        "",
-    ])
-    if path_filter and use_vector:
-        lines.extend([
-            "Behavior note: with filter_file_path set, current hybrid behavior narrows vector retrieval to that single file and does not run cross-file BM25 fusion.",
-            "",
-        ])
+        root_attrs.append(f'filter_file_path="{path_filter}"')
+    lines = [f"<{root_tag} {' '.join(root_attrs)}>"]
+    lines.append("Follow-up handles in <hit>: file_path, doc_id, chunk_index, line_start, line_end.")
+    lines.append("")
+    lines.append("<ranked_hits>")
 
     for i, (doc, meta, dist) in enumerate(zip(documents, metadatas, distances)):
         if meta is None:
             meta = {}
-        src = meta.get("source", meta.get("filename", "?"))
-        ci = meta.get("chunk_index", "?")
-        tc = meta.get("total_chunks", "?")
-        ls = meta.get("line_start", "?")
-        le = meta.get("line_end", "?")
+        file_path = _meta_file_path(meta)
+        chunk_index = _meta_chunk_index(meta)
+        total_chunks = str(meta.get("total_chunks", "?"))
+        line_start = str(meta.get("line_start", "?"))
+        line_end = str(meta.get("line_end", "?"))
         scope = str(meta.get("scope", ""))
         doc_id = str(meta.get("doc_id", "?"))
 
-        meta_parts = [f"chunk:{ci}/{tc}", f"chunk_index:{ci}", f"total_chunks:{tc}", f"line:{ls}-{le}"]
+        hit_attrs = [
+            f'rank="{i + 1}"',
+            f'file_path="{file_path}"',
+            f'doc_id="{doc_id}"',
+            f'chunk_index="{chunk_index}"',
+            f'total_chunks="{total_chunks}"',
+            f'line_start="{line_start}"',
+            f'line_end="{line_end}"',
+        ]
         if scope:
-            meta_parts.append(f"scope:{scope}")
-        meta_parts.append(f"doc_id:{doc_id}")
-        meta_parts.append(f"dist:{dist:.4f}")
+            hit_attrs.append(f'scope="{scope}"')
+        hit_attrs.append(f'dist="{dist:.4f}"')
         if rerank_scores and i < len(rerank_scores):
-            meta_parts.append(f"score:{rerank_scores[i]:.4f}")
-
-        lines.append(f"[{i + 1}/{len(documents)}] {meta.get('filename', '?')} {' '.join(meta_parts)}")
-        lines.append(f"file_path: {src}")
+            hit_attrs.append(f'score="{rerank_scores[i]:.4f}"')
 
         if include_content:
+            lines.append(f'<hit {" ".join(hit_attrs)}>')
+            lines.append("<content>")
             lines.append(doc)
+            lines.append("</content>")
+            lines.append("</hit>")
         else:
-            lines.append("content omitted")
-        lines.append("")
+            lines.append(f'<hit {" ".join(hit_attrs)} />')
 
+    lines.append("</ranked_hits>")
+    lines.append("")
+    lines.append(f"</{root_tag}>")
     return "\n".join(lines)
 
 
@@ -374,6 +380,7 @@ def nbrag_search(
         filter_file_path=filter_file_path,
         include_content=include_content,
         bm25_query=bm25_query,
+        root_tag="nbrag_search",
     )
 
 
@@ -393,6 +400,7 @@ def nbrag_search_only_bm25(
         use_vector=False,
         filter_file_path=filter_file_path,
         include_content=include_content,
+        root_tag="nbrag_search_only_bm25",
     )
 
 
@@ -403,14 +411,16 @@ def nbrag_search_only_vector(
     filter_file_path: str = "",
     include_content: bool = True,
 ) -> str:
-    return nbrag_search(
+    return _format_search_results(
         query=query,
         collection_name=collection_name,
         top_k=top_k,
         use_rerank=False,
         use_bm25=False,
+        use_vector=True,
         filter_file_path=filter_file_path,
         include_content=include_content,
+        root_tag="nbrag_search_only_vector",
     )
 
 
