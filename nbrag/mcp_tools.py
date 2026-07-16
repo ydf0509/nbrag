@@ -652,26 +652,32 @@ def nbrag_find_files(pattern: str, collection_name: str, max_results: int = 20, 
         if collection_issue:
             return collection_issue
         return (
-            "No files matched. Possible adjustments: try a shorter filename fragment, a different suffix, a regex pattern, "
-            "or first use nbrag_search_and_fetch/nbrag_grep to discover candidate files."
+            '<error type="no_results" field="pattern">\n'
+            'No files matched.\n'
+            'Recovery: try a shorter filename fragment, a different suffix, a regex pattern, '
+            'or first use nbrag_search_and_fetch/nbrag_grep to discover candidate files.\n'
+            '</error>'
         )
 
     lines = [
-        f"matched files: {len(files)}",
-        "",
-        "Returned handle field for follow-up: file_path.",
-        "",
+        '<nbrag_find_files>',
+        'Follow-up handle in <file>: file_path.',
+        '',
+        '<files>',
     ]
     for item in files:
-        chunk_count = item.get("chunk_count", item.get("total_chunks", "?"))
-        total_chunks = item.get("total_chunks", chunk_count)
-        match = item.get("match", "?")
+        file_path = str(item.get("source", item.get("file_path", "?")))
+        doc_id = str(item.get("doc_id", "?"))
+        filename = str(item.get("filename", "?"))
+        total_chunks = str(item.get("total_chunks", item.get("chunk_count", "?")))
+        match = str(item.get("match", "?"))
         lines.append(
-            f"filename: {item.get('filename', '?')} | doc_id: {item.get('doc_id', '?')} | "
-            f"chunk_count: {chunk_count} | total_chunks: {total_chunks} | match: {match}"
+            f'<file file_path="{file_path}" doc_id="{doc_id}" filename="{filename}" '
+            f'total_chunks="{total_chunks}" match="{match}"/>'
         )
-        lines.append(f"file_path: {item.get('source', item.get('file_path', '?'))}")
-        lines.append("")
+    lines.append('</files>')
+    lines.append('')
+    lines.append('</nbrag_find_files>')
     return "\n".join(lines)
 
 
@@ -898,20 +904,30 @@ def nbrag_list(collection_name: str, offset: int = 0, limit: int = 100) -> str:
         if collection_issue:
             return collection_issue
         return (
-            "No documents in this collection. Possible adjustments: verify collection_name with nbrag_stats(), "
-            "or ask the user whether this knowledge base has been prepared/ingested."
+            '<error type="no_results" field="collection_name">\n'
+            'No documents in this collection.\n'
+            'Recovery: verify collection_name with nbrag_stats(), '
+            'or ask the user whether this knowledge base has been prepared/ingested.\n'
+            '</error>'
         )
 
     lines = [
-        f"documents returned: {len(rows)} | offset: {offset} | limit: {limit}",
-        "Returned handle fields for follow-up: doc_id, file_path.",
-        "",
+        f'<nbrag_list collection_name="{collection_name}" offset="{offset}" limit="{limit}">',
+        'Follow-up handles in <document>: doc_id, file_path.',
+        '',
+        '<documents>',
     ]
     for doc_id, row in rows.items():
-        chunk_count = row.get("chunk_count", row.get("total_chunks", 0))
-        lines.append(f"doc_id: {doc_id} | filename: {row.get('filename', '?')} | chunk_count: {chunk_count} | total_chunks: {row.get('total_chunks', chunk_count)}")
-        lines.append(f"file_path: {row.get('source', '?')}")
-        lines.append("")
+        file_path = str(row.get("source", row.get("file_path", "?")))
+        filename = str(row.get("filename", "?"))
+        total_chunks = str(row.get("total_chunks", row.get("chunk_count", "?")))
+        lines.append(
+            f'<document doc_id="{doc_id}" file_path="{file_path}" filename="{filename}" '
+            f'total_chunks="{total_chunks}"/>'
+        )
+    lines.append('</documents>')
+    lines.append('')
+    lines.append('</nbrag_list>')
     return "\n".join(lines)
 
 
@@ -919,21 +935,23 @@ def nbrag_stats() -> str:
     stats = get_stats()
     collections = stats.get("collections", {})
     if not collections:
-        return "No collections found. Ask the user to prepare/import a knowledge base first."
+        return (
+            '<error type="no_results" field="collection_name">\n'
+            'No collections found.\n'
+            'Recovery: ask the user to prepare/import a knowledge base first.\n'
+            '</error>'
+        )
 
     lines = [
-        
-        "Use collection_name(知识库名字) exactly as shown below when calling retrieval tools.",
-        "If this is the first nbrag call in the current task, consult nbrag_help() before choosing a retrieval tool.",
-        "This tool resolves collection routing only; it does not choose the retrieval strategy for you.",
-        "\n collections:",
-        "",
+        '<nbrag_stats>',
+        'Use collection_name exactly as shown below when calling retrieval tools.',
+        '',
+        '<collections>',
     ]
     for name, info in collections.items():
-        docs = info.get("docs", info.get("doc_count", 0))
-        chunks = info.get("chunks", info.get("chunk_count", 0))
-        lines.append(f"- {name}: docs={docs} chunks={chunks}")
-        lines.append(f"  collection_name(知识库名字): {name}")
+        docs = str(info.get("docs", info.get("doc_count", 0)))
+        chunks = str(info.get("chunks", info.get("chunk_count", 0)))
+        attrs = [f'collection_name="{name}"', f'docs="{docs}"', f'chunks="{chunks}"']
         display_name = info.get("display_name")
         description = info.get("description")
         aliases = info.get("aliases") or []
@@ -942,22 +960,25 @@ def nbrag_stats() -> str:
         chunk_overlap = info.get("chunk_overlap")
         last_ingested_at = info.get("last_ingested_at")
         if display_name:
-            lines.append(f"  display_name: {display_name}")
+            attrs.append(f'display_name="{display_name}"')
         if description:
-            lines.append(f"  description: {description}")
+            attrs.append(f'description="{description}"')
         if aliases:
-            lines.append(f"  aliases: {', '.join(str(item) for item in aliases)}")
+            attrs.append(f'aliases="{", ".join(str(item) for item in aliases)}"')
         if tags:
-            lines.append(f"  tags: {', '.join(str(item) for item in tags)}")
+            attrs.append(f'tags="{", ".join(str(item) for item in tags)}"')
         if chunk_size:
-            lines.append(f"  chunk_size: {chunk_size}")
+            attrs.append(f'chunk_size="{chunk_size}"')
         if chunk_overlap:
-            lines.append(f"  chunk_overlap: {chunk_overlap}")
+            attrs.append(f'chunk_overlap="{chunk_overlap}"')
         if last_ingested_at:
-            lines.append(f"  last_ingested_at: {last_ingested_at}")
-        lines.append("")
-    lines.append("After choosing collection_name, continue with nbrag_help-guided retrieval planning rather than answering from collection inventory alone.")
-    lines.append("Use nbrag_search_and_fetch() for most semantic/source-backed questions, nbrag_search() for finer control, nbrag_grep() for exact wording, and nbrag_find_definition() only for Python .py symbol definitions.")
+            attrs.append(f'last_ingested_at="{last_ingested_at}"')
+        lines.append(f'<collection {" ".join(attrs)}/>')
+    lines.append('</collections>')
+    lines.append('')
+    lines.append('After choosing collection_name, continue with nbrag_search_and_fetch for most questions.')
+    lines.append('')
+    lines.append('</nbrag_stats>')
     return "\n".join(lines)
 
 
