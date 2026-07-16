@@ -263,7 +263,7 @@ def nbrag_help() -> str:
         "- Use nbrag_get_file_chunks(), nbrag_get_adjacent_chunks(), or nbrag_get_chunks_by_lines() when you need chunk boundaries, scope metadata, or local chunk context.",
         "- Use nbrag_find_files() when you only know a filename fragment and do not yet have the exact full absolute file_path.",
         "",
-        "Stable follow-up fields: file_path, doc_id, chunk_index, line:N-M.",
+        "Stable follow-up fields: file_path, doc_id, chunk_index, line_start, line_end.",
     ]
     if skill_text:
         skeleton.extend(["", "nbrag workflow skill:", skill_text])

@@ -1,4 +1,4 @@
-﻿---
+---
 name: nbrag-workflow
 description: Use when the task requires searching imported nbrag knowledge bases or choosing between nbrag retrieval and follow-up tools.
 ---
@@ -61,7 +61,7 @@ Before calling a retrieval tool, decide:
 | Overlap-free original text | `nbrag_get_raw_file()` | You need clean quoting, wider source reading, or a specific line range | You need chunk boundaries / scope metadata |
 | Paginated chunk view for one file | `nbrag_get_file_chunks()` | You want chunk-by-chunk browsing with line/scope metadata | You need overlap-free original text |
 | Expand around a known hit | `nbrag_get_adjacent_chunks()` | You have `doc_id` + `chunk_index` from search results and want nearby chunks | You only have grep output without `chunk_index` |
-| Chunk view covering a line range | `nbrag_get_chunks_by_lines()` | You know `doc_id` + `line:N-M` and want chunk/scope context | You only need raw source text |
+| Chunk view covering a line range | `nbrag_get_chunks_by_lines()` | You know `doc_id` + `line_start + line_end` and want chunk/scope context | You only need raw source text |
 
 ## 4. Semantic retrieval vs lexical retrieval
 
@@ -198,7 +198,7 @@ The most important reusable handles are:
 - `file_path`
 - `doc_id`
 - `chunk_index`
-- `line:N-M`
+- `line_start`, `line_end`
 
 ### `file_path`
 Use it with:
@@ -217,12 +217,12 @@ Use with:
 - `nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)`
 
 Get `chunk_index` from search results such as:
-- `chunk:X/Y`
-- `chunk_index:X`
+- `chunk_index` attribute on `<hit>` from `nbrag_search` / `nbrag_search_and_fetch`
+- `chunk_index` attribute on `<chunk>` from `nbrag_get_file_chunks`
 
 Do not try this from grep output alone, because grep does not provide `chunk_index`.
 
-### `doc_id + line:N-M`
+### `doc_id + line_start + line_end`
 Use with:
 - `nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)`
 
