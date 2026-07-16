@@ -601,44 +601,45 @@ def nbrag_find_definition(
         if collection_issue:
             return collection_issue
         return (
-            "No definition found. Python source may use a different exact name, or this knowledge base may be non-Python text. "
-            "Possible adjustments: try nbrag_grep for exact text/regex, use nbrag_search_and_fetch for concept/example discovery, "
-            "or verify that this collection actually contains Python .py source files."
+            '<error type="no_results" field="symbol">\n'
+            'No definition found. Python source may use a different exact name, or this knowledge base may be non-Python text.\n'
+            'Recovery: try nbrag_grep for exact text/regex, use nbrag_search_and_fetch for concept/example discovery, '
+            'or verify that this collection actually contains Python .py source files.\n'
+            '</error>'
         )
 
     python_symbol_types = {"class", "function", "method"}
     has_python_definition = any(str(r.get("symbol_type", "")).lower() in python_symbol_types for r in results)
     has_non_python_fallback = any(str(r.get("symbol_type", "")).lower() not in python_symbol_types for r in results)
 
-    lines = [
-        f"definitions: {len(results)}",
-        "",
-        "Returned handle fields for follow-up: file_path, doc_id, line range.",
-        "",
-    ]
+    lines = ['<nbrag_find_definition>', 'Follow-up handles in <definition>: file_path, doc_id, line_start, line_end.', '']
     if has_non_python_fallback and not has_python_definition:
-        lines.append("Only regex fallback results were found. For non-Python text, use nbrag_grep for exact wording lookup.")
-        lines.append("")
-
-    for index, r in enumerate(results, 1):
+        lines.append('Only regex fallback results were found. For non-Python text, use nbrag_grep for exact wording lookup.')
+        lines.append('')
+    lines.append('<definitions>')
+    for r in results:
         symbol_type = str(r.get("symbol_type", "unknown"))
         qualified_name = r.get("qualified_name") or symbol
-        source = r.get("source", "?")
-        line_start = r.get("line_start", "?")
-        line_end = r.get("line_end", "?")
-        doc_id = r.get("doc_id", "?")
-        definition = r.get("definition") or r.get("content", "")
-        methods_summary = r.get("methods_summary", "")
-
+        file_path = str(r.get("source", "?"))
+        line_start = str(r.get("line_start", "?"))
+        line_end = str(r.get("line_end", "?"))
+        doc_id = str(r.get("doc_id", "?"))
+        definition = str(r.get("definition") or r.get("content", ""))
+        methods_summary = str(r.get("methods_summary", ""))
         display_symbol_type = symbol_type if symbol_type.lower() in python_symbol_types else "regex_fallback"
-        lines.append(f"[{index}/{len(results)}] {display_symbol_type} {qualified_name} | line:{line_start}-{line_end} | doc_id:{doc_id}")
-        lines.append(f"file_path: {source}")
-        if symbol_type.lower() not in python_symbol_types:
-            lines.append("Regex fallback in non-Python file")
+
+        lines.append(f'<definition symbol_type="{display_symbol_type}" qualified_name="{qualified_name}" file_path="{file_path}" doc_id="{doc_id}" line_start="{line_start}" line_end="{line_end}">')
+        lines.append('<content>')
+        lines.append(definition)
+        lines.append('</content>')
         if methods_summary:
-            lines.append(str(methods_summary))
-        lines.append(str(definition))
-        lines.append("")
+            lines.append('<methods_summary>')
+            lines.append(methods_summary)
+            lines.append('</methods_summary>')
+        lines.append('</definition>')
+    lines.append('</definitions>')
+    lines.append('')
+    lines.append('</nbrag_find_definition>')
     return "\n".join(lines)
 
 
