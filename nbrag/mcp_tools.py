@@ -270,6 +270,36 @@ def nbrag_help() -> str:
     return "\n".join(skeleton)
 
 
+def _format_hit_xml(meta: dict, rank: int, dist: float, rerank_score: float | None, include_content: bool, doc: str = "") -> str:
+    """Format one ranked hit as <hit> XML. Shared by _format_search_results and nbrag_search_and_fetch."""
+    file_path = _meta_file_path(meta)
+    chunk_index = _meta_chunk_index(meta)
+    total_chunks = str(meta.get("total_chunks", "?"))
+    line_start = str(meta.get("line_start", "?"))
+    line_end = str(meta.get("line_end", "?"))
+    scope = str(meta.get("scope", ""))
+    doc_id = str(meta.get("doc_id", "?"))
+
+    hit_attrs = [
+        f'rank="{rank}"',
+        f'file_path="{file_path}"',
+        f'doc_id="{doc_id}"',
+        f'chunk_index="{chunk_index}"',
+        f'total_chunks="{total_chunks}"',
+        f'line_start="{line_start}"',
+        f'line_end="{line_end}"',
+    ]
+    if scope:
+        hit_attrs.append(f'scope="{scope}"')
+    hit_attrs.append(f'dist="{dist:.4f}"')
+    if rerank_score is not None:
+        hit_attrs.append(f'score="{rerank_score:.4f}"')
+
+    if include_content:
+        return f'<hit {" ".join(hit_attrs)}>\n<content>\n{doc}\n</content>\n</hit>'
+    return f'<hit {" ".join(hit_attrs)} />'
+
+
 def _format_search_results(
     query: str,
     collection_name: str,
@@ -322,37 +352,8 @@ def _format_search_results(
     for i, (doc, meta, dist) in enumerate(zip(documents, metadatas, distances)):
         if meta is None:
             meta = {}
-        file_path = _meta_file_path(meta)
-        chunk_index = _meta_chunk_index(meta)
-        total_chunks = str(meta.get("total_chunks", "?"))
-        line_start = str(meta.get("line_start", "?"))
-        line_end = str(meta.get("line_end", "?"))
-        scope = str(meta.get("scope", ""))
-        doc_id = str(meta.get("doc_id", "?"))
-
-        hit_attrs = [
-            f'rank="{i + 1}"',
-            f'file_path="{file_path}"',
-            f'doc_id="{doc_id}"',
-            f'chunk_index="{chunk_index}"',
-            f'total_chunks="{total_chunks}"',
-            f'line_start="{line_start}"',
-            f'line_end="{line_end}"',
-        ]
-        if scope:
-            hit_attrs.append(f'scope="{scope}"')
-        hit_attrs.append(f'dist="{dist:.4f}"')
-        if rerank_scores and i < len(rerank_scores):
-            hit_attrs.append(f'score="{rerank_scores[i]:.4f}"')
-
-        if include_content:
-            lines.append(f'<hit {" ".join(hit_attrs)}>')
-            lines.append("<content>")
-            lines.append(doc)
-            lines.append("</content>")
-            lines.append("</hit>")
-        else:
-            lines.append(f'<hit {" ".join(hit_attrs)} />')
+        rerank_score = rerank_scores[i] if rerank_scores and i < len(rerank_scores) else None
+        lines.append(_format_hit_xml(meta, i + 1, dist, rerank_score, include_content, doc=doc))
 
     lines.append("</ranked_hits>")
     lines.append("")
@@ -457,66 +458,29 @@ def nbrag_search_and_fetch(
 
     rerank_str = cfg.rerank.model if rerank_used else "off"
     bm25_str = "off" if path_filter else "on"
-    header = f"[{collection_name}] {total} chunks | bm25: {bm25_str} | rerank: {rerank_str}"
-    if filter_file_path:
-        header += f" | filter_file_path: {filter_file_path}"
-    lines = [
-        header,
-        "",
-        "This tool returns both ranked hits and auto-fetched stored original content.",
-        "query is the main semantic query used by vector retrieval and reranking. bm25_query, when provided, is the lexical-anchor query used only by BM25.",
-        "fetch_context_chars is per ranked hit: roughly N total context chars split half before and half after, not a total response cap.",
-        "Reused follow-up handles in ranked hits: file_path, doc_id, chunk_index, line:N-M.",
-        "",
-    ]
-    if path_filter:
-        lines.extend([
-            "Behavior note: with filter_file_path set, current hybrid behavior narrows vector retrieval to that single file and does not run cross-file BM25 fusion.",
-            "",
-        ])
-    lines.extend([
-        "Ranked search results:",
-        "",
-    ])
 
     fetch_targets: dict[str, dict[str, Any]] = {}
+    lines_hits = []
     for i, (doc, meta, dist) in enumerate(zip(documents, metadatas, distances)):
         if meta is None:
             meta = {}
-        src = meta.get("source", meta.get("filename", "?"))
-        ci = meta.get("chunk_index", "?")
-        tc = meta.get("total_chunks", "?")
+        rerank_score = rerank_scores[i] if rerank_scores and i < len(rerank_scores) else None
+        lines_hits.append(_format_hit_xml(meta, i + 1, dist, rerank_score, include_content=True, doc=doc))
+
+        # fetch_targets 构建（保留原逻辑：前 fetch_top_n_raw 个 hit 用于 raw 抓取）
+        src = _meta_file_path(meta)
+        doc_id = str(meta.get("doc_id", "?"))
         _ls = meta.get("line_start", 0)
         _le = meta.get("line_end", 0)
         ls = int(_ls) if isinstance(_ls, (int, float)) else 0
         le = int(_le) if isinstance(_le, (int, float)) else 0
-        scope = str(meta.get("scope", ""))
-        doc_id = str(meta.get("doc_id", "?"))
-
-        meta_parts = [f"chunk:{ci}/{tc}", f"chunk_index:{ci}", f"total_chunks:{tc}"]
-        if ls and le:
-            meta_parts.append(f"line:{ls}-{le}")
-        if scope:
-            meta_parts.append(f"scope:{scope}")
-        meta_parts.append(f"doc_id:{doc_id}")
-        meta_parts.append(f"dist:{dist:.4f}")
-        if rerank_scores and i < len(rerank_scores):
-            meta_parts.append(f"score:{rerank_scores[i]:.4f}")
-
-        lines.append(f"[{i + 1}/{len(documents)}] {meta.get('filename', '?')} {' '.join(meta_parts)}")
-        lines.append(f"file_path: {src}")
-        lines.append(doc)
-        lines.append("")
-
         if i < fetch_top_n_raw and doc_id != "?" and src != "?":
             if doc_id not in fetch_targets:
                 fetch_targets[doc_id] = {"src": str(src), "ranges": []}
             fetch_targets[doc_id]["ranges"].append((ls, le))
 
+    lines_fetched = []
     if fetch_top_n_raw > 0 and fetch_targets:
-        lines.append(f"Auto-fetched original content ({len(fetch_targets)} file(s)):")
-        lines.append("Returned raw snippets come from the stored original-file snapshot captured at ingestion time.")
-        lines.append("")
         for doc_id, info in fetch_targets.items():
             src = str(info["src"])
             ranges = info["ranges"]
@@ -527,7 +491,6 @@ def nbrag_search_and_fetch(
             if not raw_data.get("found"):
                 continue
 
-            filename = os.path.basename(src)
             raw_content = str(raw_data.get("content", ""))
             raw_lines, offsets = _build_line_char_index(raw_content)
             expanded_ranges = [
@@ -538,10 +501,28 @@ def nbrag_search_and_fetch(
 
             for start, end in merged_ranges:
                 excerpt = "".join(raw_lines[start - 1:end]) if raw_lines else raw_content
-                lines.append(f"original_file: {filename} | file_path: {src} | doc_id: {doc_id} | range: line:{start}-{end}")
-                lines.append(excerpt)
-                lines.append("")
+                lines_fetched.append(
+                    f'<raw file_path="{src}" doc_id="{doc_id}" line_start="{start}" line_end="{end}">\n'
+                    f'<content>\n{excerpt}\n</content>\n</raw>'
+                )
 
+    root_attrs = [f'collection_name="{collection_name}"', f'total_chunks="{total}"', f'bm25="{bm25_str}"', f'rerank="{rerank_str}"']
+    if path_filter:
+        root_attrs.append(f'filter_file_path="{path_filter}"')
+
+    lines = [f"<nbrag_search_and_fetch {' '.join(root_attrs)}>"]
+    lines.append("Follow-up handles in <hit>: file_path, doc_id, chunk_index, line_start, line_end.")
+    lines.append("")
+    lines.append("<ranked_hits>")
+    lines.extend(lines_hits)
+    lines.append("</ranked_hits>")
+    lines.append("")
+    if lines_fetched:
+        lines.append("<fetched_raw>")
+        lines.extend(lines_fetched)
+        lines.append("</fetched_raw>")
+        lines.append("")
+    lines.append("</nbrag_search_and_fetch>")
     return "\n".join(lines)
 
 
