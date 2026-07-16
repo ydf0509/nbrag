@@ -555,23 +555,37 @@ def nbrag_grep(
         if collection_issue:
             return collection_issue
         return (
-            "No grep matches. Possible adjustments: check exact wording/case, escape regex metacharacters if you intended literal matching, "
-            "try regex if appropriate, or switch to nbrag_search_and_fetch for semantic discovery when this is a concept, alias, or paraphrase rather than exact source wording."
+            '<error type="no_results" field="keyword">\n'
+            'No grep matches.\n'
+            'Recovery: check exact wording/case, escape regex metacharacters if you intended literal matching, '
+            'try regex if appropriate, or switch to nbrag_search_and_fetch for semantic discovery '
+            'when this is a concept, alias, or paraphrase rather than exact source wording.\n'
+            '</error>'
         )
 
+    root_attrs = [f'case_sensitive="{"true" if case_sensitive else "false"}"']
+    if path_filter:
+        root_attrs.append(f'filter_file_path="{path_filter}"')
     lines = [
-        f"grep matches: {len(results)}",
-        "",
-        "match_context_chars is per grep match: roughly N total context chars split half before and half after, not a total response cap.",
-        "Returned handle fields for follow-up: file_path, doc_id, matched_line, line_range.",
-        "",
+        f'<nbrag_grep {" ".join(root_attrs)}>',
+        'Follow-up handles in <match>: file_path, doc_id, line_start, line_end.',
+        '',
+        '<matches>',
     ]
     for item in results:
         line_number = item.get("line_number", "?")
-        lines.append(f"{item.get('filename', '?')} | matched_line: {line_number} | line_range: line:{line_number}-{line_number} | doc_id: {item.get('doc_id', '?')}")
-        lines.append(f"file_path: {item.get('source', '?')}")
-        lines.append(str(item.get("context", "")))
-        lines.append("")
+        ln = str(line_number)
+        file_path = str(item.get("source", "?"))
+        doc_id = str(item.get("doc_id", "?"))
+        context = str(item.get("context", ""))
+        lines.append(f'<match file_path="{file_path}" doc_id="{doc_id}" line_start="{ln}" line_end="{ln}">')
+        lines.append('<content>')
+        lines.append(context)
+        lines.append('</content>')
+        lines.append('</match>')
+    lines.append('</matches>')
+    lines.append('')
+    lines.append('</nbrag_grep>')
     return "\n".join(lines)
 
 
