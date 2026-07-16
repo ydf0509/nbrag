@@ -73,6 +73,16 @@ def _bool_param(value, default: bool) -> bool:
     return value if isinstance(value, bool) else default
 
 
+def _meta_file_path(meta: dict) -> str:
+    """Map retrieval.py's source key to canonical file_path handle."""
+    return str(meta.get("source", meta.get("filename", "?")))
+
+
+def _meta_chunk_index(meta: dict) -> str:
+    """Map retrieval.py's index key to canonical chunk_index handle."""
+    return str(meta.get("chunk_index", meta.get("index", "?")))
+
+
 def _build_line_char_index(content: str) -> tuple[list[str], list[int]]:
     """Return raw lines (with line endings) and cumulative char offsets."""
     lines = content.splitlines(keepends=True)
@@ -121,10 +131,11 @@ def _merge_line_ranges(ranges: list[tuple[int, int]]) -> list[tuple[int, int]]:
 
 def _path_error(field_name: str) -> str:
     return (
-        f"Error: {field_name} must be a full absolute file_path returned by "
-        "nbrag_search/nbrag_search_and_fetch/nbrag_find_files/nbrag_list. "
-        "Next steps: use nbrag_find_files(pattern, collection_name) when you only know a filename, "
-        "or nbrag_list(collection_name) to browse available file_path values."
+        f"<error type=\"invalid_file_path\" field=\"{field_name}\">\n"
+        f"{field_name} must be a full absolute file_path returned by nbrag tools.\n"
+        f"Recovery: use nbrag_find_files(pattern, collection_name) when you only know a filename, "
+        f"or nbrag_list(collection_name) to browse available file_path values.\n"
+        f"</error>"
     )
 
 
@@ -135,14 +146,18 @@ def _collection_issue_text(collection_name: str, total: int) -> str:
         exists = collection_name in avail
         if not exists:
             return (
+                f"<error type=\"missing_collection\" field=\"collection_name\">\n"
                 f"collection '{collection_name}' does not exist.\n"
                 f"Available collections: {avail}\n"
-                "Next steps: call nbrag_stats() to inspect valid collection_name values, "
-                "then retry with the correct prepared knowledge base."
+                f"Recovery: call nbrag_stats() to inspect valid collection_name values, "
+                f"then retry with the correct prepared knowledge base.\n"
+                f"</error>"
             )
         return (
-            f"collection '{collection_name}' is empty. "
-            "Next steps: ask the user to ingest/prepare this knowledge base before searching."
+            f"<error type=\"empty_collection\" field=\"collection_name\">\n"
+            f"collection '{collection_name}' exists but has 0 chunks.\n"
+            f"Recovery: ingest documents first, or call nbrag_stats() to inspect other collections.\n"
+            f"</error>"
         )
     return ""
 
@@ -154,28 +169,34 @@ def _collection_presence_issue_text(collection_name: str) -> str:
     info = collections.get(collection_name)
     if info is None:
         return (
+            f"<error type=\"missing_collection\" field=\"collection_name\">\n"
             f"collection '{collection_name}' does not exist.\n"
             f"Available collections: {avail}\n"
-            "Next steps: call nbrag_stats() to inspect valid collection_name values, "
-            "then retry with the correct prepared knowledge base."
+            f"Recovery: call nbrag_stats() to inspect valid collection_name values, "
+            f"then retry with the correct prepared knowledge base.\n"
+            f"</error>"
         )
 
     docs = info.get("docs", info.get("doc_count", 0))
     chunks = info.get("chunks", info.get("chunk_count", 0))
     if not docs and not chunks:
         return (
-            f"collection '{collection_name}' is empty. "
-            "Next steps: ask the user to ingest/prepare this knowledge base before searching."
+            f"<error type=\"empty_collection\" field=\"collection_name\">\n"
+            f"collection '{collection_name}' exists but has 0 chunks.\n"
+            f"Recovery: ingest documents first, or call nbrag_stats() to inspect other collections.\n"
+            f"</error>"
         )
     return ""
 
 
 def _no_search_results_text(total: int) -> str:
     return (
+        f"<error type=\"no_results\" field=\"query\">\n"
         f"No results (collection has {total} chunks).\n"
-        "Possible adjustments: verify collection_name, minimally normalize the natural-language query without changing intent, "
-        "provide a bm25_query as lexical anchors for BM25 (not a keyword list — use exact terms/article numbers/symbols from user wording or context), "
-        "try nbrag_grep for exact terms/article numbers/symbols, or use nbrag_find_files + filter_file_path to narrow to a known file."
+        f"Recovery: verify collection_name, minimally normalize the natural-language query without changing intent, "
+        f"provide a bm25_query as lexical anchors, try nbrag_grep for exact terms, "
+        f"or use nbrag_find_files + filter_file_path to narrow to a known file.\n"
+        f"</error>"
     )
 
 
