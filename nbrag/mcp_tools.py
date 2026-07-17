@@ -292,6 +292,8 @@ def nbrag_help() -> str:
         "nbrag_get_raw_file puts handles as XML attributes on the root tag, not as a `key = value` surfacing block.",
         "Only the TOP result is surfaced via `key = value` lines; for non-top results, always scan the corresponding <hit>/<match>/<definition>/<file>/<document> XML attributes.",
         "",
+        "IMPORTANT: 所有检索类和 chunk 视图类工具返回的 <content> 都是 RAG chunk，必然是截断片段，不是完整原文。若 content 对回答有帮助，必须调用 nbrag_get_raw_file 或 nbrag_get_adjacent_chunks 扩展获取周围更多内容。nbrag_get_raw_file 是唯一返回完整原文（非截断）的工具。",
+        "",
         "Stable follow-up fields: file_path, doc_id, chunk_index, line_start, line_end.",
     ]
     if skill_text:
