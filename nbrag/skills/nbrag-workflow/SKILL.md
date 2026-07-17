@@ -155,6 +155,12 @@ If the user asks about multiple entities or people, avoid relying on one undersi
 
 ## 7. Raw text vs chunk view
 
+**核心规则：chunk 必然是截断片段，不是完整原文。**
+所有检索类工具（search/grep/find_definition）和 chunk 视图类工具返回的 `<content>` 都是 RAG chunk，
+按 chunk_size 机械切断，不存在"完整内容"。若某条 content 对回答有帮助，必须调用
+nbrag_get_raw_file 或 nbrag_get_adjacent_chunks 获取周围更多内容。
+nbrag_get_raw_file 是唯一返回完整原文（非截断）的工具。
+
 ### Use `nbrag_get_raw_file()` when you need:
 - stored original text captured at ingestion time
 - overlap-free reading
@@ -192,7 +198,21 @@ For non-Python text, the normal paths are:
 - `nbrag_grep()` for exact wording
 - `nbrag_search_and_fetch()` for semantic/source-backed discovery
 
+Handle boundary (no `chunk_index`):
+- `<definition>` exposes `file_path`, `doc_id`, `line_start`, `line_end`, but **not** `chunk_index`.
+- Do not pass `line_start` as `chunk_index` into `nbrag_get_adjacent_chunks()`. That is a silent wrong-anchor call.
+- To expand context around a definition, use `nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)` or `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)` instead.
+
 ## 9. Stable follow-up handles
+
+Retrieval and lookup tools (`nbrag_search`, `nbrag_search_and_fetch`, `nbrag_search_only_bm25`, `nbrag_search_only_vector`, `nbrag_grep`, `nbrag_find_definition`, `nbrag_find_files`, `nbrag_list`) surface the **top result's** handles as ready-to-use `key = value` lines at the top of the returned text, with an `Unlocks:` line listing candidate follow-up tools (pipe-separated; parameter names are placeholders to be filled with the surfaced values).
+
+The surfaced handle set varies by tool:
+- search / search_and_fetch / only_bm25 / only_vector: `file_path`, `doc_id`, `chunk_index`, `line_start`, `line_end`
+- grep / find_definition: `file_path`, `doc_id`, `line_start`, `line_end` (no `chunk_index`)
+- find_files / list: `file_path`, `doc_id` (only)
+
+When the next call targets the **top** result, reuse these values directly instead of scanning `<hit>` / `<match>` / `<file>` / `<document>` attributes. For non-top results, attribute scanning is still required. The block's title text varies by tool (e.g. "Top result handles —", "Top match handles —", "Top file handle —"); the structure is the same.
 
 The most important reusable handles are:
 - `file_path`
@@ -216,11 +236,12 @@ Rules:
 Use with:
 - `nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)`
 
-Get `chunk_index` from search results such as:
-- `chunk_index` attribute on `<hit>` from `nbrag_search` / `nbrag_search_and_fetch`
-- `chunk_index` attribute on `<chunk>` from `nbrag_get_file_chunks`
+Sources of `chunk_index`:
+- Top result handles block on `nbrag_search` / `nbrag_search_and_fetch` / `nbrag_search_only_bm25` / `nbrag_search_only_vector` (preferred — reuse directly)
+- `chunk_index` attribute on `<hit>` elements when you need a non-top ranked hit
+- `chunk_index` attribute on `<chunk>` elements from `nbrag_get_file_chunks` (this tool has no top-result surfacing block — attribute scan is required here)
 
-Do not try this from grep output alone, because grep does not provide `chunk_index`.
+`nbrag_grep` and `nbrag_find_definition` do **not** surface `chunk_index` at all; do not pass `line_start` as `chunk_index` into `nbrag_get_adjacent_chunks()`.
 
 ### `doc_id + line_start + line_end`
 Use with:
@@ -240,6 +261,7 @@ Current hybrid behavior matters:
 
 Use it when you are intentionally deepening inside a known file.
 Do not use it as if it were only a light ranking preference over the whole collection.
+When `filter_file_path` is set, the returned `bm25` attribute will show `off` because cross-file BM25 fusion is skipped — this is expected.
 
 ## 11. Normal multi-turn pattern
 
@@ -249,8 +271,16 @@ A good multi-turn retrieval flow usually looks like this:
 2. Start with semantic discovery or exact matching as appropriate
 3. Reuse precise terms from returned evidence as lexical anchors, and strengthen `bm25_query` as better wording appears
 4. Narrow to a file only when a specific file clearly becomes the target
-5. Expand with raw text or chunk context only when the current excerpt is insufficient
-6. Stop once the evidence is enough to answer
+5. 若某条 hit 的 content 对回答有帮助，必须调用 nbrag_get_raw_file 或 nbrag_get_adjacent_chunks 扩展
+6. Stop once the expanded original text is enough to answer
+
+Stop signals — any one is sufficient:
+- 扩展后的完整原文已经足以回答用户问题
+- additional rounds only surface duplicate / less-relevant hits
+- the requested handle (file_path / line range / definition) has been located
+- a follow-up raw/chunk read already produced the quotable evidence
+
+If unsure whether to stop, prefer answering with the evidence you have and noting the gap, over issuing another retrieval round with no changed query or scope.
 
 Good behavior:
 - each new call changes the retrieval condition in a useful way
@@ -263,7 +293,38 @@ Bad behavior:
 - forcing every task through every tool
 - continuing after the evidence is already sufficient
 
-## 12. Recovery hints
+## 12. Common combination patterns
+
+These are ready-made 2-3 step recipes. Reuse them instead of inventing chains.
+Each arrow shows which handle flows from the previous result into the next call.
+
+### Pattern A — Semantic hit, then expand chunk context
+Goal: a ranked hit is useful → 必须扩展获取完整内容（chunk 必然截断）。
+1. `nbrag_search_and_fetch(query, collection_name)` → Top result handles block gives `doc_id` + `chunk_index` (the `Required when content is useful:` line already shows this exact follow-up)
+2. `nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)` → nearby `<chunk>`s (each `<chunk>` carries its own `chunk_index` for further expansion)
+   或 `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)` → 完整原文
+
+### Pattern B — Only know a filename, then locate exact wording inside it
+Goal: you know the file but need a specific line/term.
+1. `nbrag_find_files(pattern, collection_name)` → Top file handle block gives `file_path`
+2. `nbrag_grep(keyword, collection_name, filter_file_path=<file_path>)` → Top match handles block gives `line_start` / `line_end`
+
+### Pattern C — Python symbol definition, then find all call sites
+Goal: understand a symbol, then see where it is used.
+1. `nbrag_find_definition(symbol, collection_name)` → Top definition handles block gives `file_path`, `line_start`, `line_end` (no `chunk_index`)
+2. `nbrag_grep(symbol, collection_name, filter_file_path=<file_path>)` → all matching lines inside that file
+
+### Pattern D — Semantic hit, then read clean original text around it
+Goal: quote source text without chunk overlap.
+1. `nbrag_search_and_fetch(query, collection_name)` → Top result handles block gives `file_path`, `line_start`, `line_end`
+2. `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)` → overlap-free original text
+
+### Pattern E — Browse a large file page by page
+Goal: chunk-by-chunk reading with pagination.
+1. `nbrag_get_file_chunks(file_path, collection_name, start_chunk=0)` → root has `has_more`
+2. if `has_more="true"`, call again with `start_chunk=<last chunk_index + 1>` until `has_more="false"`
+
+## 13. Recovery hints
 
 If a retrieval attempt fails or is weak:
 
@@ -279,7 +340,7 @@ If the result is relevant but still too small:
 - use `nbrag_get_adjacent_chunks()` for nearby chunk context
 - use `nbrag_get_chunks_by_lines()` when a line range is already known
 
-## 13. Budget awareness
+## 14. Budget awareness
 
 Context-size knobs are per-result budgets, not global response caps:
 - `fetch_context_chars` in `nbrag_search_and_fetch()` is per ranked hit
@@ -290,4 +351,4 @@ Large values combined with many hits can create unnecessarily large outputs.
 
 ## One-line summary
 
-Use `nbrag` as a retrieval workflow, not as a rigid script: choose the right collection, choose semantic vs lexical retrieval, keep `query` and `bm25_query` roles distinct, reuse stable follow-up handles, and stop once the evidence is enough to answer.
+Use `nbrag` as a retrieval workflow, not as a rigid script: choose the right collection, choose semantic vs lexical retrieval, keep `query` and `bm25_query` roles distinct, reuse the top-result handles surfaced at the top of each retrieval/lookup output, and stop once the evidence is enough to answer.
