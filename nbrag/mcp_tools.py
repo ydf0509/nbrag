@@ -832,6 +832,8 @@ def nbrag_get_adjacent_chunks(doc_id: str, chunk_index: int, collection_name: st
         f'<nbrag_get_adjacent_chunks file_path="{file_path}" doc_id="{doc_id_str}" total_chunks="{total_chunks}" window="{window}" anchor_chunk_index="{chunk_index}">',
         "Input chunk_index echoed above as anchor_chunk_index. Returned chunk handles below: chunk_index, line_start, line_end.",
         "",
+        "<chunk> 中的 <content> 是 RAG chunk，必然是截断片段，不是完整原文。若某条 content 对回答有帮助，必须调用 nbrag_get_raw_file 获取完整原文。",
+        "",
         "<chunks>",
     ]
     for chunk in chunks:
@@ -887,6 +889,8 @@ def nbrag_get_file_chunks(file_path: str, collection_name: str, start_chunk: int
     lines = [
         f'<nbrag_get_file_chunks file_path="{file_path_str}" doc_id="{doc_id_str}" total_chunks="{total_chunks}" total_lines="{total_lines}" start_chunk="{start_chunk}" max_chunks="{max_chunks}" has_more="{has_more}">',
         "Input start_chunk echoed above (pagination cursor, value-compatible with chunk_index but not a chunk handle). Returned chunk handles below: chunk_index, line_start, line_end.",
+        "",
+        "<chunk> 中的 <content> 是 RAG chunk，必然是截断片段，不是完整原文。若某条 content 对回答有帮助，必须调用 nbrag_get_raw_file 获取完整原文。",
         "",
         "<chunks>",
     ]
@@ -951,6 +955,8 @@ def nbrag_get_chunks_by_lines(doc_id: str, line_start: int, line_end: int, colle
     lines = [
         f'<nbrag_get_chunks_by_lines doc_id="{doc_id_str}" file_path="{file_path}" total_chunks="{total_chunks}" requested_line_start="{line_start}" requested_line_end="{line_end}">',
         "Input line_start/line_end echoed above as requested_line_start/requested_line_end. Returned chunk handles below: chunk_index, line_start, line_end (actual chunk coverage may differ from requested range).",
+        "",
+        "<chunk> 中的 <content> 是 RAG chunk，必然是截断片段，不是完整原文。若某条 content 对回答有帮助，必须调用 nbrag_get_raw_file 获取完整原文。",
         "",
         "<chunks>",
     ]
