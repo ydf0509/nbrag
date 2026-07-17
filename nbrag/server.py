@@ -96,7 +96,7 @@ class FuncFields:
     top_k: int = Field(default=5, description="Number of ranked hits to return")
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking. In the current hybrid implementation, this narrows vector retrieval to that file and skips cross-file BM25 fusion. Value comes from the file_path handle returned by nbrag tools.")
     bm25_query: str = Field(description="Lexical-anchor query used only by BM25. Build it from grounded wording likely to appear literally in the source: exact terms, aliases, article numbers, abbreviations, codes, API/class names, symbol names, titles, place names, event markers, error strings, or short phrases. Compared with query, bm25_query carries more source-facing lexical anchors and can combine multiple grounded anchors refined across turns from the user's wording, ongoing dialogue, or earlier hits. It does not affect vector retrieval or reranking.")
-    include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only lookup when you only need handles like file_path/doc_id/chunk_index")
+    include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only lookup when you only need handles like file_path/doc_id/chunk_index. Content is a truncated chunk fragment, not the full source")
     file_path: str = Field(description="Exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted")
     
 
@@ -331,6 +331,7 @@ def nbrag_get_file_chunks(
     For overlap-free original text, use nbrag_get_raw_file() instead.
 
     Returned text includes filename, doc_id, file_path, total_chunks, total_lines, and per-chunk line/scope markers. This tool does not surface a top-result handle block; scan the <chunk> XML attributes (chunk_index, line_start, line_end, scope) on each returned chunk directly.
+    Each <chunk>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a chunk's content is useful, you MUST call nbrag_get_raw_file to get the overlap-free original text.
     """
     return mcp_tools.nbrag_get_file_chunks(file_path, collection_name, start_chunk, max_chunks)
 
@@ -347,7 +348,8 @@ def nbrag_get_raw_file(
     This reads the original text captured in the knowledge base at ingestion time; it is not a live filesystem refresh.
     Use it when you need clean quoting, broader source context, or a specific line range.
 
-    Returned text includes file_path, doc_id, total_lines, line_start, and line_end as XML attributes on <nbrag_get_raw_file>, with the content under <content>."""
+    Returned text includes file_path, doc_id, total_lines, line_start, and line_end as XML attributes on <nbrag_get_raw_file>, with the content under <content>.
+    Unlike chunk-based tools, this returns overlap-free original text, not a truncated chunk. Use this when chunk content is useful and you need the complete surrounding text."""
     return mcp_tools.nbrag_get_raw_file(file_path, collection_name, line_start, line_end)
 
 
@@ -364,7 +366,8 @@ def nbrag_get_adjacent_chunks(
     and you want nearby chunks. grep results may provide doc_id, but grep alone does not provide chunk_index,
     so grep output is not sufficient by itself for this tool.
 
-    Returned text includes file_path, total_chunks, and the adjacent chunks with line markers."""
+    Returned text includes file_path, total_chunks, and the adjacent chunks with line markers.
+    Each <chunk>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a chunk's content is useful, you MUST call nbrag_get_raw_file to get the overlap-free original text."""
     return mcp_tools.nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name, window)
 
 
@@ -380,7 +383,8 @@ def nbrag_get_chunks_by_lines(
     Use this when you already know a line range and want chunk-level context with scope metadata.
     Compared with nbrag_get_raw_file(), this keeps chunk/scope structure but can include overlapping content by design.
 
-    Returned text includes doc_id, file_path, the requested line_start and line_end, and all overlapping chunks. This tool does not surface a top-result handle block; scan the <chunk> XML attributes (chunk_index, line_start, line_end) on each returned chunk directly."""
+    Returned text includes doc_id, file_path, the requested line_start and line_end, and all overlapping chunks. This tool does not surface a top-result handle block; scan the <chunk> XML attributes (chunk_index, line_start, line_end) on each returned chunk directly.
+    Each <chunk>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a chunk's content is useful, you MUST call nbrag_get_raw_file to get the overlap-free original text."""
     return mcp_tools.nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)
 
 
