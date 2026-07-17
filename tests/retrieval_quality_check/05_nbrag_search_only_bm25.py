@@ -3,7 +3,7 @@
 from _mcp_request import call_mcp_tool
 
 # ===== 可编辑参数区域 =====
-QUERY = "试用期"
+BM25_QUERY = "试用期"
 COLLECTION = "worker_rights"
 TOP_K = 3
 FILTER_FILE_PATH = ""
@@ -11,7 +11,7 @@ INCLUDE_CONTENT = True
 # ==========================
 
 params = {
-    "query": QUERY, "collection_name": COLLECTION,
+    "bm25_query": BM25_QUERY, "collection_name": COLLECTION,
     "top_k": TOP_K, "filter_file_path": FILTER_FILE_PATH,
     "include_content": INCLUDE_CONTENT,
 }

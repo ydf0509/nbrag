@@ -1,0 +1,1853 @@
+﻿diff --git a/nbrag/mcp_tools.py b/nbrag/mcp_tools.py
+index a98608e..a1c3724 100644
+--- a/nbrag/mcp_tools.py
++++ b/nbrag/mcp_tools.py
+@@ -66,20 +66,30 @@ def _str_param(value, default: str = "") -> str:
+ def _int_param(value, default: int) -> int:
+     """Normalize Field(...) defaults when MCP wrappers are called directly in tests."""
+     return value if isinstance(value, int) and not isinstance(value, bool) else default
+ 
+ 
+ def _bool_param(value, default: bool) -> bool:
+     """Normalize Field(...) defaults when MCP wrappers are called directly in tests."""
+     return value if isinstance(value, bool) else default
+ 
+ 
++def _meta_file_path(meta: dict) -> str:
++    """Map retrieval.py's source key to canonical file_path handle."""
++    return str(meta.get("source", meta.get("filename", "?")))
++
++
++def _meta_chunk_index(meta: dict) -> str:
++    """Map retrieval.py's index key to canonical chunk_index handle."""
++    return str(meta.get("chunk_index", meta.get("index", "?")))
++
++
+ def _build_line_char_index(content: str) -> tuple[list[str], list[int]]:
+     """Return raw lines (with line endings) and cumulative char offsets."""
+     lines = content.splitlines(keepends=True)
+     offsets = [0]
+     for line in lines:
+         offsets.append(offsets[-1] + len(line))
+     return lines, offsets
+ 
+ 
+ def _line_window_from_context_chars(lines: list[str], offsets: list[int], line_start: int, line_end: int, per_hit_context_chars: int) -> tuple[int, int]:
+@@ -114,75 +124,86 @@ def _merge_line_ranges(ranges: list[tuple[int, int]]) -> list[tuple[int, int]]:
+     for start, end in sorted(ranges):
+         if merged and start <= merged[-1][1] + 1:
+             merged[-1] = (merged[-1][0], max(merged[-1][1], end))
+         else:
+             merged.append((start, end))
+     return merged
+ 
+ 
+ def _path_error(field_name: str) -> str:
+     return (
+-        f"Error: {field_name} must be a full absolute file_path returned by "
+-        "nbrag_search/nbrag_search_and_fetch/nbrag_find_files/nbrag_list. "
+-        "Next steps: use nbrag_find_files(pattern, collection_name) when you only know a filename, "
+-        "or nbrag_list(collection_name) to browse available file_path values."
++        f"<error type=\"invalid_file_path\" field=\"{field_name}\">\n"
++        f"{field_name} must be a full absolute file_path returned by nbrag tools.\n"
++        f"Recovery: use nbrag_find_files(pattern, collection_name) when you only know a filename, "
++        f"or nbrag_list(collection_name) to browse available file_path values.\n"
++        f"</error>"
+     )
+ 
+ 
+ def _collection_issue_text(collection_name: str, total: int) -> str:
+     if total == 0:
+         stats = get_stats()
+         avail = list(stats["collections"].keys())
+         exists = collection_name in avail
+         if not exists:
+             return (
++                f"<error type=\"missing_collection\" field=\"collection_name\">\n"
+                 f"collection '{collection_name}' does not exist.\n"
+                 f"Available collections: {avail}\n"
+-                "Next steps: call nbrag_stats() to inspect valid collection_name values, "
+-                "then retry with the correct prepared knowledge base."
++                f"Recovery: call nbrag_stats() to inspect valid collection_name values, "
++                f"then retry with the correct prepared knowledge base.\n"
++                f"</error>"
+             )
+         return (
+-            f"collection '{collection_name}' is empty. "
+-            "Next steps: ask the user to ingest/prepare this knowledge base before searching."
++            f"<error type=\"empty_collection\" field=\"collection_name\">\n"
++            f"collection '{collection_name}' exists but has 0 chunks.\n"
++            f"Recovery: ingest documents first, or call nbrag_stats() to inspect other collections.\n"
++            f"</error>"
+         )
+     return ""
+ 
+ 
+ def _collection_presence_issue_text(collection_name: str) -> str:
+     stats = get_stats()
+     collections = stats.get("collections", {})
+     avail = list(collections.keys())
+     info = collections.get(collection_name)
+     if info is None:
+         return (
++            f"<error type=\"missing_collection\" field=\"collection_name\">\n"
+             f"collection '{collection_name}' does not exist.\n"
+             f"Available collections: {avail}\n"
+-            "Next steps: call nbrag_stats() to inspect valid collection_name values, "
+-            "then retry with the correct prepared knowledge base."
++            f"Recovery: call nbrag_stats() to inspect valid collection_name values, "
++            f"then retry with the correct prepared knowledge base.\n"
++            f"</error>"
+         )
+ 
+     docs = info.get("docs", info.get("doc_count", 0))
+     chunks = info.get("chunks", info.get("chunk_count", 0))
+     if not docs and not chunks:
+         return (
+-            f"collection '{collection_name}' is empty. "
+-            "Next steps: ask the user to ingest/prepare this knowledge base before searching."
++            f"<error type=\"empty_collection\" field=\"collection_name\">\n"
++            f"collection '{collection_name}' exists but has 0 chunks.\n"
++            f"Recovery: ingest documents first, or call nbrag_stats() to inspect other collections.\n"
++            f"</error>"
+         )
+     return ""
+ 
+ 
+ def _no_search_results_text(total: int) -> str:
+     return (
++        f"<error type=\"no_results\" field=\"query\">\n"
+         f"No results (collection has {total} chunks).\n"
+-        "Possible adjustments: verify collection_name, minimally normalize the natural-language query without changing intent, "
+-        "provide a bm25_query as lexical anchors for BM25 (not a keyword list — use exact terms/article numbers/symbols from user wording or context), "
+-        "try nbrag_grep for exact terms/article numbers/symbols, or use nbrag_find_files + filter_file_path to narrow to a known file."
++        f"Recovery: verify collection_name, minimally normalize the natural-language query without changing intent, "
++        f"provide a bm25_query as lexical anchors, try nbrag_grep for exact terms, "
++        f"or use nbrag_find_files + filter_file_path to narrow to a known file.\n"
++        f"</error>"
+     )
+ 
+ 
+ def nbrag_add_document(
+     path: str,
+     collection_name: str,
+     chunk_size: int = DEFAULT_CHUNK_SIZE,
+     chunk_overlap: int = DEFAULT_CHUNK_OVERLAP,
+     file_extensions: str = "",
+ ) -> str:
+@@ -235,37 +256,68 @@ def nbrag_help() -> str:
+         "- Use nbrag_search_and_fetch() for most questions about meaning, explanation, usage, examples, or source-backed evidence after collection routing is already clear.",
+         "- Use nbrag_search() when you need ranked retrieval with finer controls or metadata-only output.",
+         "- Use nbrag_grep() when exact wording matters in stored original text: article numbers, exact phrases, identifiers, headings, constants, imports, decorators, or error strings.",
+         "- Use nbrag_find_definition() only for Python .py symbol definitions.",
+         "",
+         "Step 3: choose the follow-up reading tool",
+         "- Use nbrag_get_raw_file() for stored original text without chunk overlap.",
+         "- Use nbrag_get_file_chunks(), nbrag_get_adjacent_chunks(), or nbrag_get_chunks_by_lines() when you need chunk boundaries, scope metadata, or local chunk context.",
+         "- Use nbrag_find_files() when you only know a filename fragment and do not yet have the exact full absolute file_path.",
+         "",
+-        "Stable follow-up fields: file_path, doc_id, chunk_index, line:N-M.",
++        "Stable follow-up fields: file_path, doc_id, chunk_index, line_start, line_end.",
+     ]
+     if skill_text:
+         skeleton.extend(["", "nbrag workflow skill:", skill_text])
+     return "\n".join(skeleton)
+ 
+ 
++def _format_hit_xml(meta: dict, rank: int, dist: float, rerank_score: float | None, include_content: bool, doc: str = "") -> str:
++    """Format one ranked hit as <hit> XML. Shared by _format_search_results and nbrag_search_and_fetch."""
++    file_path = _meta_file_path(meta)
++    chunk_index = _meta_chunk_index(meta)
++    total_chunks = str(meta.get("total_chunks", "?"))
++    line_start = str(meta.get("line_start", "?"))
++    line_end = str(meta.get("line_end", "?"))
++    scope = str(meta.get("scope", ""))
++    doc_id = str(meta.get("doc_id", "?"))
++
++    hit_attrs = [
++        f'rank="{rank}"',
++        f'file_path="{file_path}"',
++        f'doc_id="{doc_id}"',
++        f'chunk_index="{chunk_index}"',
++        f'total_chunks="{total_chunks}"',
++        f'line_start="{line_start}"',
++        f'line_end="{line_end}"',
++    ]
++    if scope:
++        hit_attrs.append(f'scope="{scope}"')
++    hit_attrs.append(f'dist="{dist:.4f}"')
++    if rerank_score is not None:
++        hit_attrs.append(f'score="{rerank_score:.4f}"')
++
++    if include_content:
++        return f'<hit {" ".join(hit_attrs)}>\n<content>\n{doc}\n</content>\n</hit>'
++    return f'<hit {" ".join(hit_attrs)} />'
++
++
+ def _format_search_results(
+     query: str,
+     collection_name: str,
+     top_k: int = 5,
+     use_rerank: bool = True,
+     use_bm25: bool = True,
+     use_vector: bool = True,
+     filter_file_path: str = "",
+     include_content: bool = True,
+     bm25_query: str = "",
++    root_tag: str = "nbrag_search",
+ ) -> str:
+     cfg = get_config()
+     top_k = _int_param(top_k, 5)
+     use_rerank = _bool_param(use_rerank, True)
+     use_bm25 = _bool_param(use_bm25, True)
+     use_vector = _bool_param(use_vector, True)
+     filter_file_path = _str_param(filter_file_path)
+     include_content = _bool_param(include_content, True)
+     bm25_query = _str_param(bm25_query)
+     path_filter = filter_file_path if filter_file_path else None
+@@ -280,63 +332,39 @@ def _format_search_results(
+ 
+     collection_issue = _collection_issue_text(collection_name, total)
+     if collection_issue:
+         return collection_issue
+ 
+     if not documents:
+         return _no_search_results_text(total)
+ 
+     rerank_str = cfg.rerank.model if rerank_used else "off"
+     bm25_str = "off" if path_filter and use_vector else ("on" if use_bm25 else "off")
+-    lines = [f"[{collection_name}] {total} chunks | bm25: {bm25_str} | rerank: {rerank_str}"]
++
++    # 根标签属性
++    root_attrs = [f'collection_name="{collection_name}"', f'total_chunks="{total}"', f'bm25="{bm25_str}"', f'rerank="{rerank_str}"']
+     if path_filter:
+-        lines[0] += f" | filter_file_path: {path_filter}"
+-    lines.extend([
+-        "",
+-        "Returned handle fields for follow-up: file_path, doc_id, chunk_index, line range.",
+-        "query is the main semantic query used by vector retrieval and reranking. bm25_query, when provided, is the lexical-anchor query used only by BM25.",
+-        "",
+-    ])
+-    if path_filter and use_vector:
+-        lines.extend([
+-            "Behavior note: with filter_file_path set, current hybrid behavior narrows vector retrieval to that single file and does not run cross-file BM25 fusion.",
+-            "",
+-        ])
++        root_attrs.append(f'filter_file_path="{path_filter}"')
++    lines = [f"<{root_tag} {' '.join(root_attrs)}>"]
++    lines.append("Follow-up handles in <hit>: file_path, doc_id, chunk_index, line_start, line_end.")
++    lines.append("")
++    lines.append("<ranked_hits>")
+ 
+     for i, (doc, meta, dist) in enumerate(zip(documents, metadatas, distances)):
+         if meta is None:
+             meta = {}
+-        src = meta.get("source", meta.get("filename", "?"))
+-        ci = meta.get("chunk_index", "?")
+-        tc = meta.get("total_chunks", "?")
+-        ls = meta.get("line_start", "?")
+-        le = meta.get("line_end", "?")
+-        scope = str(meta.get("scope", ""))
+-        doc_id = str(meta.get("doc_id", "?"))
+-
+-        meta_parts = [f"chunk:{ci}/{tc}", f"chunk_index:{ci}", f"total_chunks:{tc}", f"line:{ls}-{le}"]
+-        if scope:
+-            meta_parts.append(f"scope:{scope}")
+-        meta_parts.append(f"doc_id:{doc_id}")
+-        meta_parts.append(f"dist:{dist:.4f}")
+-        if rerank_scores and i < len(rerank_scores):
+-            meta_parts.append(f"score:{rerank_scores[i]:.4f}")
+-
+-        lines.append(f"[{i + 1}/{len(documents)}] {meta.get('filename', '?')} {' '.join(meta_parts)}")
+-        lines.append(f"file_path: {src}")
+-
+-        if include_content:
+-            lines.append(doc)
+-        else:
+-            lines.append("content omitted")
+-        lines.append("")
++        rerank_score = rerank_scores[i] if rerank_scores and i < len(rerank_scores) else None
++        lines.append(_format_hit_xml(meta, i + 1, dist, rerank_score, include_content, doc=doc))
+ 
++    lines.append("</ranked_hits>")
++    lines.append("")
++    lines.append(f"</{root_tag}>")
+     return "\n".join(lines)
+ 
+ 
+ def nbrag_search(
+     query: str,
+     collection_name: str,
+     top_k: int = 5,
+     use_rerank: bool = True,
+     use_bm25: bool = True,
+     filter_file_path: str = "",
+@@ -346,57 +374,61 @@ def nbrag_search(
+     return _format_search_results(
+         query=query,
+         collection_name=collection_name,
+         top_k=top_k,
+         use_rerank=use_rerank,
+         use_bm25=use_bm25,
+         use_vector=True,
+         filter_file_path=filter_file_path,
+         include_content=include_content,
+         bm25_query=bm25_query,
++        root_tag="nbrag_search",
+     )
+ 
+ 
+ def nbrag_search_only_bm25(
+     bm25_query: str,
+     collection_name: str,
+     top_k: int = 5,
+     filter_file_path: str = "",
+     include_content: bool = True,
+ ) -> str:
+     return _format_search_results(
+         query=  bm25_query,
+         collection_name=collection_name,
+         top_k=top_k,
+         use_rerank=False,
+         use_bm25=True,
+         use_vector=False,
+         filter_file_path=filter_file_path,
+         include_content=include_content,
++        root_tag="nbrag_search_only_bm25",
+     )
+ 
+ 
+ def nbrag_search_only_vector(
+     query: str,
+     collection_name: str,
+     top_k: int = 5,
+     filter_file_path: str = "",
+     include_content: bool = True,
+ ) -> str:
+-    return nbrag_search(
++    return _format_search_results(
+         query=query,
+         collection_name=collection_name,
+         top_k=top_k,
+         use_rerank=False,
+         use_bm25=False,
++        use_vector=True,
+         filter_file_path=filter_file_path,
+         include_content=include_content,
++        root_tag="nbrag_search_only_vector",
+     )
+ 
+ 
+ def nbrag_search_and_fetch(
+     query: str,
+     collection_name: str,
+     top_k: int = 5,
+     fetch_top_n_raw: int = 3,
+     fetch_context_chars: int = DEFAULT_FETCH_CONTEXT_CHARS,
+     filter_file_path: str = "",
+@@ -419,105 +451,85 @@ def nbrag_search_and_fetch(
+ 
+     collection_issue = _collection_issue_text(collection_name, total)
+     if collection_issue:
+         return collection_issue
+ 
+     if not documents:
+         return _no_search_results_text(total)
+ 
+     rerank_str = cfg.rerank.model if rerank_used else "off"
+     bm25_str = "off" if path_filter else "on"
+-    header = f"[{collection_name}] {total} chunks | bm25: {bm25_str} | rerank: {rerank_str}"
+-    if filter_file_path:
+-        header += f" | filter_file_path: {filter_file_path}"
+-    lines = [
+-        header,
+-        "",
+-        "This tool returns both ranked hits and auto-fetched stored original content.",
+-        "query is the main semantic query used by vector retrieval and reranking. bm25_query, when provided, is the lexical-anchor query used only by BM25.",
+-        "fetch_context_chars is per ranked hit: roughly N total context chars split half before and half after, not a total response cap.",
+-        "Reused follow-up handles in ranked hits: file_path, doc_id, chunk_index, line:N-M.",
+-        "",
+-    ]
+-    if path_filter:
+-        lines.extend([
+-            "Behavior note: with filter_file_path set, current hybrid behavior narrows vector retrieval to that single file and does not run cross-file BM25 fusion.",
+-            "",
+-        ])
+-    lines.extend([
+-        "Ranked search results:",
+-        "",
+-    ])
+ 
+     fetch_targets: dict[str, dict[str, Any]] = {}
++    lines_hits = []
+     for i, (doc, meta, dist) in enumerate(zip(documents, metadatas, distances)):
+         if meta is None:
+             meta = {}
+-        src = meta.get("source", meta.get("filename", "?"))
+-        ci = meta.get("chunk_index", "?")
+-        tc = meta.get("total_chunks", "?")
++        rerank_score = rerank_scores[i] if rerank_scores and i < len(rerank_scores) else None
++        lines_hits.append(_format_hit_xml(meta, i + 1, dist, rerank_score, include_content=True, doc=doc))
++
++        # fetch_targets 构建（保留原逻辑：前 fetch_top_n_raw 个 hit 用于 raw 抓取）
++        src = _meta_file_path(meta)
++        doc_id = str(meta.get("doc_id", "?"))
+         _ls = meta.get("line_start", 0)
+         _le = meta.get("line_end", 0)
+         ls = int(_ls) if isinstance(_ls, (int, float)) else 0
+         le = int(_le) if isinstance(_le, (int, float)) else 0
+-        scope = str(meta.get("scope", ""))
+-        doc_id = str(meta.get("doc_id", "?"))
+-
+-        meta_parts = [f"chunk:{ci}/{tc}", f"chunk_index:{ci}", f"total_chunks:{tc}"]
+-        if ls and le:
+-            meta_parts.append(f"line:{ls}-{le}")
+-        if scope:
+-            meta_parts.append(f"scope:{scope}")
+-        meta_parts.append(f"doc_id:{doc_id}")
+-        meta_parts.append(f"dist:{dist:.4f}")
+-        if rerank_scores and i < len(rerank_scores):
+-            meta_parts.append(f"score:{rerank_scores[i]:.4f}")
+-
+-        lines.append(f"[{i + 1}/{len(documents)}] {meta.get('filename', '?')} {' '.join(meta_parts)}")
+-        lines.append(f"file_path: {src}")
+-        lines.append(doc)
+-        lines.append("")
+-
+         if i < fetch_top_n_raw and doc_id != "?" and src != "?":
+             if doc_id not in fetch_targets:
+                 fetch_targets[doc_id] = {"src": str(src), "ranges": []}
+             fetch_targets[doc_id]["ranges"].append((ls, le))
+ 
++    lines_fetched = []
+     if fetch_top_n_raw > 0 and fetch_targets:
+-        lines.append(f"Auto-fetched original content ({len(fetch_targets)} file(s)):")
+-        lines.append("Returned raw snippets come from the stored original-file snapshot captured at ingestion time.")
+-        lines.append("")
+         for doc_id, info in fetch_targets.items():
+             src = str(info["src"])
+             ranges = info["ranges"]
+             if not ranges:
+                 continue
+ 
+             raw_data = get_file_chunks(src, collection_name, 0, 0, raw=True)
+             if not raw_data.get("found"):
+                 continue
+ 
+-            filename = os.path.basename(src)
+             raw_content = str(raw_data.get("content", ""))
+             raw_lines, offsets = _build_line_char_index(raw_content)
+             expanded_ranges = [
+                 _line_window_from_context_chars(raw_lines, offsets, ls, le, fetch_context_chars)
+                 for ls, le in ranges
+             ]
+             merged_ranges = _merge_line_ranges(expanded_ranges)
+ 
+             for start, end in merged_ranges:
+                 excerpt = "".join(raw_lines[start - 1:end]) if raw_lines else raw_content
+-                lines.append(f"original_file: {filename} | file_path: {src} | doc_id: {doc_id} | range: line:{start}-{end}")
+-                lines.append(excerpt)
+-                lines.append("")
++                lines_fetched.append(
++                    f'<raw file_path="{src}" doc_id="{doc_id}" line_start="{start}" line_end="{end}">\n'
++                    f'<content>\n{excerpt}\n</content>\n</raw>'
++                )
+ 
++    root_attrs = [f'collection_name="{collection_name}"', f'total_chunks="{total}"', f'bm25="{bm25_str}"', f'rerank="{rerank_str}"']
++    if path_filter:
++        root_attrs.append(f'filter_file_path="{path_filter}"')
++
++    lines = [f"<nbrag_search_and_fetch {' '.join(root_attrs)}>"]
++    lines.append("Follow-up handles in <hit>: file_path, doc_id, chunk_index, line_start, line_end.")
++    lines.append("")
++    lines.append("<ranked_hits>")
++    lines.extend(lines_hits)
++    lines.append("</ranked_hits>")
++    lines.append("")
++    if lines_fetched:
++        lines.append("<fetched_raw>")
++        lines.extend(lines_fetched)
++        lines.append("</fetched_raw>")
++        lines.append("")
++    lines.append("</nbrag_search_and_fetch>")
+     return "\n".join(lines)
+ 
+ 
+ def nbrag_grep(
+     keyword: str,
+     collection_name: str,
+     max_results: int = 10,
+     case_sensitive: bool = False,
+     filter_file_path: str = "",
+     match_context_chars: int = DEFAULT_MATCH_CONTEXT_CHARS,
+@@ -536,331 +548,444 @@ def nbrag_grep(
+         max_results,
+         case_sensitive,
+         filter_file_path=path_filter,
+         match_context_chars=match_context_chars,
+     )
+     if not results:
+         collection_issue = _collection_presence_issue_text(collection_name)
+         if collection_issue:
+             return collection_issue
+         return (
+-            "No grep matches. Possible adjustments: check exact wording/case, escape regex metacharacters if you intended literal matching, "
+-            "try regex if appropriate, or switch to nbrag_search_and_fetch for semantic discovery when this is a concept, alias, or paraphrase rather than exact source wording."
++            '<error type="no_results" field="keyword">\n'
++            'No grep matches.\n'
++            'Recovery: check exact wording/case, escape regex metacharacters if you intended literal matching, '
++            'try regex if appropriate, or switch to nbrag_search_and_fetch for semantic discovery '
++            'when this is a concept, alias, or paraphrase rather than exact source wording.\n'
++            '</error>'
+         )
+ 
++    root_attrs = [f'case_sensitive="{"true" if case_sensitive else "false"}"']
++    if path_filter:
++        root_attrs.append(f'filter_file_path="{path_filter}"')
+     lines = [
+-        f"grep matches: {len(results)}",
+-        "",
+-        "match_context_chars is per grep match: roughly N total context chars split half before and half after, not a total response cap.",
+-        "Returned handle fields for follow-up: file_path, doc_id, matched_line, line_range.",
+-        "",
++        f'<nbrag_grep {" ".join(root_attrs)}>',
++        'Follow-up handles in <match>: file_path, doc_id, line_start, line_end.',
++        '',
++        '<matches>',
+     ]
+     for item in results:
+         line_number = item.get("line_number", "?")
+-        lines.append(f"{item.get('filename', '?')} | matched_line: {line_number} | line_range: line:{line_number}-{line_number} | doc_id: {item.get('doc_id', '?')}")
+-        lines.append(f"file_path: {item.get('source', '?')}")
+-        lines.append(str(item.get("context", "")))
+-        lines.append("")
++        ln = str(line_number)
++        file_path = str(item.get("source", "?"))
++        doc_id = str(item.get("doc_id", "?"))
++        context = str(item.get("context", ""))
++        lines.append(f'<match file_path="{file_path}" doc_id="{doc_id}" line_start="{ln}" line_end="{ln}">')
++        lines.append('<content>')
++        lines.append(context)
++        lines.append('</content>')
++        lines.append('</match>')
++    lines.append('</matches>')
++    lines.append('')
++    lines.append('</nbrag_grep>')
+     return "\n".join(lines)
+ 
+ 
+ def nbrag_find_definition(
+     symbol: str,
+     collection_name: str,
+     max_results: int = 3,
+ ) -> str:
+     max_results = _int_param(max_results, 3)
+     results = find_symbol_definition(symbol, collection_name, max_results)
+     if not results:
+         collection_issue = _collection_presence_issue_text(collection_name)
+         if collection_issue:
+             return collection_issue
+         return (
+-            "No definition found. Python source may use a different exact name, or this knowledge base may be non-Python text. "
+-            "Possible adjustments: try nbrag_grep for exact text/regex, use nbrag_search_and_fetch for concept/example discovery, "
+-            "or verify that this collection actually contains Python .py source files."
++            '<error type="no_results" field="symbol">\n'
++            'No definition found. Python source may use a different exact name, or this knowledge base may be non-Python text.\n'
++            'Recovery: try nbrag_grep for exact text/regex, use nbrag_search_and_fetch for concept/example discovery, '
++            'or verify that this collection actually contains Python .py source files.\n'
++            '</error>'
+         )
+ 
+     python_symbol_types = {"class", "function", "method"}
+     has_python_definition = any(str(r.get("symbol_type", "")).lower() in python_symbol_types for r in results)
+     has_non_python_fallback = any(str(r.get("symbol_type", "")).lower() not in python_symbol_types for r in results)
+ 
+-    lines = [
+-        f"definitions: {len(results)}",
+-        "",
+-        "Returned handle fields for follow-up: file_path, doc_id, line range.",
+-        "",
+-    ]
++    lines = ['<nbrag_find_definition>', 'Follow-up handles in <definition>: file_path, doc_id, line_start, line_end.', '']
+     if has_non_python_fallback and not has_python_definition:
+-        lines.append("Only regex fallback results were found. For non-Python text, use nbrag_grep for exact wording lookup.")
+-        lines.append("")
+-
+-    for index, r in enumerate(results, 1):
++        lines.append('Only regex fallback results were found. For non-Python text, use nbrag_grep for exact wording lookup.')
++        lines.append('')
++    lines.append('<definitions>')
++    for r in results:
+         symbol_type = str(r.get("symbol_type", "unknown"))
+         qualified_name = r.get("qualified_name") or symbol
+-        source = r.get("source", "?")
+-        line_start = r.get("line_start", "?")
+-        line_end = r.get("line_end", "?")
+-        doc_id = r.get("doc_id", "?")
+-        definition = r.get("definition") or r.get("content", "")
+-        methods_summary = r.get("methods_summary", "")
+-
++        file_path = str(r.get("source", "?"))
++        line_start = str(r.get("line_start", "?"))
++        line_end = str(r.get("line_end", "?"))
++        doc_id = str(r.get("doc_id", "?"))
++        definition = str(r.get("definition") or r.get("content", ""))
++        methods_summary = str(r.get("methods_summary", ""))
+         display_symbol_type = symbol_type if symbol_type.lower() in python_symbol_types else "regex_fallback"
+-        lines.append(f"[{index}/{len(results)}] {display_symbol_type} {qualified_name} | line:{line_start}-{line_end} | doc_id:{doc_id}")
+-        lines.append(f"file_path: {source}")
+-        if symbol_type.lower() not in python_symbol_types:
+-            lines.append("Regex fallback in non-Python file")
++
++        lines.append(f'<definition symbol_type="{display_symbol_type}" qualified_name="{qualified_name}" file_path="{file_path}" doc_id="{doc_id}" line_start="{line_start}" line_end="{line_end}">')
++        lines.append('<content>')
++        lines.append(definition)
++        lines.append('</content>')
+         if methods_summary:
+-            lines.append(str(methods_summary))
+-        lines.append(str(definition))
+-        lines.append("")
++            lines.append('<methods_summary>')
++            lines.append(methods_summary)
++            lines.append('</methods_summary>')
++        lines.append('</definition>')
++    lines.append('</definitions>')
++    lines.append('')
++    lines.append('</nbrag_find_definition>')
+     return "\n".join(lines)
+ 
+ 
+ def nbrag_find_files(pattern: str, collection_name: str, max_results: int = 20, case_sensitive: bool = False) -> str:
+     max_results = _int_param(max_results, 20)
+     case_sensitive = _bool_param(case_sensitive, False)
+     files = find_files(pattern, collection_name, max_results, case_sensitive)
+     if not files:
+         collection_issue = _collection_presence_issue_text(collection_name)
+         if collection_issue:
+             return collection_issue
+         return (
+-            "No files matched. Possible adjustments: try a shorter filename fragment, a different suffix, a regex pattern, "
+-            "or first use nbrag_search_and_fetch/nbrag_grep to discover candidate files."
++            '<error type="no_results" field="pattern">\n'
++            'No files matched.\n'
++            'Recovery: try a shorter filename fragment, a different suffix, a regex pattern, '
++            'or first use nbrag_search_and_fetch/nbrag_grep to discover candidate files.\n'
++            '</error>'
+         )
+ 
+     lines = [
+-        f"matched files: {len(files)}",
+-        "",
+-        "Returned handle field for follow-up: file_path.",
+-        "",
++        '<nbrag_find_files>',
++        'Follow-up handle in <file>: file_path.',
++        '',
++        '<files>',
+     ]
+     for item in files:
+-        chunk_count = item.get("chunk_count", item.get("total_chunks", "?"))
+-        total_chunks = item.get("total_chunks", chunk_count)
+-        match = item.get("match", "?")
++        file_path = str(item.get("source", item.get("file_path", "?")))
++        doc_id = str(item.get("doc_id", "?"))
++        filename = str(item.get("filename", "?"))
++        total_chunks = str(item.get("total_chunks", item.get("chunk_count", "?")))
++        match = str(item.get("match", "?"))
+         lines.append(
+-            f"filename: {item.get('filename', '?')} | doc_id: {item.get('doc_id', '?')} | "
+-            f"chunk_count: {chunk_count} | total_chunks: {total_chunks} | match: {match}"
++            f'<file file_path="{file_path}" doc_id="{doc_id}" filename="{filename}" '
++            f'total_chunks="{total_chunks}" match="{match}"/>'
+         )
+-        lines.append(f"file_path: {item.get('source', item.get('file_path', '?'))}")
+-        lines.append("")
++    lines.append('</files>')
++    lines.append('')
++    lines.append('</nbrag_find_files>')
+     return "\n".join(lines)
+ 
+ 
+ def nbrag_get_adjacent_chunks(doc_id: str, chunk_index: int, collection_name: str, window: int = 3) -> str:
+     chunk_index = _int_param(chunk_index, 0)
+     window = _int_param(window, 3)
+     data = get_context_chunks(doc_id, collection_name=collection_name, chunk_index=chunk_index, window=window)
+     if not data.get("found"):
+         detail = data.get("error") or data.get("message") or ""
+-        suffix = f" Detail: {detail}" if detail else ""
++        suffix = f" Detail: {detail}." if detail else ""
+         return (
+-            "No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search/search_and_fetch result field like chunk:X/Y or chunk_index:X."
+-            f"{suffix}"
++            f'<error type="not_found" field="doc_id">\n'
++            f"No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search result.{suffix}\n"
++            f"Recovery: copy doc_id and chunk_index from a prior nbrag_search / nbrag_search_and_fetch <hit>, "
++            f"or use nbrag_get_raw_file if you only need original text without chunk boundaries.\n"
++            f'</error>'
+         )
+ 
+     chunks = data.get("chunks", [])
+     if not chunks:
+         detail = data.get("message") or data.get("error") or ""
+-        suffix = f" Detail: {detail}" if detail else ""
++        suffix = f" Detail: {detail}." if detail else ""
+         return (
+-            "No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search/search_and_fetch result field like chunk:X/Y or chunk_index:X."
+-            f"{suffix}"
++            f'<error type="not_found" field="doc_id">\n'
++            f"No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search result.{suffix}\n"
++            f"Recovery: copy doc_id and chunk_index from a prior nbrag_search / nbrag_search_and_fetch <hit>, "
++            f"or use nbrag_get_raw_file if you only need original text without chunk boundaries.\n"
++            f'</error>'
+         )
+ 
++    file_path = str(data.get("source", "?"))
++    total_chunks = str(data.get("total_chunks", "?"))
++    doc_id_str = str(data.get("doc_id", doc_id))
++
+     lines = [
+-        f"adjacent chunks: {len(chunks)} | file_path: {data.get('source', '?')} | doc_id: {doc_id} | total_chunks: {data.get('total_chunks', '?')}",
+-        "",
+-        "Returned context is chunk-level and may overlap. Use file_path with nbrag_get_raw_file for overlap-free source text.",
++        f'<nbrag_get_adjacent_chunks file_path="{file_path}" doc_id="{doc_id_str}" total_chunks="{total_chunks}" window="{window}" anchor_chunk_index="{chunk_index}">',
++        "Follow-up handles in <chunk>: chunk_index, line_start, line_end.",
+         "",
++        "<chunks>",
+     ]
+     for chunk in chunks:
+-        lines.append(f"chunk:{chunk.get('index', '?')} | line:{chunk.get('line_start', '?')}-{chunk.get('line_end', '?')}")
+-        lines.append(str(chunk.get("content", "")))
+-        lines.append("")
++        ci = _meta_chunk_index(chunk)
++        ls = str(chunk.get("line_start", "?"))
++        le = str(chunk.get("line_end", "?"))
++        scope = str(chunk.get("scope", ""))
++        attrs = [
++            f'chunk_index="{ci}"',
++            f'total_chunks="{total_chunks}"',
++            f'line_start="{ls}"',
++            f'line_end="{le}"',
++        ]
++        if scope:
++            attrs.append(f'scope="{scope}"')
++        content = str(chunk.get("content", ""))
++        lines.append(f'<chunk {" ".join(attrs)}>')
++        lines.append("<content>")
++        lines.append(content)
++        lines.append("</content>")
++        lines.append("</chunk>")
++    lines.append("</chunks>")
++    lines.append("")
++    lines.append("</nbrag_get_adjacent_chunks>")
+     return "\n".join(lines)
+ 
+ 
+ def nbrag_get_file_chunks(file_path: str, collection_name: str, start_chunk: int = 0, max_chunks: int = 10) -> str:
+     start_chunk = _int_param(start_chunk, 0)
+     max_chunks = _int_param(max_chunks, 10)
+     if not _is_absolute_file_path(file_path):
+         return _path_error("file_path")
+ 
+     data = get_file_chunks(file_path, collection_name, start_chunk, max_chunks, raw=False)
+     if not data.get("found"):
+         detail = data.get("error") or ""
+-        suffix = f" Detail: {detail}" if detail else ""
++        suffix = f" Detail: {detail}." if detail else ""
+         return (
+-            "File chunks not found. Check file_path from prior nbrag results, "
+-            "or use nbrag_find_files/nbrag_list to get the exact full file_path."
+-            f"{suffix}"
++            f'<error type="not_found" field="file_path">\n'
++            f"File chunks not found.{suffix}\n"
++            f"Recovery: copy file_path from prior nbrag results, "
++            f"or use nbrag_find_files / nbrag_list to get the exact full file_path.\n"
++            f'</error>'
+         )
+ 
+     chunks = data.get("chunks", [])
+-    if chunks:
+-        range_start = chunks[0].get("index", data.get("start_chunk", "?"))
+-        range_end = chunks[-1].get("index", data.get("end_chunk", "?"))
+-    else:
+-        range_start = data.get("start_chunk", "?")
+-        range_end = data.get("end_chunk", "?")
++    file_path_str = str(data.get("source", file_path))
++    doc_id_str = str(data.get("doc_id", "?"))
++    total_chunks = str(data.get("total_chunks", "?"))
++    total_lines = str(data.get("total_lines", "?"))
++    has_more = str(data.get("end_chunk", 0) < data.get("total_chunks", 0) - 1).lower()
++
+     lines = [
+-        f"file chunks: {len(chunks)} | filename: {data.get('filename', '?')} | doc_id: {data.get('doc_id', '?')}",
+-        f"file_path: {data.get('source', '?')} | total_chunks: {data.get('total_chunks', '?')} | total_lines: {data.get('total_lines', '?')}",
+-        f"range: chunk:{range_start}-{range_end}",
+-        "This view keeps chunk/scope structure and may contain overlap. Use nbrag_get_raw_file for overlap-free source text.",
++        f'<nbrag_get_file_chunks file_path="{file_path_str}" doc_id="{doc_id_str}" total_chunks="{total_chunks}" total_lines="{total_lines}" start_chunk="{start_chunk}" max_chunks="{max_chunks}" has_more="{has_more}">',
++        "Follow-up handles in <chunk>: chunk_index, line_start, line_end.",
+         "",
++        "<chunks>",
+     ]
+     for chunk in chunks:
++        ci = _meta_chunk_index(chunk)
++        ls = str(chunk.get("line_start", "?"))
++        le = str(chunk.get("line_end", "?"))
+         scope = str(chunk.get("scope", ""))
+-        chunk_meta = f"chunk:{chunk.get('index', '?')} | line:{chunk.get('line_start', '?')}-{chunk.get('line_end', '?')}"
++        attrs = [
++            f'chunk_index="{ci}"',
++            f'total_chunks="{total_chunks}"',
++            f'line_start="{ls}"',
++            f'line_end="{le}"',
++        ]
+         if scope:
+-            chunk_meta += f" | scope:{scope}"
+-        lines.append(chunk_meta)
+-        lines.append(str(chunk.get("content", "")))
+-        lines.append("")
++            attrs.append(f'scope="{scope}"')
++        content = str(chunk.get("content", ""))
++        lines.append(f'<chunk {" ".join(attrs)}>')
++        lines.append("<content>")
++        lines.append(content)
++        lines.append("</content>")
++        lines.append("</chunk>")
++    lines.append("</chunks>")
++    lines.append("")
++    lines.append("</nbrag_get_file_chunks>")
+     return "\n".join(lines)
+ 
+ 
+ def nbrag_get_chunks_by_lines(doc_id: str, line_start: int, line_end: int, collection_name: str) -> str:
+     line_start = _int_param(line_start, 1)
+     line_end = _int_param(line_end, line_start)
+     data = get_context_chunks(doc_id, collection_name=collection_name, line_start=line_start, line_end=line_end)
+     if not data.get("found"):
+         return (
+-            "No chunks found for that doc_id/line range. Possible adjustments: verify doc_id, copy line_start/line_end from a prior line:N-M result, "
+-            "or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata."
++            f'<error type="not_found" field="doc_id">\n'
++            f"No chunks found for that doc_id / line range.\n"
++            f"Recovery: verify doc_id, copy line_start / line_end from a prior <chunk> handle, "
++            f"or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata.\n"
++            f'</error>'
+         )
+ 
+     chunks = data.get("chunks", [])
+     if not chunks:
+         detail = data.get("message") or data.get("error") or ""
+-        suffix = f" Detail: {detail}" if detail else ""
++        suffix = f" Detail: {detail}." if detail else ""
+         return (
+-            "No chunks found for that doc_id/line range. Possible adjustments: verify doc_id, copy line_start/line_end from a prior line:N-M result, "
+-            "or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata."
+-            f"{suffix}"
++            f'<error type="not_found" field="doc_id">\n'
++            f"No chunks found for that doc_id / line range.{suffix}\n"
++            f"Recovery: verify doc_id, copy line_start / line_end from a prior <chunk> handle, "
++            f"or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata.\n"
++            f'</error>'
+         )
+ 
++    file_path = str(data.get("source", "?"))
++    doc_id_str = str(data.get("doc_id", doc_id))
++    total_chunks = str(data.get("total_chunks", "?"))
++
+     lines = [
+-        f"chunks by lines: {len(chunks)} | doc_id: {doc_id} | total_chunks: {data.get('total_chunks', '?')}",
+-        f"file_path: {data.get('source', '?')} | line_range: line:{line_start}-{line_end}",
+-        "This view preserves chunk/scope structure and can include overlapping content by design.",
++        f'<nbrag_get_chunks_by_lines doc_id="{doc_id_str}" file_path="{file_path}" total_chunks="{total_chunks}" requested_line_start="{line_start}" requested_line_end="{line_end}">',
++        "Follow-up handles in <chunk>: chunk_index, line_start, line_end.",
+         "",
++        "<chunks>",
+     ]
+     for chunk in chunks:
++        ci = _meta_chunk_index(chunk)
++        ls = str(chunk.get("line_start", "?"))
++        le = str(chunk.get("line_end", "?"))
+         scope = str(chunk.get("scope", ""))
+-        chunk_meta = f"chunk:{chunk.get('index', '?')} | line:{chunk.get('line_start', '?')}-{chunk.get('line_end', '?')}"
++        attrs = [
++            f'chunk_index="{ci}"',
++            f'total_chunks="{total_chunks}"',
++            f'line_start="{ls}"',
++            f'line_end="{le}"',
++        ]
+         if scope:
+-            chunk_meta += f" | scope:{scope}"
+-        lines.append(chunk_meta)
+-        lines.append(str(chunk.get("content", "")))
+-        lines.append("")
++            attrs.append(f'scope="{scope}"')
++        content = str(chunk.get("content", ""))
++        lines.append(f'<chunk {" ".join(attrs)}>')
++        lines.append("<content>")
++        lines.append(content)
++        lines.append("</content>")
++        lines.append("</chunk>")
++    lines.append("</chunks>")
++    lines.append("")
++    lines.append("</nbrag_get_chunks_by_lines>")
+     return "\n".join(lines)
+ 
+ 
+ def nbrag_get_raw_file(file_path: str, collection_name: str, line_start: int = -1, line_end: int = -1) -> str:
+     line_start = _int_param(line_start, -1)
+     line_end = _int_param(line_end, -1)
+     if not _is_absolute_file_path(file_path):
+         return _path_error("file_path")
+ 
+     data = get_file_chunks(file_path, collection_name, 0, 0, raw=True, line_start=line_start, line_end=line_end)
+     if not data.get("found"):
+         detail = data.get("error") or ""
+-        suffix = f" Detail: {detail}" if detail else ""
++        suffix = f" Detail: {detail}." if detail else ""
+         return (
+-            "Raw file not found. Check file_path from prior nbrag results, "
+-            "or use nbrag_find_files/nbrag_list to get the exact full file_path."
+-            f"{suffix}"
++            f'<error type="not_found" field="file_path">\n'
++            f"Raw file not found.{suffix}\n"
++            f"Recovery: copy file_path from prior nbrag results, "
++            f"or use nbrag_find_files / nbrag_list to get the exact full file_path.\n"
++            f'</error>'
+         )
+ 
++    file_path_str = str(data.get("source", file_path))
++    doc_id_str = str(data.get("doc_id", "?"))
++    total_lines = str(data.get("total_lines", "?"))
++    ls = str(data.get("line_start", "?"))
++    le = str(data.get("line_end", "?"))
++    content = str(data.get("content", ""))
++
+     lines = [
+-        f"original_file: {data.get('filename', '?')} | file_path: {data.get('source', '?')} | doc_id: {data.get('doc_id', '?')}",
+-        f"total_lines: {data.get('total_lines', '?')} | range: line:{data.get('line_start', '?')}-{data.get('line_end', '?')}",
+-        "Content source: stored original-file snapshot captured at ingestion time.",
+-        str(data.get("content", "")),
++        f'<nbrag_get_raw_file file_path="{file_path_str}" doc_id="{doc_id_str}" total_lines="{total_lines}" line_start="{ls}" line_end="{le}">',
++        "<content>",
++        content,
++        "</content>",
++        "",
++        "</nbrag_get_raw_file>",
+     ]
+     return "\n".join(lines)
+ 
+ 
+ def nbrag_list(collection_name: str, offset: int = 0, limit: int = 100) -> str:
+     offset = _int_param(offset, 0)
+     limit = _int_param(limit, 100)
+     rows = list_documents(collection_name, offset=offset, limit=limit)
+     if not rows:
+         collection_issue = _collection_presence_issue_text(collection_name)
+         if collection_issue:
+             return collection_issue
+         return (
+-            "No documents in this collection. Possible adjustments: verify collection_name with nbrag_stats(), "
+-            "or ask the user whether this knowledge base has been prepared/ingested."
++            '<error type="no_results" field="collection_name">\n'
++            'No documents in this collection.\n'
++            'Recovery: verify collection_name with nbrag_stats(), '
++            'or ask the user whether this knowledge base has been prepared/ingested.\n'
++            '</error>'
+         )
+ 
+     lines = [
+-        f"documents returned: {len(rows)} | offset: {offset} | limit: {limit}",
+-        "Returned handle fields for follow-up: doc_id, file_path.",
+-        "",
++        f'<nbrag_list collection_name="{collection_name}" offset="{offset}" limit="{limit}">',
++        'Follow-up handles in <document>: doc_id, file_path.',
++        '',
++        '<documents>',
+     ]
+     for doc_id, row in rows.items():
+-        chunk_count = row.get("chunk_count", row.get("total_chunks", 0))
+-        lines.append(f"doc_id: {doc_id} | filename: {row.get('filename', '?')} | chunk_count: {chunk_count} | total_chunks: {row.get('total_chunks', chunk_count)}")
+-        lines.append(f"file_path: {row.get('source', '?')}")
+-        lines.append("")
++        file_path = str(row.get("source", row.get("file_path", "?")))
++        filename = str(row.get("filename", "?"))
++        total_chunks = str(row.get("total_chunks", row.get("chunk_count", "?")))
++        lines.append(
++            f'<document doc_id="{doc_id}" file_path="{file_path}" filename="{filename}" '
++            f'total_chunks="{total_chunks}"/>'
++        )
++    lines.append('</documents>')
++    lines.append('')
++    lines.append('</nbrag_list>')
+     return "\n".join(lines)
+ 
+ 
+ def nbrag_stats() -> str:
+     stats = get_stats()
+     collections = stats.get("collections", {})
+     if not collections:
+-        return "No collections found. Ask the user to prepare/import a knowledge base first."
++        return (
++            '<error type="no_results" field="collection_name">\n'
++            'No collections found.\n'
++            'Recovery: ask the user to prepare/import a knowledge base first.\n'
++            '</error>'
++        )
+ 
+     lines = [
+-        
+-        "Use collection_name(知识库名字) exactly as shown below when calling retrieval tools.",
+-        "If this is the first nbrag call in the current task, consult nbrag_help() before choosing a retrieval tool.",
+-        "This tool resolves collection routing only; it does not choose the retrieval strategy for you.",
+-        "\n collections:",
+-        "",
++        '<nbrag_stats>',
++        'Use collection_name exactly as shown below when calling retrieval tools.',
++        '',
++        '<collections>',
+     ]
+     for name, info in collections.items():
+-        docs = info.get("docs", info.get("doc_count", 0))
+-        chunks = info.get("chunks", info.get("chunk_count", 0))
+-        lines.append(f"- {name}: docs={docs} chunks={chunks}")
+-        lines.append(f"  collection_name(知识库名字): {name}")
++        docs = str(info.get("docs", info.get("doc_count", 0)))
++        chunks = str(info.get("chunks", info.get("chunk_count", 0)))
++        attrs = [f'collection_name="{name}"', f'docs="{docs}"', f'chunks="{chunks}"']
+         display_name = info.get("display_name")
+         description = info.get("description")
+         aliases = info.get("aliases") or []
+         tags = info.get("tags") or []
+         chunk_size = info.get("chunk_size")
+         chunk_overlap = info.get("chunk_overlap")
+         last_ingested_at = info.get("last_ingested_at")
+         if display_name:
+-            lines.append(f"  display_name: {display_name}")
++            attrs.append(f'display_name="{display_name}"')
+         if description:
+-            lines.append(f"  description: {description}")
++            attrs.append(f'description="{description}"')
+         if aliases:
+-            lines.append(f"  aliases: {', '.join(str(item) for item in aliases)}")
++            attrs.append(f'aliases="{", ".join(str(item) for item in aliases)}"')
+         if tags:
+-            lines.append(f"  tags: {', '.join(str(item) for item in tags)}")
++            attrs.append(f'tags="{", ".join(str(item) for item in tags)}"')
+         if chunk_size:
+-            lines.append(f"  chunk_size: {chunk_size}")
++            attrs.append(f'chunk_size="{chunk_size}"')
+         if chunk_overlap:
+-            lines.append(f"  chunk_overlap: {chunk_overlap}")
++            attrs.append(f'chunk_overlap="{chunk_overlap}"')
+         if last_ingested_at:
+-            lines.append(f"  last_ingested_at: {last_ingested_at}")
+-        lines.append("")
+-    lines.append("After choosing collection_name, continue with nbrag_help-guided retrieval planning rather than answering from collection inventory alone.")
+-    lines.append("Use nbrag_search_and_fetch() for most semantic/source-backed questions, nbrag_search() for finer control, nbrag_grep() for exact wording, and nbrag_find_definition() only for Python .py symbol definitions.")
++            attrs.append(f'last_ingested_at="{last_ingested_at}"')
++        lines.append(f'<collection {" ".join(attrs)}/>')
++    lines.append('</collections>')
++    lines.append('')
++    lines.append('After choosing collection_name, continue with nbrag_search_and_fetch for most questions.')
++    lines.append('')
++    lines.append('</nbrag_stats>')
+     return "\n".join(lines)
+ 
+ 
+ def nbrag_delete(doc_id: str, collection_name: str) -> str:
+     deleted_count, filename = delete_document(doc_id, collection_name)
+     if deleted_count:
+         return f"Deleted {deleted_count} chunk(s) for filename: {filename} | doc_id: {doc_id}"
+     collection_issue = _collection_presence_issue_text(collection_name)
+     if collection_issue:
+         return collection_issue
+diff --git a/nbrag/server.py b/nbrag/server.py
+index b0f1f9e..41718b4 100644
+--- a/nbrag/server.py
++++ b/nbrag/server.py
+@@ -58,21 +58,21 @@ def nbrag_help() -> str:
+     Usual next step:
+     - if collection_name is unknown, call nbrag_stats() next
+     - otherwise choose the retrieval or follow-up tool based on the returned routing guidance
+ 
+     You usually do not need to call nbrag_help() again once the collection and retrieval path are already clear in the current task.
+ 
+     Returned guidance explains:
+     - when to use each nbrag tool
+     - how to choose between semantic vs lexical retrieval
+     - when to use raw-file vs chunk tools
+-    - stable follow-up fields such as file_path, doc_id, chunk_index, and line:N-M
++    - stable follow-up fields such as file_path, doc_id, chunk_index, and line_start + line_end
+     
+     Retrieval posture:
+     Treat nbrag as a retrieval workflow for evidence-backed answering, not as a one-shot search box.
+     Choose the right retrieval path first, and formulate query and bm25_query deliberately before retrieving more results or fetching more context.
+     """
+     return mcp_tools.nbrag_help()
+ 
+ # nbrag_add_document 暂时不暴露为 MCP 函数，向量化一般由人工批量导入，而不是实时导入。
+ def nbrag_add_document(
+     path: str = Field(description="Absolute path to a file or directory. Directory imports all text files recursively"),
+@@ -87,21 +87,21 @@ def nbrag_add_document(
+     Supports imported text files in general; Python files also get class/function scope enrichment.
+     Use scripts or Python APIs for batch ingestion workflows."""
+     return mcp_tools.nbrag_add_document(path, collection_name, chunk_size, chunk_overlap, file_extensions)
+ 
+ 
+ 
+ class FuncFields:
+     query: str = Field(description="Main semantic query used by vector retrieval and reranking. Keep it as a natural-language question or statement that preserves the real retrieval target. Use ongoing dialogue or earlier retrieval results to resolve pronouns, restore omitted entities, fix obvious typos, or sharpen the event/relation/attribute wording once the target is clear. Let query stay semantically complete and readable; use bm25_query separately for lexical anchors.")
+     collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)")
+     top_k: int = Field(default=5, description="Number of ranked hits to return")
+-    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking. In the current hybrid implementation, this narrows vector retrieval to that file and skips cross-file BM25 fusion.")
++    filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking. In the current hybrid implementation, this narrows vector retrieval to that file and skips cross-file BM25 fusion. Value comes from the file_path handle returned by nbrag tools.")
+     bm25_query: str = Field(description="Lexical-anchor query used only by BM25. Build it from grounded wording likely to appear literally in the source: exact terms, aliases, article numbers, abbreviations, codes, API/class names, symbol names, titles, place names, event markers, error strings, or short phrases. Compared with query, bm25_query carries more source-facing lexical anchors and can combine multiple grounded anchors refined across turns from the user's wording, ongoing dialogue, or earlier hits. It does not affect vector retrieval or reranking.")
+     include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only lookup when you only need handles like file_path/doc_id/chunk_index")
+     file_path: str = Field(description="Exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted")
+     
+ 
+ @mcp.tool()
+ def nbrag_search(
+     query: str = FuncFields.query,
+     collection_name: str = FuncFields.collection_name,
+     top_k: int = FuncFields.top_k,
+@@ -123,24 +123,24 @@ def nbrag_search(
+     Query guidance:
+     - query is the main semantic query used by vector retrieval and reranking; keep it as the real question/statement you want answered
+     - query may be clarified across turns using ongoing dialogue or earlier hits, for example by restoring omitted entities, resolving pronouns, or sharpening the event/relation/attribute wording once the target is clear
+     - bm25_query is the lexical-anchor query used only by BM25
+     - compared with query, bm25_query should carry more source-facing lexical anchors and be improved across turns using grounded wording discovered from the conversation or earlier hits
+     - a single bm25_query can combine multiple anchors when they all target the same evidence, such as exact terms, aliases, titles, article numbers, symbol names, place names, event markers, or repeated phrases from earlier results
+     - setting bm25_query does not disable vector retrieval or reranking
+     - setting filter_file_path narrows retrieval to one stored file; in the current hybrid implementation this also disables cross-file BM25 fusion
+ 
+     Returned text is structured for follow-up calls. Each hit includes stable reusable fields such as:
+-    - chunk:X/Y
+-    - chunk_index:X
++    - chunk_index + total_chunks
++    - chunk_index="..." (XML attribute on <hit>)
+     - total_chunks:Y
+-    - line:N-M
++    - line_start + line_end
+     - doc_id:...
+     - file_path:...
+ 
+     Typical follow-up tools:
+     - nbrag_get_raw_file(file_path, collection_name)
+     - nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)
+     - nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)
+     - nbrag_grep(keyword, collection_name)
+     - nbrag_find_definition(symbol, collection_name) for Python .py source
+     """
+@@ -235,21 +235,21 @@ def nbrag_search_and_fetch(
+     - bm25_query is the lexical-anchor query used only by BM25
+     - compared with query, bm25_query should carry more source-facing lexical anchors and be improved across turns using grounded wording discovered from the conversation or earlier hits
+     - a single bm25_query can combine multiple anchors when they all target the same evidence, such as exact terms, aliases, titles, article numbers, symbol names, place names, event markers, or repeated phrases from earlier results
+     - setting bm25_query does not disable vector retrieval or reranking
+     - setting filter_file_path narrows retrieval to one stored file; in the current hybrid implementation this also disables cross-file BM25 fusion
+ 
+     Returned text has two sections:
+     1. ranked search results
+     2. auto-fetched stored original content
+ 
+-    Follow-up fields preserved in ranked hits include file_path, doc_id, chunk_index, and line:N-M.
++    Follow-up fields preserved in ranked hits include file_path, doc_id, chunk_index, and line_start + line_end.
+     fetch_context_chars is a per-hit raw-context budget used during original-text expansion, not a final total response budget.
+ 
+     Use nbrag_search() instead when you need fine-grained retrieval switches or metadata-only output.
+     """
+     return mcp_tools.nbrag_search_and_fetch(
+         query=query,
+         collection_name=collection_name,
+         top_k=top_k,
+         fetch_top_n_raw=fetch_top_n_raw,
+         fetch_context_chars=fetch_context_chars,
+@@ -266,21 +266,21 @@ def nbrag_grep(
+     case_sensitive: bool = Field(default=False, description="Case-sensitive matching"),
+     filter_file_path: str = FuncFields.filter_file_path,
+     match_context_chars: int = Field(default=DEFAULT_MATCH_CONTEXT_CHARS, description=f"Per match: approximate total context chars around the matched line range, split about half before and half after. This is per match, not a total cap across all matches. Default {DEFAULT_MATCH_CONTEXT_CHARS} means roughly {DEFAULT_MATCH_CONTEXT_CHARS // 2} chars before and {DEFAULT_MATCH_CONTEXT_CHARS // 2} chars after each match"),
+ ) -> str:
+     """Literal text or regex search over stored original text, matched line by line.
+ 
+     Use this when exact wording matters: article numbers, headings, exact phrases, API names, class/function names, constants, imports, decorators, error strings, or other precise text.
+     This is for literal/regex matching after you already know or suspect the wording to target; it is not the tool for semantic discovery.
+     Do not use it for concept search, synonym search, or paraphrase search.
+ 
+-    Returned text includes reusable follow-up fields such as matched_line, line_range, doc_id, and file_path.
++    Returned text includes reusable follow-up fields such as line_start == line_end, line_start + line_end, doc_id, and file_path.
+     """
+     return mcp_tools.nbrag_grep(keyword, collection_name, max_results, case_sensitive, filter_file_path, match_context_chars)
+ 
+ 
+ @mcp.tool()
+ def nbrag_find_definition(
+     symbol: str = Field(description="Python symbol name such as 'UserService', 'get_by_id', or 'MyClass.__init__'"),
+     collection_name: str = FuncFields.collection_name,
+     max_results: int = Field(default=3, description="Maximum number of candidate definitions to return"),
+ ) -> str:
+@@ -310,21 +310,21 @@ def nbrag_find_files(
+ 
+     Returned text includes matched file_path, filename, and doc_id.
+     """
+     return mcp_tools.nbrag_find_files(pattern, collection_name, max_results, case_sensitive)
+ 
+ 
+ @mcp.tool()
+ def nbrag_get_file_chunks(
+     file_path: str = FuncFields.file_path,
+     collection_name: str = FuncFields.collection_name,
+-    start_chunk: int = Field(default=0, description="Start chunk index (0-based) for pagination"),
++    start_chunk: int = Field(default=0, description="Start chunk index (0-based) for pagination. 0-based chunk index; same value space as the chunk_index handle, but used as a pagination cursor (semantic: 'start browsing from chunk N')."),
+     max_chunks: int = Field(default=10, description="Maximum chunks to return for this page"),
+ ) -> str:
+     """Paginated chunk view for a stored file.
+ 
+     Use this when you want chunk-by-chunk browsing together with line and scope metadata.
+     This is a chunk-based view and can include overlapping content by design.
+     For overlap-free original text, use nbrag_get_raw_file() instead.
+ 
+     Returned text includes filename, doc_id, file_path, total_chunks, total_lines, and per-chunk line/scope markers.
+     """
+@@ -343,63 +343,63 @@ def nbrag_get_raw_file(
+     This reads the original text captured in the knowledge base at ingestion time; it is not a live filesystem refresh.
+     Use it when you need clean quoting, broader source context, or a specific line range.
+ 
+     Returned text includes original_file, file_path, doc_id, total_lines, and the returned line range."""
+     return mcp_tools.nbrag_get_raw_file(file_path, collection_name, line_start, line_end)
+ 
+ 
+ @mcp.tool()
+ def nbrag_get_adjacent_chunks(
+     doc_id: str = Field(description="Document ID returned by nbrag tools such as search/search_and_fetch/grep/list"),
+-    chunk_index: int = Field(description="Target chunk index from a search/search_and_fetch result field like chunk:X/Y or chunk_index:X"),
++    chunk_index: int = Field(description="Target chunk index from a search/search_and_fetch result field like chunk_index + total_chunks"),
+     collection_name: str = FuncFields.collection_name,
+     window: int = Field(default=3, description="Return chunk_index ± window chunks"),
+ ) -> str:
+     """Expand chunk context around a known ranked hit.
+ 
+     Use this when nbrag_search() or nbrag_search_and_fetch() already gave you doc_id + chunk_index
+     and you want nearby chunks. grep results may provide doc_id, but grep alone does not provide chunk_index,
+     so grep output is not sufficient by itself for this tool.
+ 
+     Returned text includes file_path, total_chunks, and the adjacent chunks with line markers."""
+     return mcp_tools.nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name, window)
+ 
+ 
+ @mcp.tool()
+ def nbrag_get_chunks_by_lines(
+     doc_id: str = Field(description="Document ID returned by nbrag tools such as search/search_and_fetch/grep/list"),
+-    line_start: int = Field(description="Start line (1-based), usually copied from a prior line:N-M style result"),
+-    line_end: int = Field(description="End line (inclusive), usually copied from a prior line:N-M style result"),
++    line_start: int = Field(description="Start line (1-based), usually copied from a prior line_start + line_end style result"),
++    line_end: int = Field(description="End line (inclusive), usually copied from a prior line_start + line_end style result"),
+     collection_name: str = FuncFields.collection_name,
+ ) -> str:
+     """Return all chunks covering a line range.
+ 
+     Use this when you already know a line range and want chunk-level context with scope metadata.
+     Compared with nbrag_get_raw_file(), this keeps chunk/scope structure but can include overlapping content by design.
+ 
+-    Returned text includes doc_id, file_path, requested line_range, and all overlapping chunks."""
++    Returned text includes doc_id, file_path, requested line_start + line_end, and all overlapping chunks."""
+     return mcp_tools.nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)
+ 
+ 
+ @mcp.tool()
+ def nbrag_list(
+     collection_name: str = FuncFields.collection_name ,
+     limit: int = Field(default=100, description="Maximum documents to return for this page (default 100, usually keep <= 500)"),
+     offset: int = Field(default=0, description="Skip the first N documents for pagination"),
+ ) -> str:
+     """List imported documents in a collection.
+ 
+     Use this when the user explicitly wants to browse imported documents,
+     or when you need inventory handles such as doc_id and file_path before a follow-up read.
+     This is for collection inventory and handle discovery, not the default path for semantic question answering.
+ 
+-    Returned text includes per-document doc_id, filename, chunk_count, total_chunks, and file_path."""
++    Returned text includes per-document doc_id, filename, total_chunks, and file_path."""
+     return mcp_tools.nbrag_list(collection_name=collection_name, offset=offset, limit=limit)
+ 
+ 
+ # 删除文档：人工维护入口，不注册为 MCP tool。
+ def nbrag_delete(
+     doc_id: str = Field(description="Document ID to delete (from nbrag_list results)"),
+     collection_name: str = FuncFields.collection_name,
+     ) -> str:
+     """Delete a document's vectors and cached files from the collection. Get doc_id from nbrag_list."""
+     return mcp_tools.nbrag_delete(doc_id, collection_name)
+diff --git a/nbrag/skills/nbrag-workflow/SKILL.md b/nbrag/skills/nbrag-workflow/SKILL.md
+index b28bd0a..b35e86f 100644
+--- a/nbrag/skills/nbrag-workflow/SKILL.md
++++ b/nbrag/skills/nbrag-workflow/SKILL.md
+@@ -1,11 +1,11 @@
+-﻿---
++---
+ name: nbrag-workflow
+ description: Use when the task requires searching imported nbrag knowledge bases or choosing between nbrag retrieval and follow-up tools.
+ ---
+ 
+ # role and goal
+ 
+ In the current task, operate as an agent with strong expertise in knowledge-base retrieval strategy.
+ You should reason clearly about the boundaries between vector retrieval, BM25 lexical anchoring, reranking, and raw-versus-chunk follow-up, and use that reasoning to formulate query and bm25_query values that maximize the chance of surfacing the most relevant evidence.
+ Your priority is to obtain evidence that is both reliable and sufficiently comprehensive for the answer. Stop retrieving when the evidence is already sufficient, avoid meaningless repeated calls, but do not optimize for early convergence at the cost of missing important evidence.
+ 
+@@ -54,21 +54,21 @@ Before calling a retrieval tool, decide:
+ | Ranked retrieval with finer control | `nbrag_search()` | You need to control rerank / BM25 / `include_content` / `filter_file_path` | You mainly want one-call search + auto-fetched evidence |
+ | Lexical-only diagnostics | `nbrag_search_only_bm25()` | You are checking exact-term recall or comparing strategies | Normal answering flow |
+ | Vector-only diagnostics | `nbrag_search_only_vector()` | You are checking semantic recall without BM25 | Normal answering flow |
+ | Exact wording or regex | `nbrag_grep()` | You need literal line-by-line matches in stored original text | The question is about meaning, paraphrase, or concept similarity |
+ | Python class/function/method definition | `nbrag_find_definition()` | You already know or nearly know the Python symbol name | The target is non-Python text or only a vague concept |
+ | Discover exact stored `file_path` | `nbrag_find_files()` | You only know a filename fragment or partial path | You already have a full absolute `file_path` |
+ | Browse imported documents | `nbrag_list()` | You need inventory handles like `doc_id` and `file_path`, or the user explicitly wants to browse what is imported | You are trying to answer a semantic question and do not need inventory first |
+ | Overlap-free original text | `nbrag_get_raw_file()` | You need clean quoting, wider source reading, or a specific line range | You need chunk boundaries / scope metadata |
+ | Paginated chunk view for one file | `nbrag_get_file_chunks()` | You want chunk-by-chunk browsing with line/scope metadata | You need overlap-free original text |
+ | Expand around a known hit | `nbrag_get_adjacent_chunks()` | You have `doc_id` + `chunk_index` from search results and want nearby chunks | You only have grep output without `chunk_index` |
+-| Chunk view covering a line range | `nbrag_get_chunks_by_lines()` | You know `doc_id` + `line:N-M` and want chunk/scope context | You only need raw source text |
++| Chunk view covering a line range | `nbrag_get_chunks_by_lines()` | You know `doc_id` + `line_start + line_end` and want chunk/scope context | You only need raw source text |
+ 
+ ## 4. Semantic retrieval vs lexical retrieval
+ 
+ Use **semantic retrieval** when the user is asking about:
+ - meaning
+ - explanation
+ - usage
+ - examples
+ - concepts
+ - paraphrases
+@@ -191,45 +191,45 @@ Do not treat it as a general “find definition anywhere” tool.
+ For non-Python text, the normal paths are:
+ - `nbrag_grep()` for exact wording
+ - `nbrag_search_and_fetch()` for semantic/source-backed discovery
+ 
+ ## 9. Stable follow-up handles
+ 
+ The most important reusable handles are:
+ - `file_path`
+ - `doc_id`
+ - `chunk_index`
+-- `line:N-M`
++- `line_start`, `line_end`
+ 
+ ### `file_path`
+ Use it with:
+ - `nbrag_get_raw_file(file_path, collection_name)`
+ - `nbrag_get_file_chunks(file_path, collection_name)`
+ - `filter_file_path=...` in search or grep tools
+ 
+ Rules:
+ - `file_path` and `filter_file_path` should be full absolute paths returned by `nbrag`
+ - Do not guess with a basename or relative path
+ - If you only know a partial filename/path, call `nbrag_find_files()` first
+ - `nbrag_list()` can also provide valid `file_path` values
+ 
+ ### `doc_id + chunk_index`
+ Use with:
+ - `nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)`
+ 
+ Get `chunk_index` from search results such as:
+-- `chunk:X/Y`
+-- `chunk_index:X`
++- `chunk_index` attribute on `<hit>` from `nbrag_search` / `nbrag_search_and_fetch`
++- `chunk_index` attribute on `<chunk>` from `nbrag_get_file_chunks`
+ 
+ Do not try this from grep output alone, because grep does not provide `chunk_index`.
+ 
+-### `doc_id + line:N-M`
++### `doc_id + line_start + line_end`
+ Use with:
+ - `nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)`
+ 
+ ### `file_path + line range`
+ Use with:
+ - `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)`
+ 
+ ## 10. `filter_file_path` behavior
+ 
+ `filter_file_path` is for narrowing retrieval to one stored file when that file is already known.
+diff --git a/scripts/test_xml_format.py b/scripts/test_xml_format.py
+new file mode 100644
+index 0000000..c92a08c
+--- /dev/null
++++ b/scripts/test_xml_format.py
+@@ -0,0 +1,480 @@
++"""End-to-end XML format verification for nbrag MCP tool functions.
++
++Calls every nbrag_* function via direct import and verifies the return
++format matches the canonical XML spec with canonical handle fields
++(file_path, doc_id, chunk_index, total_chunks, line_start, line_end).
++
++The script is adaptive: it first calls nbrag_stats() to pick a collection,
++then nbrag_list() to discover filenames, and derives query/pattern values
++from those filenames instead of hardcoding them.
++
++Run:
++    D:/ProgramData/miniconda3/envs/py312/python.exe scripts/test_xml_format.py
++"""
++
++import os
++
++# Must be set BEFORE any nbrag import to avoid OpenBLAS memory allocation failures.
++os.environ["OPENBLAS_NUM_THREADS"] = "1"
++
++import re
++import sys
++
++# Ensure project root (d:/codes/nbrag) is importable so `import my_load_config`
++# and `from nbrag...` both resolve when the script is run from anywhere.
++sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
++
++import my_load_config  # noqa: F401  (loads NBRAG_API_KEY from dotenv)
++from nbrag.config import load_config
++
++load_config()
++
++from nbrag.mcp_tools import (
++    nbrag_help,
++    nbrag_stats,
++    nbrag_search,
++    nbrag_search_and_fetch,
++    nbrag_search_only_bm25,
++    nbrag_search_only_vector,
++    nbrag_grep,
++    nbrag_find_definition,
++    nbrag_find_files,
++    nbrag_list,
++    nbrag_get_raw_file,
++    nbrag_get_file_chunks,
++    nbrag_get_adjacent_chunks,
++    nbrag_get_chunks_by_lines,
++)
++
++
++# ---- helpers ---------------------------------------------------------------
++
++_passed = 0
++_TOTAL = 15
++
++
++def _record(step: int, ok: bool, reason: str = "") -> None:
++    global _passed
++    if ok:
++        _passed += 1
++        print(f"Step {step:2d}: PASS")
++    else:
++        detail = f" {reason}" if reason else ""
++        print(f"Step {step:2d}: FAIL{detail}")
++
++
++def _attr(attrs_text: str, name: str):
++    """Extract first attribute value from an XML attribute string."""
++    m = re.search(rf'{name}="([^"]*)"', attrs_text)
++    return m.group(1) if m else None
++
++
++def _first_tag_attrs(text: str, tag: str):
++    """Return the attribute portion (between tag name and closing >) of the
++    first ``<tag ...>`` occurrence.  Works for both self-closing and
++    content-bearing forms because ``[^>]`` stops at the first ``>``.
++    """
++    m = re.search(rf'<{tag}\s+([^>]*)>', text)
++    return m.group(1) if m else None
++
++
++def _derive_query(filename: str) -> str:
++    """Derive a search query from a filename stem."""
++    if not filename:
++        return "的"
++    stem = os.path.splitext(filename)[0]
++    cjk_seqs = re.findall(r"[\u4e00-\u9fff]+", stem)
++    if cjk_seqs:
++        return max(cjk_seqs, key=len)
++    ascii_stem = re.sub(r"^[_\d]+", "", stem)
++    return ascii_stem or stem or "def"
++
++
++def _derive_grep_keyword(filename: str) -> str:
++    """Pick a grep keyword likely to appear in source text."""
++    if filename and re.search(r"[\u4e00-\u9fff]", filename):
++        return "的"
++    return "e"
++
++
++def _derive_pattern(filename: str) -> str:
++    """Pick a filename fragment for nbrag_find_files."""
++    if not filename:
++        return "."
++    stem = os.path.splitext(filename)[0]
++    cjk_seqs = re.findall(r"[\u4e00-\u9fff]+", stem)
++    if cjk_seqs:
++        return max(cjk_seqs, key=len)[:5]
++    ascii_stem = re.sub(r"^[_\d]+", "", stem)
++    return ascii_stem[:10] if ascii_stem else stem[:10]
++
++
++# ---- shared state ----------------------------------------------------------
++
++S: dict = {}
++
++# ===========================================================================
++# Step 1: nbrag_help
++# ===========================================================================
++try:
++    out = nbrag_help()
++    ok = (
++        "line_start" in out
++        and "line_end" in out
++        and "line:N-M" not in out
++        and "chunk:X/Y" not in out
++        and "chunk_index:X" not in out
++    )
++    _record(1, ok, "" if ok else "help text missing canonical handles or contains deprecated forms")
++except Exception as exc:  # noqa: BLE001
++    _record(1, False, f"exception: {exc!r}")
++
++# ===========================================================================
++# Step 2: nbrag_stats  (also picks collection_name for downstream steps)
++# ===========================================================================
++try:
++    out = nbrag_stats()
++    ok = (
++        out.startswith("<nbrag_stats>")
++        and out.rstrip().endswith("</nbrag_stats>")
++        and "<collections>" in out
++        and "<collection " in out
++    )
++    if not ok:
++        _record(2, False, "stats XML shape mismatch")
++    else:
++        coll = None
++        for m in re.finditer(r"<collection\s+([^/>]*)/>", out):
++            attrs = m.group(1)
++            name = _attr(attrs, "collection_name")
++            chunks_str = _attr(attrs, "chunks") or "0"
++            try:
++                chunks = int(chunks_str)
++            except ValueError:
++                chunks = 0
++            if name and chunks > 0:
++                coll = name
++                break
++        if coll:
++            S["collection_name"] = coll
++            _record(2, True)
++        else:
++            _record(2, False, "no collection with chunks > 0 found")
++except Exception as exc:  # noqa: BLE001
++    _record(2, False, f"exception: {exc!r}")
++
++# ---- early nbrag_list for adaptation (output reused in Step 10) -----------
++
++_list_out = None
++_list_file_path = None
++_list_doc_id = None
++_list_filename = None
++if "collection_name" in S:
++    try:
++        _list_out = nbrag_list(S["collection_name"])
++        doc_attrs = _first_tag_attrs(_list_out, "document")
++        if doc_attrs:
++            _list_file_path = _attr(doc_attrs, "file_path")
++            _list_doc_id = _attr(doc_attrs, "doc_id")
++            _list_filename = _attr(doc_attrs, "filename")
++    except Exception:  # noqa: BLE001
++        pass
++
++_query = _derive_query(_list_filename or "")
++_bm25_query = _query
++_grep_keyword = _derive_grep_keyword(_list_filename or "")
++_find_files_pattern = _derive_pattern(_list_filename or "")
++_symbol = "main"
++
++# Guard: if no collection, fail remaining steps with a clear reason.
++if "collection_name" not in S:
++    for _step in range(3, _TOTAL + 1):
++        _record(_step, False, "no collection_name available from step 2")
++else:
++    _coll = S["collection_name"]
++
++    # =======================================================================
++    # Step 3: nbrag_search_and_fetch  (extract 5 handles from first <hit>)
++    # =======================================================================
++    try:
++        out = nbrag_search_and_fetch(
++            query=_query, collection_name=_coll, bm25_query=_bm25_query
++        )
++        ok = (
++            "<nbrag_search_and_fetch" in out
++            and "<ranked_hits>" in out
++            and "<hit " in out
++            and "<fetched_raw>" in out
++        )
++        if not ok:
++            _record(3, False, f"XML shape mismatch; output head: {out[:200]!r}")
++        else:
++            hit_attrs = _first_tag_attrs(out, "hit")
++            if not hit_attrs:
++                _record(3, False, "no <hit> tag attributes found")
++            else:
++                S["hit_file_path"] = _attr(hit_attrs, "file_path")
++                S["hit_doc_id"] = _attr(hit_attrs, "doc_id")
++                S["hit_chunk_index"] = _attr(hit_attrs, "chunk_index")
++                S["hit_line_start"] = _attr(hit_attrs, "line_start")
++                S["hit_line_end"] = _attr(hit_attrs, "line_end")
++                missing = [
++                    k for k in ("hit_file_path", "hit_doc_id", "hit_chunk_index",
++                                "hit_line_start", "hit_line_end") if S[k] is None
++                ]
++                _record(3, not missing, "" if not missing else f"missing handles: {missing}")
++    except Exception as exc:  # noqa: BLE001
++        _record(3, False, f"exception: {exc!r}")
++
++    # =======================================================================
++    # Step 4: nbrag_search with include_content=False  (self-closing <hit/>)
++    # =======================================================================
++    try:
++        out = nbrag_search(
++            query=_query, collection_name=_coll,
++            include_content=False, bm25_query=_bm25_query,
++        )
++        ok = (
++            "<nbrag_search" in out
++            and "<ranked_hits>" in out
++            and "<hit " in out
++            and "<content>" not in out
++        )
++        _record(4, ok, "" if ok else f"XML shape mismatch; output head: {out[:200]!r}")
++    except Exception as exc:  # noqa: BLE001
++        _record(4, False, f"exception: {exc!r}")
++
++    # =======================================================================
++    # Step 5: nbrag_search_only_bm25
++    # =======================================================================
++    try:
++        out = nbrag_search_only_bm25(bm25_query=_bm25_query, collection_name=_coll)
++        ok = "<nbrag_search_only_bm25" in out
++        _record(5, ok, "" if ok else f"XML shape mismatch; output head: {out[:200]!r}")
++    except Exception as exc:  # noqa: BLE001
++        _record(5, False, f"exception: {exc!r}")
++
++    # =======================================================================
++    # Step 6: nbrag_search_only_vector
++    # =======================================================================
++    try:
++        out = nbrag_search_only_vector(query=_query, collection_name=_coll)
++        ok = "<nbrag_search_only_vector" in out
++        _record(6, ok, "" if ok else f"XML shape mismatch; output head: {out[:200]!r}")
++    except Exception as exc:  # noqa: BLE001
++        _record(6, False, f"exception: {exc!r}")
++
++    # =======================================================================
++    # Step 7: nbrag_grep  (extract handles from first <match>)
++    # =======================================================================
++    try:
++        out = nbrag_grep(keyword=_grep_keyword, collection_name=_coll)
++        ok = (
++            "<nbrag_grep" in out
++            and "<matches>" in out
++            and "<match " in out
++        )
++        if not ok:
++            _record(7, False, f"XML shape mismatch; output head: {out[:200]!r}")
++        else:
++            match_attrs = _first_tag_attrs(out, "match")
++            if not match_attrs:
++                _record(7, False, "no <match> tag attributes found")
++            else:
++                S["grep_file_path"] = _attr(match_attrs, "file_path")
++                S["grep_doc_id"] = _attr(match_attrs, "doc_id")
++                S["grep_line_start"] = _attr(match_attrs, "line_start")
++                S["grep_line_end"] = _attr(match_attrs, "line_end")
++                missing = [
++                    k for k in ("grep_file_path", "grep_doc_id",
++                                "grep_line_start", "grep_line_end") if S[k] is None
++                ]
++                _record(7, not missing, "" if not missing else f"missing handles: {missing}")
++    except Exception as exc:  # noqa: BLE001
++        _record(7, False, f"exception: {exc!r}")
++
++    # =======================================================================
++    # Step 8: nbrag_find_definition  (tolerant: error types count as PASS)
++    # =======================================================================
++    try:
++        out = nbrag_find_definition(symbol=_symbol, collection_name=_coll)
++        if out.startswith("<nbrag_find_definition"):
++            ok = "<definitions>" in out and "<definition " in out
++            _record(8, ok, "" if ok else "XML shape mismatch (no <definitions>/<definition)")
++        elif out.startswith("<error"):
++            ok = (
++                'type="not_found"' in out
++                or 'type="no_results"' in out
++                or 'type="missing_collection"' in out
++                or 'type="empty_collection"' in out
++            )
++            _record(8, ok, "" if ok else f"unexpected error type; output head: {out[:200]!r}")
++        else:
++            _record(8, False, f"malformed output; head: {out[:100]!r}")
++    except Exception as exc:  # noqa: BLE001
++        _record(8, False, f"exception: {exc!r}")
++
++    # =======================================================================
++    # Step 9: nbrag_find_files  (<file> must have total_chunks, not chunk_count)
++    # =======================================================================
++    try:
++        out = nbrag_find_files(pattern=_find_files_pattern, collection_name=_coll)
++        ok = (
++            "<nbrag_find_files" in out
++            and "<files>" in out
++            and "<file " in out
++        )
++        if not ok:
++            _record(9, False, f"XML shape mismatch; output head: {out[:200]!r}")
++        else:
++            file_attrs = _first_tag_attrs(out, "file")
++            if not file_attrs:
++                _record(9, False, "no <file> tag attributes found")
++            else:
++                has_total = _attr(file_attrs, "total_chunks") is not None
++                has_count = _attr(file_attrs, "chunk_count") is not None
++                ok = has_total and not has_count
++                _record(9, ok, "" if ok else "<file> must use total_chunks, not chunk_count")
++    except Exception as exc:  # noqa: BLE001
++        _record(9, False, f"exception: {exc!r}")
++
++    # =======================================================================
++    # Step 10: nbrag_list  (<document> must have doc_id, file_path, total_chunks)
++    # =======================================================================
++    try:
++        out = _list_out if _list_out is not None else nbrag_list(_coll)
++        ok = (
++            "<nbrag_list" in out
++            and "<documents>" in out
++            and "<document " in out
++        )
++        if not ok:
++            _record(10, False, f"XML shape mismatch; output head: {out[:200]!r}")
++        else:
++            doc_attrs = _first_tag_attrs(out, "document")
++            if not doc_attrs:
++                _record(10, False, "no <document> tag attributes found")
++            else:
++                has_doc_id = _attr(doc_attrs, "doc_id") is not None
++                has_file_path = _attr(doc_attrs, "file_path") is not None
++                has_total = _attr(doc_attrs, "total_chunks") is not None
++                has_count = _attr(doc_attrs, "chunk_count") is not None
++                ok = has_doc_id and has_file_path and has_total and not has_count
++                _record(10, ok, "" if ok else "<document> must use doc_id/file_path/total_chunks")
++    except Exception as exc:  # noqa: BLE001
++        _record(10, False, f"exception: {exc!r}")
++
++    # =======================================================================
++    # Step 11: nbrag_get_raw_file  (use file_path from step 3 or 7 or list)
++    # =======================================================================
++    _raw_file_path = (
++        S.get("hit_file_path")
++        or S.get("grep_file_path")
++        or _list_file_path
++    )
++    try:
++        if not _raw_file_path:
++            _record(11, False, "no file_path available from earlier steps")
++        else:
++            out = nbrag_get_raw_file(file_path=_raw_file_path, collection_name=_coll)
++            ok = "<nbrag_get_raw_file" in out and "<content>" in out
++            _record(11, ok, "" if ok else f"XML shape mismatch; output head: {out[:200]!r}")
++    except Exception as exc:  # noqa: BLE001
++        _record(11, False, f"exception: {exc!r}")
++
++    # =======================================================================
++    # Step 12: nbrag_get_file_chunks  (<chunk> must have chunk_index/line_start/line_end)
++    # =======================================================================
++    try:
++        if not _raw_file_path:
++            _record(12, False, "no file_path available from earlier steps")
++        else:
++            out = nbrag_get_file_chunks(file_path=_raw_file_path, collection_name=_coll)
++            ok = (
++                "<nbrag_get_file_chunks" in out
++                and "<chunks>" in out
++                and "<chunk " in out
++            )
++            if not ok:
++                _record(12, False, f"XML shape mismatch; output head: {out[:200]!r}")
++            else:
++                chunk_attrs = _first_tag_attrs(out, "chunk")
++                if not chunk_attrs:
++                    _record(12, False, "no <chunk> tag attributes found")
++                else:
++                    has_ci = _attr(chunk_attrs, "chunk_index") is not None
++                    has_ls = _attr(chunk_attrs, "line_start") is not None
++                    has_le = _attr(chunk_attrs, "line_end") is not None
++                    ok = has_ci and has_ls and has_le
++                    _record(12, ok, "" if ok else "<chunk> missing chunk_index/line_start/line_end")
++    except Exception as exc:  # noqa: BLE001
++        _record(12, False, f"exception: {exc!r}")
++
++    # =======================================================================
++    # Step 13: nbrag_get_adjacent_chunks  (uses doc_id + chunk_index from step 3)
++    # =======================================================================
++    try:
++        _doc_id = S.get("hit_doc_id")
++        _ci_str = S.get("hit_chunk_index")
++        if not _doc_id or not _ci_str:
++            _record(13, False, "no doc_id/chunk_index available from step 3")
++        else:
++            try:
++                _ci = int(_ci_str)
++            except ValueError:
++                _record(13, False, f"chunk_index not int: {_ci_str!r}")
++            else:
++                out = nbrag_get_adjacent_chunks(
++                    doc_id=_doc_id, chunk_index=_ci, collection_name=_coll
++                )
++                ok = (
++                    "<nbrag_get_adjacent_chunks" in out
++                    and "anchor_chunk_index=" in out
++                    and "<chunks>" in out
++                )
++                _record(13, ok, "" if ok else f"XML shape mismatch; output head: {out[:200]!r}")
++    except Exception as exc:  # noqa: BLE001
++        _record(13, False, f"exception: {exc!r}")
++
++    # =======================================================================
++    # Step 14: nbrag_get_chunks_by_lines  (uses doc_id + line_start/end from step 3)
++    # =======================================================================
++    try:
++        _doc_id = S.get("hit_doc_id")
++        _ls_str = S.get("hit_line_start")
++        _le_str = S.get("hit_line_end")
++        if not _doc_id or not _ls_str or not _le_str:
++            _record(14, False, "no doc_id/line_start/line_end available from step 3")
++        else:
++            try:
++                _ls = int(_ls_str)
++                _le = int(_le_str)
++            except ValueError:
++                _record(14, False, f"line_start/line_end not int: {_ls_str!r}, {_le_str!r}")
++            else:
++                out = nbrag_get_chunks_by_lines(
++                    doc_id=_doc_id, line_start=_ls, line_end=_le, collection_name=_coll
++                )
++                ok = (
++                    "<nbrag_get_chunks_by_lines" in out
++                    and "requested_line_start=" in out
++                    and "requested_line_end=" in out
++                )
++                _record(14, ok, "" if ok else f"XML shape mismatch; output head: {out[:200]!r}")
++    except Exception as exc:  # noqa: BLE001
++        _record(14, False, f"exception: {exc!r}")
++
++    # =======================================================================
++    # Step 15: nbrag_get_raw_file with invalid file_path  (must return error XML)
++    # =======================================================================
++    try:
++        out = nbrag_get_raw_file(file_path="INVALID_PATH", collection_name=_coll)
++        ok = '<error type="invalid_file_path" field="file_path">' in out
++        _record(15, ok, "" if ok else f"expected invalid_file_path error; output head: {out[:200]!r}")
++    except Exception as exc:  # noqa: BLE001
++        _record(15, False, f"exception: {exc!r}")
++
++# ---- summary ---------------------------------------------------------------
++
++print()
++print(f"{_passed}/{_TOTAL} passed")

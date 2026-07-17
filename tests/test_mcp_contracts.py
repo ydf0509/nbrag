@@ -42,6 +42,51 @@ class McpContractTests(unittest.TestCase):
         self.assertIn("collection 'missing_collection' does not exist.", result)
         self.assertIn("Available collections: ['worker_rights']", result)
 
+    def test_help_distinguishes_chunk_and_original_text_outputs(self) -> None:
+        with patch("nbrag.mcp_tools._load_workflow_skill_text", return_value=""):
+            result = mcp_tools.nbrag_help()
+
+        self.assertIn("`<hit>` and `<chunk>` content are RAG chunks", result)
+        self.assertIn("`<match>` content is a stored-original-text context excerpt", result)
+        self.assertIn("only line_start=-1 and line_end=-1 return the whole stored file", result)
+
+    def test_grep_describes_match_as_original_text_context(self) -> None:
+        fake_results = [{
+            "source": "D:/docs/file.txt",
+            "doc_id": "doc-1",
+            "line_number": 4,
+            "context": "    4| exact phrase",
+        }]
+        with patch("nbrag.mcp_tools.grep_knowledge", return_value=fake_results):
+            result = mcp_tools.nbrag_grep("exact phrase", "kb")
+
+        self.assertIn("stored-original-text context excerpt", result)
+        self.assertIn("match_context_chars", result)
+        self.assertNotIn("`<match>` 中的 `<content>` 是 RAG chunk", result)
+
+    def test_definition_describes_ast_body_without_calling_it_chunk(self) -> None:
+        fake_results = [{
+            "symbol_type": "function",
+            "qualified_name": "demo",
+            "source": "D:/docs/demo.py",
+            "doc_id": "doc-1",
+            "line_start": 2,
+            "line_end": 3,
+            "definition": "def demo():\n    return 1",
+        }]
+        with patch("nbrag.mcp_tools.find_symbol_definition", return_value=fake_results):
+            result = mcp_tools.nbrag_find_definition("demo", "kb")
+
+        self.assertIn("AST-aware Python definition body", result)
+        self.assertNotIn("`<definition>` 中的 `<content>` 是 RAG chunk", result)
+
+    def test_list_exposes_unlocks_menu(self) -> None:
+        fake_rows = {"doc-1": {"source": "D:/docs/file.txt", "filename": "file.txt", "total_chunks": 2}}
+        with patch("nbrag.mcp_tools.list_documents", return_value=fake_rows):
+            result = mcp_tools.nbrag_list("kb")
+
+        self.assertIn("Unlocks: nbrag_get_raw_file", result)
+
     def test_search_output_includes_handles_and_filter_note(self) -> None:
         fake_config = SimpleNamespace(rerank=SimpleNamespace(model="reranker-v2"))
         fake_search_result = (
@@ -74,11 +119,12 @@ class McpContractTests(unittest.TestCase):
                 bm25_query="试用期",
             )
 
-        self.assertIn("[worker_rights] 9 chunks | bm25: off | rerank: reranker-v2 | filter_file_path: D:/docs/labor_law/劳动合同法.md", result)
-        self.assertIn("Returned handle fields for follow-up: file_path, doc_id, chunk_index, line range.", result)
-        self.assertIn("query remains the semantic question for vector retrieval/rerank; bm25_query only changes BM25 wording when BM25 is active.", result)
-        self.assertIn("Behavior note: with filter_file_path set, current hybrid behavior narrows vector retrieval to that single file and does not run cross-file BM25 fusion.", result)
-        self.assertIn("content omitted", result)
+        self.assertIn('<nbrag_search collection_name="worker_rights" total_chunks="9" bm25="off" rerank="reranker-v2" filter_file_path="D:/docs/labor_law/劳动合同法.md">', result)
+        self.assertIn("file_path = D:/docs/labor_law/劳动合同法.md", result)
+        self.assertIn("chunk_index = 3", result)
+        self.assertIn("Expand only when current evidence is useful but insufficient to answer, quote, or verify:", result)
+        self.assertIn('<hit rank="1"', result)
+        self.assertIn('score="0.9876" />', result)
 
     def test_search_and_fetch_auto_fetches_original_content(self) -> None:
         fake_config = SimpleNamespace(rerank=SimpleNamespace(model="reranker-v2"))
@@ -125,9 +171,9 @@ class McpContractTests(unittest.TestCase):
             )
 
         mock_get_file_chunks.assert_called_once_with("D:/docs/labor_law/劳动合同法.md", "worker_rights", 0, 0, raw=True)
-        self.assertIn("Ranked search results:", result)
-        self.assertIn("Auto-fetched original content (1 file(s)):", result)
-        self.assertIn("original_file: 劳动合同法.md | file_path: D:/docs/labor_law/劳动合同法.md | doc_id: doc-1 | range: line:", result)
+        self.assertIn("<ranked_hits>", result)
+        self.assertIn("<fetched_raw>", result)
+        self.assertIn('<raw file_path="D:/docs/labor_law/劳动合同法.md" doc_id="doc-1" line_start="1" line_end="3">', result)
         self.assertIn("第二行", result)
 
     def test_grep_handles_crlf_line_boundaries(self) -> None:

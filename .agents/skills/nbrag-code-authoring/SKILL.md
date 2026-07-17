@@ -61,8 +61,10 @@ description: Use when editing nbrag AI-facing surfaces—MCP tool docstrings, Fi
 - parameter names
 - `Field(description=...)`
 - docstrings
-- returned markers like `file_path`, `doc_id`, `chunk_index`, `line:N-M`
+- returned markers like `file_path`, `doc_id`, `chunk_index`, `line_start`, `line_end`
 - recovery hints
+
+handle 字段的名字与形态有严格契约，详见 `nbrag-handle-consistency` skill：返回字段名必须和下游入参名完全相同、范围类用两个独立字段（`line_start`+`line_end`，禁止 `line:N-M` 合并字符串）、序号类用独立字段（`chunk_index`+`total_chunks`，禁止 `chunk:X/Y`）。本 skill 只管宏观写作规范，handle 字段契约以 `nbrag-handle-consistency` 为准。
 
 所以：
 - prose polish 不是第一目标

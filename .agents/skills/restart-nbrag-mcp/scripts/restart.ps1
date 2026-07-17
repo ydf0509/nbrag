@@ -3,8 +3,8 @@
     Restart nbrag HTTP MCP server on port 9101 in background.
 .DESCRIPTION
     1. Stops any process occupying the target port
-    2. Starts D:\codes\nbrag\scripts\start_http_rag_mcp.py in background
-    3. Waits until the port is listening
+    2. Starts D:\codes\nbrag\scripts\start_http_rag_mcp.py directly through Task Scheduler
+    3. Exits immediately after recording the detached task information
 #>
 
 param(
@@ -20,6 +20,16 @@ $ServerScript = "D:\codes\nbrag\scripts\start_http_rag_mcp.py"
 $Netstat = Join-Path $env:SystemRoot "System32\netstat.exe"
 $RunLogDir = Join-Path (Join-Path $RepoDir ".tmp") "nbrag-mcp-runlogs"
 $StateFile = Join-Path $RunLogDir "last-restart.json"
+
+if (Test-Path $StateFile) {
+    try {
+        $previousState = Get-Content -Path $StateFile -Raw | ConvertFrom-Json
+        if ($previousState.task_name) {
+            schtasks.exe /Delete /TN $previousState.task_name /F 2>$null | Out-Null
+        }
+    } catch {
+    }
+}
 
 function Get-PortProcessIds {
     param([int]$TargetPort)
@@ -53,10 +63,6 @@ function Get-PortProcessIds {
 
 Write-Host "`n=== [1/2] Stopping existing nbrag MCP on port $Port ===" -ForegroundColor Cyan
 $existingPids = Get-PortProcessIds -TargetPort $Port
-$oldPidSet = @{}
-foreach ($existingPid in $existingPids) {
-    $oldPidSet[[string]$existingPid] = $true
-}
 if ($existingPids) {
     foreach ($procId in $existingPids) {
         Write-Host "  Killing PID $procId"
@@ -79,70 +85,37 @@ if ($existingPids) {
 Write-Host "`n=== [2/2] Starting nbrag HTTP MCP server ===" -ForegroundColor Cyan
 New-Item -ItemType Directory -Force -Path $RunLogDir | Out-Null
 $timestamp = Get-Date -Format "yyyyMMdd-HHmmss-fff"
-$stdoutLog = Join-Path $RunLogDir "nbrag-mcp-restart-$timestamp.out.log"
-$stderrLog = Join-Path $RunLogDir "nbrag-mcp-restart-$timestamp.err.log"
 
 if ($DryRun) {
     Write-Host "  Dry run only" -ForegroundColor Yellow
-    Write-Host "  Would run: $Python -u $ServerScript"
+    Write-Host "  Would schedule directly: $Python -u $ServerScript"
     Write-Host "  cwd: $RepoDir"
     exit 0
 }
 
-$env:PYTHONUNBUFFERED = "1"
-$env:PYTHONPATH = if ($env:PYTHONPATH) { "$RepoDir;$env:PYTHONPATH" } else { $RepoDir }
+$taskName = "NBragMcpRestart-$([guid]::NewGuid().ToString('N'))"
+$taskCommand = "`"$Python`" -u `"$ServerScript`""
 
-$arguments = @("-u", $ServerScript)
-$proc = Start-Process `
-    -FilePath $Python `
-    -ArgumentList $arguments `
-    -WorkingDirectory $RepoDir `
-    -WindowStyle Hidden `
-    -RedirectStandardOutput $stdoutLog `
-    -RedirectStandardError $stderrLog `
-    -PassThru
-
-Write-Host "  Started PID $($proc.Id)"
-Write-Host "  stdout: $stdoutLog"
-Write-Host "  stderr: $stderrLog"
-
-$deadline = (Get-Date).AddSeconds(90)
-while ((Get-Date) -lt $deadline) {
-    $listenerPids = @(Get-PortProcessIds -TargetPort $Port)
-    if ($listenerPids) {
-        $hasNewPid = $listenerPids -contains $proc.Id
-        $hasOldPid = $false
-        foreach ($listenerPid in $listenerPids) {
-            if ($oldPidSet.ContainsKey([string]$listenerPid)) {
-                $hasOldPid = $true
-                break
-            }
-        }
-
-        if ($hasNewPid -and -not $hasOldPid) {
-            $restartState = [ordered]@{
-                restarted_at = (Get-Date).ToString("s")
-                port = $Port
-                old_pids = @($existingPids)
-                new_pid = $proc.Id
-                stdout_log = $stdoutLog
-                stderr_log = $stderrLog
-            } | ConvertTo-Json -Depth 4
-            Set-Content -Path $StateFile -Value $restartState -Encoding UTF8
-
-            Write-Host "  nbrag MCP is listening on http://127.0.0.1:$Port/mcp" -ForegroundColor Green
-            Write-Host "  Active listener PID: $($proc.Id)" -ForegroundColor Green
-            Write-Host "  restart state: $StateFile" -ForegroundColor Green
-            exit 0
-        }
-    }
-
-    $proc.Refresh()
-    if ($proc.HasExited) {
-        throw "nbrag MCP exited before listening on port $Port. Check logs: $stdoutLog ; $stderrLog"
-    }
-
-    Start-Sleep 2
+schtasks.exe /Create /TN $taskName /TR "`"$taskCommand`"" /SC ONCE /ST 23:59 /F | Out-Null
+if ($LASTEXITCODE -ne 0) {
+    throw "Failed to create detached Task Scheduler task '$taskName'."
 }
 
-throw "nbrag MCP did not listen on port $Port within 90s. Check logs: $stdoutLog ; $stderrLog"
+schtasks.exe /Run /TN $taskName | Out-Null
+if ($LASTEXITCODE -ne 0) {
+    schtasks.exe /Delete /TN $taskName /F 2>$null | Out-Null
+    throw "Failed to start detached Task Scheduler task '$taskName'."
+}
+
+Write-Host "  Submitted detached task $taskName"
+
+$restartState = [ordered]@{
+    restarted_at = (Get-Date).ToString("s")
+    port = $Port
+    old_pids = @($existingPids)
+    task_name = $taskName
+} | ConvertTo-Json -Depth 4
+Set-Content -Path $StateFile -Value $restartState -Encoding UTF8
+
+Write-Host "  Task Scheduler directly owns the MCP process; the script exits without waiting for port $Port." -ForegroundColor Green
+Write-Host "  restart state: $StateFile" -ForegroundColor Green
