@@ -262,10 +262,13 @@ def nbrag_help() -> str:
         "",
         "Use the actual exposed tool names you received from the MCP host. They may include prefixes such as xxx_nbrag_search.",
         "",
-        "MANDATORY first step for a new retrieval task:",
-        "- Call nbrag_help() once before nbrag_stats or any retrieval, lookup, or reading tool.",
-        "- Do not skip it merely because the user named a collection: it establishes query/bm25_query roles, raw-vs-chunk boundaries, stable follow-up handles, and multi-tool retrieval workflow.",
-        "- After this routing call, continue directly with the chosen tools. Do not call nbrag_help() again before every follow-up unless you need to change strategy.",
+        "Purpose: nbrag_help establishes how to choose retrieval tools, keep query and bm25_query in distinct roles, distinguish chunk text from stored original text, and reuse follow-up handles safely.",
+        "",
+        "MANDATORY bootstrap with session-aware reuse:",
+        "- Before the first nbrag operation whose routing guidance is not already available in the current conversation context, call nbrag_help() proactively.",
+        "- A successful nbrag_help() response is reusable for all later nbrag retrieval questions in the same conversation. A new user question does not by itself require another call.",
+        "- If the prior result is unavailable after context compaction, or you are uncertain whether it exists, call nbrag_help() again before using other nbrag tools.",
+        "- When routing guidance is already available, proceed directly with the chosen tool. Do not repeat nbrag_help() before normal follow-up calls.",
         "",
         "Step 1: decide the collection",
         "- If collection_name is unknown, call nbrag_stats() next.",
@@ -398,14 +401,14 @@ def _format_search_results(
         ("line_end", str(top_meta.get("line_end", "?"))),
     ]
     unlocks = (
-        "Expand only when current evidence is useful but insufficient to answer, quote, or verify: "
+        "Available follow-up tools when you need to expand, quote, or verify: "
         "nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name) | "
         "nbrag_get_raw_file(file_path, collection_name, line_start, line_end) | "
         "nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)"
     )
     lines.extend(_surfacing_block("Top result handles — reuse these values in the next call:", top_handles, unlocks))
     lines.append("")
-    lines.append("`<hit>` 中的 `<content>` 是可能在 chunk 边界截断的 RAG chunk，不是完整原文。仅当当前证据有用但仍不足以回答、引用或验证时，使用上一行工具扩展；证据已充分时直接回答。")
+    lines.append("`<hit>` 中的 `<content>` 是可能在 chunk 边界截断的 RAG chunk，不是完整原文。可使用上一行工具读取原始文本、扩大上下文或完成验证。")
     lines.append("")
     lines.append("<ranked_hits>")
 
@@ -585,7 +588,7 @@ def nbrag_search_and_fetch(
         ("line_end", str(top_meta.get("line_end", "?"))),
     ]
     unlocks = (
-        "Expand only when current evidence is useful but insufficient to answer, quote, or verify: "
+        "Available follow-up tools when you need to expand, quote, or verify: "
         "nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name) | "
         "nbrag_get_raw_file(file_path, collection_name, line_start, line_end) | "
         "nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)"
@@ -657,7 +660,7 @@ def nbrag_grep(
         ("line_end", top_ln),
     ]
     unlocks = (
-        "Expand only when current evidence is useful but insufficient to answer, quote, or verify: "
+        "Available follow-up tools when you need to expand, quote, or verify: "
         "nbrag_get_raw_file(file_path, collection_name, line_start, line_end) | "
         "nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name) | "
         "nbrag_search_and_fetch(query, collection_name) for nearby semantic context"
@@ -667,7 +670,7 @@ def nbrag_grep(
     ]
     lines.extend(_surfacing_block("Top match handles — reuse these values in the next call:", top_handles, unlocks))
     lines.append("")
-    lines.append("`<match>` 中的 `<content>` 是 stored-original-text context excerpt，不含 chunk overlap，但受 match_context_chars 限制，并非完整文件。仅当当前证据有用但仍不足以回答、引用或验证时，使用上一行工具扩展；证据已充分时直接回答。")
+    lines.append("`<match>` 中的 `<content>` 是 stored-original-text context excerpt，不含 chunk overlap，但受 match_context_chars 限制，并非完整文件。可使用上一行工具读取所需原文范围、扩大上下文或完成验证。")
     lines.append("")
     lines.append("<matches>")
     for i, item in enumerate(results):
@@ -720,14 +723,14 @@ def nbrag_find_definition(
         ("line_end", str(top_def.get("line_end", "?"))),
     ]
     unlocks = (
-        "Expand only when current evidence is useful but insufficient to answer, quote, or verify: "
+        "Available follow-up tools when you need to expand, quote, or verify: "
         "nbrag_get_raw_file(file_path, collection_name, line_start, line_end) | "
         "nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)"
     )
     lines = ['<nbrag_find_definition>']
     lines.extend(_surfacing_block("Top definition handles — reuse these values in the next call:", top_handles, unlocks))
     lines.append("")
-    lines.append("For symbol_type class/function/method, `<definition>` `<content>` is an AST-aware Python definition body; regex_fallback is only a candidate text match. Use the returned line range to verify or widen surrounding original text when current evidence is insufficient.")
+    lines.append("For symbol_type class/function/method, `<definition>` `<content>` is an AST-aware Python definition body; regex_fallback is only a candidate text match. Use the returned line range to verify the source or widen surrounding original text.")
     lines.append("")
     if has_non_python_fallback and not has_python_definition:
         lines.append('Only regex fallback results were found. For non-Python text, use nbrag_grep for exact wording lookup.')
@@ -845,7 +848,7 @@ def nbrag_get_adjacent_chunks(doc_id: str, chunk_index: int, collection_name: st
         f'<nbrag_get_adjacent_chunks file_path="{file_path}" doc_id="{doc_id_str}" total_chunks="{total_chunks}" window="{window}" anchor_chunk_index="{chunk_index}">',
         "Input chunk_index echoed above as anchor_chunk_index. Returned chunk handles below: chunk_index, line_start, line_end.",
         "",
-        "`<chunk>` 中的 `<content>` 是可能在 chunk 边界截断的 RAG chunk，不是完整原文。仅当当前证据有用但仍不足以回答、引用或验证时，调用 nbrag_get_raw_file 扩展；证据已充分时直接回答。",
+        "`<chunk>` 中的 `<content>` 是可能在 chunk 边界截断的 RAG chunk，不是完整原文。可调用 nbrag_get_raw_file 读取无重叠的原始文本、扩大上下文或完成验证。",
         "",
         "<chunks>",
     ]
@@ -905,7 +908,7 @@ def nbrag_get_file_chunks(file_path: str, collection_name: str, start_chunk: int
         f'<nbrag_get_file_chunks file_path="{file_path_str}" doc_id="{doc_id_str}" total_chunks="{total_chunks}" total_lines="{total_lines}" start_chunk="{start_chunk}" max_chunks="{max_chunks}" has_more="{has_more}">',
         "Input start_chunk echoed above (pagination cursor, value-compatible with chunk_index but not a chunk handle). Returned chunk handles below: chunk_index, line_start, line_end.",
         "",
-        "`<chunk>` 中的 `<content>` 是可能在 chunk 边界截断的 RAG chunk，不是完整原文。仅当当前证据有用但仍不足以回答、引用或验证时，调用 nbrag_get_raw_file 扩展；证据已充分时直接回答。",
+        "`<chunk>` 中的 `<content>` 是可能在 chunk 边界截断的 RAG chunk，不是完整原文。可调用 nbrag_get_raw_file 读取无重叠的原始文本、扩大上下文或完成验证。",
         "",
         "<chunks>",
     ]
@@ -973,7 +976,7 @@ def nbrag_get_chunks_by_lines(doc_id: str, line_start: int, line_end: int, colle
         f'<nbrag_get_chunks_by_lines doc_id="{doc_id_str}" file_path="{file_path}" total_chunks="{total_chunks}" requested_line_start="{line_start}" requested_line_end="{line_end}">',
         "Input line_start/line_end echoed above as requested_line_start/requested_line_end. Returned chunk handles below: chunk_index, line_start, line_end (actual chunk coverage may differ from requested range).",
         "",
-        "`<chunk>` 中的 `<content>` 是可能在 chunk 边界截断的 RAG chunk，不是完整原文。仅当当前证据有用但仍不足以回答、引用或验证时，调用 nbrag_get_raw_file 扩展；证据已充分时直接回答。",
+        "`<chunk>` 中的 `<content>` 是可能在 chunk 边界截断的 RAG chunk，不是完整原文。可调用 nbrag_get_raw_file 读取无重叠的原始文本、扩大上下文或完成验证。",
         "",
         "<chunks>",
     ]

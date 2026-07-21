@@ -7,18 +7,17 @@ description: Use when the task requires searching imported nbrag knowledge bases
 
 In the current task, operate as an agent with strong expertise in knowledge-base retrieval strategy.
 You should reason clearly about the boundaries between vector retrieval, BM25 lexical anchoring, reranking, and raw-versus-chunk follow-up, and use that reasoning to formulate query and bm25_query values that maximize the chance of surfacing the most relevant evidence.
-Your priority is to obtain evidence that is both reliable and sufficiently comprehensive for the answer. Stop retrieving when the evidence is already sufficient, avoid meaningless repeated calls, but do not optimize for early convergence at the cost of missing important evidence.
+Your priority is to obtain reliable, comprehensive evidence for the answer. Avoid meaningless repeated calls, but do not optimize for early convergence at the cost of missing important evidence.
 
 # nbrag workflow for AI agents
 
 `nbrag` is an **agentic RAG MCP**, not a one-shot search box.
 
-Your goal is to use as few tool calls as needed to get enough reliable evidence from a prepared knowledge base, then answer.
+Your goal is to obtain reliable evidence from a prepared knowledge base and answer from that evidence.
 Do not mechanically call every tool. Each next call should either:
 - choose the right `collection_name`
 - choose the right retrieval mode
 - narrow to the right file / lines / chunks
-- or stop because the current evidence is already sufficient
 
 > Use the actual exposed tool names you received from the MCP host.
 > Host wrappers may prefix names such as `xxx_nbrag_search` or `mcp__xxx__nbrag_search`.
@@ -38,8 +37,9 @@ Before calling a retrieval tool, decide:
 
 ## 2. Usual starting points
 
-- For every new retrieval task, call `nbrag_help()` once before `nbrag_stats()` or any retrieval, lookup, or reading tool, even when the user already named a collection. It establishes query/bm25_query roles, tool boundaries, raw-vs-chunk handling, stable follow-up handles, and multi-tool workflow.
-- After that routing call, continue directly with the chosen tools. Do not call `nbrag_help()` again before every follow-up unless you need to change strategy.
+- Before the first nbrag operation whose routing guidance is not already available in the current conversation context, call `nbrag_help()` proactively. It establishes query/bm25_query roles, tool boundaries, raw-vs-chunk handling, stable follow-up handles, and multi-tool workflow.
+- A successful `nbrag_help()` response is reusable for all later retrieval questions in the same conversation. A new user question does not by itself require another call. If the prior response is unavailable after context compaction, or you are uncertain whether it exists, call `nbrag_help()` again.
+- When the guidance is already available, continue directly with the chosen tool. Do not call `nbrag_help()` before ordinary follow-up calls.
 - When `collection_name` is unknown, call `nbrag_stats()` next. It helps choose the correct stable `collection_name`, not the retrieval strategy by itself.
 - Once collection and routing are clear, the usual default for source-backed answering is `nbrag_search_and_fetch()`.
 - Use `nbrag_search()` instead when you need finer retrieval controls or metadata-only output.
@@ -49,7 +49,7 @@ Before calling a retrieval tool, decide:
 
 | Need | Preferred tool | Use it when | Avoid / switch when |
 |---|---|---|---|
-| First nbrag call of a new retrieval task | `nbrag_help()` | Establish query/bm25_query roles, tool boundaries, raw/chunk handling, and stable follow-up-handle rules before any other nbrag call | This task already completed its one routing call and strategy has not changed |
+| Routing guidance unavailable in the current conversation | `nbrag_help()` | Establish query/bm25_query roles, tool boundaries, raw/chunk handling, and stable follow-up-handle rules before other nbrag calls | A successful nbrag_help response is already available in the conversation |
 | Unknown `collection_name` | `nbrag_stats()` | You need the exact stable collection name before retrieval | You already know the correct collection |
 | Default semantic + evidence retrieval | `nbrag_search_and_fetch()` | You want ranked discovery plus stored original-text evidence in one call | You only need metadata, or need retrieval switches |
 | Ranked retrieval with finer control | `nbrag_search()` | You need to control rerank / BM25 / `include_content` / `filter_file_path` | You mainly want one-call search + auto-fetched evidence |
@@ -161,7 +161,7 @@ If the user asks about multiple entities or people, avoid relying on one undersi
 - `nbrag_search_and_fetch()` 的 `<fetched_raw>` 中 `<raw>` `<content>` 是从存储的原始文件快照围绕命中位置扩展的无 chunk overlap 摘录；它不是 RAG chunk，但仍受 `fetch_context_chars` 限制，并非整个文件。
 - `nbrag_get_raw_file()` 返回无 chunk overlap 的原始文件快照。仅当用 `line_start=-1`、`line_end=-1` 请求整个文件时，才是完整文件。
 
-当 hit 或 fetched raw excerpt 仍不足以回答、引用或验证时，再调用 `nbrag_get_raw_file` 或 `nbrag_get_adjacent_chunks` 扩展。
+可调用 `nbrag_get_raw_file` 或 `nbrag_get_adjacent_chunks` 扩展 hit 或 fetched raw excerpt 的原始文本与局部上下文。
 
 ### Use `nbrag_get_raw_file()` when you need:
 - stored original text captured at ingestion time
@@ -274,16 +274,7 @@ A good multi-turn retrieval flow usually looks like this:
 2. Start with semantic discovery or exact matching as appropriate
 3. Reuse precise terms from returned evidence as lexical anchors, and strengthen `bm25_query` as better wording appears
 4. Narrow to a file only when a specific file clearly becomes the target
-5. 若 hit 或 fetched raw excerpt 对回答有帮助但仍不足以回答、引用或验证，再调用 nbrag_get_raw_file 或 nbrag_get_adjacent_chunks 扩展
-6. Stop once current evidence is enough to answer
-
-Stop signals — any one is sufficient:
-- 扩展后的完整原文已经足以回答用户问题
-- additional rounds only surface duplicate / less-relevant hits
-- the requested handle (file_path / line range / definition) has been located
-- a follow-up raw/chunk read already produced the quotable evidence
-
-If unsure whether to stop, prefer answering with the evidence you have and noting the gap, over issuing another retrieval round with no changed query or scope.
+5. Use nbrag_get_raw_file or nbrag_get_adjacent_chunks when original-text expansion or local chunk context is useful
 
 Good behavior:
 - each new call changes the retrieval condition in a useful way
@@ -294,7 +285,6 @@ Bad behavior:
 - repeating the same retrieval without changing the query or scope
 - using grep for concept search
 - forcing every task through every tool
-- continuing after the evidence is already sufficient
 
 ## 12. Common combination patterns
 
@@ -302,7 +292,7 @@ These are ready-made 2-3 step recipes. Reuse them instead of inventing chains.
 Each arrow shows which handle flows from the previous result into the next call.
 
 ### Pattern A — Semantic hit, then expand only when needed
-Goal: a ranked hit or fetched raw excerpt is useful but still insufficient for answering, quoting, or verification.
+Goal: expand a useful ranked hit or fetched raw excerpt for answering, quoting, or verification.
 1. `nbrag_search_and_fetch(query, collection_name)` → inspect the auto-fetched raw excerpt first when present; otherwise use the top result handles block.
 2. If more local chunk structure is needed, `nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)` → nearby `<chunk>`s.
    If more clean original text or an exact line range is needed, `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)` → overlap-free original text.
@@ -354,4 +344,4 @@ Large values combined with many hits can create unnecessarily large outputs.
 
 ## One-line summary
 
-Use `nbrag` as a retrieval workflow, not as a rigid script: choose the right collection, choose semantic vs lexical retrieval, keep `query` and `bm25_query` roles distinct, reuse the top-result handles surfaced at the top of each retrieval/lookup output, and stop once the evidence is enough to answer.
+Use `nbrag` as a retrieval workflow, not as a rigid script: choose the right collection, choose semantic vs lexical retrieval, keep `query` and `bm25_query` roles distinct, and reuse the top-result handles surfaced at the top of each retrieval/lookup output.

@@ -165,8 +165,6 @@ nbrag_find_definition(symbol="get_by_id", collection_name="xxx")
 Python .py 精确符号定义 → nbrag_find_definition()
 ```
 
-不要为了走完流程而调用工具；如果当前返回已经足够回答，就停止检索并作答。
-
 ## 多轮检索策略
 
 **核心原则**：可以改写，但应改写成更聚焦、更可检索的自然语言短查询；不要机械改写成大量空格分隔的关键词串。
@@ -176,7 +174,7 @@ Python .py 精确符号定义 → nbrag_find_definition()
 **示例**：用户问 "公司让我试用期干了5个月不转正，签的1年合同，合法吗？"
 - 第1轮: `nbrag_search_and_fetch("1年劳动合同试用期期限上限")` → 找到试用期上限
 - 第2轮: `nbrag_search_and_fetch("违法约定试用期赔偿金")` → 找到赔偿标准
-- 如需精确原文，可分别尝试 `nbrag_grep("第十九条")`、`nbrag_grep("第八十三条")`；是否继续取决于前两轮证据是否已经足够
+- 如需精确原文，可分别尝试 `nbrag_grep("第十九条")`、`nbrag_grep("第八十三条")`
 
 搜索不理想时的策略：缩短问题 → 更换术语 → 提取少量关键约束 → 换工具（语义→grep）→ 用 `nbrag_find_files` 找完整路径后缩小文件范围 → 跨 collection
 

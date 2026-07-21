@@ -50,6 +50,17 @@ class McpContractTests(unittest.TestCase):
         self.assertIn("`<match>` content is a stored-original-text context excerpt", result)
         self.assertIn("only line_start=-1 and line_end=-1 return the whole stored file", result)
 
+    def test_routing_guidance_is_reused_within_a_conversation(self) -> None:
+        with patch("nbrag.mcp_tools._load_workflow_skill_text", return_value=""):
+            help_result = mcp_tools.nbrag_help()
+
+        self.assertIn("current conversation context", help_result)
+        self.assertIn("reusable for all later nbrag retrieval questions", help_result)
+        self.assertNotIn("new retrieval task", help_result)
+        for tool in (server.nbrag_search, server.nbrag_search_and_fetch, server.nbrag_stats):
+            self.assertIn("current conversation context", tool.__doc__)
+            self.assertNotIn("new retrieval task", tool.__doc__)
+
     def test_grep_describes_match_as_original_text_context(self) -> None:
         fake_results = [{
             "source": "D:/docs/file.txt",
@@ -122,7 +133,7 @@ class McpContractTests(unittest.TestCase):
         self.assertIn('<nbrag_search collection_name="worker_rights" total_chunks="9" bm25="off" rerank="reranker-v2" filter_file_path="D:/docs/labor_law/劳动合同法.md">', result)
         self.assertIn("file_path = D:/docs/labor_law/劳动合同法.md", result)
         self.assertIn("chunk_index = 3", result)
-        self.assertIn("Expand only when current evidence is useful but insufficient to answer, quote, or verify:", result)
+        self.assertIn("Available follow-up tools when you need to expand, quote, or verify:", result)
         self.assertIn('<hit rank="1"', result)
         self.assertIn('score="0.9876" />', result)
 

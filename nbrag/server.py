@@ -43,35 +43,43 @@ mcp = FastMCP("nbrag")
 
 @mcp.tool()
 def nbrag_help() -> str:
-    """Routing guide for AI agents using nbrag.
+    """
+    Routing guide for AI agents using nbrag.
 
-    MANDATORY routing step for the first nbrag call of each new retrieval task.
-    Before calling nbrag_stats or any retrieval, lookup, or reading tool for a new retrieval
-    task, call nbrag_help() once first. Do not skip it merely because the user named a
-    collection: nbrag_help establishes query/bm25_query roles, tool-selection boundaries,
-    truncated-chunk handling, stable follow-up handles, and the multi-tool retrieval workflow.
+nbrag_help() explains how to use nbrag as an evidence-retrieval workflow rather
+than a one-shot search tool. It establishes:
 
-    Without reading this routing guide, you may silently misuse bm25_query as a semantic question,
-      pass line_start as chunk_index into nbrag_get_adjacent_chunks, treat truncated
-      chunks as complete source text, or use nbrag_find_definition on non-Python text.
+- which tool fits the goal: semantic search, exact grep, Python definition
+  lookup, raw-file reading, or chunk expansion;
+- the distinct roles of query (semantic intent) and bm25_query (source-facing
+  lexical anchors);
+- the boundary between truncated RAG chunks, fetched raw excerpts, and complete
+  stored original text;
+- safe reuse of follow-up handles: file_path, doc_id, chunk_index, line_start,
+  and line_end.
 
-    After nbrag_help() has returned for this retrieval task, continue directly with the chosen
-    tools. Do not call nbrag_help() again before every follow-up call unless you need to change
-    the retrieval strategy.
+Call it so subsequent retrieval uses the right tool and handles correctly,
+avoiding common errors such as treating bm25_query as a semantic question,
+using line_start as chunk_index, or treating a truncated chunk as full source.
 
-    Usual next step:
-    - if collection_name is unknown, call nbrag_stats() next
-    - otherwise choose the retrieval or follow-up tool based on the returned routing guidance
+MANDATORY bootstrap with session-aware reuse:
 
-    Returned guidance explains:
-    - when to use each nbrag tool
-    - how to choose between semantic vs lexical retrieval
-    - when to use raw-file vs chunk tools
-    - stable follow-up fields such as file_path, doc_id, chunk_index, line_start, and line_end
-    
-    Retrieval posture:
-    Treat nbrag as a retrieval workflow for evidence-backed answering, not as a one-shot search box.
-    Choose the right retrieval path first, and formulate query and bm25_query deliberately before retrieving more results or fetching more context.
+Before the first nbrag operation whose routing guidance is not already available
+in the current conversation context, call nbrag_help() proactively.
+
+A successful nbrag_help() response makes this guidance reusable for all later
+nbrag retrieval questions in the same conversation. A new user question does
+not by itself require another nbrag_help() call.
+
+Before calling nbrag_help(), check whether the current conversation already
+contains a successful nbrag_help() result:
+
+- If it does, reuse that guidance and proceed directly to the appropriate tool.
+- If it does not, the result is unavailable after context compaction, or you
+  are uncertain, call nbrag_help() before using other nbrag tools.
+- Call it again if the routing/workflow version has changed.
+
+When in doubt, call nbrag_help(); do not skip it merely to save one tool call.
     """
     return mcp_tools.nbrag_help()
 
@@ -116,9 +124,13 @@ def nbrag_search(
     """
     Search an imported knowledge base for relevant chunks.
 
-    Use this after nbrag_help() has already established the routing path for the current task.
-    If this is your first nbrag call in the current task, call nbrag_help() first.
-    If collection_name is still unknown after that, call nbrag_stats() first.
+    Before using this tool, check whether a successful nbrag_help() response is already
+    available in the current conversation context. If it is, reuse that routing guidance
+    and call this tool directly. If it is unavailable, lost after context compaction, or
+    uncertain, call nbrag_help() proactively first. A new user question in the same
+    conversation does not by itself require another nbrag_help() call.
+
+    If collection_name is still unknown, call nbrag_stats().
 
     Use this when you need ranked retrieval with fine-grained control over rerank, BM25, file filtering, or content inclusion.
 
@@ -132,7 +144,7 @@ def nbrag_search(
     - setting filter_file_path narrows retrieval to one stored file; in the current hybrid implementation this also disables cross-file BM25 fusion
 
     Returned text is structured for follow-up calls. Each `<hit>` carries XML attributes: file_path, doc_id, chunk_index, total_chunks, line_start, line_end, scope (when present), dist, and score (when reranked). The top result's handle block (file_path, doc_id, chunk_index, line_start, line_end) is surfaced as ready-to-use `key = value` lines at the top of the returned text, with an `Unlocks:` line listing candidate follow-up tools. Only the top result is surfaced this way; for non-top results, scan the `<hit>` XML attributes.
-    Each `<hit>`'s `<content>` is a RAG chunk that may be truncated at chunk boundaries. Expand with nbrag_get_raw_file or nbrag_get_adjacent_chunks only when current evidence is useful but insufficient to answer, quote, or verify; otherwise answer directly.
+    Each `<hit>`'s `<content>` is a RAG chunk that may be truncated at chunk boundaries. Use nbrag_get_raw_file or nbrag_get_adjacent_chunks to read original text or nearby chunk context.
 
     Typical follow-up tools:
     - nbrag_get_raw_file(file_path, collection_name)
@@ -168,7 +180,7 @@ def nbrag_search_only_bm25(
     A single bm25_query can combine multiple grounded lexical anchors when you want to test whether BM25 can target the right evidence by wording alone.
 
     Returned text includes a top-result handle block (file_path, doc_id, chunk_index, line_start, line_end) as ready-to-use `key = value` lines with an `Unlocks:` line, plus `<ranked_hits>`. Only the top hit is surfaced this way; handles for other ranked hits still appear as `<hit>` XML attributes.
-    Each `<hit>`'s `<content>` is a RAG chunk that may be truncated at chunk boundaries. Expand only when current evidence is useful but insufficient to answer, quote, or verify.
+    Each `<hit>`'s `<content>` is a RAG chunk that may be truncated at chunk boundaries. Use follow-up tools to read original text or nearby chunk context.
 
     Use instead:
     - nbrag_grep() for literal line-by-line matching in stored original text
@@ -199,7 +211,7 @@ def nbrag_search_only_vector(
     Keep query semantically clear here. This tool does not accept bm25_query; if you need lexical anchors, switch to nbrag_search() or nbrag_search_and_fetch() which expose bm25_query.
 
     Returned text includes a top-result handle block (file_path, doc_id, chunk_index, line_start, line_end) as ready-to-use `key = value` lines at the top of the returned text, with an `Unlocks:` line listing candidate follow-up tools, plus `<ranked_hits>`. Only the top result is surfaced this way; for non-top results, scan the `<hit>` XML attributes.
-    Each `<hit>`'s `<content>` is a RAG chunk that may be truncated at chunk boundaries. Expand only when current evidence is useful but insufficient to answer, quote, or verify.
+    Each `<hit>`'s `<content>` is a RAG chunk that may be truncated at chunk boundaries. Use follow-up tools to read original text or nearby chunk context.
 
     Use instead:
     - nbrag_search_only_bm25() for lexical-only inspection
@@ -227,14 +239,13 @@ def nbrag_search_and_fetch(
 ) -> str:
     """Default one-call retrieval tool for most questions after routing is established.
 
-    For a new retrieval task, call nbrag_help() once before this tool, even when the user
-    already named a collection. nbrag_help explains query/bm25_query roles, raw-vs-chunk
-    boundaries, top-result handle reuse, and how to combine this tool with nbrag_get_raw_file,
-    nbrag_get_adjacent_chunks, nbrag_get_chunks_by_lines, nbrag_grep, or
-    nbrag_find_definition. After that routing call, use this tool directly; do not repeat
-    nbrag_help() before every follow-up call.
+    Before using this tool, check whether a successful nbrag_help() response is already
+    available in the current conversation context. That guidance explains query/bm25_query
+    roles, raw-vs-chunk boundaries, top-result handle reuse, and how to choose follow-up
+    tools. If it is available, call this tool directly. If it is unavailable, lost after
+    context compaction, or uncertain, call nbrag_help() proactively first. A new user
+    question in the same conversation does not by itself require another nbrag_help() call.
 
-    Use this after nbrag_help() has already established the routing path for the current task.
     Once collection_name is known, this is the normal default for most source-backed questions.
 
     Use it for questions about meaning, usage, explanation, examples, or source-backed evidence.
@@ -285,7 +296,7 @@ def nbrag_grep(
     Do not use it for concept search, synonym search, or paraphrase search.
 
     Returned text uses XML attributes on each `<match>`: file_path, doc_id, line_start, line_end (line_start equals line_end for single-line matches). The top match's handle block (file_path, doc_id, line_start, line_end) is surfaced as ready-to-use `key = value` lines at the top of the returned text, with an `Unlocks:` line listing candidate follow-up tools. Only the top match is surfaced this way; for non-top matches, scan the `<match>` XML attributes.
-    Each `<match>`'s `<content>` is a stored-original-text context excerpt without chunk overlap, bounded by match_context_chars rather than the whole file. Expand with nbrag_get_raw_file only when current evidence is useful but insufficient to answer, quote, or verify.
+    Each `<match>`'s `<content>` is a stored-original-text context excerpt without chunk overlap, bounded by match_context_chars rather than the whole file. Use nbrag_get_raw_file to read a wider or exact original-text range.
     """
     return mcp_tools.nbrag_grep(keyword, collection_name, max_results, case_sensitive, filter_file_path, match_context_chars)
 
@@ -303,7 +314,7 @@ def nbrag_find_definition(
 
     Use this after search, grep, or prior retrieval context has already narrowed the symbol name.
     Returned text includes doc_id, file_path, line range, and the definition body. The top definition's handle block (file_path, doc_id, line_start, line_end) is surfaced as ready-to-use `key = value` lines at the top of the returned text, with an `Unlocks:` line listing candidate follow-up tools. Only the top definition is surfaced this way; for non-top definitions, scan the `<definition>` XML attributes.
-    For Python class/function/method results, each `<definition>` `<content>` is an AST-aware definition body; non-Python regex_fallback is only a candidate text match. Use its returned line range with nbrag_get_raw_file or nbrag_get_chunks_by_lines when current evidence is insufficient for verification or broader surrounding context.
+    For Python class/function/method results, each `<definition>` `<content>` is an AST-aware definition body; non-Python regex_fallback is only a candidate text match. Use its returned line range with nbrag_get_raw_file or nbrag_get_chunks_by_lines for verification or broader surrounding context.
     """
     return mcp_tools.nbrag_find_definition(symbol, collection_name, max_results)
 
@@ -340,7 +351,7 @@ def nbrag_get_file_chunks(
     For overlap-free original text, use nbrag_get_raw_file() instead.
 
     Returned text includes filename, doc_id, file_path, total_chunks, total_lines, and per-chunk line/scope markers. This tool does not surface a top-result handle block; scan the `<chunk>` XML attributes (chunk_index, line_start, line_end, scope) on each returned chunk directly.
-    Each `<chunk>`'s `<content>` is a RAG chunk that may be truncated at chunk boundaries. Use nbrag_get_raw_file for overlap-free original text only when current evidence is useful but insufficient to answer, quote, or verify.
+    Each `<chunk>`'s `<content>` is a RAG chunk that may be truncated at chunk boundaries. Use nbrag_get_raw_file for overlap-free original text.
     """
     return mcp_tools.nbrag_get_file_chunks(file_path, collection_name, start_chunk, max_chunks)
 
@@ -376,7 +387,7 @@ def nbrag_get_adjacent_chunks(
     so grep output is not sufficient by itself for this tool.
 
     Returned text includes file_path, total_chunks, and the adjacent chunks with line markers.
-    Each `<chunk>`'s `<content>` is a RAG chunk that may be truncated at chunk boundaries. Use nbrag_get_raw_file for overlap-free original text only when current evidence is useful but insufficient to answer, quote, or verify."""
+    Each `<chunk>`'s `<content>` is a RAG chunk that may be truncated at chunk boundaries. Use nbrag_get_raw_file for overlap-free original text."""
     return mcp_tools.nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name, window)
 
 
@@ -393,7 +404,7 @@ def nbrag_get_chunks_by_lines(
     Compared with nbrag_get_raw_file(), this keeps chunk/scope structure but can include overlapping content by design.
 
     Returned text includes doc_id, file_path, the requested line_start and line_end, and all overlapping chunks. This tool does not surface a top-result handle block; scan the `<chunk>` XML attributes (chunk_index, line_start, line_end) on each returned chunk directly.
-    Each `<chunk>`'s `<content>` is a RAG chunk that may be truncated at chunk boundaries. Use nbrag_get_raw_file for overlap-free original text only when current evidence is useful but insufficient to answer, quote, or verify."""
+    Each `<chunk>`'s `<content>` is a RAG chunk that may be truncated at chunk boundaries. Use nbrag_get_raw_file for overlap-free original text."""
     return mcp_tools.nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)
 
 
@@ -426,14 +437,14 @@ def nbrag_delete(
 def nbrag_stats() -> str:
     """List available knowledge bases and collection routing hints.
 
-    For a new retrieval task, call nbrag_help() once before this tool. Do not skip nbrag_help
-    merely because you only need a collection name: it establishes query/bm25_query roles,
-    raw-vs-chunk boundaries, stable follow-up handle reuse, and multi-tool retrieval workflow.
-    After that routing call, use nbrag_stats() directly when collection_name is unknown; do
-    not repeat nbrag_help() before every follow-up call.
+    Before using this tool, check whether a successful nbrag_help() response is already
+    available in the current conversation context. If it is, reuse that guidance and call
+    nbrag_stats() directly. If it is unavailable, lost after context compaction, or
+    uncertain, call nbrag_help() proactively first. A new user question in the same
+    conversation does not by itself require another nbrag_help() call.
 
-    Use this right after nbrag_help() when you are starting a new nbrag task and collection_name is still unknown.
-    It can also be used later when you need to inspect available collections before retrieval.
+    Use this when collection_name is unknown or when you need to inspect available
+    collections before retrieval.
 
     This tool resolves collection routing only. It helps you choose the correct stable collection_name, but it does not choose the retrieval strategy for you.
 
