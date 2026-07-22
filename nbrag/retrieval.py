@@ -252,7 +252,7 @@ def search(query, collection_name="default", top_k=5, use_rerank=True,
 @_runtime_guarded
 def get_file_chunks(file_identifier, collection_name="default",
                     start_chunk=0, max_chunks=5,
-                    raw=False, line_start=-1, line_end=-1):
+                    raw=False, line_start=None, line_end=None):
     """按完整绝对文件路径获取知识库中该文件的内容。"""
     col = _get_existing_collection(collection_name)
     if col is None:
@@ -316,7 +316,7 @@ def get_file_chunks(file_identifier, collection_name="default",
 
 
 @_runtime_guarded
-def get_raw_file(file_identifier, collection_name="default", line_start=-1, line_end=-1):
+def get_raw_file(file_identifier, collection_name="default", line_start=None, line_end=None):
     """读取完整原文内容的兼容包装。"""
     return get_file_chunks(
         file_identifier,
@@ -357,8 +357,8 @@ def _get_raw_file_result(collection_name, doc_id, source, filename,
     lines = content.splitlines(keepends=True)
     actual_total = len(lines)
 
-    ls = max(1, line_start) if line_start > 0 else 1
-    le = min(actual_total, line_end) if line_end > 0 else actual_total
+    ls = max(1, line_start) if line_start is not None else 1
+    le = min(actual_total, line_end) if line_end is not None else actual_total
     selected_lines = lines[ls - 1:le]
 
     return {
