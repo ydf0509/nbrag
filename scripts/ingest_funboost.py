@@ -17,7 +17,7 @@ batch_ingest(
     paths=[
         "D:/codes/funboost/funboost",
         "D:/codes/funboost/test_frame",
-        "D:/codes/funboost/tests",
+        # "D:/codes/funboost/tests",
         "D:/codes/funboost_docs/source/articles/c0.md",
         "D:/codes/funboost_docs/source/articles/c1.md",
         "D:/codes/funboost_docs/source/articles/c2.md",

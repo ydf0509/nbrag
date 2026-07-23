@@ -45,6 +45,7 @@ mcp = FastMCP("nbrag")
 def nbrag_help() -> str:
     """
     Routing guide for AI agents using nbrag.
+    在调用其他 nbrag工具之前，必须先确保你曾经已经过调用nbrag_help,以便知道如何对nbrag的一系列工具正确的配合使用打组合拳。
 
 nbrag_help() explains how to use nbrag as an evidence-retrieval workflow rather
 than a one-shot search tool. It establishes:
@@ -264,6 +265,8 @@ def nbrag_search_and_fetch(
     fetch_context_chars is a per-hit raw-context budget used during original-text expansion, not a final total response budget.
 
     Use nbrag_search() instead when you need fine-grained retrieval switches or metadata-only output.
+
+    当你认为检索出来的rag知识库chunk内容，是对回答用户问题有帮助的时候，你必须使用该chunk内容对应的文件路径file_path 和行号，进一步使用nbrag_get_raw_file工具来扩展获取更大范围的上下文内容，因为chunk内容100%绝对是不完整的分块，你必须使用nbrag_get_raw_file获取chunk前后超大范围的上下文内容，注意是必须进一步调用nbrag_get_raw_file工具，绝对不能只依靠nbrag_search_and_fetch检索的内容来回答用户问题
     """
     return mcp_tools.nbrag_search_and_fetch(
         query=query,
@@ -353,10 +356,14 @@ def nbrag_get_file_chunks(
 def nbrag_get_raw_file(
     file_path: str = FuncFields.file_path,
     collection_name: str = FuncFields.collection_name,
-    line_start: int | None = Field(default=None, description="Optional start line (1-based) of the original-text reading window. Omit it to start at the beginning of the stored file."),
-    line_end: int | None = Field(default=None, description="Optional end line (1-based, inclusive) of the original-text reading window. With both line bounds, default to line_end = line_start + 500. Use a smaller range only for an explicitly requested exact quotation, field, or line. Omit it to end at the last line of the stored file."),
+    line_start: int | None = Field(default=None, description="Optional start line (1-based) of the original-text reading window. Omit it to start at the beginning of the stored file.这个值可以比chunk内容行号的值小很多，以便获取足够范围的上下文"),
+    line_end: int | None = Field(default=None, description="Optional end line (1-based, inclusive) of the original-text reading window. With both line bounds, default to line_end = line_start + 500. Use a smaller range only for an explicitly requested exact quotation, field, or line. Omit it to end at the last line of the stored file.不要为了省tokens而只获取几十行内容"),
 ) -> str:
-    """Return the stored original-file snapshot without chunk overlap.
+    """
+    获取某个文件的原始内容。
+    在nbrag_search_and_fetch() 后，如果某个chunk是对你回答问题有帮助的，请调用此nbrag_get_raw_file工具，获取chunk内容周围更大范围的原始内容。
+    请一次获取原始内容大约500行以上，而不要分多次每次获取几十行，不要太保守担心浪费tokens而只获取几十行内容。
+
 
     This reads the original text captured in the knowledge base at ingestion time; it is not a live filesystem refresh.
     DEFAULT BOUNDED READ POLICY: when providing both line_start and line_end, set line_end = line_start + 500. Do not copy a short range from a prior result or choose a smaller range merely to save tokens. The only exception is an explicitly requested exact quotation, field, or line.
@@ -443,7 +450,7 @@ def nbrag_stats() -> str:
     This tool resolves collection routing only. It helps you choose the correct stable collection_name, but it does not choose the retrieval strategy for you.
 
     Returned text includes each collection's stable collection_name and document/chunk counts, and may also include display_name, description, aliases, tags, chunk_size, chunk_overlap, and last_ingested_at.
-    After reading the collection list, continue with retrieval planning rather than answering directly from this tool alone.
+    After reading the collection list, continue with retrieval planning .
 
     After choosing collection_name:
     - use nbrag_search_and_fetch() for most semantic/source-backed questions

@@ -376,6 +376,8 @@ def _search_and_fetch_follow_up_guidance() -> str:
         "- file_path -> nbrag_get_raw_file(file_path, collection_name, line_start, line_end): read wider overlap-free original text. Default bounded read policy: with both line bounds, set line_end = line_start + 500. Do not copy a short prior range or choose a smaller range merely to save tokens. The only exception is an explicitly requested exact quotation, field, or line. Omit both line bounds only when you intentionally need the complete stored file.",
         "- doc_id + chunk_index -> nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name): read nearby chunk structure.",
         "- doc_id + line_start + line_end -> nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name): read chunk structure covering a known line range.",
+        "",
+        "当你认为检索出来的rag知识库chunk内容，是对回答用户问题有帮助的时候，你必须使用该chunk内容对应的文件路径file_path 和行号，进一步使用nbrag_get_raw_file工具来扩展获取更大范围的上下文内容，因为chunk内容100%绝对是不完整的分块，你必须使用nbrag_get_raw_file获取chunk前后超大范围的上下文内容，注意是必须进一步调用nbrag_get_raw_file工具，绝对不能只依靠nbrag_search_and_fetch检索的内容来回答用户问题",
     ])
 
 
