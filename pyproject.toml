@@ -43,5 +43,8 @@ nbrag = "nbrag.server:main"
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+[tool.hatch.build]
+packages = ["nbrag"]
+
 [tool.hatch.version]
 path = "nbrag/__init__.py"
