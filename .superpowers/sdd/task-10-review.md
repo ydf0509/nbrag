@@ -18,11 +18,11 @@ Independent verification confirms the implementer's report. The script `scripts/
 | 8 | `nbrag_find_definition(...)` | `<nbrag_find_definition`/`<definitions>`/`<definition ` OR tolerant error types | PASS | script lines 307-321; tolerates `not_found`/`no_results`/`missing_collection`/`empty_collection` (extra 2 are reasonable defensive extension) |
 | 9 | `nbrag_find_files(...)` | `<nbrag_find_files`/`<files>`/`<file `; `<file>` has `total_chunks` (not `chunk_count`) | PASS | script lines 328-343; checks `has_total and not has_count` |
 | 10 | `nbrag_list(...)` | `<nbrag_list`/`<documents>`/`<document `; `<document>` has `doc_id`/`file_path`/`total_chunks` (not `chunk_count`) | PASS | script lines 351-369; checks all 4 conditions |
-| 11 | `nbrag_get_raw_file(file_path=<step3或7的>)` | `<nbrag_get_raw_file`/`<content>` | PASS | script lines 376-387; reuses `hit_file_path`/`grep_file_path` (with `_list_file_path` fallback — see Minor finding 1) |
+| 11 | `nbrag_read_more_original_text(file_path=<step3或7的>)` | `<nbrag_read_more_original_text`/`<content>` | PASS | script lines 376-387; reuses `hit_file_path`/`grep_file_path` (with `_list_file_path` fallback — see Minor finding 1) |
 | 12 | `nbrag_get_file_chunks(...)` | `<nbrag_get_file_chunks`/`<chunks>`/`<chunk `; `<chunk>` has `chunk_index`/`line_start`/`line_end` | PASS | script lines 394-415; verifies all 3 handle fields on `<chunk>` |
 | 13 | `nbrag_get_adjacent_chunks(doc_id=<step3>, chunk_index=<step3>)` | `<nbrag_get_adjacent_chunks`/`anchor_chunk_index=`/`<chunks>` | PASS | script lines 422-441; reuses `hit_doc_id`/`hit_chunk_index` from step 3 |
 | 14 | `nbrag_get_chunks_by_lines(doc_id=<step3>, line_start=<step3>, line_end=<step3>)` | `<nbrag_get_chunks_by_lines`/`requested_line_start=`/`requested_line_end=` | PASS | script lines 448-469; reuses `hit_doc_id`/`hit_line_start`/`hit_line_end` from step 3 |
-| 15 | `nbrag_get_raw_file(file_path="INVALID_PATH")` | `<error type="invalid_file_path" field="file_path">` | PASS | script line 478; exact substring match |
+| 15 | `nbrag_read_more_original_text(file_path="INVALID_PATH")` | `<error type="invalid_file_path" field="file_path">` | PASS | script line 478; exact substring match |
 
 ### Global constraints — all met
 

@@ -9,7 +9,7 @@
 1 file changed, 130 insertions(+), 53 deletions(-)
 
 ## Test summary
-Import validation passed: `from nbrag.mcp_tools import nbrag_get_adjacent_chunks, nbrag_get_file_chunks, nbrag_get_chunks_by_lines, nbrag_get_raw_file` → `import OK` (no formal tests written, per brief).
+Import validation passed: `from nbrag.mcp_tools import nbrag_get_adjacent_chunks, nbrag_get_file_chunks, nbrag_get_chunks_by_lines, nbrag_read_more_original_text` → `import OK` (no formal tests written, per brief).
 
 ## What changed (L678-889 in `nbrag/mcp_tools.py`)
 
@@ -32,10 +32,10 @@ Import validation passed: `from nbrag.mcp_tools import nbrag_get_adjacent_chunks
 - Header → `<nbrag_get_chunks_by_lines doc_id="..." file_path="..." total_chunks="..." requested_line_start="..." requested_line_end="...">` (`requested_line_*` = input `line_start`/`line_end`).
 - Chunk format identical.
 
-### `nbrag_get_raw_file` (L856-889)
+### `nbrag_read_more_original_text` (L856-889)
 - Param normalization + `_is_absolute_file_path` + `get_file_chunks(raw=True)` call untouched.
 - `not_found` → `<error type="not_found" field="file_path">` XML.
-- Header → `<nbrag_get_raw_file file_path="..." doc_id="..." total_lines="..." line_start="..." line_end="...">` (`line_start`/`line_end` from `data`, not input).
+- Header → `<nbrag_read_more_original_text file_path="..." doc_id="..." total_lines="..." line_start="..." line_end="...">` (`line_start`/`line_end` from `data`, not input).
 - NO `<chunks>` collection — `<content>` placed directly under root, then closing tag.
 
 ## Grep scan
@@ -47,4 +47,4 @@ Pattern `chunk:\d|chunk:[A-Z]|line:\d|line:[A-Z]|original_file|line_range` over 
 ## Concerns
 - `nbrag_help()` (L266) still mentions deprecated `line:N-M` marker in its prose. Out of scope for Task 7 (brief says "Do NOT touch other functions or files"), but should be cleaned up by a later task touching `nbrag_help` / workflow skill text.
 - No runtime smoke test against a real collection was performed (only import check, per brief). The XML structure is straightforward and mirrors Task 1-6 patterns (`_format_hit_xml`, `_format_search_results`), so structural risk is low.
-- `_meta_file_path` helper was not used for the root `file_path` attribute in `nbrag_get_adjacent_chunks` / `nbrag_get_chunks_by_lines`; brief explicitly specified `str(data.get("source", "?"))` for those two, so the helper's `filename` fallback is intentionally skipped there. `nbrag_get_file_chunks` / `nbrag_get_raw_file` use `str(data.get("source", file_path))` (input fallback) per the same brief pattern.
+- `_meta_file_path` helper was not used for the root `file_path` attribute in `nbrag_get_adjacent_chunks` / `nbrag_get_chunks_by_lines`; brief explicitly specified `str(data.get("source", "?"))` for those two, so the helper's `filename` fallback is intentionally skipped there. `nbrag_get_file_chunks` / `nbrag_read_more_original_text` use `str(data.get("source", file_path))` (input fallback) per the same brief pattern.

@@ -46,7 +46,7 @@ index 0000000..c92a08c
 +    nbrag_find_definition,
 +    nbrag_find_files,
 +    nbrag_list,
-+    nbrag_get_raw_file,
++    nbrag_read_more_original_text,
 +    nbrag_get_file_chunks,
 +    nbrag_get_adjacent_chunks,
 +    nbrag_get_chunks_by_lines,
@@ -371,7 +371,7 @@ index 0000000..c92a08c
 +        _record(10, False, f"exception: {exc!r}")
 +
 +    # =======================================================================
-+    # Step 11: nbrag_get_raw_file  (use file_path from step 3 or 7 or list)
++    # Step 11: nbrag_read_more_original_text  (use file_path from step 3 or 7 or list)
 +    # =======================================================================
 +    _raw_file_path = (
 +        S.get("hit_file_path")
@@ -382,8 +382,8 @@ index 0000000..c92a08c
 +        if not _raw_file_path:
 +            _record(11, False, "no file_path available from earlier steps")
 +        else:
-+            out = nbrag_get_raw_file(file_path=_raw_file_path, collection_name=_coll)
-+            ok = "<nbrag_get_raw_file" in out and "<content>" in out
++            out = nbrag_read_more_original_text(file_path=_raw_file_path, collection_name=_coll)
++            ok = "<nbrag_read_more_original_text" in out and "<content>" in out
 +            _record(11, ok, "" if ok else f"XML shape mismatch; output head: {out[:200]!r}")
 +    except Exception as exc:  # noqa: BLE001
 +        _record(11, False, f"exception: {exc!r}")
@@ -471,10 +471,10 @@ index 0000000..c92a08c
 +        _record(14, False, f"exception: {exc!r}")
 +
 +    # =======================================================================
-+    # Step 15: nbrag_get_raw_file with invalid file_path  (must return error XML)
++    # Step 15: nbrag_read_more_original_text with invalid file_path  (must return error XML)
 +    # =======================================================================
 +    try:
-+        out = nbrag_get_raw_file(file_path="INVALID_PATH", collection_name=_coll)
++        out = nbrag_read_more_original_text(file_path="INVALID_PATH", collection_name=_coll)
 +        ok = '<error type="invalid_file_path" field="file_path">' in out
 +        _record(15, ok, "" if ok else f"expected invalid_file_path error; output head: {out[:200]!r}")
 +    except Exception as exc:  # noqa: BLE001

@@ -56,7 +56,7 @@ Single commit `374004e` with message `refactor(mcp_tools): XML format for 3 list
   - `nbrag_stats() -> str`
 - **不写正式测试**: PASS — no test files added.
 - **Python 解释器**: PASS — report used `D:/ProgramData/miniconda3/envs/py312/python.exe` with `$env:OPENBLAS_NUM_THREADS=1`.
-- **Handle consistency**: PASS — `file_path` returned here matches the `file_path` parameter name in `nbrag_get_file_chunks` / `nbrag_get_raw_file`; `doc_id` matches the `doc_id` parameter in retrieval functions.
+- **Handle consistency**: PASS — `file_path` returned here matches the `file_path` parameter name in `nbrag_get_file_chunks` / `nbrag_read_more_original_text`; `doc_id` matches the `doc_id` parameter in retrieval functions.
 - **Error format**: PASS — all three no-results paths use `<error type="no_results" field="...">...</error>`; `no_results` is in the allowed type set.
 - **Root tag = function name**: PASS — `<nbrag_find_files>`, `<nbrag_list ...>`, `<nbrag_stats>`.
 - **Routing prose in `nbrag_stats`**: PASS — exactly 1 line before + 1 line after, all other prose removed.

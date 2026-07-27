@@ -20,7 +20,7 @@ Common guidance:
 - Need exact full file_path first: use nbrag_find_files.
 
 Key follow-up handles reused across tools:
-- file_path → nbrag_get_raw_file / nbrag_get_file_chunks / filter_file_path
+- file_path → nbrag_read_more_original_text / nbrag_get_file_chunks / filter_file_path
 - doc_id + chunk_index → nbrag_get_adjacent_chunks
 - doc_id + line:N-M → nbrag_get_chunks_by_lines
 
@@ -92,7 +92,7 @@ nbrag_search_and_fetch(query="...", bm25_query="...", collection_name="...")
 
 什么时候继续：
 - 需要**精确 wording** 证据 → `nbrag_grep`
-- 需要**更大原文上下文** → `nbrag_get_raw_file`
+- 需要**更大原文上下文** → `nbrag_read_more_original_text`
 - 需要**围绕某个 chunk 扩展** → `nbrag_get_adjacent_chunks`
 - 需要**按行号反查 chunk/scope** → `nbrag_get_chunks_by_lines`
 - 需要**完整文件路径** → `nbrag_find_files`
@@ -127,7 +127,7 @@ Python `.py` 是 nbrag 的强场景之一，但也不要迷信单工具。
 1. `nbrag_search_and_fetch`：先发现概念、调用关系、使用示例
 2. `nbrag_grep`：再确认精确符号名 / import / 常量 / 错误字符串
 3. `nbrag_find_definition`：拿完整 class/function/method 定义
-4. `nbrag_get_raw_file`：需要更大源码上下文时读取原文
+4. `nbrag_read_more_original_text`：需要更大源码上下文时读取原文
 
 如果内容不是 Python `.py`，不要优先用 `nbrag_find_definition`。
 
@@ -135,7 +135,7 @@ Python `.py` 是 nbrag 的强场景之一，但也不要迷信单工具。
 
 ### 1. `file_path`
 可用于：
-- `nbrag_get_raw_file(file_path, collection_name)`
+- `nbrag_read_more_original_text(file_path, collection_name)`
 - `nbrag_get_file_chunks(file_path, collection_name)`
 - `filter_file_path=...` 缩小 `search` / `search_and_fetch` / `grep` 范围
 
@@ -153,7 +153,7 @@ Python `.py` 是 nbrag 的强场景之一，但也不要迷信单工具。
 
 ### 4. `file_path + line range`
 可用于：
-- `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)`
+- `nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)`
 
 ## 路径规则
 
@@ -177,7 +177,7 @@ Python `.py` 是 nbrag 的强场景之一，但也不要迷信单工具。
 只要 metadata 或要控制检索开关 → nbrag_search()
 需要 exact wording / 条文号 / 错误码 / 符号名 → nbrag_grep()
 只有文件名或路径片段 → nbrag_find_files() 换成完整 file_path
-需要引用 clean 原文或扩大上下文 → nbrag_get_raw_file() / nbrag_get_adjacent_chunks()
+需要引用 clean 原文或扩大上下文 → nbrag_read_more_original_text() / nbrag_get_adjacent_chunks()
 Python .py 精确符号定义 → nbrag_find_definition()
 ```
 
@@ -213,7 +213,7 @@ Python .py 精确符号定义 → nbrag_find_definition()
 | 搜索为空 | query 太散 / 术语不对 / collection 不对 | 改写 query，必要时改用 `nbrag_grep` |
 | grep 无结果 | 原文没有 exact wording，或 regex/大小写不对 | 检查 wording；如果其实是概念问题，回到 `nbrag_search_and_fetch` |
 | basename 被当成 `file_path` | 路径不是完整绝对路径 | 先 `nbrag_find_files` 或 `nbrag_list` |
-| 想看 clean 原文却还在看 chunk | chunk 会 overlap | 改用 `nbrag_get_raw_file` |
+| 想看 clean 原文却还在看 chunk | chunk 会 overlap | 改用 `nbrag_read_more_original_text` |
 
 ## 一句话总结
 
@@ -1221,7 +1221,7 @@ def my_task(url):
 [耗时统计] nbrag_find_definition: 1.248 秒
 
 ------------------------------------------------------------------------------------------------
-调用函数: nbrag_get_raw_file(line_start=45, line_end=52)
+调用函数: nbrag_read_more_original_text(line_start=45, line_end=52)
 入参: {'file_path': 'D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md', 'collection_name': 'worker_rights', 'line_start': 45, 'line_end': 52}
 ------------------------------------------------------------------------------------------------
 original_file: 劳动合同法.md | file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md | doc_id: 81ec846f7c63
@@ -1237,15 +1237,15 @@ Content source: stored original-file snapshot captured at ingestion time.
 
 
 
-[耗时统计] nbrag_get_raw_file: 0.717 秒
+[耗时统计] nbrag_read_more_original_text: 0.717 秒
 
 ------------------------------------------------------------------------------------------------
-调用函数: nbrag_get_raw_file(basename误传=错误路径)
+调用函数: nbrag_read_more_original_text(basename误传=错误路径)
 入参: {'file_path': '劳动合同法.md', 'collection_name': 'worker_rights'}
 ------------------------------------------------------------------------------------------------
 Error: file_path must be a full absolute file_path returned by nbrag_search/nbrag_search_and_fetch/nbrag_find_files/nbrag_list. Next steps: use nbrag_find_files(pattern, collection_name) when you only know a filename, or nbrag_list(collection_name) to browse available file_path values.
 
-[耗时统计] nbrag_get_raw_file: 0.732 秒
+[耗时统计] nbrag_read_more_original_text: 0.732 秒
 
 ------------------------------------------------------------------------------------------------
 调用函数: nbrag_get_file_chunks(start_chunk=0, max_chunks=2)
@@ -1254,7 +1254,7 @@ Error: file_path must be a full absolute file_path returned by nbrag_search/nbra
 file chunks: 2 | filename: 劳动合同法.md | doc_id: 81ec846f7c63
 file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md | total_chunks: 17 | total_lines: 232
 range: chunk:0-1
-This view keeps chunk/scope structure and may contain overlap. Use nbrag_get_raw_file for overlap-free source text.
+This view keeps chunk/scope structure and may contain overlap. Use nbrag_read_more_original_text for overlap-free source text.
 
 chunk:0 | line:1-18
 # [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 1-18]
@@ -1311,7 +1311,7 @@ chunk:1 | line:21-39
 ------------------------------------------------------------------------------------------------
 adjacent chunks: 3 | file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md | doc_id: 81ec846f7c63 | total_chunks: 17
 
-Returned context is chunk-level and may overlap. Use file_path with nbrag_get_raw_file for overlap-free source text.
+Returned context is chunk-level and may overlap. Use file_path with nbrag_read_more_original_text for overlap-free source text.
 
 chunk:0 | line:1-18
 # [File: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md] [Lines: 1-18]

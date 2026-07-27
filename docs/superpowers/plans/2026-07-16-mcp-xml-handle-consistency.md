@@ -368,7 +368,7 @@ git commit -m "refactor(mcp_tools): XML format for nbrag_find_definition"
 ### Task 7: 重构 4 个 chunk 视图函数
 
 **Files:**
-- Modify: `nbrag/mcp_tools.py:651-787`（`nbrag_get_adjacent_chunks` / `nbrag_get_file_chunks` / `nbrag_get_chunks_by_lines` / `nbrag_get_raw_file`）
+- Modify: `nbrag/mcp_tools.py:651-787`（`nbrag_get_adjacent_chunks` / `nbrag_get_file_chunks` / `nbrag_get_chunks_by_lines` / `nbrag_read_more_original_text`）
 
 **Interfaces:**
 - Consumes: Task 2 的 `_meta_file_path` / `_meta_chunk_index` helper；底层 `chunk.get("index")` / `chunk.get("line_start")` / `chunk.get("line_end")`
@@ -401,10 +401,10 @@ git commit -m "refactor(mcp_tools): XML format for nbrag_find_definition"
 - 根标签 `<nbrag_get_chunks_by_lines doc_id="..." file_path="..." total_chunks="..." requested_line_start="..." requested_line_end="...">`
 - `<chunks>` 同上
 
-- [ ] **Step 5: 重写 `nbrag_get_raw_file`（L763）为 XML**
+- [ ] **Step 5: 重写 `nbrag_read_more_original_text`（L763）为 XML**
 
 按 spec：
-- 根标签 `<nbrag_get_raw_file file_path="..." doc_id="..." total_lines="..." line_start="..." line_end="...">`
+- 根标签 `<nbrag_read_more_original_text file_path="..." doc_id="..." total_lines="..." line_start="..." line_end="...">`
 - **无 `<chunks>` 集合标签**，直接 `<content>` 子元素放整段原文
 - `line_start` / `line_end` 放根属性表示返回范围
 
@@ -558,7 +558,7 @@ D:/ProgramData/miniconda3/envs/py312/python.exe -m nbrag --transport streamable-
 4. 从 `<hit>` 提取 `file_path` / `doc_id` / `chunk_index` / `line_start` / `line_end` 属性值
 5. 把这些值直接填进 `nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)` → 确认调用成功、返回 `<nbrag_get_adjacent_chunks>...<chunks><chunk ...>`
 6. 把 `doc_id` / `line_start` / `line_end` 填进 `nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)` → 确认成功
-7. 把 `file_path` / `line_start` / `line_end` 填进 `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)` → 确认成功
+7. 把 `file_path` / `line_start` / `line_end` 填进 `nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)` → 确认成功
 8. 调用 `nbrag_grep` → 确认 `<match>` 用 `line_start == line_end` 表达单行
 9. 调用 `nbrag_find_files` / `nbrag_list` → 确认自闭合标签、`total_chunks` 字段
 10. 触发一个错误（如传非法 `filter_file_path`）→ 确认返回 `<error type="invalid_file_path" field="filter_file_path">`

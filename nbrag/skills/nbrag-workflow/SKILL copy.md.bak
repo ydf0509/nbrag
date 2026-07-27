@@ -67,7 +67,7 @@ nbrag_search_and_fetch(query="...", bm25_query="...", collection_name="...")
 
 什么时候继续：
 - 需要**精确 wording** 证据 → `nbrag_grep`
-- 需要**更大原文上下文** → `nbrag_get_raw_file`
+- 需要**更大原文上下文** → `nbrag_read_more_original_text`
 - 需要**围绕某个 chunk 扩展** → `nbrag_get_adjacent_chunks`
 - 需要**按行号反查 chunk/scope** → `nbrag_get_chunks_by_lines`
 - 需要**完整文件路径** → `nbrag_find_files`
@@ -102,7 +102,7 @@ Python `.py` 是 nbrag 的强场景之一，但也不要迷信单工具。
 1. `nbrag_search_and_fetch`：先发现概念、调用关系、使用示例
 2. `nbrag_grep`：再确认精确符号名 / import / 常量 / 错误字符串
 3. `nbrag_find_definition`：拿完整 class/function/method 定义
-4. `nbrag_get_raw_file`：需要更大源码上下文时读取原文
+4. `nbrag_read_more_original_text`：需要更大源码上下文时读取原文
 
 如果内容不是 Python `.py`，不要优先用 `nbrag_find_definition`。
 
@@ -110,7 +110,7 @@ Python `.py` 是 nbrag 的强场景之一，但也不要迷信单工具。
 
 ### 1. `file_path`
 可用于：
-- `nbrag_get_raw_file(file_path, collection_name)`
+- `nbrag_read_more_original_text(file_path, collection_name)`
 - `nbrag_get_file_chunks(file_path, collection_name)`
 - `filter_file_path=...` 缩小 `search` / `search_and_fetch` / `grep` 范围
 
@@ -128,7 +128,7 @@ Python `.py` 是 nbrag 的强场景之一，但也不要迷信单工具。
 
 ### 4. `file_path + line range`
 可用于：
-- `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)`
+- `nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)`
 
 ## 路径规则
 
@@ -152,7 +152,7 @@ Python `.py` 是 nbrag 的强场景之一，但也不要迷信单工具。
 只要 metadata 或要控制检索开关 → nbrag_search()
 需要 exact wording / 条文号 / 错误码 / 符号名 → nbrag_grep()
 只有文件名或路径片段 → nbrag_find_files() 换成完整 file_path
-需要引用 clean 原文或扩大上下文 → nbrag_get_raw_file() / nbrag_get_adjacent_chunks()
+需要引用 clean 原文或扩大上下文 → nbrag_read_more_original_text() / nbrag_get_adjacent_chunks()
 Python .py 精确符号定义 → nbrag_find_definition()
 ```
 
@@ -191,7 +191,7 @@ Python .py 精确符号定义 → nbrag_find_definition()
 | 搜索为空 | collection 不对 / 问题含糊 / 精确术语不匹配 | 检查 `collection_name`；必要时最小规范化 `query`；已知精确锚点优先用 `bm25_query`；若仍无结果，再用 `nbrag_grep` |
 | grep 无结果 | 原文没有 exact wording，或 regex/大小写不对 | 检查 wording；如果其实是概念问题，回到 `nbrag_search_and_fetch` |
 | basename 被当成 `file_path` | 路径不是完整绝对路径 | 先 `nbrag_find_files` 或 `nbrag_list` |
-| 想看 clean 原文却还在看 chunk | chunk 会 overlap | 改用 `nbrag_get_raw_file` |
+| 想看 clean 原文却还在看 chunk | chunk 会 overlap | 改用 `nbrag_read_more_original_text` |
 
 ## 一句话总结
 

@@ -255,15 +255,15 @@ Follow-up handles in <chunk>: chunk_index, line_start, line_end.
 </nbrag_get_chunks_by_lines>
 ```
 
-**`nbrag_get_raw_file`**（无 chunk 结构，纯原文）：
+**`nbrag_read_more_original_text`**（无 chunk 结构，纯原文）：
 
 ```xml
-<nbrag_get_raw_file file_path="D:/codes/foo.py" doc_id="abc123" total_lines="200" line_start="1" line_end="200">
+<nbrag_read_more_original_text file_path="D:/codes/foo.py" doc_id="abc123" total_lines="200" line_start="1" line_end="200">
 <content>
 ... 原始文件内容，原样无转义 ...
 </content>
 
-</nbrag_get_raw_file>
+</nbrag_read_more_original_text>
 ```
 
 - 没有 `<chunks>` 集合标签，直接 `<content>` 子元素
@@ -395,7 +395,7 @@ find_definition 的 `r.get("source")` → 输出 `file_path`，用 `_meta_file_p
 - `nbrag_get_file_chunks`（分页，根属性带 `start_chunk`/`max_chunks`/`has_more`）
 - `nbrag_get_adjacent_chunks`（window 扩展，根属性带 `window`/`anchor_chunk_index`）
 - `nbrag_get_chunks_by_lines`（按行范围，根属性带 `requested_line_start`/`requested_line_end`）
-- `nbrag_get_raw_file`（无 chunk 结构，直接 `<content>`）
+- `nbrag_read_more_original_text`（无 chunk 结构，直接 `<content>`）
 
 ### 步骤 5：重构清单类函数返回 + 清理 workflow skill
 
@@ -417,7 +417,7 @@ find_definition 的 `r.get("source")` → 输出 `file_path`，用 `_meta_file_p
 | `nbrag_get_file_chunks` | `<nbrag_get_file_chunks>` | `<chunks>` | `<chunk>` |
 | `nbrag_get_adjacent_chunks` | `<nbrag_get_adjacent_chunks>` | `<chunks>` | `<chunk>` |
 | `nbrag_get_chunks_by_lines` | `<nbrag_get_chunks_by_lines>` | `<chunks>` | `<chunk>` |
-| `nbrag_get_raw_file` | `<nbrag_get_raw_file>` | （无） | （根标签直接含 `<content>`） |
+| `nbrag_read_more_original_text` | `<nbrag_read_more_original_text>` | （无） | （根标签直接含 `<content>`） |
 | `nbrag_list` | `<nbrag_list>` | `<documents>` | `<document>` |
 | `nbrag_stats` | `<nbrag_stats>` | `<collections>` | `<collection>` |
 

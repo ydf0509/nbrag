@@ -36,11 +36,11 @@
 | 8 | `nbrag_find_definition(symbol="...", collection_name=<...>)` | 返回含 `<nbrag_find_definition` / `<definitions>` / `<definition `（若项目有 .py collection）；若该 collection 无 .py，返回 `<error type="not_found"` 或 `<error type="no_results"` 也算通过 |
 | 9 | `nbrag_find_files(pattern="...", collection_name=<...>)` | 返回含 `<nbrag_find_files` / `<files>` / `<file `；`<file>` 有 `file_path` / `doc_id` / `total_chunks` 属性（不是 `chunk_count`） |
 | 10 | `nbrag_list(collection_name=<...>)` | 返回含 `<nbrag_list` / `<documents>` / `<document `；`<document>` 有 `doc_id` / `file_path` / `total_chunks`（不是 `chunk_count`） |
-| 11 | `nbrag_get_raw_file(file_path=<step3或7的>, collection_name=<...>)` | 返回含 `<nbrag_get_raw_file` / `<content>` |
+| 11 | `nbrag_read_more_original_text(file_path=<step3或7的>, collection_name=<...>)` | 返回含 `<nbrag_read_more_original_text` / `<content>` |
 | 12 | `nbrag_get_file_chunks(file_path=<...>, collection_name=<...>)` | 返回含 `<nbrag_get_file_chunks` / `<chunks>` / `<chunk `；`<chunk>` 有 `chunk_index` / `line_start` / `line_end` |
 | 13 | `nbrag_get_adjacent_chunks(doc_id=<...>, chunk_index=<step3的>, collection_name=<...>)` | 返回含 `<nbrag_get_adjacent_chunks` / `anchor_chunk_index=` 属性 / `<chunks>` |
 | 14 | `nbrag_get_chunks_by_lines(doc_id=<...>, line_start=<...>, line_end=<...>, collection_name=<...>)` | 返回含 `<nbrag_get_chunks_by_lines` / `requested_line_start=` / `requested_line_end=` |
-| 15 | `nbrag_get_raw_file(file_path="INVALID_PATH", collection_name=<...>)` | 返回 `<error type="invalid_file_path" field="file_path">` |
+| 15 | `nbrag_read_more_original_text(file_path="INVALID_PATH", collection_name=<...>)` | 返回 `<error type="invalid_file_path" field="file_path">` |
 
 6. 每步 print `PASS` / `FAIL <原因>`，不 assert（用户明确说不用管测试断言）
 7. 末尾 print 汇总：`X/15 passed`
@@ -71,7 +71,7 @@ from nbrag.mcp_tools import (
     nbrag_help, nbrag_stats, nbrag_search, nbrag_search_and_fetch,
     nbrag_search_only_bm25, nbrag_search_only_vector, nbrag_grep,
     nbrag_find_definition, nbrag_find_files, nbrag_list,
-    nbrag_get_raw_file, nbrag_get_file_chunks, nbrag_get_adjacent_chunks,
+    nbrag_read_more_original_text, nbrag_get_file_chunks, nbrag_get_adjacent_chunks,
     nbrag_get_chunks_by_lines,
 )
 ```

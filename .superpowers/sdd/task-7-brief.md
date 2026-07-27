@@ -1,7 +1,7 @@
 # Task 7: 重构 4 个 chunk 视图函数
 
 **Files:**
-- Modify: `nbrag/mcp_tools.py:678-812`（`nbrag_get_adjacent_chunks` / `nbrag_get_file_chunks` / `nbrag_get_chunks_by_lines` / `nbrag_get_raw_file`）
+- Modify: `nbrag/mcp_tools.py:678-812`（`nbrag_get_adjacent_chunks` / `nbrag_get_file_chunks` / `nbrag_get_chunks_by_lines` / `nbrag_read_more_original_text`）
 
 **Interfaces:**
 - Consumes: Task 2 的 `_meta_file_path(meta)` / `_meta_chunk_index(meta)` / `_path_error` / `_collection_presence_issue_text`
@@ -72,15 +72,15 @@ Follow-up handles in <chunk>: chunk_index, line_start, line_end.
 
 - `requested_line_start` / `requested_line_end` = 入参的 `line_start` / `line_end`
 
-### `nbrag_get_raw_file`（无 chunk 结构，纯原文）
+### `nbrag_read_more_original_text`（无 chunk 结构，纯原文）
 
 ```xml
-<nbrag_get_raw_file file_path="..." doc_id="..." total_lines="200" line_start="1" line_end="200">
+<nbrag_read_more_original_text file_path="..." doc_id="..." total_lines="200" line_start="1" line_end="200">
 <content>
 ... 原始文件内容，原样无转义 ...
 </content>
 
-</nbrag_get_raw_file>
+</nbrag_read_more_original_text>
 ```
 
 - 没有 `<chunks>` 集合标签，直接 `<content>` 子元素
@@ -128,13 +128,13 @@ Recovery: ...
 - header → `<nbrag_get_chunks_by_lines doc_id="..." file_path="..." total_chunks="..." requested_line_start="..." requested_line_end="...">` + handle 提醒
 - 每个 chunk → 同上格式
 
-- [ ] **Step 4: 重写 `nbrag_get_raw_file`（L790-812）**
+- [ ] **Step 4: 重写 `nbrag_read_more_original_text`（L790-812）**
 
 保留 L791-796 不变。
 
 改写 L797-812：
 - not found → `<error type="not_found" field="file_path">` XML
-- header → `<nbrag_get_raw_file file_path="..." doc_id="..." total_lines="..." line_start="..." line_end="...">`
+- header → `<nbrag_read_more_original_text file_path="..." doc_id="..." total_lines="..." line_start="..." line_end="...">`
 - 直接 `<content>` 子元素放 `data.get("content", "")`
 - 无 `<chunks>` 集合标签
 
@@ -151,7 +151,7 @@ path: nbrag/mcp_tools.py
 
 ```powershell
 $env:OPENBLAS_NUM_THREADS=1
-D:/ProgramData/miniconda3/envs/py312/python.exe -c "from nbrag.mcp_tools import nbrag_get_adjacent_chunks, nbrag_get_file_chunks, nbrag_get_chunks_by_lines, nbrag_get_raw_file; print('import OK')"
+D:/ProgramData/miniconda3/envs/py312/python.exe -c "from nbrag.mcp_tools import nbrag_get_adjacent_chunks, nbrag_get_file_chunks, nbrag_get_chunks_by_lines, nbrag_read_more_original_text; print('import OK')"
 ```
 
 - [ ] **Step 7: Commit**

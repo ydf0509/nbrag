@@ -12,7 +12,7 @@ LLM 在使用 nbrag 检索知识库时，看到 `<hit>` / `<match>` / `<definiti
 
 - **chunk 必然是截断片段**，不是完整原文。按 `chunk_size` 机械切断，不存在"完整内容"。
 - **若某条 content 对回答有帮助，必须调用工具扩展**获取周围更多内容。这不是可选行为。
-- `nbrag_get_raw_file` 是唯一返回完整原文（非截断）的工具。
+- `nbrag_read_more_original_text` 是唯一返回完整原文（非截断）的工具。
 - 即使行尾完整，扩展也有帮助（函数签名缺失、return 缺失、前后条文缺失等）。
 
 ## 方案：文字提醒 + Unlocks 措辞强化
@@ -36,7 +36,7 @@ LLM 在使用 nbrag 检索知识库时，看到 `<hit>` / `<match>` / `<definiti
 
 ### 反向说明
 
-- `nbrag_get_raw_file` — 返回原始文件快照、非 chunk，docstring 加一句"这是获取完整原文的工具"
+- `nbrag_read_more_original_text` — 返回原始文件快照、非 chunk，docstring 加一句"这是获取完整原文的工具"
 
 ### 其他受影响
 
@@ -76,25 +76,25 @@ LLM 在使用 nbrag 检索知识库时，看到 `<hit>` / `<match>` / `<definiti
 `nbrag_search` / `nbrag_search_only_bm25` / `nbrag_search_only_vector`：
 ```
 Each <hit>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source.
-If a hit's content is useful, you MUST call nbrag_get_raw_file or nbrag_get_adjacent_chunks to expand.
+If a hit's content is useful, you MUST call nbrag_read_more_original_text or nbrag_get_adjacent_chunks to expand.
 ```
 
 `nbrag_search_and_fetch`：
 ```
 Both <hit> <content> and <fetched_raw> <content> are RAG chunks — necessarily truncated fragments.
-If a hit's content is useful, you MUST call nbrag_get_raw_file or nbrag_get_adjacent_chunks to expand further.
+If a hit's content is useful, you MUST call nbrag_read_more_original_text or nbrag_get_adjacent_chunks to expand further.
 ```
 
 `nbrag_grep`：
 ```
 Each <match>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source.
-If a match's content is useful, you MUST call nbrag_get_raw_file to expand.
+If a match's content is useful, you MUST call nbrag_read_more_original_text to expand.
 ```
 
 `nbrag_find_definition`：
 ```
 Each <definition>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source.
-If a definition's content is useful, you MUST call nbrag_get_raw_file or nbrag_get_chunks_by_lines to expand.
+If a definition's content is useful, you MUST call nbrag_read_more_original_text or nbrag_get_chunks_by_lines to expand.
 ```
 
 **chunk 视图类（3个函数 docstring）：**
@@ -102,12 +102,12 @@ If a definition's content is useful, you MUST call nbrag_get_raw_file or nbrag_g
 `nbrag_get_adjacent_chunks` / `nbrag_get_file_chunks` / `nbrag_get_chunks_by_lines`：
 ```
 Each <chunk>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source.
-If a chunk's content is useful, you MUST call nbrag_get_raw_file to get the overlap-free original text.
+If a chunk's content is useful, you MUST call nbrag_read_more_original_text to get the overlap-free original text.
 ```
 
 **反向说明（1个函数 docstring）：**
 
-`nbrag_get_raw_file`：
+`nbrag_read_more_original_text`：
 ```
 Unlike chunk-based tools, this returns overlap-free original text, not a truncated chunk.
 Use this when chunk content is useful and you need the complete surrounding text.
@@ -124,7 +124,7 @@ content is a truncated chunk fragment, not the full source
 
 加一句全局提醒：
 ```
-所有检索类和 chunk 视图类工具返回的 <content> 都是 RAG chunk，必然是截断片段。若 content 有用，必须调用 nbrag_get_raw_file 或 nbrag_get_adjacent_chunks 扩展。
+所有检索类和 chunk 视图类工具返回的 <content> 都是 RAG chunk，必然是截断片段。若 content 有用，必须调用 nbrag_read_more_original_text 或 nbrag_get_adjacent_chunks 扩展。
 ```
 
 ### 3. SKILL.md — 覆盖3个章节的矛盾逻辑
@@ -136,15 +136,15 @@ content is a truncated chunk fragment, not the full source
 **核心规则：chunk 必然是截断片段，不是完整原文。**
 所有检索类工具（search/grep/find_definition）和 chunk 视图类工具返回的 `<content>` 都是 RAG chunk，
 按 chunk_size 机械切断，不存在"完整内容"。若某条 content 对回答有帮助，必须调用
-nbrag_get_raw_file 或 nbrag_get_adjacent_chunks 获取周围更多内容。
-nbrag_get_raw_file 是唯一返回完整原文（非截断）的工具。
+nbrag_read_more_original_text 或 nbrag_get_adjacent_chunks 获取周围更多内容。
+nbrag_read_more_original_text 是唯一返回完整原文（非截断）的工具。
 ```
 
 **3.2 "Normal multi-turn pattern"（第260-277行）：**
 
 覆盖第5、6步和 stop signals：
 ```markdown
-5. 若某条 hit 的 content 对回答有帮助，必须调用 nbrag_get_raw_file 或 nbrag_get_adjacent_chunks 扩展
+5. 若某条 hit 的 content 对回答有帮助，必须调用 nbrag_read_more_original_text 或 nbrag_get_adjacent_chunks 扩展
 6. Stop once the expanded original text is enough to answer
 
 Stop signals — any one is sufficient:
@@ -161,7 +161,7 @@ Stop signals — any one is sufficient:
 Goal: a ranked hit is useful → 必须扩展获取完整内容（chunk 必然截断）。
 1. `nbrag_search_and_fetch(query, collection_name)` → Top result handles
 2. `nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)` → nearby chunks
-   或 `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)` → 完整原文
+   或 `nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)` → 完整原文
 ```
 
 ### 4. Unlocks 措辞强化（方案B）

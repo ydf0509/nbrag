@@ -125,10 +125,10 @@ Pattern: `chunk:\d|chunk:[A-Z]|line:\d|line:[A-Z]|matched_line|line_range|chunk_
 | 671, 680 | `chunk:X/Y` / `chunk_index:X` in `nbrag_get_adjacent_chunks` recovery text | out of range | out of scope |
 | 744, 753 | `line:N-M` in `nbrag_get_chunks_by_lines` recovery text | out of range | out of scope |
 | 760 | `line_range: line:N-M` in `nbrag_get_chunks_by_lines` | out of range | out of scope |
-| 792 | `original_file:` in `nbrag_get_raw_file` | out of range | out of scope (Task 5+) |
+| 792 | `original_file:` in `nbrag_read_more_original_text` | out of range | out of scope (Task 5+) |
 | 819, 820, 842 | `chunk_count` in `nbrag_list` / stats | out of range | out of scope |
 
-**Conclusion:** Inside `nbrag_search_and_fetch` (L428-L526) the only hit is the legitimate `_merge_line_ranges` function call (false-positive substring match). No deprecated field formats remain: no `chunk:X/Y`, no `chunk_index:X`, no `total_chunks:Y`, no `line:N-M`, no `doc_id:X`, no `dist:X`, no `score:X`, no `original_file`, no `range: line:N-M`. The old `original_file:` line in fetched_raw (was L542) is fully gone — it survives only in `nbrag_get_raw_file` at L792, which is out of Task 4 scope.
+**Conclusion:** Inside `nbrag_search_and_fetch` (L428-L526) the only hit is the legitimate `_merge_line_ranges` function call (false-positive substring match). No deprecated field formats remain: no `chunk:X/Y`, no `chunk_index:X`, no `total_chunks:Y`, no `line:N-M`, no `doc_id:X`, no `dist:X`, no `score:X`, no `original_file`, no `range: line:N-M`. The old `original_file:` line in fetched_raw (was L542) is fully gone — it survives only in `nbrag_read_more_original_text` at L792, which is out of Task 4 scope.
 
 A narrower confirmatory grep for actual deprecated format strings (`original_file|chunk:\d|chunk:[A-Z]|line:\d|line:[A-Z]|chunk_index:\d|total_chunks:\d|dist:\d|score:\d|doc_id:[a-zA-Z0-9]|scope:[a-zA-Z]`) returned 6 hits, **none** inside L428-L526.
 
@@ -169,6 +169,6 @@ Message: `refactor(mcp_tools): XML format for nbrag_search_and_fetch with fetche
 
 3. **`bm25_str` semantics unchanged for nbrag_search_and_fetch**: kept as `"off" if path_filter else "on"` (the function always uses bm25+vector, so the path_filter-only gating is correct). Note this differs from `_format_search_results` which uses the more nuanced `"off" if path_filter and use_vector else ("on" if use_bm25 else "off")` — that nuance is unnecessary here because nbrag_search_and_fetch hardcodes `use_bm25=True` and implicit `use_vector=True` in its `search()` call.
 
-4. **Out-of-scope deprecated fields remain in other functions** (nbrag_grep, nbrag_get_adjacent_chunks, nbrag_get_chunks_by_lines, nbrag_get_raw_file, nbrag_list) — these are flagged for later tasks (Task 5+) per the plan, not Task 4's responsibility.
+4. **Out-of-scope deprecated fields remain in other functions** (nbrag_grep, nbrag_get_adjacent_chunks, nbrag_get_chunks_by_lines, nbrag_read_more_original_text, nbrag_list) — these are flagged for later tasks (Task 5+) per the plan, not Task 4's responsibility.
 
 5. **No tests written** — per brief Step 9 / global constraints. Import check is the only verification gate.

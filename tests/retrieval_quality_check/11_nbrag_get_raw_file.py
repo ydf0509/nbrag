@@ -1,5 +1,5 @@
 #coding=utf-8
-"""测试 nbrag_get_raw_file() —— 读原始文件（通过端口 9101 调用 MCP）。"""
+"""测试 nbrag_read_more_original_text() —— 读原始文件（通过端口 9101 调用 MCP）。"""
 from _mcp_request import call_mcp_tool
 
 # ===== 可编辑参数区域 =====
@@ -13,8 +13,8 @@ params = {
     "file_path": FILE_PATH, "collection_name": COLLECTION,
     "line_start": LINE_START, "line_end": LINE_END,
 }
-result = call_mcp_tool("nbrag_get_raw_file", params)
-print(f"调用函数: nbrag_get_raw_file")
+result = call_mcp_tool("nbrag_read_more_original_text", params)
+print(f"调用函数: nbrag_read_more_original_text")
 print(f"入参: {params}")
 print("-" * 70)
 print(result)

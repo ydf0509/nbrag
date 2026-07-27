@@ -105,7 +105,7 @@ handle 字段的名字与形态有严格契约，详见 `nbrag-handle-consistenc
 不要把 `grep` 描述成 concept search。
 
 ### 4. raw file vs chunk view
-- `nbrag_get_raw_file()` = stored original snapshot, overlap-free view
+- `nbrag_read_more_original_text()` = stored original snapshot, overlap-free view
 - `nbrag_get_file_chunks()` / `nbrag_get_adjacent_chunks()` / `nbrag_get_chunks_by_lines()` = chunk-structured view, overlap can happen by design
 
 不要把 raw view 和 chunk view 混成一个概念。
@@ -136,7 +136,7 @@ handle 字段的名字与形态有严格契约，详见 `nbrag-handle-consistenc
 不要把它写成 harmless ranking preference。
 
 ### 9. stored snapshot, not live filesystem refresh
-`nbrag_get_raw_file()` 和 auto-fetched raw snippets 读取的是 ingested snapshot。
+`nbrag_read_more_original_text()` 和 auto-fetched raw snippets 读取的是 ingested snapshot。
 不要把它写成实时文件系统读取。
 
 ---
@@ -181,6 +181,14 @@ handle 字段的名字与形态有严格契约，详见 `nbrag-handle-consistenc
 - what this field is for
 - what current output unlocks next
 - when another tool becomes more direct
+
+### 中文条件式 AI 指引
+
+当 AI-facing 文案表达尚未发生、需要 Agent 判断后才执行的动作时，必须保留完整的条件关系：`如果……，就……`。不要省略“如果”而把条件压缩为状语，也不要把条件写成已发生的事实。
+
+- 用通用规则描述任意知识领域，不用代码领域的若干例子冒充完整规则。
+- 对鼓励检索、扩读、核查等动作的正向指引，不要加入 token 节省、次数上限、`直到……`、`足以……`、停止条件或类似会让 Agent 过早收缩动作的措辞。
+- 需要表达后续扩读时，使用：`如果首次扩读后仍缺少回答所需的上下文，就根据缺失内容相对于当前阅读窗的位置，继续扩大读取范围。`
 
 ---
 

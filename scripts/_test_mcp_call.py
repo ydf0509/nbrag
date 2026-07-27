@@ -15,7 +15,7 @@
   9.  nbrag_grep                        (keyword, collection_name) → 拿到 doc_id/line
   10. nbrag_find_definition            (symbol, collection_name) — 非 py 源时返回 fallback 提示
   11. nbrag_get_file_chunks            (file_path, collection_name)
-  12. nbrag_get_raw_file               (file_path, collection_name, line_start, line_end)
+  12. nbrag_read_more_original_text               (file_path, collection_name, line_start, line_end)
   13. nbrag_get_adjacent_chunks        (doc_id, chunk_index, collection_name)
   14. nbrag_get_chunks_by_lines        (doc_id, line_start, line_end, collection_name)
 """
@@ -233,7 +233,7 @@ code, t = call_tool("nbrag_search_and_fetch", {
     "bm25_query": "法院 判决 离婚 情形",
     "collection_name": COLL,
     "top_k": 3,
-    "fetch_top_n_raw": 1,
+    "fetch_top_n_original_text_excerpt": 1,
     "fetch_context_chars": 800,
 })
 show("8. nbrag_search_and_fetch", code, t, limit=1500)
@@ -253,10 +253,10 @@ if not doc_id:
     if m:
         doc_id = m.group(1)
 if line_start is None:
-    m = re.search(r'line_start="(\d+)"', t) or re.search(r'line:(\d+)-(\d+)', t)
+    m = re.search(r'line_start="(\d+)"', t)
     if m:
         line_start = int(m.group(1))
-        line_end = int(m.group(2)) if m.lastindex and m.lastindex >= 2 else line_start
+        line_end = line_start
 print(f"[parse] after grep: doc_id={doc_id!r} line={line_start}-{line_end}")
 
 # ---------- 10. nbrag_find_definition ----------
@@ -291,18 +291,18 @@ if file_path:
 else:
     print("\n[11. nbrag_get_file_chunks] SKIP — 无 file_path")
 
-# ---------- 12. nbrag_get_raw_file ----------
+# ---------- 12. nbrag_read_more_original_text ----------
 if file_path:
-    code, t = call_tool("nbrag_get_raw_file", {
+    code, t = call_tool("nbrag_read_more_original_text", {
         "file_path": file_path,
         "collection_name": COLL,
         "line_start": 1,
         "line_end": 20,
     })
-    show("12. nbrag_get_raw_file", code, t)
-    record("nbrag_get_raw_file", code, t)
+    show("12. nbrag_read_more_original_text", code, t)
+    record("nbrag_read_more_original_text", code, t)
 else:
-    print("\n[12. nbrag_get_raw_file] SKIP — 无 file_path")
+    print("\n[12. nbrag_read_more_original_text] SKIP — 无 file_path")
 
 # ---------- 13. nbrag_get_adjacent_chunks ----------
 if doc_id and chunk_index is not None:

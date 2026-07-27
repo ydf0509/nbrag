@@ -368,16 +368,16 @@ def _search_and_fetch_follow_up_guidance() -> str:
     return _tagged_text("nbrag_follow_up", body=[
         "Evidence boundaries:",
         "- `<nbrag_chunk_content>` is exactly one RAG chunk; its original-text context stops at the chunk boundaries.",
-        "- `<nbrag_raw_content>` is an overlap-free stored-original-text excerpt bounded by fetch_context_chars, not the complete stored file.",
+        "- `<nbrag_original_text_excerpt>` is an overlap-free stored-original-text excerpt with file_path, doc_id, line_start, and line_end; its `<nbrag_original_text_content>` is bounded by fetch_context_chars, not the complete stored file.",
         "",
-        "Do not treat either bounded result as complete source context. When the answer, quotation, or verification depends on text outside the shown chunk or raw excerpt, choose the matching expansion route below.",
+        "Do not treat either bounded result as complete source context. When the answer, quotation, or verification depends on text outside the shown chunk or original-text excerpt, choose the matching expansion route below.",
         "",
         "Expansion routes using returned handles:",
-        "- file_path -> nbrag_get_raw_file(file_path, collection_name, line_start, line_end): read wider overlap-free original text. Default bounded read policy: with both line bounds, set line_end = line_start + 500. Do not copy a short prior range or choose a smaller range merely to save tokens. The only exception is an explicitly requested exact quotation, field, or line. Omit both line bounds only when you intentionally need the complete stored file.",
+        "- file_path -> nbrag_read_more_original_text(file_path, collection_name, line_start, line_end): read wider overlap-free original text.",
         "- doc_id + chunk_index -> nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name): read nearby chunk structure.",
         "- doc_id + line_start + line_end -> nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name): read chunk structure covering a known line range.",
-        "",
-        "当你认为检索出来的rag知识库chunk内容，是对回答用户问题有帮助的时候，你必须使用该chunk内容对应的文件路径file_path 和行号，进一步使用nbrag_get_raw_file工具来扩展获取更大范围的上下文内容，因为chunk内容100%绝对是不完整的分块，你必须使用nbrag_get_raw_file获取chunk前后超大范围的上下文内容，注意是必须进一步调用nbrag_get_raw_file工具，绝对不能只依靠nbrag_search_and_fetch检索的内容来回答用户问题",
+        "- 如果某个 ranked hit 对回答有用，就复用该 hit 的 file_path、line_start、line_end 调用 nbrag_read_more_original_text，并将读取窗设为以 hit 的 line_start 为锚点前 200 行到后 400 行：line_start=max(1, line_start-200)，line_end=line_start+400。",
+        "- 如果首次扩读后仍缺少回答所需的上下文，就根据缺失内容相对于当前阅读窗的位置，继续扩大读取范围。",
     ])
 
 
@@ -407,7 +407,7 @@ def nbrag_help() -> str:
         "- Use nbrag_find_definition() only for Python .py symbol definitions.",
         "",
         "Step 3: choose the follow-up reading tool",
-        "- Use nbrag_get_raw_file() for stored original text without chunk overlap.",
+        "- Use nbrag_read_more_original_text() for stored original text without chunk overlap.",
         "- Use nbrag_get_file_chunks(), nbrag_get_adjacent_chunks(), or nbrag_get_chunks_by_lines() when you need chunk boundaries, scope metadata, or local chunk context.",
         "- Use nbrag_find_files() when you only know a filename fragment and do not yet have the exact full absolute file_path.",
         "",
@@ -418,7 +418,7 @@ def nbrag_help() -> str:
         "- `<nbrag_file>` / `<nbrag_document>` → file_path, doc_id",
         "- `<nbrag_chunk>` → chunk_index, line_start, line_end; file-level handles remain on the containing result",
         "",
-        "IMPORTANT output boundaries: `<nbrag_original_text_content>` is a stored-original-text context excerpt bounded by match_context_chars. Python `<nbrag_definition_content>` is an AST-aware definition body when symbol_type is class/function/method; regex_fallback is only a candidate text match.",
+        "`<nbrag_original_text_content>` takes its range semantics from its outer entity: under `<nbrag_match>` it is bounded by match_context_chars; under `<nbrag_original_text_excerpt>` it is bounded by fetch_context_chars; under `<nbrag_original_text>` it is the explicitly requested stored-original-text reading window. Python `<nbrag_definition_content>` is an AST-aware definition body when symbol_type is class/function/method; regex_fallback is only a candidate text match.",
         "",
         "Stable follow-up fields: file_path, doc_id, chunk_index, line_start, line_end.",
         "",
@@ -571,13 +571,13 @@ def nbrag_search_and_fetch(
     query: str,
     collection_name: str,
     top_k: int = 5,
-    fetch_top_n_raw: int = 3,
+    fetch_top_n_original_text_excerpt: int = 3,
     fetch_context_chars: int = DEFAULT_FETCH_CONTEXT_CHARS,
     filter_file_path: str = "",
     bm25_query: str = "",
 ) -> str:
     top_k = _int_param(top_k, 5)
-    fetch_top_n_raw = _int_param(fetch_top_n_raw, 3)
+    fetch_top_n_original_text_excerpt = _int_param(fetch_top_n_original_text_excerpt, 3)
     fetch_context_chars = max(0, _int_param(fetch_context_chars, DEFAULT_FETCH_CONTEXT_CHARS))
     filter_file_path = _str_param(filter_file_path)
     bm25_query = _str_param(bm25_query)
@@ -613,13 +613,13 @@ def nbrag_search_and_fetch(
         _le = meta.get("line_end", 0)
         ls = int(_ls) if isinstance(_ls, (int, float)) else 0
         le = int(_le) if isinstance(_le, (int, float)) else 0
-        if i < fetch_top_n_raw and doc_id != "?" and src != "?":
+        if i < fetch_top_n_original_text_excerpt and doc_id != "?" and src != "?":
             if doc_id not in fetch_targets:
                 fetch_targets[doc_id] = {"src": str(src), "ranges": []}
             fetch_targets[doc_id]["ranges"].append((ls, le))
 
     lines_fetched = []
-    if fetch_top_n_raw > 0 and fetch_targets:
+    if fetch_top_n_original_text_excerpt > 0 and fetch_targets:
         for doc_id, info in fetch_targets.items():
             src = str(info["src"])
             ranges = info["ranges"]
@@ -642,12 +642,12 @@ def nbrag_search_and_fetch(
                 excerpt = "".join(raw_lines[start - 1:end]) if raw_lines else raw_content
                 if lines_fetched:
                     lines_fetched.extend(["", "", ""])
-                lines_fetched.append(_tagged_text("nbrag_raw_excerpt", [
+                lines_fetched.append(_tagged_text("nbrag_original_text_excerpt", [
                     ("file_path", src),
                     ("doc_id", doc_id),
                     ("line_start", start),
                     ("line_end", end),
-                ], [_tagged_text("nbrag_raw_content", body=[excerpt])]))
+                ], [_tagged_text("nbrag_original_text_content", body=[excerpt])]))
 
     lines = ["<nbrag_search_and_fetch>", _search_and_fetch_follow_up_guidance(), ""]
     lines.extend(lines_hits)
@@ -819,7 +819,7 @@ def nbrag_get_adjacent_chunks(doc_id: str, chunk_index: int, collection_name: st
             "doc_id",
             f"No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search result.{suffix}",
             "Copy doc_id and chunk_index from a prior nbrag_search / nbrag_search_and_fetch `<nbrag_ranked_hit>`, "
-            "or use nbrag_get_raw_file if you only need original text without chunk boundaries.",
+            "or use nbrag_read_more_original_text if you only need original text without chunk boundaries.",
         )
 
     chunks = data.get("chunks", [])
@@ -831,7 +831,7 @@ def nbrag_get_adjacent_chunks(doc_id: str, chunk_index: int, collection_name: st
             "doc_id",
             f"No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search result.{suffix}",
             "Copy doc_id and chunk_index from a prior nbrag_search / nbrag_search_and_fetch `<nbrag_ranked_hit>`, "
-            "or use nbrag_get_raw_file if you only need original text without chunk boundaries.",
+            "or use nbrag_read_more_original_text if you only need original text without chunk boundaries.",
         )
 
     file_path = str(data.get("source", "?"))
@@ -920,7 +920,7 @@ def nbrag_get_chunks_by_lines(doc_id: str, line_start: int, line_end: int, colle
             "doc_id",
             "No chunks found for that doc_id / line range.",
             "Verify doc_id, copy line_start / line_end from a prior `<nbrag_chunk>` metadata block, "
-            "or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata.",
+            "or use nbrag_read_more_original_text if you only need original text rather than chunk-level scope metadata.",
         )
 
     chunks = data.get("chunks", [])
@@ -932,7 +932,7 @@ def nbrag_get_chunks_by_lines(doc_id: str, line_start: int, line_end: int, colle
             "doc_id",
             f"No chunks found for that doc_id / line range.{suffix}",
             "Verify doc_id, copy line_start / line_end from a prior `<nbrag_chunk>` metadata block, "
-            "or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata.",
+            "or use nbrag_read_more_original_text if you only need original text rather than chunk-level scope metadata.",
         )
 
     file_path = str(data.get("source", "?"))
@@ -962,8 +962,8 @@ def nbrag_get_chunks_by_lines(doc_id: str, line_start: int, line_end: int, colle
     return "\n".join(lines)
 
 
-@_contract_tool("returned_raw_count", "nbrag_raw_content")
-def nbrag_get_raw_file(file_path: str, collection_name: str, line_start: int | None = None, line_end: int | None = None) -> str:
+@_contract_tool("returned_original_text_count", "nbrag_original_text_content")
+def nbrag_read_more_original_text(file_path: str, collection_name: str, line_start: int | None = None, line_end: int | None = None) -> str:
     line_start = line_start if isinstance(line_start, int) and not isinstance(line_start, bool) and line_start > 0 else None
     line_end = line_end if isinstance(line_end, int) and not isinstance(line_end, bool) and line_end > 0 else None
     if not _is_absolute_file_path(file_path):
@@ -976,7 +976,7 @@ def nbrag_get_raw_file(file_path: str, collection_name: str, line_start: int | N
         return _error_text(
             "not_found",
             "file_path",
-            f"Raw file not found.{suffix}",
+            f"Stored original text not found.{suffix}",
             "Copy file_path from prior nbrag results, or use nbrag_find_files / nbrag_list to get the exact full file_path.",
         )
 
@@ -987,14 +987,14 @@ def nbrag_get_raw_file(file_path: str, collection_name: str, line_start: int | N
     le = str(data.get("line_end", "?"))
     content = str(data.get("content", ""))
 
-    raw_file = _tagged_text("nbrag_raw_file", [
+    original_text = _tagged_text("nbrag_original_text", [
         ("file_path", file_path_str),
         ("doc_id", doc_id_str),
         ("total_lines", total_lines),
         ("line_start", ls),
         ("line_end", le),
-    ], [_tagged_text("nbrag_raw_content", body=[content])])
-    return _tagged_text("nbrag_get_raw_file", body=[raw_file])
+    ], [_tagged_text("nbrag_original_text_content", body=[content])])
+    return _tagged_text("nbrag_read_more_original_text", body=[original_text])
 
 
 @_contract_tool("returned_document_count", "nbrag_document")

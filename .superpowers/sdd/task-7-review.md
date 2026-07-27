@@ -8,7 +8,7 @@ All 4 functions in `nbrag/mcp_tools.py` (L678-889) verified against brief.
 - L678 `nbrag_get_adjacent_chunks(doc_id: str, chunk_index: int, collection_name: str, window: int = 3) -> str`
 - L740 `nbrag_get_file_chunks(file_path: str, collection_name: str, start_chunk: int = 0, max_chunks: int = 10) -> str`
 - L796 `nbrag_get_chunks_by_lines(doc_id: str, line_start: int, line_end: int, collection_name: str) -> str`
-- L856 `nbrag_get_raw_file(file_path: str, collection_name: str, line_start: int = -1, line_end: int = -1) -> str`
+- L856 `nbrag_read_more_original_text(file_path: str, collection_name: str, line_start: int = -1, line_end: int = -1) -> str`
 
 ### `nbrag_get_adjacent_chunks` (L678-737) ✅
 - Param normalization + `get_context_chunks` call untouched.
@@ -30,11 +30,11 @@ All 4 functions in `nbrag/mcp_tools.py` (L678-889) verified against brief.
 - Root attrs: `requested_line_start` / `requested_line_end` = input `line_start` / `line_end` — matches brief.
 - `<chunk>` format identical; `_meta_chunk_index` used.
 
-### `nbrag_get_raw_file` (L856-889) ✅
+### `nbrag_read_more_original_text` (L856-889) ✅
 - Param normalization + `_is_absolute_file_path` + `get_file_chunks(raw=True)` call untouched.
 - Not-found → `<error type="not_found" field="file_path">` XML.
 - Root attrs: `file_path`, `doc_id`, `total_lines`, `line_start`, `line_end` (from `data`, not input) — matches brief.
-- NO `<chunks>` collection tag — `<content>` placed directly under root, then closing `</nbrag_get_raw_file>`. ✅
+- NO `<chunks>` collection tag — `<content>` placed directly under root, then closing `</nbrag_read_more_original_text>`. ✅
 
 ### Deprecated forms scan ✅
 Grep pattern `chunk:\d|chunk:[A-Z]|line:\d|line:[A-Z]|original_file|line_range` over `nbrag/mcp_tools.py` returns 3 hits, **none inside L678-889**:
@@ -46,7 +46,7 @@ No occurrences of `chunk:X` / `line:N-M` / `original_file` / `line_range` in any
 
 ### Helper usage ✅
 - `_meta_chunk_index(chunk)` used in all 3 chunk-emitting functions (adjacent / file_chunks / by_lines) for `chunk_index` attribute.
-- `_path_error("file_path")` reused for path-validation errors in `nbrag_get_file_chunks` / `nbrag_get_raw_file`.
+- `_path_error("file_path")` reused for path-validation errors in `nbrag_get_file_chunks` / `nbrag_read_more_original_text`.
 
 ## Quality — Approved
 

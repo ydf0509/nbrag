@@ -142,7 +142,7 @@ index a98608e..a1c3724 100644
          "- Use nbrag_find_definition() only for Python .py symbol definitions.",
          "",
          "Step 3: choose the follow-up reading tool",
-         "- Use nbrag_get_raw_file() for stored original text without chunk overlap.",
+         "- Use nbrag_read_more_original_text() for stored original text without chunk overlap.",
          "- Use nbrag_get_file_chunks(), nbrag_get_adjacent_chunks(), or nbrag_get_chunks_by_lines() when you need chunk boundaries, scope metadata, or local chunk context.",
          "- Use nbrag_find_files() when you only know a filename fragment and do not yet have the exact full absolute file_path.",
          "",
@@ -682,7 +682,7 @@ index a98608e..a1c3724 100644
 +            f'<error type="not_found" field="doc_id">\n'
 +            f"No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search result.{suffix}\n"
 +            f"Recovery: copy doc_id and chunk_index from a prior nbrag_search / nbrag_search_and_fetch <hit>, "
-+            f"or use nbrag_get_raw_file if you only need original text without chunk boundaries.\n"
++            f"or use nbrag_read_more_original_text if you only need original text without chunk boundaries.\n"
 +            f'</error>'
          )
  
@@ -697,7 +697,7 @@ index a98608e..a1c3724 100644
 +            f'<error type="not_found" field="doc_id">\n'
 +            f"No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search result.{suffix}\n"
 +            f"Recovery: copy doc_id and chunk_index from a prior nbrag_search / nbrag_search_and_fetch <hit>, "
-+            f"or use nbrag_get_raw_file if you only need original text without chunk boundaries.\n"
++            f"or use nbrag_read_more_original_text if you only need original text without chunk boundaries.\n"
 +            f'</error>'
          )
  
@@ -708,7 +708,7 @@ index a98608e..a1c3724 100644
      lines = [
 -        f"adjacent chunks: {len(chunks)} | file_path: {data.get('source', '?')} | doc_id: {doc_id} | total_chunks: {data.get('total_chunks', '?')}",
 -        "",
--        "Returned context is chunk-level and may overlap. Use file_path with nbrag_get_raw_file for overlap-free source text.",
+-        "Returned context is chunk-level and may overlap. Use file_path with nbrag_read_more_original_text for overlap-free source text.",
 +        f'<nbrag_get_adjacent_chunks file_path="{file_path}" doc_id="{doc_id_str}" total_chunks="{total_chunks}" window="{window}" anchor_chunk_index="{chunk_index}">',
 +        "Follow-up handles in <chunk>: chunk_index, line_start, line_end.",
          "",
@@ -781,7 +781,7 @@ index a98608e..a1c3724 100644
 -        f"file chunks: {len(chunks)} | filename: {data.get('filename', '?')} | doc_id: {data.get('doc_id', '?')}",
 -        f"file_path: {data.get('source', '?')} | total_chunks: {data.get('total_chunks', '?')} | total_lines: {data.get('total_lines', '?')}",
 -        f"range: chunk:{range_start}-{range_end}",
--        "This view keeps chunk/scope structure and may contain overlap. Use nbrag_get_raw_file for overlap-free source text.",
+-        "This view keeps chunk/scope structure and may contain overlap. Use nbrag_read_more_original_text for overlap-free source text.",
 +        f'<nbrag_get_file_chunks file_path="{file_path_str}" doc_id="{doc_id_str}" total_chunks="{total_chunks}" total_lines="{total_lines}" start_chunk="{start_chunk}" max_chunks="{max_chunks}" has_more="{has_more}">',
 +        "Follow-up handles in <chunk>: chunk_index, line_start, line_end.",
          "",
@@ -824,11 +824,11 @@ index a98608e..a1c3724 100644
      if not data.get("found"):
          return (
 -            "No chunks found for that doc_id/line range. Possible adjustments: verify doc_id, copy line_start/line_end from a prior line:N-M result, "
--            "or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata."
+-            "or use nbrag_read_more_original_text if you only need original text rather than chunk-level scope metadata."
 +            f'<error type="not_found" field="doc_id">\n'
 +            f"No chunks found for that doc_id / line range.\n"
 +            f"Recovery: verify doc_id, copy line_start / line_end from a prior <chunk> handle, "
-+            f"or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata.\n"
++            f"or use nbrag_read_more_original_text if you only need original text rather than chunk-level scope metadata.\n"
 +            f'</error>'
          )
  
@@ -839,12 +839,12 @@ index a98608e..a1c3724 100644
 +        suffix = f" Detail: {detail}." if detail else ""
          return (
 -            "No chunks found for that doc_id/line range. Possible adjustments: verify doc_id, copy line_start/line_end from a prior line:N-M result, "
--            "or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata."
+-            "or use nbrag_read_more_original_text if you only need original text rather than chunk-level scope metadata."
 -            f"{suffix}"
 +            f'<error type="not_found" field="doc_id">\n'
 +            f"No chunks found for that doc_id / line range.{suffix}\n"
 +            f"Recovery: verify doc_id, copy line_start / line_end from a prior <chunk> handle, "
-+            f"or use nbrag_get_raw_file if you only need original text rather than chunk-level scope metadata.\n"
++            f"or use nbrag_read_more_original_text if you only need original text rather than chunk-level scope metadata.\n"
 +            f'</error>'
          )
  
@@ -891,7 +891,7 @@ index a98608e..a1c3724 100644
      return "\n".join(lines)
  
  
- def nbrag_get_raw_file(file_path: str, collection_name: str, line_start: int = -1, line_end: int = -1) -> str:
+ def nbrag_read_more_original_text(file_path: str, collection_name: str, line_start: int = -1, line_end: int = -1) -> str:
      line_start = _int_param(line_start, -1)
      line_end = _int_param(line_end, -1)
      if not _is_absolute_file_path(file_path):
@@ -925,12 +925,12 @@ index a98608e..a1c3724 100644
 -        f"total_lines: {data.get('total_lines', '?')} | range: line:{data.get('line_start', '?')}-{data.get('line_end', '?')}",
 -        "Content source: stored original-file snapshot captured at ingestion time.",
 -        str(data.get("content", "")),
-+        f'<nbrag_get_raw_file file_path="{file_path_str}" doc_id="{doc_id_str}" total_lines="{total_lines}" line_start="{ls}" line_end="{le}">',
++        f'<nbrag_read_more_original_text file_path="{file_path_str}" doc_id="{doc_id_str}" total_lines="{total_lines}" line_start="{ls}" line_end="{le}">',
 +        "<content>",
 +        content,
 +        "</content>",
 +        "",
-+        "</nbrag_get_raw_file>",
++        "</nbrag_read_more_original_text>",
      ]
      return "\n".join(lines)
  
@@ -1131,7 +1131,7 @@ index b0f1f9e..41718b4 100644
      - file_path:...
  
      Typical follow-up tools:
-     - nbrag_get_raw_file(file_path, collection_name)
+     - nbrag_read_more_original_text(file_path, collection_name)
      - nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)
      - nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)
      - nbrag_grep(keyword, collection_name)
@@ -1202,16 +1202,16 @@ index b0f1f9e..41718b4 100644
  
      Use this when you want chunk-by-chunk browsing together with line and scope metadata.
      This is a chunk-based view and can include overlapping content by design.
-     For overlap-free original text, use nbrag_get_raw_file() instead.
+     For overlap-free original text, use nbrag_read_more_original_text() instead.
  
      Returned text includes filename, doc_id, file_path, total_chunks, total_lines, and per-chunk line/scope markers.
      """
-@@ -343,63 +343,63 @@ def nbrag_get_raw_file(
+@@ -343,63 +343,63 @@ def nbrag_read_more_original_text(
      This reads the original text captured in the knowledge base at ingestion time; it is not a live filesystem refresh.
      Use it when you need clean quoting, broader source context, or a specific line range.
  
      Returned text includes original_file, file_path, doc_id, total_lines, and the returned line range."""
-     return mcp_tools.nbrag_get_raw_file(file_path, collection_name, line_start, line_end)
+     return mcp_tools.nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)
  
  
  @mcp.tool()
@@ -1244,7 +1244,7 @@ index b0f1f9e..41718b4 100644
      """Return all chunks covering a line range.
  
      Use this when you already know a line range and want chunk-level context with scope metadata.
-     Compared with nbrag_get_raw_file(), this keeps chunk/scope structure but can include overlapping content by design.
+     Compared with nbrag_read_more_original_text(), this keeps chunk/scope structure but can include overlapping content by design.
  
 -    Returned text includes doc_id, file_path, requested line_range, and all overlapping chunks."""
 +    Returned text includes doc_id, file_path, requested line_start + line_end, and all overlapping chunks."""
@@ -1300,7 +1300,7 @@ index b28bd0a..b35e86f 100644
  | Python class/function/method definition | `nbrag_find_definition()` | You already know or nearly know the Python symbol name | The target is non-Python text or only a vague concept |
  | Discover exact stored `file_path` | `nbrag_find_files()` | You only know a filename fragment or partial path | You already have a full absolute `file_path` |
  | Browse imported documents | `nbrag_list()` | You need inventory handles like `doc_id` and `file_path`, or the user explicitly wants to browse what is imported | You are trying to answer a semantic question and do not need inventory first |
- | Overlap-free original text | `nbrag_get_raw_file()` | You need clean quoting, wider source reading, or a specific line range | You need chunk boundaries / scope metadata |
+ | Overlap-free original text | `nbrag_read_more_original_text()` | You need clean quoting, wider source reading, or a specific line range | You need chunk boundaries / scope metadata |
  | Paginated chunk view for one file | `nbrag_get_file_chunks()` | You want chunk-by-chunk browsing with line/scope metadata | You need overlap-free original text |
  | Expand around a known hit | `nbrag_get_adjacent_chunks()` | You have `doc_id` + `chunk_index` from search results and want nearby chunks | You only have grep output without `chunk_index` |
 -| Chunk view covering a line range | `nbrag_get_chunks_by_lines()` | You know `doc_id` + `line:N-M` and want chunk/scope context | You only need raw source text |
@@ -1331,7 +1331,7 @@ index b28bd0a..b35e86f 100644
  
  ### `file_path`
  Use it with:
- - `nbrag_get_raw_file(file_path, collection_name)`
+ - `nbrag_read_more_original_text(file_path, collection_name)`
  - `nbrag_get_file_chunks(file_path, collection_name)`
  - `filter_file_path=...` in search or grep tools
  
@@ -1360,7 +1360,7 @@ index b28bd0a..b35e86f 100644
  
  ### `file_path + line range`
  Use with:
- - `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)`
+ - `nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)`
  
  ## 10. `filter_file_path` behavior
  
@@ -1413,7 +1413,7 @@ index 0000000..c92a08c
 +    nbrag_find_definition,
 +    nbrag_find_files,
 +    nbrag_list,
-+    nbrag_get_raw_file,
++    nbrag_read_more_original_text,
 +    nbrag_get_file_chunks,
 +    nbrag_get_adjacent_chunks,
 +    nbrag_get_chunks_by_lines,
@@ -1738,7 +1738,7 @@ index 0000000..c92a08c
 +        _record(10, False, f"exception: {exc!r}")
 +
 +    # =======================================================================
-+    # Step 11: nbrag_get_raw_file  (use file_path from step 3 or 7 or list)
++    # Step 11: nbrag_read_more_original_text  (use file_path from step 3 or 7 or list)
 +    # =======================================================================
 +    _raw_file_path = (
 +        S.get("hit_file_path")
@@ -1749,8 +1749,8 @@ index 0000000..c92a08c
 +        if not _raw_file_path:
 +            _record(11, False, "no file_path available from earlier steps")
 +        else:
-+            out = nbrag_get_raw_file(file_path=_raw_file_path, collection_name=_coll)
-+            ok = "<nbrag_get_raw_file" in out and "<content>" in out
++            out = nbrag_read_more_original_text(file_path=_raw_file_path, collection_name=_coll)
++            ok = "<nbrag_read_more_original_text" in out and "<content>" in out
 +            _record(11, ok, "" if ok else f"XML shape mismatch; output head: {out[:200]!r}")
 +    except Exception as exc:  # noqa: BLE001
 +        _record(11, False, f"exception: {exc!r}")
@@ -1838,10 +1838,10 @@ index 0000000..c92a08c
 +        _record(14, False, f"exception: {exc!r}")
 +
 +    # =======================================================================
-+    # Step 15: nbrag_get_raw_file with invalid file_path  (must return error XML)
++    # Step 15: nbrag_read_more_original_text with invalid file_path  (must return error XML)
 +    # =======================================================================
 +    try:
-+        out = nbrag_get_raw_file(file_path="INVALID_PATH", collection_name=_coll)
++        out = nbrag_read_more_original_text(file_path="INVALID_PATH", collection_name=_coll)
 +        ok = '<error type="invalid_file_path" field="file_path">' in out
 +        _record(15, ok, "" if ok else f"expected invalid_file_path error; output head: {out[:200]!r}")
 +    except Exception as exc:  # noqa: BLE001

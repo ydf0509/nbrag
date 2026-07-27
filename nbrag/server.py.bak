@@ -8,7 +8,7 @@ Tools (12):
   4. nbrag_grep                 → Keyword/regex exact search (complements semantic search)
   5. nbrag_find_definition      → Find complete class/function definition by symbol name
   6. nbrag_get_file_chunks      → Paginated chunks with scope/line metadata
-  7. nbrag_get_raw_file         → Raw file content without overlap
+  7. nbrag_read_more_original_text         → Raw file content without overlap
   8. nbrag_get_adjacent_chunks  → Adjacent chunks by chunk index
   9. nbrag_get_chunks_by_lines  → Chunks covering a line range
   10. nbrag_list                → List imported documents
@@ -88,12 +88,12 @@ def nbrag_search(
       1. nbrag_search → find relevant files and rough location
       2. nbrag_grep → pinpoint exact class/method/constant names (what semantic search may miss)
       3. nbrag_find_definition → get complete class/function source with inheritance chain
-      4. nbrag_get_raw_file → read full source code to verify details
+      4. nbrag_read_more_original_text → read full source code to verify details
       5. Cross-file tracing: when you see unknown symbols in code, repeat steps 2-4 to trace references
 
     Follow-up tools — use result fields directly as parameters:
       - nbrag_find_definition(symbol, collection_name) → complete class/function definition + methods summary
-      - nbrag_get_raw_file(file_path, collection_name) → full source code without overlap
+      - nbrag_read_more_original_text(file_path, collection_name) → full source code without overlap
       - nbrag_get_file_chunks(file_path, collection_name) → paginated chunks with scope metadata
       - nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name) → expand context around a result
       - nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name) → chunks covering line range"""
@@ -162,7 +162,7 @@ def nbrag_search_and_fetch(
     context_lines: int = Field(default=100, description="Lines of context around matched chunk. Small files (≤2x this) are fetched fully"),
 ) -> str:
     """Search + auto-fetch raw source code for top results in one call (combo tool).
-    Saves a round-trip vs calling nbrag_search then nbrag_get_raw_file separately.
+    Saves a round-trip vs calling nbrag_search then nbrag_read_more_original_text separately.
     Same doc_id appearing in multiple results is fetched only once with merged line range."""
     cfg = get_config()
     fname_filter = None
@@ -353,7 +353,7 @@ def nbrag_get_file_chunks(
     max_chunks: int = Field(default=10, description="Max chunks to return (use for pagination)"),
 ) -> str:
     """Paginated view of file chunks with scope and line metadata. Use start_chunk to paginate.
-    Note: adjacent chunks have overlap. For clean source code without overlap, use nbrag_get_raw_file instead."""
+    Note: adjacent chunks have overlap. For clean source code without overlap, use nbrag_read_more_original_text instead."""
     result = get_file_chunks(
         file_path, collection_name, start_chunk, max_chunks,
         raw=False,
@@ -366,7 +366,7 @@ def nbrag_get_file_chunks(
 
 
 @mcp.tool()
-def nbrag_get_raw_file(
+def nbrag_read_more_original_text(
     file_path: str = Field(description="Full absolute path (use 'file_path' value from nbrag_search results)"),
     collection_name: str = Field(description="Collection name (use nbrag_stats to see available collections)"),
     line_start: int = Field(default=-1, description="Start line (1-based), -1 for beginning"),
@@ -458,8 +458,8 @@ def nbrag_get_chunks_by_lines(
     collection_name: str = Field(description="Collection name (use nbrag_stats to see available collections)"),
 ) -> str:
     """Get all chunks covering a line range, with scope metadata.
-    vs nbrag_get_raw_file: this returns chunks (with scope but has overlap),
-    nbrag_get_raw_file returns raw code (no overlap but no scope).
+    vs nbrag_read_more_original_text: this returns chunks (with scope but has overlap),
+    nbrag_read_more_original_text returns raw code (no overlap but no scope).
     Example: doc_id="abc123", line_start=80, line_end=200"""
     result = get_context_chunks(
         doc_id, collection_name,

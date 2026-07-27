@@ -40,7 +40,7 @@ from nbrag.mcp_tools import (
     nbrag_find_definition,
     nbrag_find_files,
     nbrag_list,
-    nbrag_get_raw_file,
+    nbrag_read_more_original_text,
     nbrag_get_file_chunks,
     nbrag_get_adjacent_chunks,
     nbrag_get_chunks_by_lines,
@@ -76,6 +76,18 @@ def _first_tag_attrs(text: str, tag: str):
     """
     m = re.search(rf'<{tag}\s+([^>]*)>', text)
     return m.group(1) if m else None
+
+
+def _first_tag_fields(text: str, tag: str):
+    m = re.search(rf"<{tag}>\n(.*?)\n</{tag}>", text, re.DOTALL)
+    if not m:
+        return None
+    fields = {}
+    for line in m.group(1).splitlines():
+        if " = " in line:
+            key, value = line.split(" = ", 1)
+            fields[key] = value
+    return fields
 
 
 def _derive_query(filename: str) -> str:
@@ -135,19 +147,18 @@ except Exception as exc:  # noqa: BLE001
 try:
     out = nbrag_stats()
     ok = (
-        out.startswith("<nbrag_stats>")
+        out.startswith("<nbrag_stats status=\"success\"")
         and out.rstrip().endswith("</nbrag_stats>")
-        and "<collections>" in out
-        and "<collection " in out
+        and "<nbrag_collection>" in out
     )
     if not ok:
         _record(2, False, "stats XML shape mismatch")
     else:
         coll = None
-        for m in re.finditer(r"<collection\s+([^/>]*)/>", out):
-            attrs = m.group(1)
-            name = _attr(attrs, "collection_name")
-            chunks_str = _attr(attrs, "chunks") or "0"
+        for fields in re.findall(r"<nbrag_collection>\n(.*?)\n</nbrag_collection>", out, re.DOTALL):
+            values = dict(line.split(" = ", 1) for line in fields.splitlines() if " = " in line)
+            name = values.get("collection_name")
+            chunks_str = values.get("chunks", "0")
             try:
                 chunks = int(chunks_str)
             except ValueError:
@@ -172,11 +183,11 @@ _list_filename = None
 if "collection_name" in S:
     try:
         _list_out = nbrag_list(S["collection_name"])
-        doc_attrs = _first_tag_attrs(_list_out, "document")
+        doc_attrs = _first_tag_fields(_list_out, "nbrag_document")
         if doc_attrs:
-            _list_file_path = _attr(doc_attrs, "file_path")
-            _list_doc_id = _attr(doc_attrs, "doc_id")
-            _list_filename = _attr(doc_attrs, "filename")
+            _list_file_path = doc_attrs.get("file_path")
+            _list_doc_id = doc_attrs.get("doc_id")
+            _list_filename = doc_attrs.get("filename")
     except Exception:  # noqa: BLE001
         pass
 
@@ -202,22 +213,21 @@ else:
         )
         ok = (
             "<nbrag_search_and_fetch" in out
-            and "<ranked_hits>" in out
-            and "<hit " in out
-            and "<fetched_raw>" in out
+            and "<nbrag_ranked_hit>" in out
+            and "<nbrag_original_text_excerpt>" in out
         )
         if not ok:
             _record(3, False, f"XML shape mismatch; output head: {out[:200]!r}")
         else:
-            hit_attrs = _first_tag_attrs(out, "hit")
+            hit_attrs = _first_tag_fields(out, "nbrag_ranked_hit")
             if not hit_attrs:
-                _record(3, False, "no <hit> tag attributes found")
+                _record(3, False, "no <nbrag_ranked_hit> tag attributes found")
             else:
-                S["hit_file_path"] = _attr(hit_attrs, "file_path")
-                S["hit_doc_id"] = _attr(hit_attrs, "doc_id")
-                S["hit_chunk_index"] = _attr(hit_attrs, "chunk_index")
-                S["hit_line_start"] = _attr(hit_attrs, "line_start")
-                S["hit_line_end"] = _attr(hit_attrs, "line_end")
+                S["hit_file_path"] = hit_attrs.get("file_path")
+                S["hit_doc_id"] = hit_attrs.get("doc_id")
+                S["hit_chunk_index"] = hit_attrs.get("chunk_index")
+                S["hit_line_start"] = hit_attrs.get("line_start")
+                S["hit_line_end"] = hit_attrs.get("line_end")
                 missing = [
                     k for k in ("hit_file_path", "hit_doc_id", "hit_chunk_index",
                                 "hit_line_start", "hit_line_end") if S[k] is None
@@ -236,9 +246,8 @@ else:
         )
         ok = (
             "<nbrag_search" in out
-            and "<ranked_hits>" in out
-            and "<hit " in out
-            and "<content>" not in out
+            and "<nbrag_ranked_hit>" in out
+            and "<nbrag_chunk_content>" not in out
         )
         _record(4, ok, "" if ok else f"XML shape mismatch; output head: {out[:200]!r}")
     except Exception as exc:  # noqa: BLE001
@@ -271,20 +280,19 @@ else:
         out = nbrag_grep(keyword=_grep_keyword, collection_name=_coll)
         ok = (
             "<nbrag_grep" in out
-            and "<matches>" in out
-            and "<match " in out
+            and "<nbrag_match>" in out
         )
         if not ok:
             _record(7, False, f"XML shape mismatch; output head: {out[:200]!r}")
         else:
-            match_attrs = _first_tag_attrs(out, "match")
+            match_attrs = _first_tag_fields(out, "nbrag_match")
             if not match_attrs:
-                _record(7, False, "no <match> tag attributes found")
+                _record(7, False, "no <nbrag_match> tag attributes found")
             else:
-                S["grep_file_path"] = _attr(match_attrs, "file_path")
-                S["grep_doc_id"] = _attr(match_attrs, "doc_id")
-                S["grep_line_start"] = _attr(match_attrs, "line_start")
-                S["grep_line_end"] = _attr(match_attrs, "line_end")
+                S["grep_file_path"] = match_attrs.get("file_path")
+                S["grep_doc_id"] = match_attrs.get("doc_id")
+                S["grep_line_start"] = match_attrs.get("line_start")
+                S["grep_line_end"] = match_attrs.get("line_end")
                 missing = [
                     k for k in ("grep_file_path", "grep_doc_id",
                                 "grep_line_start", "grep_line_end") if S[k] is None
@@ -299,14 +307,16 @@ else:
     try:
         out = nbrag_find_definition(symbol=_symbol, collection_name=_coll)
         if out.startswith("<nbrag_find_definition"):
-            ok = "<definitions>" in out and "<definition " in out
-            _record(8, ok, "" if ok else "XML shape mismatch (no <definitions>/<definition)")
-        elif out.startswith("<error"):
+            has_definition = "<nbrag_definition>" in out
+            no_results = 'outcome = no_results' in out
+            ok = has_definition or no_results
+            _record(8, ok, "" if ok else "XML shape mismatch (no <nbrag_definition> or no-results outcome)")
+        elif out.startswith("<nbrag_find_definition status=\"error\">"):
             ok = (
-                'type="not_found"' in out
-                or 'type="no_results"' in out
-                or 'type="missing_collection"' in out
-                or 'type="empty_collection"' in out
+                'type = not_found' in out
+                or 'type = no_results' in out
+                or 'type = missing_collection' in out
+                or 'type = empty_collection' in out
             )
             _record(8, ok, "" if ok else f"unexpected error type; output head: {out[:200]!r}")
         else:
@@ -321,18 +331,17 @@ else:
         out = nbrag_find_files(pattern=_find_files_pattern, collection_name=_coll)
         ok = (
             "<nbrag_find_files" in out
-            and "<files>" in out
-            and "<file " in out
+            and "<nbrag_file>" in out
         )
         if not ok:
             _record(9, False, f"XML shape mismatch; output head: {out[:200]!r}")
         else:
-            file_attrs = _first_tag_attrs(out, "file")
+            file_attrs = _first_tag_fields(out, "nbrag_file")
             if not file_attrs:
-                _record(9, False, "no <file> tag attributes found")
+                _record(9, False, "no <nbrag_file> tag attributes found")
             else:
-                has_total = _attr(file_attrs, "total_chunks") is not None
-                has_count = _attr(file_attrs, "chunk_count") is not None
+                has_total = file_attrs.get("total_chunks") is not None
+                has_count = file_attrs.get("chunk_count") is not None
                 ok = has_total and not has_count
                 _record(9, ok, "" if ok else "<file> must use total_chunks, not chunk_count")
     except Exception as exc:  # noqa: BLE001
@@ -345,27 +354,26 @@ else:
         out = _list_out if _list_out is not None else nbrag_list(_coll)
         ok = (
             "<nbrag_list" in out
-            and "<documents>" in out
-            and "<document " in out
+            and "<nbrag_document>" in out
         )
         if not ok:
             _record(10, False, f"XML shape mismatch; output head: {out[:200]!r}")
         else:
-            doc_attrs = _first_tag_attrs(out, "document")
+            doc_attrs = _first_tag_fields(out, "nbrag_document")
             if not doc_attrs:
-                _record(10, False, "no <document> tag attributes found")
+                _record(10, False, "no <nbrag_document> tag attributes found")
             else:
-                has_doc_id = _attr(doc_attrs, "doc_id") is not None
-                has_file_path = _attr(doc_attrs, "file_path") is not None
-                has_total = _attr(doc_attrs, "total_chunks") is not None
-                has_count = _attr(doc_attrs, "chunk_count") is not None
+                has_doc_id = doc_attrs.get("doc_id") is not None
+                has_file_path = doc_attrs.get("file_path") is not None
+                has_total = doc_attrs.get("total_chunks") is not None
+                has_count = doc_attrs.get("chunk_count") is not None
                 ok = has_doc_id and has_file_path and has_total and not has_count
                 _record(10, ok, "" if ok else "<document> must use doc_id/file_path/total_chunks")
     except Exception as exc:  # noqa: BLE001
         _record(10, False, f"exception: {exc!r}")
 
     # =======================================================================
-    # Step 11: nbrag_get_raw_file  (use file_path from step 3 or 7 or list)
+    # Step 11: nbrag_read_more_original_text  (use file_path from step 3 or 7 or list)
     # =======================================================================
     _raw_file_path = (
         S.get("hit_file_path")
@@ -376,8 +384,8 @@ else:
         if not _raw_file_path:
             _record(11, False, "no file_path available from earlier steps")
         else:
-            out = nbrag_get_raw_file(file_path=_raw_file_path, collection_name=_coll)
-            ok = "<nbrag_get_raw_file" in out and "<content>" in out
+            out = nbrag_read_more_original_text(file_path=_raw_file_path, collection_name=_coll)
+            ok = "<nbrag_read_more_original_text" in out and "<nbrag_original_text_content>" in out
             _record(11, ok, "" if ok else f"XML shape mismatch; output head: {out[:200]!r}")
     except Exception as exc:  # noqa: BLE001
         _record(11, False, f"exception: {exc!r}")
@@ -392,19 +400,18 @@ else:
             out = nbrag_get_file_chunks(file_path=_raw_file_path, collection_name=_coll)
             ok = (
                 "<nbrag_get_file_chunks" in out
-                and "<chunks>" in out
-                and "<chunk " in out
+                and "<nbrag_chunk>" in out
             )
             if not ok:
                 _record(12, False, f"XML shape mismatch; output head: {out[:200]!r}")
             else:
-                chunk_attrs = _first_tag_attrs(out, "chunk")
+                chunk_attrs = _first_tag_fields(out, "nbrag_chunk")
                 if not chunk_attrs:
-                    _record(12, False, "no <chunk> tag attributes found")
+                    _record(12, False, "no <nbrag_chunk> tag attributes found")
                 else:
-                    has_ci = _attr(chunk_attrs, "chunk_index") is not None
-                    has_ls = _attr(chunk_attrs, "line_start") is not None
-                    has_le = _attr(chunk_attrs, "line_end") is not None
+                    has_ci = chunk_attrs.get("chunk_index") is not None
+                    has_ls = chunk_attrs.get("line_start") is not None
+                    has_le = chunk_attrs.get("line_end") is not None
                     ok = has_ci and has_ls and has_le
                     _record(12, ok, "" if ok else "<chunk> missing chunk_index/line_start/line_end")
     except Exception as exc:  # noqa: BLE001
@@ -429,8 +436,7 @@ else:
                 )
                 ok = (
                     "<nbrag_get_adjacent_chunks" in out
-                    and "anchor_chunk_index=" in out
-                    and "<chunks>" in out
+                    and "<nbrag_chunk>" in out
                 )
                 _record(13, ok, "" if ok else f"XML shape mismatch; output head: {out[:200]!r}")
     except Exception as exc:  # noqa: BLE001
@@ -457,19 +463,18 @@ else:
                 )
                 ok = (
                     "<nbrag_get_chunks_by_lines" in out
-                    and "requested_line_start=" in out
-                    and "requested_line_end=" in out
+                    and "<nbrag_chunk>" in out
                 )
                 _record(14, ok, "" if ok else f"XML shape mismatch; output head: {out[:200]!r}")
     except Exception as exc:  # noqa: BLE001
         _record(14, False, f"exception: {exc!r}")
 
     # =======================================================================
-    # Step 15: nbrag_get_raw_file with invalid file_path  (must return error XML)
+    # Step 15: nbrag_read_more_original_text with invalid file_path  (must return error XML)
     # =======================================================================
     try:
-        out = nbrag_get_raw_file(file_path="INVALID_PATH", collection_name=_coll)
-        ok = '<error type="invalid_file_path" field="file_path">' in out
+        out = nbrag_read_more_original_text(file_path="INVALID_PATH", collection_name=_coll)
+        ok = '<nbrag_read_more_original_text status="error">' in out and 'type = invalid_file_path' in out and 'field = file_path' in out
         _record(15, ok, "" if ok else f"expected invalid_file_path error; output head: {out[:200]!r}")
     except Exception as exc:  # noqa: BLE001
         _record(15, False, f"exception: {exc!r}")

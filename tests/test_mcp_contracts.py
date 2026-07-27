@@ -104,7 +104,7 @@ class McpContractTests(unittest.TestCase):
         with patch("nbrag.mcp_tools.get_file_chunks", return_value=chunk_data):
             chunks_result = mcp_tools.nbrag_get_file_chunks("D:/docs/file.txt", "kb")
         with patch("nbrag.mcp_tools.get_file_chunks", return_value=raw_data):
-            raw_result = mcp_tools.nbrag_get_raw_file("D:/docs/file.txt", "kb")
+            raw_result = mcp_tools.nbrag_read_more_original_text("D:/docs/file.txt", "kb")
         with patch("nbrag.mcp_tools.list_documents", return_value={
             "doc-1": {"source": "D:/docs/file.txt", "filename": "file.txt", "total_chunks": 3},
         }):
@@ -116,12 +116,12 @@ class McpContractTests(unittest.TestCase):
             (search_result_text, "nbrag_search", "returned_hit_count", ["nbrag_ranked_hit", "nbrag_chunk_content"]),
             (bm25_result, "nbrag_search_only_bm25", "returned_hit_count", ["nbrag_ranked_hit", "nbrag_chunk_content"]),
             (vector_result, "nbrag_search_only_vector", "returned_hit_count", ["nbrag_ranked_hit", "nbrag_chunk_content"]),
-            (fetch_result, "nbrag_search_and_fetch", "returned_hit_count", ["nbrag_follow_up", "nbrag_ranked_hit", "nbrag_chunk_content", "nbrag_raw_excerpt", "nbrag_raw_content"]),
+            (fetch_result, "nbrag_search_and_fetch", "returned_hit_count", ["nbrag_follow_up", "nbrag_ranked_hit", "nbrag_chunk_content", "nbrag_original_text_excerpt", "nbrag_original_text_content"]),
             (grep_result, "nbrag_grep", "returned_match_count", ["nbrag_match", "nbrag_original_text_content"]),
             (definition_result, "nbrag_find_definition", "returned_definition_count", ["nbrag_definition", "nbrag_definition_content"]),
             (files_result, "nbrag_find_files", "returned_file_count", ["nbrag_file"]),
             (chunks_result, "nbrag_get_file_chunks", "returned_chunk_count", ["nbrag_chunk", "nbrag_chunk_content"]),
-            (raw_result, "nbrag_get_raw_file", "returned_raw_count", ["nbrag_raw_content"]),
+            (raw_result, "nbrag_read_more_original_text", "returned_original_text_count", ["nbrag_original_text", "nbrag_original_text_content"]),
             (adjacent_result, "nbrag_get_adjacent_chunks", "returned_chunk_count", ["nbrag_chunk", "nbrag_chunk_content"]),
             (lines_result, "nbrag_get_chunks_by_lines", "returned_chunk_count", ["nbrag_chunk", "nbrag_chunk_content"]),
             (list_result, "nbrag_list", "returned_document_count", ["nbrag_document"]),
@@ -141,9 +141,15 @@ class McpContractTests(unittest.TestCase):
         self.assertIn("file_path = D:/docs/file.txt", search_result_text)
         self.assertIn("chunk_index = 1", search_result_text)
         self.assertIn("line_start = 3\nline_end = 3", grep_result)
-        path_error = mcp_tools.nbrag_get_raw_file("file.txt", "kb")
-        self.assertTrue(path_error.startswith('<nbrag_get_raw_file status="error">'))
+        self.assertIn("line_start = 1\nline_end = 3", raw_result)
+        self.assertNotIn("<nbrag_raw_file>", raw_result)
+        self.assertNotIn("<nbrag_raw_content>", raw_result)
+        path_error = mcp_tools.nbrag_read_more_original_text("file.txt", "kb")
+        self.assertTrue(path_error.startswith('<nbrag_read_more_original_text status="error">'))
         self.assertIn("<error>\ntype = invalid_file_path\nfield = file_path", path_error)
+        with patch("nbrag.mcp_tools.get_file_chunks", return_value={"found": False}):
+            not_found_error = mcp_tools.nbrag_read_more_original_text("D:/docs/missing.txt", "kb")
+        self.assertIn("message = Stored original text not found.", not_found_error)
 
     def test_no_results_is_success_with_zero_count(self) -> None:
         with patch("nbrag.mcp_tools.grep_knowledge", return_value=[]), \
@@ -189,9 +195,13 @@ class McpContractTests(unittest.TestCase):
 
         self.assertIn("<nbrag_follow_up>", result)
         self.assertIn("`<nbrag_chunk_content>` is exactly one RAG chunk", result)
-        self.assertIn("When the answer, quotation, or verification depends on text outside the shown chunk or raw excerpt", result)
-        self.assertIn("`<nbrag_original_text_content>` is a stored-original-text context excerpt", result)
-        self.assertIn("Omit both line bounds only when you intentionally need the complete stored file", result)
+        self.assertIn("When the answer, quotation, or verification depends on text outside the shown chunk or original-text excerpt", result)
+        self.assertIn("`<nbrag_original_text_content>` takes its range semantics from its outer entity", result)
+        self.assertIn("under `<nbrag_match>` it is bounded by match_context_chars", result)
+        self.assertIn("under `<nbrag_original_text_excerpt>` it is bounded by fetch_context_chars", result)
+        self.assertIn("under `<nbrag_original_text>` it is the explicitly requested stored-original-text reading window", result)
+        self.assertIn("以 hit 的 line_start 为锚点前 200 行到后 400 行", result)
+        self.assertIn("如果首次扩读后仍缺少回答所需的上下文", result)
 
     def test_routing_guidance_is_reused_within_a_conversation(self) -> None:
         with patch("nbrag.mcp_tools._load_workflow_skill_text", return_value=""):
@@ -287,7 +297,7 @@ class McpContractTests(unittest.TestCase):
         self.assertIn("<nbrag_ranked_hit>\nrank = 1", result)
         self.assertIn("score = 0.9876", result)
 
-    def test_search_and_fetch_auto_fetches_original_content(self) -> None:
+    def test_search_and_fetch_auto_fetches_original_text_excerpt(self) -> None:
         fake_config = SimpleNamespace(rerank=SimpleNamespace(model="reranker-v2"))
         fake_search_result = (
             ["ranked text"],
@@ -325,7 +335,7 @@ class McpContractTests(unittest.TestCase):
                 query="trial period",
                 collection_name="worker_rights",
                 top_k=1,
-                fetch_top_n_raw=1,
+                fetch_top_n_original_text_excerpt=1,
                 fetch_context_chars=200,
                 filter_file_path="",
                 bm25_query="试用期",
@@ -335,13 +345,82 @@ class McpContractTests(unittest.TestCase):
         self.assertIn("<nbrag_follow_up>", result)
         self.assertLess(result.index("<nbrag_follow_up>"), result.index("<nbrag_ranked_hit>"))
         self.assertIn("Do not treat either bounded result as complete source context.", result)
-        self.assertIn("file_path -> nbrag_get_raw_file(file_path, collection_name, line_start, line_end)", result)
+        self.assertIn("file_path -> nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)", result)
         self.assertIn("doc_id + chunk_index -> nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)", result)
         self.assertIn("doc_id + line_start + line_end -> nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)", result)
         self.assertIn("<nbrag_ranked_hit>", result)
-        self.assertIn("<nbrag_raw_excerpt>", result)
+        self.assertIn("<nbrag_original_text_excerpt>", result)
         self.assertIn("file_path = D:/docs/labor_law/劳动合同法.md\ndoc_id = doc-1\nline_start = 1\nline_end = 3", result)
         self.assertIn("第二行", result)
+
+    def test_search_and_fetch_zero_disables_auto_fetch(self) -> None:
+        fake_search_result = (
+            ["first hit"],
+            [{
+                "filename": "file.txt",
+                "source": "D:/docs/file.txt",
+                "chunk_index": 1,
+                "total_chunks": 3,
+                "line_start": 2,
+                "line_end": 2,
+                "doc_id": "doc-1",
+            }],
+            [0.2],
+            False,
+            3,
+            [],
+        )
+        with patch("nbrag.mcp_tools.search", return_value=fake_search_result), \
+             patch("nbrag.mcp_tools.get_file_chunks") as mock_get_file_chunks:
+            result = mcp_tools.nbrag_search_and_fetch(
+                "query", "kb", fetch_top_n_original_text_excerpt=0,
+            )
+
+        mock_get_file_chunks.assert_not_called()
+        self.assertNotIn("\n<nbrag_original_text_excerpt>\n", result)
+
+    def test_search_and_fetch_merges_same_document_excerpts(self) -> None:
+        fake_search_result = (
+            ["first hit", "second hit"],
+            [
+                {
+                    "filename": "file.txt",
+                    "source": "D:/docs/file.txt",
+                    "chunk_index": 1,
+                    "total_chunks": 3,
+                    "line_start": 2,
+                    "line_end": 2,
+                    "doc_id": "doc-1",
+                },
+                {
+                    "filename": "file.txt",
+                    "source": "D:/docs/file.txt",
+                    "chunk_index": 2,
+                    "total_chunks": 3,
+                    "line_start": 3,
+                    "line_end": 3,
+                    "doc_id": "doc-1",
+                },
+            ],
+            [0.2, 0.3],
+            False,
+            3,
+            [],
+        )
+        raw_file_data = {
+            "found": True,
+            "content": "first\nsecond\nthird\nfourth\n",
+        }
+        with patch("nbrag.mcp_tools.search", return_value=fake_search_result), \
+             patch("nbrag.mcp_tools.get_file_chunks", return_value=raw_file_data) as mock_get_file_chunks:
+            result = mcp_tools.nbrag_search_and_fetch(
+                "query", "kb", fetch_top_n_original_text_excerpt=2, fetch_context_chars=0,
+            )
+
+        mock_get_file_chunks.assert_called_once_with("D:/docs/file.txt", "kb", 0, 0, raw=True)
+        excerpt_count = result.count("\n<nbrag_original_text_excerpt>\n")
+        self.assertEqual(excerpt_count, 1)
+        self.assertLess(excerpt_count, 2)
 
     def test_get_raw_file_uses_none_for_omitted_line_bounds(self) -> None:
         raw_file_data = {
@@ -357,22 +436,22 @@ class McpContractTests(unittest.TestCase):
             "content": "first\nsecond\n",
         }
         with patch("nbrag.mcp_tools.get_file_chunks", return_value=raw_file_data) as mock_get_file_chunks:
-            result = mcp_tools.nbrag_get_raw_file("D:/docs/file.txt", "kb")
+            result = mcp_tools.nbrag_read_more_original_text("D:/docs/file.txt", "kb")
 
         mock_get_file_chunks.assert_called_once_with(
             "D:/docs/file.txt", "kb", 0, 0, raw=True, line_start=None, line_end=None,
         )
         self.assertIn("line_start = 1\nline_end = 2", result)
 
-    def test_raw_file_description_prefers_a_broad_500_line_window(self) -> None:
-        signature = inspect.signature(server.nbrag_get_raw_file)
+    def test_original_text_description_expands_a_useful_hit_asymmetrically(self) -> None:
+        signature = inspect.signature(server.nbrag_read_more_original_text)
         line_start_description = signature.parameters["line_start"].default.description
         line_end_description = signature.parameters["line_end"].default.description
 
-        self.assertIn("line_end = line_start + 500", line_end_description)
-        self.assertIn("DEFAULT BOUNDED READ POLICY", server.nbrag_get_raw_file.__doc__)
-        self.assertIn("line_end = line_start + 500", server.nbrag_get_raw_file.__doc__)
-        self.assertIn("Do not copy a short range", server.nbrag_get_raw_file.__doc__)
+        self.assertIn("hit line_start-200", line_start_description)
+        self.assertIn("hit line_start+400", line_end_description)
+        self.assertIn("以 hit 的 line_start 为锚点前 200 行到后 400 行", server.nbrag_read_more_original_text.__doc__)
+        self.assertIn("如果首次扩读后仍缺少回答所需的上下文", server.nbrag_read_more_original_text.__doc__)
 
     def test_get_raw_file_returns_full_content_when_line_bounds_are_none(self) -> None:
         with patch("nbrag.retrieval._get_existing_collection", return_value=SimpleNamespace(count=lambda: 1)), \

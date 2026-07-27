@@ -40,7 +40,7 @@
     unlocks = (
         "Required when content is useful: "
         "nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name) | "
-        "nbrag_get_raw_file(file_path, collection_name, line_start, line_end) | "
+        "nbrag_read_more_original_text(file_path, collection_name, line_start, line_end) | "
         "nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)"
     )
 ```
@@ -63,7 +63,7 @@
     unlocks = (
         "Required when content is useful: "
         "nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name) | "
-        "nbrag_get_raw_file(file_path, collection_name, line_start, line_end) | "
+        "nbrag_read_more_original_text(file_path, collection_name, line_start, line_end) | "
         "nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)"
     )
 ```
@@ -85,7 +85,7 @@
 ```python
     unlocks = (
         "Required when content is useful: "
-        "nbrag_get_raw_file(file_path, collection_name, line_start, line_end) | "
+        "nbrag_read_more_original_text(file_path, collection_name, line_start, line_end) | "
         "nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name) | "
         "nbrag_search_and_fetch(query, collection_name) for nearby semantic context"
     )
@@ -108,7 +108,7 @@
 ```python
     unlocks = (
         "Required when content is useful: "
-        "nbrag_get_raw_file(file_path, collection_name, line_start, line_end) | "
+        "nbrag_read_more_original_text(file_path, collection_name, line_start, line_end) | "
         "nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)"
     )
 ```
@@ -168,7 +168,7 @@ git commit -m "feat: 检索类函数返回内容加 chunk 截断提醒 + Unlocks
         f'<nbrag_get_adjacent_chunks file_path="{file_path}" doc_id="{doc_id_str}" total_chunks="{total_chunks}" window="{window}" anchor_chunk_index="{chunk_index}">',
         "Input chunk_index echoed above as anchor_chunk_index. Returned chunk handles below: chunk_index, line_start, line_end.",
         "",
-        "<chunk> 中的 <content> 是 RAG chunk，必然是截断片段，不是完整原文。若某条 content 对回答有帮助，必须调用 nbrag_get_raw_file 获取完整原文。",
+        "<chunk> 中的 <content> 是 RAG chunk，必然是截断片段，不是完整原文。若某条 content 对回答有帮助，必须调用 nbrag_read_more_original_text 获取完整原文。",
         "",
         "<chunks>",
     ]
@@ -194,7 +194,7 @@ git commit -m "feat: 检索类函数返回内容加 chunk 截断提醒 + Unlocks
         f'<nbrag_get_file_chunks file_path="{file_path_str}" doc_id="{doc_id_str}" total_chunks="{total_chunks}" total_lines="{total_lines}" start_chunk="{start_chunk}" max_chunks="{max_chunks}" has_more="{has_more}">',
         "Input start_chunk echoed above (pagination cursor, value-compatible with chunk_index but not a chunk handle). Returned chunk handles below: chunk_index, line_start, line_end.",
         "",
-        "<chunk> 中的 <content> 是 RAG chunk，必然是截断片段，不是完整原文。若某条 content 对回答有帮助，必须调用 nbrag_get_raw_file 获取完整原文。",
+        "<chunk> 中的 <content> 是 RAG chunk，必然是截断片段，不是完整原文。若某条 content 对回答有帮助，必须调用 nbrag_read_more_original_text 获取完整原文。",
         "",
         "<chunks>",
     ]
@@ -220,7 +220,7 @@ git commit -m "feat: 检索类函数返回内容加 chunk 截断提醒 + Unlocks
         f'<nbrag_get_chunks_by_lines doc_id="{doc_id_str}" file_path="{file_path}" total_chunks="{total_chunks}" requested_line_start="{line_start}" requested_line_end="{line_end}">',
         "Input line_start/line_end echoed above as requested_line_start/requested_line_end. Returned chunk handles below: chunk_index, line_start, line_end (actual chunk coverage may differ from requested range).",
         "",
-        "<chunk> 中的 <content> 是 RAG chunk，必然是截断片段，不是完整原文。若某条 content 对回答有帮助，必须调用 nbrag_get_raw_file 获取完整原文。",
+        "<chunk> 中的 <content> 是 RAG chunk，必然是截断片段，不是完整原文。若某条 content 对回答有帮助，必须调用 nbrag_read_more_original_text 获取完整原文。",
         "",
         "<chunks>",
     ]
@@ -260,7 +260,7 @@ git commit -m "feat: chunk 视图类函数返回内容加 chunk 截断提醒"
 ```python
         "Only the TOP result is surfaced via `key = value` lines; for non-top results, always scan the corresponding <hit>/<match>/<definition>/<file>/<document> XML attributes.",
         "",
-        "IMPORTANT: 所有检索类和 chunk 视图类工具返回的 <content> 都是 RAG chunk，必然是截断片段，不是完整原文。若 content 对回答有帮助，必须调用 nbrag_get_raw_file 或 nbrag_get_adjacent_chunks 扩展获取周围更多内容。nbrag_get_raw_file 是唯一返回完整原文（非截断）的工具。",
+        "IMPORTANT: 所有检索类和 chunk 视图类工具返回的 <content> 都是 RAG chunk，必然是截断片段，不是完整原文。若 content 对回答有帮助，必须调用 nbrag_read_more_original_text 或 nbrag_get_adjacent_chunks 扩展获取周围更多内容。nbrag_read_more_original_text 是唯一返回完整原文（非截断）的工具。",
         "",
         "Stable follow-up fields: file_path, doc_id, chunk_index, line_start, line_end.",
     ]
@@ -300,7 +300,7 @@ git commit -m "feat: nbrag_help 返回内容加全局 chunk 截断提醒"
 在末尾加：
 
 ```
-    Each <hit>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a hit's content is useful, you MUST call nbrag_get_raw_file or nbrag_get_adjacent_chunks to expand.
+    Each <hit>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a hit's content is useful, you MUST call nbrag_read_more_original_text or nbrag_get_adjacent_chunks to expand.
 ```
 
 - [ ] **Step 2: `nbrag_search_only_bm25` docstring 加截断说明**
@@ -308,7 +308,7 @@ git commit -m "feat: nbrag_help 返回内容加全局 chunk 截断提醒"
 在第 167 行末尾加：
 
 ```
-    Each <hit>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a hit's content is useful, you MUST call nbrag_get_raw_file or nbrag_get_adjacent_chunks to expand.
+    Each <hit>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a hit's content is useful, you MUST call nbrag_read_more_original_text or nbrag_get_adjacent_chunks to expand.
 ```
 
 - [ ] **Step 3: `nbrag_search_only_vector` docstring 加截断说明**
@@ -316,7 +316,7 @@ git commit -m "feat: nbrag_help 返回内容加全局 chunk 截断提醒"
 在第 197 行末尾加：
 
 ```
-    Each <hit>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a hit's content is useful, you MUST call nbrag_get_raw_file or nbrag_get_adjacent_chunks to expand.
+    Each <hit>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a hit's content is useful, you MUST call nbrag_read_more_original_text or nbrag_get_adjacent_chunks to expand.
 ```
 
 - [ ] **Step 4: `nbrag_search_and_fetch` docstring 加截断说明**
@@ -324,7 +324,7 @@ git commit -m "feat: nbrag_help 返回内容加全局 chunk 截断提醒"
 在第 244 行末尾加：
 
 ```
-    Both <hit> <content> and <fetched_raw> <content> are RAG chunks — necessarily truncated fragments. If a hit's content is useful, you MUST call nbrag_get_raw_file or nbrag_get_adjacent_chunks to expand further.
+    Both <hit> <content> and <fetched_raw> <content> are RAG chunks — necessarily truncated fragments. If a hit's content is useful, you MUST call nbrag_read_more_original_text or nbrag_get_adjacent_chunks to expand further.
 ```
 
 - [ ] **Step 5: `nbrag_grep` docstring 加截断说明**
@@ -332,7 +332,7 @@ git commit -m "feat: nbrag_help 返回内容加全局 chunk 截断提醒"
 在第 274 行末尾加：
 
 ```
-    Each <match>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a match's content is useful, you MUST call nbrag_get_raw_file to expand.
+    Each <match>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a match's content is useful, you MUST call nbrag_read_more_original_text to expand.
 ```
 
 - [ ] **Step 6: `nbrag_find_definition` docstring 加截断说明**
@@ -340,7 +340,7 @@ git commit -m "feat: nbrag_help 返回内容加全局 chunk 截断提醒"
 在第 291 行末尾加：
 
 ```
-    Each <definition>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a definition's content is useful, you MUST call nbrag_get_raw_file or nbrag_get_chunks_by_lines to expand.
+    Each <definition>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a definition's content is useful, you MUST call nbrag_read_more_original_text or nbrag_get_chunks_by_lines to expand.
 ```
 
 - [ ] **Step 7: Commit**
@@ -352,12 +352,12 @@ git commit -m "feat: 检索类函数 docstring 加 chunk 截断说明"
 
 ---
 
-### Task 5: server.py — chunk 视图类函数 + nbrag_get_raw_file + include_content Field
+### Task 5: server.py — chunk 视图类函数 + nbrag_read_more_original_text + include_content Field
 
 **Files:**
 - Modify: `d:/codes/nbrag/nbrag/server.py:99`（`include_content` Field 描述）
 - Modify: `d:/codes/nbrag/nbrag/server.py:321-328`（`nbrag_get_file_chunks` docstring）
-- Modify: `d:/codes/nbrag/nbrag/server.py:339-344`（`nbrag_get_raw_file` docstring）
+- Modify: `d:/codes/nbrag/nbrag/server.py:339-344`（`nbrag_read_more_original_text` docstring）
 - Modify: `d:/codes/nbrag/nbrag/server.py:355-361`（`nbrag_get_adjacent_chunks` docstring）
 - Modify: `d:/codes/nbrag/nbrag/server.py:372-377`（`nbrag_get_chunks_by_lines` docstring）
 
@@ -384,10 +384,10 @@ git commit -m "feat: 检索类函数 docstring 加 chunk 截断说明"
 第 327 行末尾加：
 
 ```
-    Each <chunk>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a chunk's content is useful, you MUST call nbrag_get_raw_file to get the overlap-free original text.
+    Each <chunk>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a chunk's content is useful, you MUST call nbrag_read_more_original_text to get the overlap-free original text.
 ```
 
-- [ ] **Step 3: `nbrag_get_raw_file` docstring 加反向说明**
+- [ ] **Step 3: `nbrag_read_more_original_text` docstring 加反向说明**
 
 第 344 行末尾加：
 
@@ -400,7 +400,7 @@ git commit -m "feat: 检索类函数 docstring 加 chunk 截断说明"
 第 361 行末尾加：
 
 ```
-    Each <chunk>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a chunk's content is useful, you MUST call nbrag_get_raw_file to get the overlap-free original text.
+    Each <chunk>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a chunk's content is useful, you MUST call nbrag_read_more_original_text to get the overlap-free original text.
 ```
 
 - [ ] **Step 5: `nbrag_get_chunks_by_lines` docstring 加截断说明**
@@ -408,14 +408,14 @@ git commit -m "feat: 检索类函数 docstring 加 chunk 截断说明"
 第 377 行末尾加：
 
 ```
-    Each <chunk>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a chunk's content is useful, you MUST call nbrag_get_raw_file to get the overlap-free original text.
+    Each <chunk>'s <content> is a RAG chunk — a necessarily truncated fragment, not the full source. If a chunk's content is useful, you MUST call nbrag_read_more_original_text to get the overlap-free original text.
 ```
 
 - [ ] **Step 6: Commit**
 
 ```bash
 git add d:/codes/nbrag/nbrag/server.py
-git commit -m "feat: chunk 视图类函数 docstring 加截断说明 + nbrag_get_raw_file 反向说明 + include_content Field 补充"
+git commit -m "feat: chunk 视图类函数 docstring 加截断说明 + nbrag_read_more_original_text 反向说明 + include_content Field 补充"
 ```
 
 ---
@@ -440,7 +440,7 @@ git commit -m "feat: chunk 视图类函数 docstring 加截断说明 + nbrag_get
 ```markdown
 ## 7. Raw text vs chunk view
 
-### Use `nbrag_get_raw_file()` when you need:
+### Use `nbrag_read_more_original_text()` when you need:
 ```
 
 改为：
@@ -451,10 +451,10 @@ git commit -m "feat: chunk 视图类函数 docstring 加截断说明 + nbrag_get
 **核心规则：chunk 必然是截断片段，不是完整原文。**
 所有检索类工具（search/grep/find_definition）和 chunk 视图类工具返回的 `<content>` 都是 RAG chunk，
 按 chunk_size 机械切断，不存在"完整内容"。若某条 content 对回答有帮助，必须调用
-nbrag_get_raw_file 或 nbrag_get_adjacent_chunks 获取周围更多内容。
-nbrag_get_raw_file 是唯一返回完整原文（非截断）的工具。
+nbrag_read_more_original_text 或 nbrag_get_adjacent_chunks 获取周围更多内容。
+nbrag_read_more_original_text 是唯一返回完整原文（非截断）的工具。
 
-### Use `nbrag_get_raw_file()` when you need:
+### Use `nbrag_read_more_original_text()` when you need:
 ```
 
 - [ ] **Step 2: "Normal multi-turn pattern" 覆盖第5、6步和 stop signals**
@@ -475,7 +475,7 @@ Stop signals — any one is sufficient:
 改为：
 
 ```markdown
-5. 若某条 hit 的 content 对回答有帮助，必须调用 nbrag_get_raw_file 或 nbrag_get_adjacent_chunks 扩展
+5. 若某条 hit 的 content 对回答有帮助，必须调用 nbrag_read_more_original_text 或 nbrag_get_adjacent_chunks 扩展
 6. Stop once the expanded original text is enough to answer
 
 Stop signals — any one is sufficient:
@@ -503,7 +503,7 @@ Goal: a ranked hit is relevant but you want more surrounding chunks.
 Goal: a ranked hit is useful → 必须扩展获取完整内容（chunk 必然截断）。
 1. `nbrag_search_and_fetch(query, collection_name)` → Top result handles block gives `doc_id` + `chunk_index` (the `Required when content is useful:` line already shows this exact follow-up)
 2. `nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)` → nearby `<chunk>`s (each `<chunk>` carries its own `chunk_index` for further expansion)
-   或 `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)` → 完整原文
+   或 `nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)` → 完整原文
 ```
 
 - [ ] **Step 4: Grep 验证 SKILL.md 无矛盾残留**

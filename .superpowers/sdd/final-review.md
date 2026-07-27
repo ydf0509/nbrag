@@ -11,7 +11,7 @@ The change touches 4 files across 11 commits: `nbrag/mcp_tools.py` (13 functions
 - **XML format总规范** (root tag = function name, handle as attrs, `<content>` for body): implemented across all 13 functions. Verified root tags match the spec's 标签命名约定表 for every function.
 - **Canonical handle 字段集** (`file_path` / `doc_id` / `chunk_index` / `total_chunks` / `line_start` / `line_end`): used consistently in all 13 functions' output. No function emits a non-canonical handle name as an XML attribute.
 - **禁止变体**: grep scan of `nbrag/mcp_tools.py`, `nbrag/server.py`, and `nbrag/skills/nbrag-workflow/SKILL.md` confirms zero matches for `chunk:\d`, `line:\d`, `matched_line`, `line_range` (as field name), `chunk_count` (as output attr), `chunk_id`, `chunk_index:X`. The only `chunk_count` occurrences in `mcp_tools.py` are `.get("chunk_count", ...)` fallbacks when reading the underlying layer (allowed per spec exception), and `_merge_line_ranges` is an internal function name (allowed per spec exception).
-- **正文零转义**: `<content>` children emit raw text via f-strings / `lines.append(content)` with no JSON-style escaping. Verified in `_format_hit_xml`, `nbrag_grep`, `nbrag_find_definition`, `nbrag_get_adjacent_chunks`, `nbrag_get_file_chunks`, `nbrag_get_chunks_by_lines`, `nbrag_get_raw_file`, and `nbrag_search_and_fetch`'s `<fetched_raw>` section.
+- **正文零转义**: `<content>` children emit raw text via f-strings / `lines.append(content)` with no JSON-style escaping. Verified in `_format_hit_xml`, `nbrag_grep`, `nbrag_find_definition`, `nbrag_get_adjacent_chunks`, `nbrag_get_file_chunks`, `nbrag_get_chunks_by_lines`, `nbrag_read_more_original_text`, and `nbrag_search_and_fetch`'s `<fetched_raw>` section.
 - **不改函数签名**: all 13 MCP-exposed functions retain original names, params, types, and defaults. `nbrag_add_document` / `nbrag_delete` left unchanged (success paths still prose, as they're not MCP-exposed).
 - **不动 retrieval.py 底层 dict key**: `source` / `index` / `line_number` kept as-is; mapped in `mcp_tools.py` via `_meta_file_path` / `_meta_chunk_index` helpers and inline `item.get("source", ...)` / `item.get("line_number", ...)` reads.
 - **Error format**: all error paths use `<error type="..." field="...">` with types from the spec's enum (`invalid_file_path` / `missing_collection` / `empty_collection` / `no_results` / `not_found`). `invalid_param` is enumerated in the spec but not produced by any current path (acceptable — it's a reserved type).
@@ -29,27 +29,27 @@ The change touches 4 files across 11 commits: `nbrag/mcp_tools.py` (13 functions
 - `nbrag_list` `<document>`: `doc_id`, `file_path`, `total_chunks` ✓
 - `nbrag_stats` `<collection>`: `collection_name`, `docs`, `chunks` (no handle fields — correct, stats is routing not evidence) ✓
 - `nbrag_get_file_chunks` / `nbrag_get_adjacent_chunks` / `nbrag_get_chunks_by_lines` `<chunk>`: `chunk_index`, `total_chunks`, `line_start`, `line_end` (+ optional `scope`) ✓
-- `nbrag_get_raw_file` root: `file_path`, `doc_id`, `total_lines`, `line_start`, `line_end` ✓
+- `nbrag_read_more_original_text` root: `file_path`, `doc_id`, `total_lines`, `line_start`, `line_end` ✓
 - `nbrag_search_and_fetch` `<raw>`: `file_path`, `doc_id`, `line_start`, `line_end` ✓
 
-**XML structure**: All functions follow root tag = function name, handle as attrs, `<content>` for body. Listing-type functions (`nbrag_find_files`, `nbrag_list`, `nbrag_stats`) use self-closing tags (`<file .../>`, `<document .../>`, `<collection .../>`) with no `<content>`, matching spec. `nbrag_get_raw_file` has no `<chunks>` collection tag — `<content>` is a direct child of root, matching spec.
+**XML structure**: All functions follow root tag = function name, handle as attrs, `<content>` for body. Listing-type functions (`nbrag_find_files`, `nbrag_list`, `nbrag_stats`) use self-closing tags (`<file .../>`, `<document .../>`, `<collection .../>`) with no `<content>`, matching spec. `nbrag_read_more_original_text` has no `<chunks>` collection tag — `<content>` is a direct child of root, matching spec.
 
 **Error formats**: All 13 functions' error paths produce `<error type="..." field="...">...</error>` with a `Recovery:` line. Error type usage is consistent:
-- `invalid_file_path`: `_path_error` (used by `nbrag_search`, `nbrag_search_and_fetch`, `nbrag_grep`, `nbrag_get_file_chunks`, `nbrag_get_raw_file` for bad `filter_file_path`/`file_path`)
+- `invalid_file_path`: `_path_error` (used by `nbrag_search`, `nbrag_search_and_fetch`, `nbrag_grep`, `nbrag_get_file_chunks`, `nbrag_read_more_original_text` for bad `filter_file_path`/`file_path`)
 - `missing_collection` / `empty_collection`: `_collection_issue_text` + `_collection_presence_issue_text` (used by all retrieval + listing functions)
 - `no_results`: `_no_search_results_text` (search), inline strings (`nbrag_grep`, `nbrag_find_definition`, `nbrag_find_files`, `nbrag_list`, `nbrag_stats`)
-- `not_found`: `nbrag_get_adjacent_chunks`, `nbrag_get_file_chunks`, `nbrag_get_chunks_by_lines`, `nbrag_get_raw_file`
+- `not_found`: `nbrag_get_adjacent_chunks`, `nbrag_get_file_chunks`, `nbrag_get_chunks_by_lines`, `nbrag_read_more_original_text`
 
 **Handle flow end-to-end**: Verified all chaining paths work with zero conversion:
-- `nbrag_find_files` / `nbrag_list` → `file_path` → `nbrag_get_raw_file` / `nbrag_get_file_chunks` / `filter_file_path` ✓
+- `nbrag_find_files` / `nbrag_list` → `file_path` → `nbrag_read_more_original_text` / `nbrag_get_file_chunks` / `filter_file_path` ✓
 - `nbrag_search` / `nbrag_search_and_fetch` → `doc_id` + `chunk_index` → `nbrag_get_adjacent_chunks` ✓
 - `nbrag_search` / `nbrag_search_and_fetch` → `doc_id` + `line_start` + `line_end` → `nbrag_get_chunks_by_lines` ✓
-- `nbrag_search` / `nbrag_search_and_fetch` → `file_path` → `nbrag_get_raw_file` ✓
-- `nbrag_grep` → `file_path` + `line_start` + `line_end` → `nbrag_get_raw_file` ✓
+- `nbrag_search` / `nbrag_search_and_fetch` → `file_path` → `nbrag_read_more_original_text` ✓
+- `nbrag_grep` → `file_path` + `line_start` + `line_end` → `nbrag_read_more_original_text` ✓
 - `nbrag_grep` → `doc_id` + `line_start` + `line_end` → `nbrag_get_chunks_by_lines` ✓
-- `nbrag_find_definition` → `file_path` + `line_start` + `line_end` → `nbrag_get_raw_file` ✓
+- `nbrag_find_definition` → `file_path` + `line_start` + `line_end` → `nbrag_read_more_original_text` ✓
 - `nbrag_get_file_chunks` → `chunk_index` (per-chunk) + `doc_id` (root) → `nbrag_get_adjacent_chunks` ✓
-- `nbrag_get_raw_file` → `file_path` + `line_start` + `line_end` → `nbrag_get_raw_file` (narrower range) ✓
+- `nbrag_read_more_original_text` → `file_path` + `line_start` + `line_end` → `nbrag_read_more_original_text` (narrower range) ✓
 
 **Root tag attributes**: Difference information is consistently placed on root tags: `nbrag_get_file_chunks` has `start_chunk`/`max_chunks`/`has_more`; `nbrag_get_adjacent_chunks` has `window`/`anchor_chunk_index`; `nbrag_get_chunks_by_lines` has `requested_line_start`/`requested_line_end`; search functions have `bm25`/`rerank`/`total_chunks`/`filter_file_path`. Matches spec.
 
@@ -91,9 +91,9 @@ None.
 
 1. **`server.py` L293 + L346 — "line range" used as field-name reference in "Returned text includes..." lists.** Task 1 cleaned `line:N-M` / `line_range` from docstrings but left two prose references that function as field-name listings:
    - L293 (`nbrag_find_definition` docstring): `Returned text includes doc_id, file_path, line range, and the definition body.`
-   - L346 (`nbrag_get_raw_file` docstring): `Returned text includes original_file, file_path, doc_id, total_lines, and the returned line range.`
+   - L346 (`nbrag_read_more_original_text` docstring): `Returned text includes original_file, file_path, doc_id, total_lines, and the returned line range.`
    
-   These should ideally say `line_start + line_end` to match the actual XML attributes. L346 also mentions `original_file` which doesn't appear as an attribute in the new XML output (the root tag is `<nbrag_get_raw_file>`). Note: "line range" (prose, with space) is NOT in the spec's forbidden-form list (which targets `line_range` underscore and `line:N-M`), so this is a cosmetic inconsistency, not a spec violation. The AI sees the actual XML attributes, so behavior is unaffected.
+   These should ideally say `line_start + line_end` to match the actual XML attributes. L346 also mentions `original_file` which doesn't appear as an attribute in the new XML output (the root tag is `<nbrag_read_more_original_text>`). Note: "line range" (prose, with space) is NOT in the spec's forbidden-form list (which targets `line_range` underscore and `line:N-M`), so this is a cosmetic inconsistency, not a spec violation. The AI sees the actual XML attributes, so behavior is unaffected.
 
 2. **`server.py` L132-138 — `nbrag_search` docstring field list uses mixed notation and redundancy.** The list mixes `chunk_index + total_chunks` (`+` notation), `chunk_index="..." (XML attribute on <hit>)` (`="..."` notation), and `total_chunks:Y` / `doc_id:...` / `file_path:...` (`:value` notation). `chunk_index` and `total_chunks` are each mentioned twice. The `:Y` / `:...` notation is misleading because the actual output uses XML attributes, not key:value pairs. Could be simplified to a single consistent list like:
    ```
@@ -112,7 +112,7 @@ None.
 
 Reasoning:
 - It is a genuinely useful regression tool, not a formal test. It has no pytest/CI integration — it's a standalone script that prints PASS/FAIL per step, matching the spec's "不写正式测试" rule (which prohibits formal test suites, not verification scripts).
-- It is adaptive: picks `collection_name` from `nbrag_stats()`, derives `query`/`pattern` from actual filenames via `nbrag_list()`, and threads handles from `nbrag_search_and_fetch` output into `nbrag_get_raw_file` / `nbrag_get_file_chunks` / `nbrag_get_adjacent_chunks` / `nbrag_get_chunks_by_lines` — verifying the zero-conversion handle-flow property that is the whole point of this refactor.
+- It is adaptive: picks `collection_name` from `nbrag_stats()`, derives `query`/`pattern` from actual filenames via `nbrag_list()`, and threads handles from `nbrag_search_and_fetch` output into `nbrag_read_more_original_text` / `nbrag_get_file_chunks` / `nbrag_get_adjacent_chunks` / `nbrag_get_chunks_by_lines` — verifying the zero-conversion handle-flow property that is the whole point of this refactor.
 - It is already working (15/15 passed per progress ledger).
 - It provides future regression protection: if someone accidentally reintroduces a deprecated form (`chunk:X/Y`, `matched_line`, `chunk_count` as output attr), the script's shape checks will catch it.
 - The plan's "改造完可删" is permissive ("can be deleted"), not prescriptive ("must be deleted"). The plan explicitly leaves the decision open: "如果用户不想保留...删除它。如果用户想保留作为后续回归工具，commit 它."

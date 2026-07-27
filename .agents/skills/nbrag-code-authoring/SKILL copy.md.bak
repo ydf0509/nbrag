@@ -128,7 +128,7 @@ description: Use when writing or editing nbrag code, MCP tool docstrings, retrie
 
 因此边界必须长期稳定：
 
-- `nbrag_get_raw_file()` = stored original text, overlap-free view
+- `nbrag_read_more_original_text()` = stored original text, overlap-free view
 - `nbrag_get_file_chunks()` / `nbrag_get_chunks_by_lines()` = chunk-based view, can include overlapping content by design
 
 ### 4. 这是 Python symbol definition 问题，还是普通文本定位问题？
@@ -200,7 +200,7 @@ description: Use when writing or editing nbrag code, MCP tool docstrings, retrie
 
 ### 3. raw file vs chunk tools
 
-- `nbrag_get_raw_file()`：原文快照、无 overlap
+- `nbrag_read_more_original_text()`：原文快照、无 overlap
 - `nbrag_get_file_chunks()` / `nbrag_get_chunks_by_lines()` / `nbrag_get_adjacent_chunks()`：chunk 结构视图
 
 如果某个说明需要引用这几个工具，必须明确当前说的是：

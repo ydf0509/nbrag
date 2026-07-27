@@ -579,7 +579,10 @@ def batch_ingest(paths, collection_name="default",
             for fp, size in large_files_sorted:
                 print(f"  {size / 1024:.1f} KB  {fp}")
             total_large_size = sum(s for _, s in large_files)
-            print(f"  Total: {len(large_files)} files, {total_large_size / 1024 / 1024:.2f} MB")
+            print(
+                f"  Large-file total (>100 KB): {len(large_files)} files, "
+                f"{total_large_size / 1024 / 1024:.2f} MB"
+            )
 
     if results:
         set_collection_profile(

@@ -214,7 +214,7 @@ After the server starts, `nbrag` exposes a set of retrieval-oriented MCP tools. 
 | Search | `nbrag_search`, `nbrag_search_and_fetch` | semantic and hybrid retrieval over ingested collections |
 | Search inspection | `nbrag_search_only_bm25`, `nbrag_search_only_vector` | inspecting lexical-only or vector-only behavior |
 | Exact text lookup | `nbrag_grep` | line-by-line matching over stored original text |
-| Original text reading | `nbrag_get_raw_file`, `nbrag_get_file_chunks` | reading stored original files or chunk views |
+| Original text reading | `nbrag_read_more_original_text`, `nbrag_get_file_chunks` | reading stored original files or chunk views |
 | Expansion and lookup | `nbrag_get_adjacent_chunks`, `nbrag_get_chunks_by_lines`, `nbrag_find_files` | expanding context around hits and resolving exact file paths |
 | Inventory and routing | `nbrag_stats`, `nbrag_list` | discovering collections and browsing imported documents |
 

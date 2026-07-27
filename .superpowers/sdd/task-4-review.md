@@ -136,10 +136,10 @@ Grep 模式：`original_file|chunk:\d|chunk:[A-Z]|line:\d|line:[A-Z]|chunk_index
 | 571 | `nbrag_grep` | 未改，out of scope |
 | 671, 680 | `nbrag_get_adjacent_chunks` recovery 文案 | 未改，out of scope |
 | 744, 753, 760 | `nbrag_get_chunks_by_lines` | 未改，out of scope |
-| 792, 793 | `nbrag_get_raw_file` | 未改，Task 5+ 范围 |
+| 792, 793 | `nbrag_read_more_original_text` | 未改，Task 5+ 范围 |
 
 - ✅ `nbrag_search_and_fetch`（L428-L526）内零废弃字段名
-- ✅ 旧 fetched_raw 的 `original_file:` / `range: line:N-M` 已彻底移除（仅在 `nbrag_get_raw_file` L792-793 残留，属 Task 5+ 范围）
+- ✅ 旧 fetched_raw 的 `original_file:` / `range: line:N-M` 已彻底移除（仅在 `nbrag_read_more_original_text` L792-793 残留，属 Task 5+ 范围）
 
 ---
 

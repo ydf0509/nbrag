@@ -220,7 +220,7 @@ Returned text is structured for follow-up calls. Each hit includes stable reusab
 - file_path:...
 
 Typical follow-up tools:
-- nbrag_get_raw_file(file_path, collection_name)
+- nbrag_read_more_original_text(file_path, collection_name)
 - nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)
 - nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)
 - nbrag_grep(keyword, collection_name)
@@ -364,7 +364,7 @@ Returned text includes doc_id, file_path, line range, and the definition body.
 
 Use this when you want chunk-by-chunk browsing together with line and scope metadata.
 This is a chunk-based view and can include overlapping content by design.
-For overlap-free original text, use nbrag_get_raw_file() instead.
+For overlap-free original text, use nbrag_read_more_original_text() instead.
 
 Returned text includes filename, doc_id, file_path, total_chunks, total_lines, and per-chunk line/scope markers.
 """
@@ -385,7 +385,7 @@ Returned text includes filename, doc_id, file_path, total_chunks, total_lines, a
 """Return all chunks covering a line range.
 
 Use this when you already know a line range and want chunk-level context with scope metadata.
-Compared with nbrag_get_raw_file(), this preserves chunk structure and can include overlapping content by design.
+Compared with nbrag_read_more_original_text(), this preserves chunk structure and can include overlapping content by design.
 
 Returned text includes doc_id, file_path, requested line_range, and all overlapping chunks.
 """
@@ -444,7 +444,7 @@ Core strategy:
 - Use nbrag_search() when you need retrieval controls or metadata-only output
 - Use nbrag_grep() for exact wording in stored original text
 - Use nbrag_find_definition() only for Python .py symbol definitions
-- Use nbrag_get_raw_file() for overlap-free original text
+- Use nbrag_read_more_original_text() for overlap-free original text
 - Use nbrag_find_files() when exact file_path is still unknown
 
 Stable follow-up fields:
@@ -756,7 +756,7 @@ Returned text is structured for follow-up calls. Each hit includes stable reusab
 - file_path:...
 
 Typical follow-up tools:
-- nbrag_get_raw_file(file_path, collection_name)
+- nbrag_read_more_original_text(file_path, collection_name)
 - nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)
 - nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)
 - nbrag_grep(keyword, collection_name)
@@ -829,7 +829,7 @@ Returned text includes doc_id, file_path, line range, and the definition body.
 
 Use this when you want chunk-by-chunk browsing together with line and scope metadata.
 This is a chunk-based view and can include overlapping content by design.
-For overlap-free original text, use nbrag_get_raw_file() instead.
+For overlap-free original text, use nbrag_read_more_original_text() instead.
 
 Returned text includes filename, doc_id, file_path, total_chunks, total_lines, and per-chunk line/scope markers.
 """
@@ -843,7 +843,7 @@ Returned text includes filename, doc_id, file_path, total_chunks, total_lines, a
 """Return all chunks covering a line range.
 
 Use this when you already know a line range and want chunk-level context with scope metadata.
-Compared with nbrag_get_raw_file(), this preserves chunk structure and can include overlapping content by design.
+Compared with nbrag_read_more_original_text(), this preserves chunk structure and can include overlapping content by design.
 
 Returned text includes doc_id, file_path, requested line_range, and all overlapping chunks.
 """
@@ -861,7 +861,7 @@ Returned text includes doc_id, file_path, requested line_range, and all overlapp
 | 精确字面匹配 | nbrag_grep | 条文号、符号名、错误码、精确短语 |
 | 只看 metadata 或控制检索参数 | nbrag_search | 需要更细的检索开关时 |
 | 找到完整文件路径 | nbrag_find_files | 知道文件名但没有 file_path 时 |
-| 查看无 overlap 原文 | nbrag_get_raw_file | 需要引用、长上下文、原文核对时 |
+| 查看无 overlap 原文 | nbrag_read_more_original_text | 需要引用、长上下文、原文核对时 |
 | 查 Python 定义 | nbrag_find_definition | 只对 Python .py 源码定义有效 |
 ```
 

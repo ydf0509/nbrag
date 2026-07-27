@@ -10,7 +10,7 @@ description: 当任务需要检索已导入的 nbrag 知识库，或在 nbrag �
 
 `nbrag` 的核心价值是 **agentic 多轮检索**：单次检索几乎永远不够。你应主动规划多工具链路，覆盖不同证据需求：
 1. semantic discovery（`nbrag_search_and_fetch`）
-2. overlap-free original text retrieval（`nbrag_get_raw_file` 取宽 stored original text 上下文）
+2. overlap-free original text retrieval（`nbrag_read_more_original_text` 取宽 stored original text 上下文）
 3. lexical matching（`nbrag_grep` 在 stored original text 上做 literal/regex 匹配）
 4. chunk-structured context expansion（`nbrag_get_adjacent_chunks` 看 neighboring chunk context）
 
@@ -40,11 +40,11 @@ chunk 是 chunk text，context 止于 chunk boundary。这意味着单次 `nbrag
 
 典型 evidence 完整路径：
 1. `nbrag_search_and_fetch` 定位 hit
-2. 从 hit 的 `file_path` 调用 `nbrag_get_raw_file` 读取该文件更大范围的 stored original text
+2. 从 hit 的 `file_path` 调用 `nbrag_read_more_original_text` 读取该文件更大范围的 stored original text
 3. 继续逼近直至你拥有了能支撑严谨答案的 complete source context
 
 读 chunk 内容时，默认把它理解为"一个 incomplete chunk fragment"，而不是"可直接拿来引用的 original text"。
-只要某个chunk对你回答用户问题有用，就必须使用该chunk对应的file_path和line,使用`nbrag_get_raw_file`获取chunk内容附近超大范围行号的原始内容。
+只要某个chunk对你回答用户问题有用，就必须使用该chunk对应的file_path和line,使用`nbrag_read_more_original_text`获取chunk内容附近超大范围行号的原始内容。
 
 ---
 
@@ -64,7 +64,7 @@ chunk 是 chunk text，context 止于 chunk boundary。这意味着单次 `nbrag
 - 当 `collection_name` 未知时，下一步调用 `nbrag_stats()`。它帮助你选择正确的稳定 `collection_name`，但其本身不决定检索策略。
 - 当 collection 与 routing 都清晰后，source-backed answering 的常规默认工具是 `nbrag_search_and_fetch()`。
 - 当你需要更细的检索控制或仅元数据输出时，改用 `nbrag_search()`。
-- 答案必须基于完整证据。若检索结果已涵盖问题所需且引用已可直接从原文逐字给出，则停下来组织答案；否则，继续用 `nbrag_get_raw_file`、`nbrag_get_adjacent_chunks` 或 `nbrag_get_chunks_by_lines` 扩展原文、相邻 chunk 或精确行范围，直到证据足够完整。
+- 答案必须基于完整证据。若检索结果已涵盖问题所需且引用已可直接从原文逐字给出，则停下来组织答案；否则，继续用 `nbrag_read_more_original_text`、`nbrag_get_adjacent_chunks` 或 `nbrag_get_chunks_by_lines` 扩展原文、相邻 chunk 或精确行范围，直到证据足够完整。
 
 ## 3. Tool selection map
 
@@ -80,7 +80,7 @@ chunk 是 chunk text，context 止于 chunk boundary。这意味着单次 `nbrag
 | Python class/function/method 定义 | `nbrag_find_definition()` | 你已知道或近乎知道 Python symbol 名 | 目标是非 Python 文本或只是模糊概念 |
 | 发现确切的 stored `file_path` | `nbrag_find_files()` | 你只知道文件名片段或部分路径 | 你已拥有完整绝对 `file_path` |
 | 浏览已导入文档 | `nbrag_list()` | 你需要 inventory handles 如 `doc_id` 和 `file_path`，或用户明确想浏览已导入内容 | 你在回答语义问题，不需要先看清单 |
-| overlap-free original text | `nbrag_get_raw_file()` | 你需要 clean quoting、更宽 source context 或特定 line range——这是补全 chunk 不完整证据的主力工具 | 你需要 chunk boundaries / scope metadata |
+| overlap-free original text | `nbrag_read_more_original_text()` | 你需要 clean quoting、更宽 source context 或特定 line range——这是补全 chunk 不完整证据的主力工具 | 你需要 chunk boundaries / scope metadata |
 | 单文件 paginated chunk view | `nbrag_get_file_chunks()` | 你想 chunk-by-chunk 浏览并带 line/scope metadata | 你需要 overlap-free 原文 |
 | 在已知 hit 周围扩展 | `nbrag_get_adjacent_chunks()` | 你有来自检索结果的 `doc_id` + `chunk_index`，想看 neighboring chunk structure | 你只有 grep 输出，没有 `chunk_index` |
 | 覆盖某 line range 的 chunk view | `nbrag_get_chunks_by_lines()` | 你知道 `doc_id` + `line_start + line_end`，想要 chunk/scope context | 你只需要 overlap-free 原文 |
@@ -183,16 +183,16 @@ usual path：
 - `<nbrag_match>` 下的 `<nbrag_original_text_content>` 是受 `match_context_chars` 限制的 stored-original-text context excerpt，不是该 match 周围的全部原文
 - Python class/function/method 的 `<nbrag_definition_content>` 是 AST-aware definition body，`regex_fallback` 则只是 candidate text match
 - `nbrag_search_and_fetch()` 的 `<nbrag_raw_excerpt>` 中 `<nbrag_raw_content>` 是从 stored original file snapshot 围绕 hit 位置扩展的 overlap-free excerpt；它不是 RAG chunk，但仍受 `fetch_context_chars` 限制，并非整个文件
-- `nbrag_get_raw_file()` 返回 overlap-free 的 stored original file snapshot。默认有限范围读取规则：同时传入 `line_start` 和 `line_end` 时，设为 `line_end = line_start + 500`。不得为了节省 token 而复制前序小范围或选择更小窗口。仅在明确需要 complete stored file 时，才省略 `line_start` 和 `line_end`。
+- `nbrag_read_more_original_text()` 返回 overlap-free 的 stored original file snapshot。默认有限范围读取规则：同时传入 `line_start` 和 `line_end` 时，设为 `line_end = line_start + 500`。不得为了节省 token 而复制前序小范围或选择更小窗口。仅在明确需要 complete stored file 时，才省略 `line_start` 和 `line_end`。
 
-**当你认为某 chunk 对回答用户问题有帮助时，你必须使用该 chunk 对应的 `file_path` 和行号，进一步调用 `nbrag_get_raw_file` 扩展获取更大范围的 context。chunk 100% 是 incomplete fragment；你不能只依靠 chunk 或 fetched raw excerpt 的内容就回答问题，必须主动扩展到 stored original text。**
+**当你认为某 chunk 对回答用户问题有帮助时，你必须使用该 chunk 对应的 `file_path` 和行号，进一步调用 `nbrag_read_more_original_text` 扩展获取更大范围的 context。chunk 100% 是 incomplete fragment；你不能只依靠 chunk 或 fetched raw excerpt 的内容就回答问题，必须主动扩展到 stored original text。**
 
 当答案依赖任一边界外的文本时，复用返回 handles：
-- 用 `nbrag_get_raw_file` 读取更宽的无 overlap 原文 — 补全 chunk 不完整的首选路径
+- 用 `nbrag_read_more_original_text` 读取更宽的无 overlap 原文 — 补全 chunk 不完整的首选路径
 - 用 `nbrag_get_adjacent_chunks` 扩展命中 chunk 的相邻上下文
 - 在已知行范围时用 `nbrag_get_chunks_by_lines` 取得对应的 chunk 结构
 
-### 当你需要以下内容时，使用 `nbrag_get_raw_file()`：
+### 当你需要以下内容时，使用 `nbrag_read_more_original_text()`：
 - 在 ingestion 时捕获的 stored original text
 - 无 overlap 读取
 - clean quoting
@@ -234,7 +234,7 @@ Chunk tools：
 Handle 边界（无 `chunk_index`）：
 - `<nbrag_definition>` 暴露 `file_path`、`doc_id`、`line_start`、`line_end` 作为 `key = value` 行，但**不**含 `chunk_index`。
 - 不要把 `line_start` 当作 `chunk_index` 传入 `nbrag_get_adjacent_chunks()`。那是 silent wrong-anchor 调用。
-- 要在定义周围扩展上下文，改用 `nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)` 或 `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)`。
+- 要在定义周围扩展上下文，改用 `nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)` 或 `nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)`。
 
 ## 9. Stable follow-up handles
 
@@ -255,7 +255,7 @@ handle 集合因实体而异：
 
 ### `file_path`
 与之配合使用：
-- `nbrag_get_raw_file(file_path, collection_name)`
+- `nbrag_read_more_original_text(file_path, collection_name)`
 - `nbrag_get_file_chunks(file_path, collection_name)`
 - 在 search 或 grep 工具中使用 `filter_file_path=...`
 
@@ -281,7 +281,7 @@ handle 集合因实体而异：
 
 ### `file_path + line range`
 与之配合使用：
-- `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)`
+- `nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)`
 
 ## 10. `filter_file_path` behavior
 
@@ -303,7 +303,7 @@ handle 集合因实体而异：
 2. 用 semantic discovery（`nbrag_search_and_fetch`）或精确匹配（`nbrag_grep`）定位候选证据
 3. 把返回证据中的精确术语复用为 lexical anchors，随更好措辞出现而加强 `bm25_query`
 4. 仅当某文件明确成为目标时才收窄到该文件
-5. **几乎总要**：使用 `nbrag_get_raw_file` 读取更宽原文、无 overlap 上下文，补全 chunk 不完整证据；或使用 `nbrag_get_adjacent_chunks` 扩展 chunk 结构上下文。这是把"有线索"升级到"有完整证据"的关键一步。
+5. **几乎总要**：使用 `nbrag_read_more_original_text` 读取更宽原文、无 overlap 上下文，补全 chunk 不完整证据；或使用 `nbrag_get_adjacent_chunks` 扩展 chunk 结构上下文。这是把"有线索"升级到"有完整证据"的关键一步。
 
 良好行为：
 - 每次新调用都以有益方式改变检索条件或扩展证据范围
@@ -319,32 +319,32 @@ handle 集合因实体而异：
 ### Pattern A — Semantic hit，然后扩展原文（最常用作答路径）
 目标：基于 complete original-text evidence 回答。
 1. `nbrag_search_and_fetch(query, collection_name)` → 检查 `fetched_raw_excerpt`，并从所选 `<nbrag_ranked_hit>` 取 `file_path`、`line_start`、`line_end`
-2. `nbrag_get_raw_file(file_path, collection_name, line_start, line_end)` → 无 overlap 原文，补全 chunk 之外上下文
+2. `nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)` → 无 overlap 原文，补全 chunk 之外上下文
 3. （可选）若需更多 neighboring chunk structure：`nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)`
 
 ### Pattern B — Semantic hit，仅当原文仍不够时再扩 chunk 邻域
 目标：当初次扩展的原文仍遗漏 chunk 边界外关键结构。
 1. `nbrag_search_and_fetch(query, collection_name)` → 所选 `<nbrag_ranked_hit>` 给出 `doc_id`, `chunk_index`
 2. `nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)` → 附近 `<nbrag_chunk>` 块
-3. 仍需原文时再用 `nbrag_get_raw_file` 读取对应行范围。
+3. 仍需原文时再用 `nbrag_read_more_original_text` 读取对应行范围。
 
 ### Pattern C — 只知文件名，再在其中定位 exact wording
 目标：你已知文件，但需特定行/术语。
 1. `nbrag_find_files(pattern, collection_name)` → 所选 `<nbrag_file>` 给出 `file_path`
 2. `nbrag_grep(keyword, collection_name, filter_file_path=<file_path>)` → 所选 `<nbrag_match>` 给出 `line_start` / `line_end`
-3. 需要更宽上下文时：`nbrag_get_raw_file(file_path, collection_name, line_start, line_end)` 取无 overlap 原文。
+3. 需要更宽上下文时：`nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)` 取无 overlap 原文。
 
 ### Pattern D — Python symbol 定义，再找 call sites
 目标：理解一个 symbol，再看它在哪里被使用。
 1. `nbrag_find_definition(symbol, collection_name)` → 所选 `<nbrag_definition>` 给出 `file_path`、`line_start`、`line_end`（无 `chunk_index`）
 2. `nbrag_grep(symbol, collection_name)` → 跨 collection 的 call-site candidates。若只需 local same-file usage，改传 `filter_file_path=<file_path>`。
-3. 需要定义的 complete original-text context：`nbrag_get_raw_file(file_path, collection_name, line_start, line_end)`。
+3. 需要定义的 complete original-text context：`nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)`。
 
 ### Pattern E — page-by-page 浏览大文件
 目标：带分页的 chunk-by-chunk 阅读。
 1. `nbrag_get_file_chunks(file_path, collection_name, start_chunk=0)` → 根有 `has_more`
 2. 若 `has_more="true"`，以 `start_chunk=<last chunk_index + 1>` 再次调用，直到 `has_more="false"`
-3. 发现关键 chunk 后，用其 `file_path` + 行范围调 `nbrag_get_raw_file` 获取该处原文。
+3. 发现关键 chunk 后，用其 `file_path` + 行范围调 `nbrag_read_more_original_text` 获取该处原文。
 
 ## 13. Recovery hints
 
@@ -358,7 +358,7 @@ handle 集合因实体而异：
 - 需要对比 lexical-only 与 semantic-only 行为 → `nbrag_search_only_bm25()` / `nbrag_search_only_vector()`
 
 若结果相关但仍太小：
-- 用 `nbrag_get_raw_file()` 获取更宽无 overlap 源文 — **不要因为已经有一个小 chunk 就停**
+- 用 `nbrag_read_more_original_text()` 获取更宽无 overlap 源文 — **不要因为已经有一个小 chunk 就停**
 - 用 `nbrag_get_adjacent_chunks()` 获取 neighboring chunk context
 - 在行范围已知时用 `nbrag_get_chunks_by_lines()`
 
@@ -367,10 +367,10 @@ handle 集合因实体而异：
 在你直接用检索结果组织答案之前，问自己：
 
 1. 答案引用的原文是否完整？还是它来自一个 chunk 或受限 raw excerpt？
-2. 若我需要 exact quote 一整段、一个 complete function、一条 complete article，**这段 complete original text 我是否已经通过 `nbrag_get_raw_file` 取到了**？
+2. 若我需要 exact quote 一整段、一个 complete function、一条 complete article，**这段 complete original text 我是否已经通过 `nbrag_read_more_original_text` 取到了**？
 3. chunk 看似包含相关内容，但其 context 是否于 chunk boundary 截断？如果是，我是否已扩展读取了 chunk boundary 之外的 original text？
 
-若任一答案为"否"，则在作答前调用 `nbrag_get_raw_file` 或其他扩展工具补全证据。
+若任一答案为"否"，则在作答前调用 `nbrag_read_more_original_text` 或其他扩展工具补全证据。
 这是判断你是否"做完 agentic retrieval"的硬标准——不是"我已检索过几次"，而是"我手上是否有完整可引用的源文证据"。
 
 ## 15. Budget awareness
@@ -379,7 +379,7 @@ Context-size 控制项是 per-result 预算，不是全局响应上限：
 - `nbrag_search_and_fetch()` 的 `fetch_context_chars` 是 per ranked hit
 - `nbrag_grep()` 的 `match_context_chars` 是 per grep match
 
-不要为了避免大输出而牺牲 evidence 完整性。若某 chunk 重要，就调大 `fetch_context_chars`，或改用 `nbrag_get_raw_file` 拿到 complete original-text line range。
+不要为了避免大输出而牺牲 evidence 完整性。若某 chunk 重要，就调大 `fetch_context_chars`，或改用 `nbrag_read_more_original_text` 拿到 complete original-text line range。
 大值结合多命中会产生大输出，但大输出优于不完整证据导致错误答案。
 
 ## One-line summary

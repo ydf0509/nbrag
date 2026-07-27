@@ -73,7 +73,7 @@ Python 源码检索是 nbrag 的首要场景之一，但不应只依赖单一工
 1. `nbrag_search_and_fetch` — 找概念、示例、调用关系方向，并自动读取命中文件原文。
 2. `nbrag_grep` — 查精确 class/function 名、import、常量、decorator、错误字符串、配置 key。
 3. `nbrag_find_definition` — 仅对 Python `.py` 文件，读取完整 class/function/method 定义。
-4. `nbrag_get_raw_file` — 用完整绝对 `file_path` 读取更大的源码上下文。
+4. `nbrag_read_more_original_text` — 用完整绝对 `file_path` 读取更大的源码上下文。
 
 非 Python 文档、法律、手册不要套用符号定义工具；查条文、标题、术语、编号时继续优先 `nbrag_search_and_fetch` + `nbrag_grep`。
 
@@ -146,7 +146,7 @@ nbrag_find_definition(symbol="get_by_id", collection_name="xxx")
 | 工具 | 场景 | 关键参数 |
 |------|------|---------|
 | `nbrag_find_files` | 根据文件名/路径片段找到完整路径 | `pattern`, `case_sensitive=False` |
-| `nbrag_get_raw_file` | 看完整文件（无 overlap） | 完整绝对 `file_path`, `line_start`, `line_end` |
+| `nbrag_read_more_original_text` | 看完整文件（无 overlap） | 完整绝对 `file_path`, `line_start`, `line_end` |
 | `nbrag_get_adjacent_chunks` | 扩展搜索结果的上下文 | `doc_id`, `chunk_index`, `window=3` |
 | `nbrag_get_chunks_by_lines` | 按行号取 chunk | `doc_id`, `line_start`, `line_end` |
 | `nbrag_get_file_chunks` | 分页浏览（有 scope） | 完整绝对 `file_path`, `start_chunk=0`, `max_chunks=10` |
@@ -161,7 +161,7 @@ nbrag_find_definition(symbol="get_by_id", collection_name="xxx")
 需要精细控制/只要 metadata → nbrag_search()
 需要精确词、条文号、标题、错误码 → nbrag_grep()
 只有文件名/路径片段 → nbrag_find_files() 换成完整 file_path
-需要引用原文或扩大上下文 → nbrag_get_raw_file() / nbrag_get_adjacent_chunks()
+需要引用原文或扩大上下文 → nbrag_read_more_original_text() / nbrag_get_adjacent_chunks()
 Python .py 精确符号定义 → nbrag_find_definition()
 ```
 
@@ -978,9 +978,9 @@ def my_task(url):
 [exit_code] 0
 
 ====================================================================================================
-SCRIPT: 11_nbrag_get_raw_file.py
+SCRIPT: 11_nbrag_read_more_original_text.py
 ====================================================================================================
-调用函数: nbrag_get_raw_file
+调用函数: nbrag_read_more_original_text
 入参: {'file_path': 'D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md', 'collection_name': 'worker_rights', 'line_start': 45, 'line_end': 52}
 ----------------------------------------------------------------------
 original_file: 劳动合同法.md | file_path: D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md | doc_id: 81ec846f7c63

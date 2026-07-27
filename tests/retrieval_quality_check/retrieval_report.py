@@ -93,9 +93,9 @@ def main() -> int:
             record("nbrag_search_only_vector(query, include_content=False)", "nbrag_search_only_vector",
                    {"query": "1年劳动合同试用期期限上限", "collection_name": "worker_rights",
                     "top_k": 2, "include_content": False})
-            record("nbrag_search_and_fetch(query, bm25_query, top_k=3, fetch_top_n_raw=1, fetch_context_chars=4000)", "nbrag_search_and_fetch",
+            record("nbrag_search_and_fetch(query, bm25_query, top_k=3, fetch_top_n_original_text_excerpt=1, fetch_context_chars=4000)", "nbrag_search_and_fetch",
                    {"query": "1年劳动合同试用期期限上限", "bm25_query": "试用期 一年劳动合同", "collection_name": "worker_rights",
-                    "top_k": 3, "fetch_top_n_raw": 1, "fetch_context_chars": 4000})
+                    "top_k": 3, "fetch_top_n_original_text_excerpt": 1, "fetch_context_chars": 4000})
 
             # ---- 精确/词法类 ----
             record("nbrag_grep(keyword='试用期', max_results=5)", "nbrag_grep",
@@ -112,10 +112,10 @@ def main() -> int:
                    {"symbol": "BoosterParams", "collection_name": "funboost", "max_results": 2})
 
             # ---- 深入读取类 ----
-            record("nbrag_get_raw_file(line_start=45, line_end=52)", "nbrag_get_raw_file",
+            record("nbrag_read_more_original_text(line_start=45, line_end=52)", "nbrag_read_more_original_text",
                    {"file_path": "D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md",
                     "collection_name": "worker_rights", "line_start": 45, "line_end": 52})
-            record("nbrag_get_raw_file(basename误传=错误路径)", "nbrag_get_raw_file",
+            record("nbrag_read_more_original_text(basename误传=错误路径)", "nbrag_read_more_original_text",
                    {"file_path": "劳动合同法.md", "collection_name": "worker_rights"})
             record("nbrag_get_file_chunks(start_chunk=0, max_chunks=2)", "nbrag_get_file_chunks",
                    {"file_path": "D:/codes/nbrag/scripts/ingest_ex3_worker_rights/劳动合同法.md",

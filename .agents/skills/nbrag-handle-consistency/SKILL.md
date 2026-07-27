@@ -193,7 +193,7 @@ def process(data):
 | `nbrag_get_file_chunks` | `<nbrag_get_file_chunks>` | `<chunks>` | `<chunk>` | 根属性：`start_chunk`（分页游标）/ `max_chunks` / `has_more`；单条属性：`scope` |
 | `nbrag_get_adjacent_chunks` | `<nbrag_get_adjacent_chunks>` | `<chunks>` | `<chunk>` | 根属性：`window`（前后的 chunk 数）；单条属性：`scope` |
 | `nbrag_get_chunks_by_lines` | `<nbrag_get_chunks_by_lines>` | `<chunks>` | `<chunk>` | 根属性：`requested_line_start` / `requested_line_end`；单条属性：`scope` |
-| `nbrag_get_raw_file` | `<nbrag_get_raw_file>` | — | `<raw>` | 根属性：`total_lines` / `line_start` / `line_end`（返回范围） |
+| `nbrag_read_more_original_text` | `<nbrag_read_more_original_text>` | — | `<raw>` | 根属性：`total_lines` / `line_start` / `line_end`（返回范围） |
 | `nbrag_list` | `<nbrag_list>` | `<documents>` | `<document>` | 根属性：`offset` / `limit`；单条属性：`filename` |
 | `nbrag_stats` | `<nbrag_stats>` | `<collections>` | `<collection>` | 单条属性：`display_name` / `description` / `aliases` / `tags` / `chunk_size` / `chunk_overlap` / `last_ingested_at`（可选，有则写，无则省略） |
 

@@ -40,7 +40,7 @@ D:/ProgramData/miniconda3/envs/py312/python.exe d:/codes/nbrag/tests/ai_codes/be
 - `nbrag_search*`：通常受 embedding / rerank / 召回链路影响
 - `nbrag_grep`：通常受 raw text cache / 原文扫描逻辑影响
 - `nbrag_find_files`：通常受 metadata 获取和文档列表缓存影响
-- `nbrag_get_raw_file` / `nbrag_get_file_chunks`：通常受本地缓存和文件读取路径影响
+- `nbrag_read_more_original_text` / `nbrag_get_file_chunks`：通常受本地缓存和文件读取路径影响
 
 ### 经验判断
 

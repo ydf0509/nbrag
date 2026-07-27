@@ -44,7 +44,7 @@ MCP 文件过滤参数统一为 `filter_file_path`。
 
 ### 2. 文件读取只接受完整绝对路径
 
-`nbrag_get_raw_file` 和 `nbrag_get_file_chunks` 必须传搜索结果、`nbrag_find_files` 或 `nbrag_list` 返回的完整 `file_path`。
+`nbrag_read_more_original_text` 和 `nbrag_get_file_chunks` 必须传搜索结果、`nbrag_find_files` 或 `nbrag_list` 返回的完整 `file_path`。
 
 不接受：
 
@@ -77,7 +77,7 @@ nbrag_find_files(pattern="history.py", collection_name="langchain_ai_codes_and_d
 
 该工具只返回匹配文件列表和完整绝对 `file_path`，用于后续：
 
-- `nbrag_get_raw_file(file_path=...)`
+- `nbrag_read_more_original_text(file_path=...)`
 - `nbrag_get_file_chunks(file_path=...)`
 - `filter_file_path=...`
 
@@ -101,7 +101,7 @@ nbrag_help()
 
 它返回简短组合拳：
 
-`nbrag_stats` → `nbrag_search_and_fetch` → `nbrag_grep` / `nbrag_find_definition` → `nbrag_find_files` / `nbrag_get_raw_file`
+`nbrag_stats` → `nbrag_search_and_fetch` → `nbrag_grep` / `nbrag_find_definition` → `nbrag_find_files` / `nbrag_read_more_original_text`
 
 该工具不描述人工维护入口，也不提示原文存储维护动作。
 
@@ -127,7 +127,7 @@ cl_start <= line_end and cl_end >= line_start
 
 `grep_knowledge()` / `find_symbol_definition()` 无匹配时返回普通空结果。
 
-`nbrag_get_raw_file()` 的 AI 工作流只关心通过完整 `file_path` 读取内容，不提供维护入口建议。
+`nbrag_read_more_original_text()` 的 AI 工作流只关心通过完整 `file_path` 读取内容，不提供维护入口建议。
 
 ### 9. Skill 收紧路径规则
 
@@ -171,7 +171,7 @@ Skill 中新增硬规则：
 2. `nbrag_search` / `nbrag_search_and_fetch` / `nbrag_grep` 暴露 `filter_file_path`。
 3. `nbrag_find_files` 能根据文件名/路径片段返回完整绝对 `file_path`。
 4. `nbrag_search` 支持 `include_content` 和 `preview_chars`，默认仍返回较充分 preview。
-5. `nbrag_get_raw_file("core.py", ...)` 和 `nbrag_get_file_chunks("src/core.py", ...)` 返回“需要完整绝对 file_path”。
+5. `nbrag_read_more_original_text("core.py", ...)` 和 `nbrag_get_file_chunks("src/core.py", ...)` 返回“需要完整绝对 file_path”。
 6. 完整路径读取只按 metadata `source` 查询，不 fallback 到 `filename`。
 7. `nbrag_get_chunks_by_lines(doc_id, line_start=N, line_end=N)` 能命中覆盖第 N 行的 chunk。
 8. `nbrag_help` / Skill / README 只描述检索和读取 workflow，不描述原文存储维护 workflow。
