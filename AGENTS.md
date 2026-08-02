@@ -13,8 +13,9 @@
 ai运行此项目脚本时候使用本地的python解释器 D:/ProgramData/miniconda3/envs/py312/python.exe 
 
 ## 启动mcp http 9101端口
-每次改成nbrag的mcp后，重启http服务，即可通过mcp验证最新功能
-D:/ProgramData/miniconda3/envs/py312/python.exe d:/codes/nbrag/scripts/start_http_rag_mcp.py
+每次修改nbrag代码，并多次检查代码和文档是否正确，再重启http服务，不要改几行代码就马上频繁重启mcp。
+
+
 
 
 ## 验证向量检索能力

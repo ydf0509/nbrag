@@ -122,7 +122,7 @@ def _get_cached_raw_doc(collection_name, doc_id=None, source=None):
 
 
 @_runtime_guarded
-def search(query, collection_name="default", top_k=5, use_rerank=True,
+def search(query, collection_name="default", top_k=20, use_rerank=True,
            use_bm25=True, filter_file_path=None, use_vector=True,
            bm25_query=None):
     """混合检索：Vector + BM25 -> RRF 融合 -> Reranker 精排。
@@ -132,6 +132,10 @@ def search(query, collection_name="default", top_k=5, use_rerank=True,
 
     当 use_vector=False 且 use_bm25=True 时，只走 BM25 多通道检索，
     不生成 query embedding，也不执行 Chroma 向量查询。"""
+    try:
+        top_k = max(1, int(top_k))
+    except (TypeError, ValueError, OverflowError):
+        top_k = 20
     col = _get_existing_collection(collection_name)
     if col is None:
         return [], [], [], False, 0, []
@@ -576,7 +580,7 @@ def _find_definition_via_index(symbol, collection_name, index, raw_dir, max_resu
                         "doc_id": doc_id,
                         "symbol_type": "unknown",
                         "qualified_name": symbol,
-                        "line_start": i + 1,
+                        "line_start": ctx_start + 1,
                         "line_end": ctx_end,
                         "definition": "\n".join(file_lines[ctx_start:ctx_end]),
                         "methods_summary": "",
@@ -675,7 +679,7 @@ def _find_definition_full_scan(symbol, collection_name, raw_dir, max_results):
                         "doc_id": doc_id,
                         "symbol_type": "unknown",
                         "qualified_name": symbol,
-                        "line_start": i + 1,
+                        "line_start": ctx_start + 1,
                         "line_end": ctx_end,
                         "definition": "\n".join(file_lines[ctx_start:ctx_end]),
                         "methods_summary": "",

@@ -122,14 +122,14 @@ def _bm25_search_channel(query_tokens, collection_name, channel, top_k):
     if retriever is None or not query_tokens:
         return []
     try:
-        results, _scores = retriever.retrieve([query_tokens], k=top_k, show_progress=False)
+        results, scores = retriever.retrieve([query_tokens], k=top_k, show_progress=False)
         ids = []
-        for idx in results[0]:
+        for idx, score in zip(results[0], scores[0]):
             try:
                 idx_int = int(idx)
             except Exception:
                 continue
-            if 0 <= idx_int < len(chunk_ids):
+            if float(score) > 0 and 0 <= idx_int < len(chunk_ids):
                 ids.append(chunk_ids[idx_int])
         return ids
     except Exception:

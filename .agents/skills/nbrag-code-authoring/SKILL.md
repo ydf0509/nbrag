@@ -33,6 +33,12 @@ description: Use when editing nbrag AI-facing surfaces—MCP tool docstrings, Fi
 
 ---
 
+## 严禁行为
+nbrag 是作为mcp给agent的工具，代码很重要，但是根据描述 入参描述 skill描述更加重要，决定了 llm会不会正确调用。
+
+所以要严禁以下行为：
+你不能一厢情愿认为用户怕浪费tokens，想当然在提示词加很多负向约束， 例如你擅自在提示词写 "当检索到足够知识时候就停下来，不要继续调用nbrag工具"类似的表述，我强烈反对你在提示词文案中加类似的负向约束描述，实测这样会导致ai很保守懒惰不去调用后续工具，你不用担心llm调用nbrag工具停不下来的问题。
+
 ## Audience Split
 
 ### AI-facing surfaces

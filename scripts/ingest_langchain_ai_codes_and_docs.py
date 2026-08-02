@@ -42,6 +42,6 @@ set_collection_profile(
     "langchain_ai_codes_and_docs",
     display_name="LangChain 源码与文档知识库",
     description="包含 LangChain / LangGraph / langchain-ai 相关源码与文档，适合查询 agent、runnable、工具调用、记忆、图工作流和 API 用法。",
-    aliases=["LangChain", "LangGraph", "langchain-ai", "AI agent", "Runnable", "create_agent", "create_deep_agent"],
+    aliases=["LangChain", "LangGraph", "langchain-ai", "AI agent", "Runnable", "create_agent", "create_deep_agent",'deepagents','deepcode'],
     tags=["Python", "AI", "源码", "文档"],
 )

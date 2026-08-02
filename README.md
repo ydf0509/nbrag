@@ -2,9 +2,15 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-`nbrag` is a PyPI package for building a local text knowledge base and exposing it through an MCP server.
+`nbrag` is a PyPI package that builds a local text knowledge base and exposes it through an MCP server for LLM-powered retrieval.
 
-Use it when you want an MCP-compatible client to retrieve evidence from files you control, such as internal documentation, regulations, manuals, notes, local project docs, or Python source code.
+nbrag is an **agentic RAG** system: the LLM actively calls retrieval tools, constructs both semantic vector queries and BM25 lexical queries based on context, and autonomously expands its reading range from retrieved chunks.
+
+This lets it complete extreme multi-hop reasoning tasks across multiple files — far beyond what traditional one-shot RAG can do.
+
+nbrag works with any MCP-compatible agent, including OpenClaw, Codex, Claude Code, Cursor, Trae, Opencode, WorkBuddy, lc-agent, and more.
+
+Use it when you want an MCP client to retrieve evidence from files you control, such as internal documentation, regulations, manuals, notes, local project docs, or Python source code.
 
 nbrag comes with vector search, BM25 search, and hybrid search built in. Through well-crafted prompts and 10+ MCP tools, an AI agent can retrieve the most relevant evidence.
 
@@ -142,6 +148,29 @@ set_collection_profile(
     tags=["python", "source", "docs"],
 )
 ```
+
+### Import a GitHub project into an nbrag knowledge base
+
+`nbrag.contrib.ingest_github_proj` downloads a GitHub repository as a ZIP archive and ingests it directly:
+
+```python
+from nbrag.contrib.ingest_github_proj import ingest_github_proj
+
+ingest_github_proj(
+    "https://github.com/owner/repo",
+    collection_name="repo",
+    relative_paths=["src", "docs"],
+    branch="main",
+    delete_first=True,
+    verbose=True,
+)
+```
+
+### Why use ingest_github_proj
+
+You can use the `ingest-github-proj` skill in `nbrag/.agents/skills/ingest-github-proj/SKILL.md` to have the AI generate GitHub ingestion scripts for you.
+
+It lets you vectorize both the source code and the documentation of a GitHub project into one knowledge base, so the LLM can help you write code with grounded, hallucination-free context. An LLM paired with the nbrag MCP server outperforms one paired with context-only MCP servers like Context7.
 
 ## Start the MCP server
 

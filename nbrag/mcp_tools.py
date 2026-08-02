@@ -7,6 +7,7 @@ import functools
 import inspect
 import os
 import re
+from html import escape
 from typing import Any
 from nbrag.config import get_config
 from nbrag.defaults import (
@@ -153,7 +154,7 @@ def _merge_line_ranges(ranges: list[tuple[int, int]]) -> list[tuple[int, int]]:
 
 def _tagged_text(tag: str, fields: list[tuple[str, Any]] | None = None, body: list[str] | None = None, attributes: list[tuple[str, Any]] | None = None) -> str:
     attribute_text = "" if not attributes else " " + " ".join(
-        f'{key}="{value}"' for key, value in attributes if value is not None and value != ""
+        f'{key}="{escape(str(value), quote=True)}"' for key, value in attributes if value is not None and value != ""
     )
     lines = [f"<{tag}{attribute_text}>"]
     if fields:
@@ -173,6 +174,10 @@ def _request_parameters(parameters: list[tuple[str, Any]]) -> str:
     ])
 
 
+def _entity_text(tag: str, attributes: list[tuple[str, Any]], body: list[str] | None = None) -> str:
+    return _tagged_text(tag, body=body, attributes=attributes)
+
+
 def _response_text(
     tool_name: str,
     parameters: list[tuple[str, Any]],
@@ -181,6 +186,7 @@ def _response_text(
     body: list[str] | None = None,
     execution: list[tuple[str, Any]] | None = None,
     outcome: str = "results",
+    attributes: list[tuple[str, Any]] | None = None,
 ) -> str:
     sections = [_request_parameters(parameters)]
     execution_fields = [("outcome", outcome)]
@@ -189,21 +195,47 @@ def _response_text(
     sections.append(_tagged_text("execution", execution_fields))
     if body:
         sections.extend(body)
+    response_attributes = [("status", "success"), (returned_count_name, returned_count)]
+    if attributes:
+        response_attributes.extend(attributes)
     return _tagged_text(
         tool_name,
         body=sections,
-        attributes=[("status", "success"), (returned_count_name, returned_count)],
+        attributes=response_attributes,
     )
 
 
 def _error_text(error_type: str, field: str, message: str, recovery: str) -> str:
-    error = _tagged_text("error", [
-        ("type", error_type),
-        ("field", field),
-        ("message", message),
-        ("recovery", recovery),
-    ])
-    return error
+    tag = "no_results" if error_type == "no_results" else "error"
+    return _tagged_text(
+        tag,
+        body=[
+            _tagged_text("message", body=[message]),
+            _tagged_text("recovery", body=[recovery]),
+        ],
+        attributes=[("type", error_type), ("field", field)],
+    )
+
+
+def _invalid_parameter_text(field: str, message: str) -> str:
+    return _error_text(
+        "invalid_parameter",
+        field,
+        message,
+        f"Provide a valid {field} value that satisfies the MCP parameter description, then retry.",
+    )
+
+
+def _validate_required_text(value: Any, field: str) -> tuple[str, str]:
+    if not isinstance(value, str) or not value.strip():
+        return "", _invalid_parameter_text(field, f"{field} must be a non-empty string.")
+    return value.strip(), ""
+
+
+def _validate_int(value: Any, field: str, minimum: int) -> tuple[int, str]:
+    if not isinstance(value, int) or isinstance(value, bool) or value < minimum:
+        return minimum, _invalid_parameter_text(field, f"{field} must be an integer >= {minimum}.")
+    return value, ""
 
 
 def _path_error(field_name: str) -> str:
@@ -278,37 +310,46 @@ def _extract_tag_body(text: str, tag: str) -> str:
     return match.group(1) if match else text.strip()
 
 
-def _extract_error_fields(text: str) -> list[tuple[str, str]]:
-    body = _extract_tag_body(text, "error")
-    fields = []
-    for line in body.splitlines():
-        if " = " in line:
-            key, value = line.split(" = ", 1)
-            fields.append((key, value))
-    return fields
+def _root_attributes(text: str, tag: str) -> list[tuple[str, str]]:
+    match = re.match(rf"<{re.escape(tag)}(?P<attrs>[^>]*)>", text.strip())
+    if not match:
+        return []
+    return re.findall(r'([A-Za-z_][\w.-]*)="([^"]*)"', match.group("attrs"))
 
 
 def _finalize_tool_response(tool_name: str, parameters: list[tuple[str, Any]], returned_count_name: str, result_tag: str | None, raw_text: str) -> str:
-    error_match = re.fullmatch(r"<(?P<tag>error|nbrag_error)>\n?(?P<body>.*?)\n?</(?P=tag)>", raw_text.strip(), re.DOTALL)
+    no_results_match = re.fullmatch(r"<no_results(?:\s[^>]*)?>\n?(?P<body>.*?)\n?</no_results>", raw_text.strip(), re.DOTALL)
+    if no_results_match:
+        return _response_text(
+            tool_name,
+            parameters,
+            returned_count_name,
+            0,
+            body=[raw_text.strip()],
+            outcome="no_results",
+        )
+
+    error_match = re.fullmatch(r"<error(?:\s[^>]*)?>\n?(?P<body>.*?)\n?</error>", raw_text.strip(), re.DOTALL)
     if error_match:
-        error_fields = _extract_error_fields(raw_text)
-        error_type = next((value for key, value in error_fields if key == "type"), "unknown")
-        if error_type == "no_results":
-            return _response_text(tool_name, parameters, returned_count_name, 0, outcome="no_results")
         return _tagged_text(
             tool_name,
-            body=[_request_parameters(parameters), _tagged_text("error", error_fields)],
+            body=[_request_parameters(parameters), raw_text.strip()],
             attributes=[("status", "error")],
         )
 
     content = _extract_tag_body(raw_text, tool_name)
-    returned_count = len(re.findall(rf"(?m)^<{re.escape(result_tag)}>\s*$", raw_text)) if result_tag else 1
+    returned_count = len(re.findall(rf"(?m)^<{re.escape(result_tag)}(?:\s[^>]*)?>\s*$", raw_text)) if result_tag else 1
+    response_attributes = [
+        item for item in _root_attributes(raw_text, tool_name)
+        if item[0] not in {"status", returned_count_name}
+    ]
     return _response_text(
         tool_name,
         parameters,
         returned_count_name,
         returned_count,
         body=[content] if content else [],
+        attributes=response_attributes,
     )
 
 
@@ -367,17 +408,17 @@ def nbrag_add_document(
 def _search_and_fetch_follow_up_guidance() -> str:
     return _tagged_text("nbrag_follow_up", body=[
         "Evidence boundaries:",
-        "- `<nbrag_chunk_content>` is exactly one RAG chunk; its original-text context stops at the chunk boundaries.",
+        "- `<nbrag_chunk_content>` is exactly one RAG chunk; its original-text context stops at the chunk boundaries, and adjacent chunks overlap by the ingestion overlap configuration.",
         "- `<nbrag_original_text_excerpt>` is an overlap-free stored-original-text excerpt with file_path, doc_id, line_start, and line_end; its `<nbrag_original_text_content>` is bounded by fetch_context_chars, not the complete stored file.",
         "",
-        "Do not treat either bounded result as complete source context. When the answer, quotation, or verification depends on text outside the shown chunk or original-text excerpt, choose the matching expansion route below.",
+        "Both result types are bounded. If the answer, quotation, or verification depends on text outside the shown range, read a wider continuous original-text range.",
         "",
-        "Expansion routes using returned handles:",
-        "- file_path -> nbrag_read_more_original_text(file_path, collection_name, line_start, line_end): read wider overlap-free original text.",
-        "- doc_id + chunk_index -> nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name): read nearby chunk structure.",
-        "- doc_id + line_start + line_end -> nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name): read chunk structure covering a known line range.",
-        "- 如果某个 ranked hit 对回答有用，就复用该 hit 的 file_path、line_start、line_end 调用 nbrag_read_more_original_text，并将读取窗设为以 hit 的 line_start 为锚点前 200 行到后 400 行：line_start=max(1, line_start-200)，line_end=line_start+400。",
-        "- 如果首次扩读后仍缺少回答所需的上下文，就根据缺失内容相对于当前阅读窗的位置，继续扩大读取范围。",
+        "Original-text expansion:",
+        "- Use file_path and line_start from a useful `<nbrag_ranked_hit>` to call nbrag_read_more_original_text(file_path, collection_name, line_start=max(1, hit_line_start-200), line_end=hit_line_start+400).",
+        "- If preceding text is missing, decrease line_start. If following text is missing, increase line_end. Omit both bounds to read the complete stored file.",
+        "- For large files and wide reading ranges, continue with nbrag_read_more_original_text over consecutive line ranges.",
+        "",
+        "Chunk tools inspect chunk boundaries, scope metadata, the configured overlap, and chunking quality. nbrag_read_more_original_text reads continuous source text.",
     ])
 
 
@@ -385,34 +426,34 @@ def _search_and_fetch_follow_up_guidance() -> str:
 def nbrag_help() -> str:
     skill_text = _load_workflow_skill_text()
     skeleton = [
-        "nbrag help: routing guide for AI agents using nbrag",
+        "nbrag help: tool usage guide for AI agents using nbrag",
         "",
         "Use the actual exposed tool names you received from the MCP host. They may include prefixes such as xxx_nbrag_search.",
         "",
         "Purpose: nbrag_help establishes how to choose retrieval tools, keep query and bm25_query in distinct roles, distinguish chunk text from stored original text, and reuse follow-up handles safely.",
         "",
         "MANDATORY bootstrap with session-aware reuse:",
-        "- Before the first nbrag operation whose routing guidance is not already available in the current conversation context, call nbrag_help() proactively.",
+        "- Before the first nbrag operation whose tool usage guide is not already available in the current conversation context, call nbrag_help() proactively.",
         "- A successful nbrag_help() response is reusable for all later nbrag retrieval questions in the same conversation. A new user question does not by itself require another call.",
         "- If the prior result is unavailable after context compaction, or you are uncertain whether it exists, call nbrag_help() again before using other nbrag tools.",
-        "- When routing guidance is already available, proceed directly with the chosen tool. Do not repeat nbrag_help() before normal follow-up calls.",
+        "- When the tool usage guide is already available, proceed directly with the chosen tool.",
         "",
         "Step 1: decide the collection",
         "- If collection_name is unknown, call nbrag_stats() next.",
         "",
         "Step 2: choose the retrieval path",
-        "- Use nbrag_search_and_fetch() for most questions about meaning, explanation, usage, examples, or source-backed evidence after collection routing is already clear.",
+        "- Use nbrag_search_and_fetch() for most questions about meaning, explanation, usage, examples, or source-backed evidence after collection_name is clear.",
         "- Use nbrag_search() when you need ranked retrieval with finer controls or metadata-only output.",
         "- Use nbrag_grep() when exact wording matters in stored original text: article numbers, exact phrases, identifiers, headings, constants, imports, decorators, or error strings.",
-        "- Use nbrag_find_definition() only for Python .py symbol definitions.",
+        "- Use nbrag_find_definition() for Python .py symbol definitions.",
         "",
         "Step 3: choose the follow-up reading tool",
-        "- Use nbrag_read_more_original_text() for stored original text without chunk overlap.",
-        "- Use nbrag_get_file_chunks(), nbrag_get_adjacent_chunks(), or nbrag_get_chunks_by_lines() when you need chunk boundaries, scope metadata, or local chunk context.",
+        "- Use nbrag_read_more_original_text() for wider context, continuous source reading, quotations, and large files.",
+        "- Use nbrag_get_file_chunks(), nbrag_get_adjacent_chunks(), or nbrag_get_chunks_by_lines() for chunk boundaries, scope metadata, overlap, or chunking inspection.",
         "- Use nbrag_find_files() when you only know a filename fragment and do not yet have the exact full absolute file_path.",
         "",
         "Step 4: reuse handles from result entities",
-        "Each result entity exposes the handles applicable to that result as `key = value` lines:",
+        "Each result entity exposes the handles applicable to that result as XML attributes:",
         "- `<nbrag_ranked_hit>` → file_path, doc_id, chunk_index, line_start, line_end",
         "- `<nbrag_match>` / `<nbrag_definition>` → file_path, doc_id, line_start, line_end (no chunk_index)",
         "- `<nbrag_file>` / `<nbrag_document>` → file_path, doc_id",
@@ -432,7 +473,7 @@ def nbrag_help() -> str:
 
 def _format_hit_xml(meta: dict, rank: int, dist: float, rerank_score: float | None, include_content: bool, doc: str = "") -> str:
     file_path = _meta_file_path(meta)
-    fields = [
+    attributes = [
         ("rank", rank),
         ("file_path", file_path),
         ("doc_id", meta.get("doc_id", "?")),
@@ -444,15 +485,15 @@ def _format_hit_xml(meta: dict, rank: int, dist: float, rerank_score: float | No
         ("dist", f"{dist:.4f}"),
     ]
     if rerank_score is not None:
-        fields.append(("score", f"{rerank_score:.4f}"))
+        attributes.append(("score", f"{rerank_score:.4f}"))
     body = [_tagged_text("nbrag_chunk_content", body=[doc])] if include_content else None
-    return _tagged_text("nbrag_ranked_hit", fields, body)
+    return _entity_text("nbrag_ranked_hit", attributes, body)
 
 
 def _format_search_results(
     query: str,
     collection_name: str,
-    top_k: int = 5,
+    top_k: int = 20,
     use_rerank: bool = True,
     use_bm25: bool = True,
     use_vector: bool = True,
@@ -461,13 +502,23 @@ def _format_search_results(
     bm25_query: str = "",
     root_tag: str = "nbrag_search",
 ) -> str:
-    top_k = _int_param(top_k, 5)
+    query, issue = _validate_required_text(query, "query")
+    if issue:
+        return issue
+    collection_name, issue = _validate_required_text(collection_name, "collection_name")
+    if issue:
+        return issue
+    top_k, issue = _validate_int(top_k, "top_k", 1)
+    if issue:
+        return issue
     use_rerank = _bool_param(use_rerank, True)
     use_bm25 = _bool_param(use_bm25, True)
     use_vector = _bool_param(use_vector, True)
     filter_file_path = _str_param(filter_file_path)
     include_content = _bool_param(include_content, True)
-    bm25_query = _str_param(bm25_query)
+    if not isinstance(bm25_query, str):
+        return _invalid_parameter_text("bm25_query", "bm25_query must be a string when provided.")
+    bm25_query = bm25_query.strip()
     path_filter = filter_file_path if filter_file_path else None
     if path_filter and not _is_absolute_file_path(path_filter):
         return _path_error("filter_file_path")
@@ -503,7 +554,7 @@ def _format_search_results(
 def nbrag_search(
     query: str,
     collection_name: str,
-    top_k: int = 5,
+    top_k: int = 20,
     use_rerank: bool = True,
     use_bm25: bool = True,
     filter_file_path: str = "",
@@ -528,7 +579,7 @@ def nbrag_search(
 def nbrag_search_only_bm25(
     bm25_query: str,
     collection_name: str,
-    top_k: int = 5,
+    top_k: int = 20,
     filter_file_path: str = "",
     include_content: bool = True,
 ) -> str:
@@ -549,7 +600,7 @@ def nbrag_search_only_bm25(
 def nbrag_search_only_vector(
     query: str,
     collection_name: str,
-    top_k: int = 5,
+    top_k: int = 20,
     filter_file_path: str = "",
     include_content: bool = True,
 ) -> str:
@@ -570,17 +621,33 @@ def nbrag_search_only_vector(
 def nbrag_search_and_fetch(
     query: str,
     collection_name: str,
-    top_k: int = 5,
-    fetch_top_n_original_text_excerpt: int = 3,
+    top_k: int = 20,
+    fetch_top_n_original_text_excerpt: int = 5,
     fetch_context_chars: int = DEFAULT_FETCH_CONTEXT_CHARS,
     filter_file_path: str = "",
     bm25_query: str = "",
 ) -> str:
-    top_k = _int_param(top_k, 5)
-    fetch_top_n_original_text_excerpt = _int_param(fetch_top_n_original_text_excerpt, 3)
-    fetch_context_chars = max(0, _int_param(fetch_context_chars, DEFAULT_FETCH_CONTEXT_CHARS))
+    query, issue = _validate_required_text(query, "query")
+    if issue:
+        return issue
+    collection_name, issue = _validate_required_text(collection_name, "collection_name")
+    if issue:
+        return issue
+    top_k, issue = _validate_int(top_k, "top_k", 1)
+    if issue:
+        return issue
+    fetch_top_n_original_text_excerpt, issue = _validate_int(
+        fetch_top_n_original_text_excerpt, "fetch_top_n_original_text_excerpt", 0,
+    )
+    if issue:
+        return issue
+    fetch_context_chars, issue = _validate_int(fetch_context_chars, "fetch_context_chars", 0)
+    if issue:
+        return issue
     filter_file_path = _str_param(filter_file_path)
-    bm25_query = _str_param(bm25_query)
+    if not isinstance(bm25_query, str):
+        return _invalid_parameter_text("bm25_query", "bm25_query must be a string when provided.")
+    bm25_query = bm25_query.strip()
     path_filter = filter_file_path if filter_file_path else None
     if path_filter and not _is_absolute_file_path(path_filter):
         return _path_error("filter_file_path")
@@ -642,7 +709,7 @@ def nbrag_search_and_fetch(
                 excerpt = "".join(raw_lines[start - 1:end]) if raw_lines else raw_content
                 if lines_fetched:
                     lines_fetched.extend(["", "", ""])
-                lines_fetched.append(_tagged_text("nbrag_original_text_excerpt", [
+                lines_fetched.append(_entity_text("nbrag_original_text_excerpt", [
                     ("file_path", src),
                     ("doc_id", doc_id),
                     ("line_start", start),
@@ -668,10 +735,20 @@ def nbrag_grep(
     filter_file_path: str = "",
     match_context_chars: int = DEFAULT_MATCH_CONTEXT_CHARS,
 ) -> str:
-    max_results = _int_param(max_results, 10)
+    keyword, issue = _validate_required_text(keyword, "keyword")
+    if issue:
+        return issue
+    collection_name, issue = _validate_required_text(collection_name, "collection_name")
+    if issue:
+        return issue
+    max_results, issue = _validate_int(max_results, "max_results", 1)
+    if issue:
+        return issue
     case_sensitive = _bool_param(case_sensitive, False)
     filter_file_path = _str_param(filter_file_path)
-    match_context_chars = max(0, _int_param(match_context_chars, DEFAULT_MATCH_CONTEXT_CHARS))
+    match_context_chars, issue = _validate_int(match_context_chars, "match_context_chars", 0)
+    if issue:
+        return issue
     path_filter = filter_file_path if filter_file_path else None
     if path_filter and not _is_absolute_file_path(path_filter):
         return _path_error("filter_file_path")
@@ -706,7 +783,7 @@ def nbrag_grep(
         file_path = str(item.get("source", "?"))
         doc_id = str(item.get("doc_id", "?"))
         context = str(item.get("context", ""))
-        lines.append(_tagged_text("nbrag_match", [
+        lines.append(_entity_text("nbrag_match", [
             ("file_path", file_path),
             ("doc_id", doc_id),
             ("line_start", ln),
@@ -723,7 +800,15 @@ def nbrag_find_definition(
     collection_name: str,
     max_results: int = 3,
 ) -> str:
-    max_results = _int_param(max_results, 3)
+    symbol, issue = _validate_required_text(symbol, "symbol")
+    if issue:
+        return issue
+    collection_name, issue = _validate_required_text(collection_name, "collection_name")
+    if issue:
+        return issue
+    max_results, issue = _validate_int(max_results, "max_results", 1)
+    if issue:
+        return issue
     results = find_symbol_definition(symbol, collection_name, max_results)
     if not results:
         collection_issue = _collection_presence_issue_text(collection_name)
@@ -755,7 +840,7 @@ def nbrag_find_definition(
         body = [_tagged_text("nbrag_definition_content", body=[definition])]
         if methods_summary:
             body.append(_tagged_text("nbrag_methods_summary", body=[methods_summary]))
-        lines.append(_tagged_text("nbrag_definition", [
+        lines.append(_entity_text("nbrag_definition", [
             ("symbol_type", display_symbol_type),
             ("qualified_name", qualified_name),
             ("file_path", file_path),
@@ -770,7 +855,15 @@ def nbrag_find_definition(
 
 @_contract_tool("returned_file_count", "nbrag_file")
 def nbrag_find_files(pattern: str, collection_name: str, max_results: int = 20, case_sensitive: bool = False) -> str:
-    max_results = _int_param(max_results, 20)
+    pattern, issue = _validate_required_text(pattern, "pattern")
+    if issue:
+        return issue
+    collection_name, issue = _validate_required_text(collection_name, "collection_name")
+    if issue:
+        return issue
+    max_results, issue = _validate_int(max_results, "max_results", 1)
+    if issue:
+        return issue
     case_sensitive = _bool_param(case_sensitive, False)
     files = find_files(pattern, collection_name, max_results, case_sensitive)
     if not files:
@@ -794,7 +887,7 @@ def nbrag_find_files(pattern: str, collection_name: str, max_results: int = 20, 
         filename = str(item.get("filename", "?"))
         total_chunks = str(item.get("total_chunks", item.get("chunk_count", "?")))
         match = str(item.get("match", "?"))
-        lines.append(_tagged_text("nbrag_file", [
+        lines.append(_entity_text("nbrag_file", [
             ("file_path", file_path),
             ("doc_id", doc_id),
             ("filename", filename),
@@ -808,8 +901,18 @@ def nbrag_find_files(pattern: str, collection_name: str, max_results: int = 20, 
 
 @_contract_tool("returned_chunk_count", "nbrag_chunk")
 def nbrag_get_adjacent_chunks(doc_id: str, chunk_index: int, collection_name: str, window: int = 3) -> str:
-    chunk_index = _int_param(chunk_index, 0)
-    window = _int_param(window, 3)
+    doc_id, issue = _validate_required_text(doc_id, "doc_id")
+    if issue:
+        return issue
+    collection_name, issue = _validate_required_text(collection_name, "collection_name")
+    if issue:
+        return issue
+    chunk_index, issue = _validate_int(chunk_index, "chunk_index", 0)
+    if issue:
+        return issue
+    window, issue = _validate_int(window, "window", 0)
+    if issue:
+        return issue
     data = get_context_chunks(doc_id, collection_name=collection_name, chunk_index=chunk_index, window=window)
     if not data.get("found"):
         detail = data.get("error") or data.get("message") or ""
@@ -847,7 +950,7 @@ def nbrag_get_adjacent_chunks(doc_id: str, chunk_index: int, collection_name: st
         le = str(chunk.get("line_end", "?"))
         scope = str(chunk.get("scope", ""))
         content = str(chunk.get("content", ""))
-        lines.append(_tagged_text("nbrag_chunk", [
+        lines.append(_entity_text("nbrag_chunk", [
             ("file_path", file_path),
             ("doc_id", doc_id_str),
             ("chunk_index", ci),
@@ -863,8 +966,15 @@ def nbrag_get_adjacent_chunks(doc_id: str, chunk_index: int, collection_name: st
 
 @_contract_tool("returned_chunk_count", "nbrag_chunk")
 def nbrag_get_file_chunks(file_path: str, collection_name: str, start_chunk: int = 0, max_chunks: int = 10) -> str:
-    start_chunk = _int_param(start_chunk, 0)
-    max_chunks = _int_param(max_chunks, 10)
+    collection_name, issue = _validate_required_text(collection_name, "collection_name")
+    if issue:
+        return issue
+    start_chunk, issue = _validate_int(start_chunk, "start_chunk", 0)
+    if issue:
+        return issue
+    max_chunks, issue = _validate_int(max_chunks, "max_chunks", 1)
+    if issue:
+        return issue
     if not _is_absolute_file_path(file_path):
         return _path_error("file_path")
 
@@ -882,11 +992,21 @@ def nbrag_get_file_chunks(file_path: str, collection_name: str, start_chunk: int
     chunks = data.get("chunks", [])
     file_path_str = str(data.get("source", file_path))
     doc_id_str = str(data.get("doc_id", "?"))
-    total_chunks = str(data.get("total_chunks", "?"))
+    total_chunks_value = data.get("total_chunks", 0)
+    end_chunk = data.get("end_chunk", start_chunk + len(chunks))
+    total_chunks = str(total_chunks_value)
     total_lines = str(data.get("total_lines", "?"))
-    has_more = str((data.get("end_chunk") or 0) < (data.get("total_chunks") or 0) - 1).lower()
+    has_more = end_chunk < total_chunks_value
+    next_start_chunk = end_chunk if has_more else None
 
-    lines = ['<nbrag_get_file_chunks>']
+    lines = [_tagged_text("pagination", attributes=[
+        ("start_chunk", start_chunk),
+        ("max_chunks", max_chunks),
+        ("returned_chunk_count", len(chunks)),
+        ("total_chunks", total_chunks_value),
+        ("has_more", str(has_more).lower()),
+        ("next_start_chunk", next_start_chunk),
+    ])]
     for i, chunk in enumerate(chunks):
         if i > 0:
             lines.extend(["", "", ""])
@@ -895,7 +1015,7 @@ def nbrag_get_file_chunks(file_path: str, collection_name: str, start_chunk: int
         le = str(chunk.get("line_end", "?"))
         scope = str(chunk.get("scope", ""))
         content = str(chunk.get("content", ""))
-        lines.append(_tagged_text("nbrag_chunk", [
+        lines.append(_entity_text("nbrag_chunk", [
             ("file_path", file_path_str),
             ("doc_id", doc_id_str),
             ("chunk_index", ci),
@@ -905,14 +1025,32 @@ def nbrag_get_file_chunks(file_path: str, collection_name: str, start_chunk: int
             ("scope", scope),
         ], [_tagged_text("nbrag_chunk_content", body=[content])]))
     lines.append("")
-    lines.append("</nbrag_get_file_chunks>")
-    return "\n".join(lines)
+    return _tagged_text(
+        "nbrag_get_file_chunks",
+        body=lines,
+        attributes=[
+            ("start_chunk", start_chunk),
+            ("max_chunks", max_chunks),
+            ("has_more", str(has_more).lower()),
+            ("next_start_chunk", next_start_chunk),
+        ],
+    )
 
 
 @_contract_tool("returned_chunk_count", "nbrag_chunk")
 def nbrag_get_chunks_by_lines(doc_id: str, line_start: int, line_end: int, collection_name: str) -> str:
-    line_start = _int_param(line_start, 1)
-    line_end = _int_param(line_end, line_start)
+    doc_id, issue = _validate_required_text(doc_id, "doc_id")
+    if issue:
+        return issue
+    collection_name, issue = _validate_required_text(collection_name, "collection_name")
+    if issue:
+        return issue
+    line_start, issue = _validate_int(line_start, "line_start", 1)
+    if issue:
+        return issue
+    line_end, issue = _validate_int(line_end, "line_end", line_start)
+    if issue:
+        return issue
     data = get_context_chunks(doc_id, collection_name=collection_name, line_start=line_start, line_end=line_end)
     if not data.get("found"):
         return _error_text(
@@ -948,7 +1086,7 @@ def nbrag_get_chunks_by_lines(doc_id: str, line_start: int, line_end: int, colle
         le = str(chunk.get("line_end", "?"))
         scope = str(chunk.get("scope", ""))
         content = str(chunk.get("content", ""))
-        lines.append(_tagged_text("nbrag_chunk", [
+        lines.append(_entity_text("nbrag_chunk", [
             ("file_path", file_path),
             ("doc_id", doc_id_str),
             ("chunk_index", ci),
@@ -964,8 +1102,19 @@ def nbrag_get_chunks_by_lines(doc_id: str, line_start: int, line_end: int, colle
 
 @_contract_tool("returned_original_text_count", "nbrag_original_text_content")
 def nbrag_read_more_original_text(file_path: str, collection_name: str, line_start: int | None = None, line_end: int | None = None) -> str:
-    line_start = line_start if isinstance(line_start, int) and not isinstance(line_start, bool) and line_start > 0 else None
-    line_end = line_end if isinstance(line_end, int) and not isinstance(line_end, bool) and line_end > 0 else None
+    collection_name, issue = _validate_required_text(collection_name, "collection_name")
+    if issue:
+        return issue
+    if line_start is not None:
+        line_start, issue = _validate_int(line_start, "line_start", 1)
+        if issue:
+            return issue
+    if line_end is not None:
+        line_end, issue = _validate_int(line_end, "line_end", 1)
+        if issue:
+            return issue
+    if line_start is not None and line_end is not None and line_end < line_start:
+        return _invalid_parameter_text("line_end", "line_end must be greater than or equal to line_start.")
     if not _is_absolute_file_path(file_path):
         return _path_error("file_path")
 
@@ -987,7 +1136,7 @@ def nbrag_read_more_original_text(file_path: str, collection_name: str, line_sta
     le = str(data.get("line_end", "?"))
     content = str(data.get("content", ""))
 
-    original_text = _tagged_text("nbrag_original_text", [
+    original_text = _entity_text("nbrag_original_text", [
         ("file_path", file_path_str),
         ("doc_id", doc_id_str),
         ("total_lines", total_lines),
@@ -999,8 +1148,15 @@ def nbrag_read_more_original_text(file_path: str, collection_name: str, line_sta
 
 @_contract_tool("returned_document_count", "nbrag_document")
 def nbrag_list(collection_name: str, offset: int = 0, limit: int = 100) -> str:
-    offset = _int_param(offset, 0)
-    limit = _int_param(limit, 100)
+    collection_name, issue = _validate_required_text(collection_name, "collection_name")
+    if issue:
+        return issue
+    offset, issue = _validate_int(offset, "offset", 0)
+    if issue:
+        return issue
+    limit, issue = _validate_int(limit, "limit", 1)
+    if issue:
+        return issue
     rows = list_documents(collection_name, offset=offset, limit=limit)
     if not rows:
         collection_issue = _collection_presence_issue_text(collection_name)
@@ -1013,22 +1169,38 @@ def nbrag_list(collection_name: str, offset: int = 0, limit: int = 100) -> str:
             "Verify collection_name with nbrag_stats(), or ask the user whether this knowledge base has been prepared/ingested.",
         )
 
-    lines = ['<nbrag_list>']
+    next_rows = list_documents(collection_name, offset=offset + len(rows), limit=1)
+    has_more = bool(next_rows)
+    next_offset = offset + len(rows) if has_more else None
+    lines = [_tagged_text("pagination", attributes=[
+        ("offset", offset),
+        ("limit", limit),
+        ("returned_document_count", len(rows)),
+        ("has_more", str(has_more).lower()),
+        ("next_offset", next_offset),
+    ])]
     for i, (doc_id, row) in enumerate(rows.items()):
         if i > 0:
             lines.extend(["", ""])
         file_path = str(row.get("source", row.get("file_path", "?")))
         filename = str(row.get("filename", "?"))
         total_chunks = str(row.get("total_chunks", row.get("chunk_count", "?")))
-        lines.append(_tagged_text("nbrag_document", [
+        lines.append(_entity_text("nbrag_document", [
             ("doc_id", doc_id),
             ("file_path", file_path),
             ("filename", filename),
             ("total_chunks", total_chunks),
         ]))
-    lines.append('')
-    lines.append('</nbrag_list>')
-    return "\n".join(lines)
+    return _tagged_text(
+        "nbrag_list",
+        body=lines,
+        attributes=[
+            ("offset", offset),
+            ("limit", limit),
+            ("has_more", str(has_more).lower()),
+            ("next_offset", next_offset),
+        ],
+    )
 
 
 @_contract_tool("returned_collection_count", "nbrag_collection")
@@ -1056,7 +1228,7 @@ def nbrag_stats() -> str:
         chunk_size = info.get("chunk_size")
         chunk_overlap = info.get("chunk_overlap")
         last_ingested_at = info.get("last_ingested_at")
-        lines.append(_tagged_text("nbrag_collection", [
+        lines.append(_entity_text("nbrag_collection", [
             ("collection_name", name),
             ("docs", docs),
             ("chunks", chunks),

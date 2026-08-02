@@ -44,8 +44,11 @@ mcp = FastMCP("nbrag")
 @mcp.tool()
 def nbrag_help() -> str:
     """
-    Routing guide for AI agents using nbrag.
+    nbrag tool usage guide for AI agents.
     在调用其他 nbrag工具之前，必须先确保你曾经已经过调用nbrag_help,以便知道如何对nbrag的一系列工具正确的配合使用打组合拳。
+
+ nbrag 是 agentic rag，由llm主动调用主动根据上下文构造向量检索语句和bm25检索语句,不是那种传统一轮rag。
+ nbrag 使llm能根据chunk块，自动以及llm自主扩大阅读范围，吊打任何传统rag，可以完成横跨多个文件的多跳检索的极端复杂任务推理。
 
 nbrag_help() explains how to use nbrag as an evidence-retrieval workflow rather
 than a one-shot search tool. It establishes:
@@ -65,7 +68,7 @@ using line_start as chunk_index, or treating a truncated chunk as full source.
 
 MANDATORY bootstrap with session-aware reuse:
 
-Before the first nbrag operation whose routing guidance is not already available
+Before the first nbrag operation whose nbrag tool usage guide is not already available
 in the current conversation context, call nbrag_help() proactively.
 
 A successful nbrag_help() response makes this guidance reusable for all later
@@ -75,12 +78,12 @@ not by itself require another nbrag_help() call.
 Before calling nbrag_help(), check whether the current conversation already
 contains a successful nbrag_help() result:
 
-- If it does, reuse that guidance and proceed directly to the appropriate tool.
+- If it does, reuse the nbrag tool usage guide and proceed directly to the appropriate tool.
 - If it does not, the result is unavailable after context compaction, or you
   are uncertain, call nbrag_help() before using other nbrag tools.
-- Call it again if the routing/workflow version has changed.
+- Call it again if the tool usage guide/workflow version has changed.
 
-When in doubt, call nbrag_help(); do not skip it merely to save one tool call.
+When in doubt, call nbrag_help().
     """
     return mcp_tools.nbrag_help()
 
@@ -102,11 +105,11 @@ def nbrag_add_document(
 
 
 class FuncFields:
-    query: str = Field(description="Main semantic query used by vector retrieval and reranking. Keep it as a natural-language question or statement that preserves the real retrieval target. Use ongoing dialogue or earlier retrieval results to resolve pronouns, restore omitted entities, fix obvious typos, or sharpen the event/relation/attribute wording once the target is clear. Let query stay semantically complete and readable; use bm25_query separately for lexical anchors.")
+    query: str = Field(description="Main semantic query used by vector retrieval and reranking. Keep it as a natural-language question or statement that preserves the real retrieval target. Use ongoing dialogue or earlier retrieval results to resolve pronouns, restore omitted entities, fix obvious typos, or sharpen the event/relation/attribute wording once the target is clear. Let query stay semantically complete and readable; use bm25_query separately for lexical anchors.如果知识库内容是英文的，请使用英文语句检索")
     collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)")
-    top_k: int = Field(default=5, description="Number of ranked hits to return")
+    top_k: int = Field(default=20, description="Number of ranked hits to return,通常情况下保持默认值就就好了，llm不用擅自修改")
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking. In the current hybrid implementation, this narrows vector retrieval to that file and skips cross-file BM25 fusion. Value comes from the file_path handle returned by nbrag tools.")
-    bm25_query: str = Field(description="Lexical-anchor query used only by BM25. Build it from grounded wording likely to appear literally in the source: exact terms, aliases, article numbers, abbreviations, codes, API/class names, symbol names, titles, place names, event markers, error strings, or short phrases. Compared with query, bm25_query carries more source-facing lexical anchors and can combine multiple grounded anchors only when they target the same evidence. Do not mix unverified alternatives, unrelated entities, or adjacent provisions merely as a keyword bag. Refine anchors across turns from the user's wording, ongoing dialogue, or earlier hits. It does not affect vector retrieval or reranking.")
+    bm25_query: str = Field(default="", description="Optional lexical-anchor query used only by BM25. Omit it or pass an empty string when no grounded lexical anchor is available; the hybrid search still uses query for vector retrieval and reranking. When provided, build it from wording likely to appear literally in the source: exact terms, aliases, article numbers, abbreviations, codes, API/class names, symbol names, titles, place names, event markers, error strings, or short phrases. Compared with query, bm25_query carries more source-facing lexical anchors and can combine multiple grounded anchors only when they target the same evidence. Do not mix unverified alternatives, unrelated entities, or adjacent provisions merely as a keyword bag. Refine anchors across turns from the user's wording, ongoing dialogue, or earlier hits.如果知识库内容是英文的，请使用英文语句检索")
     include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only lookup when you only need handles like file_path/doc_id/chunk_index. Content is a truncated chunk fragment, not the full source")
     file_path: str = Field(description="Exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted")
     
@@ -127,7 +130,7 @@ def nbrag_search(
     这个nbrag_search不是nbrag的主打默认检索工具,大部分情况应该优先使用 nbrag_search_and_fetch 作为默认检索入口工具没因为 nbrag_search_and_fetch 还会额外返回 fetch_top_n_original_text_excerpt 个数的 original-text 无chunk 重叠的原始内容。
 
     Before using this tool, check whether a successful nbrag_help() response is already
-    available in the current conversation context. If it is, reuse that routing guidance
+    available in the current conversation context. If it is, reuse that tool usage guide
     and call this tool directly. If it is unavailable, lost after context compaction, or
     uncertain, call nbrag_help() proactively first. A new user question in the same
     conversation does not by itself require another nbrag_help() call.
@@ -145,12 +148,12 @@ def nbrag_search(
     - setting bm25_query does not disable vector retrieval or reranking
     - setting filter_file_path narrows retrieval to one stored file; in the current hybrid implementation this also disables cross-file BM25 fusion
 
-    Returned text uses nbrag-specific tags with unescaped key = value metadata. Each `<nbrag_ranked_hit>` carries file_path, doc_id, chunk_index, total_chunks, line_start, line_end, scope, dist, and optional score. Its `<nbrag_chunk_content>` always contains one RAG chunk, bounded by that chunk's boundaries rather than complete original text.
+    Returned text uses nbrag-specific XML tags. Each `<nbrag_ranked_hit>` carries file_path, doc_id, chunk_index, total_chunks, line_start, line_end, scope, dist, and optional score as XML attributes. Its `<nbrag_chunk_content>` always contains one RAG chunk, bounded by that chunk's boundaries rather than complete original text.
 
     Follow-up tools:
-    - 如果某个 ranked hit 对回答有用，就复用该 hit 的 file_path、line_start、line_end 调用 nbrag_read_more_original_text，并将读取窗设为以 hit 的 line_start 为锚点前 200 行到后 400 行：line_start=max(1, line_start-200)，line_end=line_start+400。
-    - 如果首次扩读后仍缺少回答所需的上下文，就根据缺失内容相对于当前阅读窗的位置，继续扩大读取范围。
-    - 如果需要 chunk 边界或 scope metadata，就复用 doc_id、chunk_index 调用 nbrag_get_adjacent_chunks，或复用 doc_id、line_start、line_end 调用 nbrag_get_chunks_by_lines。
+    - 如果某个 ranked hit 对回答有用，就把它的 line_start 记作 hit_line_start，再用 file_path 调用 nbrag_read_more_original_text，读取 line_start=max(1, hit_line_start-200) 到 line_end=hit_line_start+400 的连续原文。
+    - 如果缺少前文，就减小 line_start；如果缺少后文，就增大 line_end。如果需要完整 stored file，就省略两个 line bounds。
+    - 大文件和大范围内容也使用 nbrag_read_more_original_text 按连续 line ranges 阅读。只有明确需要 chunk boundaries、scope metadata、overlap 或 chunking inspection 时，才使用 chunk tools。
     - 如果需要精确文本匹配，就调用 nbrag_grep；如果需要 Python .py symbol definition，就调用 nbrag_find_definition。
     """
     return mcp_tools.nbrag_search(
@@ -179,7 +182,7 @@ def nbrag_search_only_bm25(
     This is ranked retrieval, not literal line matching.
     A single bm25_query can combine multiple grounded lexical anchors when you want to test whether BM25 can target the right evidence by wording alone.
 
-    Each `<nbrag_ranked_hit>` exposes the result-specific handles as key = value metadata. Each `<nbrag_chunk_content>` always contains one RAG chunk, bounded by that chunk's boundaries rather than complete original text.
+    Each `<nbrag_ranked_hit>` exposes result-specific handles as XML attributes. Each `<nbrag_chunk_content>` always contains one RAG chunk, bounded by that chunk's boundaries rather than complete original text.
 
     Use instead:
     - nbrag_grep() for literal line-by-line matching in stored original text
@@ -209,7 +212,7 @@ def nbrag_search_only_vector(
     This is useful for inspecting embedding behavior without BM25 or reranking.
     Keep query semantically clear here. This tool does not accept bm25_query; if you need lexical anchors, switch to nbrag_search() or nbrag_search_and_fetch() which expose bm25_query.
 
-    Each `<nbrag_ranked_hit>` exposes the result-specific handles as key = value metadata. Each `<nbrag_chunk_content>` always contains one RAG chunk, bounded by that chunk's boundaries rather than complete original text.
+    Each `<nbrag_ranked_hit>` exposes result-specific handles as XML attributes. Each `<nbrag_chunk_content>` always contains one RAG chunk, bounded by that chunk's boundaries rather than complete original text.
 
     Use instead:
     - nbrag_search_only_bm25() for lexical-only inspection
@@ -230,12 +233,12 @@ def nbrag_search_and_fetch(
     query: str = FuncFields.query,
     collection_name: str = FuncFields.collection_name,
     top_k: int = FuncFields.top_k,
-    fetch_top_n_original_text_excerpt: int = Field(default=3, description="Number of top ranked hits eligible for auto-fetching stored original-text excerpts. Hits from the same document can produce merged ranges, so the final nbrag_original_text_excerpt count can be lower. 0 disables auto-fetching."),
+    fetch_top_n_original_text_excerpt: int = Field(default=5, description="Number of top ranked hits eligible for auto-fetching stored original-text excerpts. Hits from the same document can produce merged ranges, so the final nbrag_original_text_excerpt count can be lower. 0 disables auto-fetching."),
     fetch_context_chars: int = Field(default=DEFAULT_FETCH_CONTEXT_CHARS, description=f"Per ranked hit: approximate original-text context-character budget around the matched line range, split about half before and half after. This is per eligible hit, not a total response cap. Default {DEFAULT_FETCH_CONTEXT_CHARS} means roughly {DEFAULT_FETCH_CONTEXT_CHARS // 2} chars before and {DEFAULT_FETCH_CONTEXT_CHARS // 2} chars after each hit."),
     filter_file_path: str = FuncFields.filter_file_path,
     bm25_query: str = FuncFields.bm25_query,
 ) -> str:
-    """Default one-call retrieval tool for most questions after routing is established.
+    """Default one-call retrieval tool for most questions after collection_name is known.
 
     Before using this tool, check whether a successful nbrag_help() response is already
     available in the current conversation context. That guidance explains query/bm25_query
@@ -263,9 +266,9 @@ def nbrag_search_and_fetch(
 
     `<nbrag_follow_up>` appears before the result data. `<nbrag_ranked_hit>` contains one `<nbrag_chunk_content>` RAG chunk whose original-text context stops at chunk boundaries. Each `<nbrag_original_text_excerpt>` contains a bounded, overlap-free stored-original-text excerpt in `<nbrag_original_text_content>` and carries file_path, doc_id, line_start, and line_end. Neither entity is a complete file.
 
-    如果某个 ranked hit 对回答有用，就复用该 hit 的 file_path、line_start、line_end 调用 nbrag_read_more_original_text，并将读取窗设为以 hit 的 line_start 为锚点前 200 行到后 400 行：line_start=max(1, line_start-200)，line_end=line_start+400。如果首次扩读后仍缺少回答所需的上下文，就根据缺失内容相对于当前阅读窗的位置，继续扩大读取范围。
+    如果某个 ranked hit 对回答有用，就把它的 line_start 记作 hit_line_start，再用 file_path 调用 nbrag_read_more_original_text，读取 line_start=max(1, hit_line_start-200) 到 line_end=hit_line_start+400 的连续原文。如果缺少前文，就减小 line_start；如果缺少后文，就增大 line_end。
 
-    如果需要 chunk 边界或 scope metadata，就复用 doc_id、chunk_index 调用 nbrag_get_adjacent_chunks，或复用 doc_id、line_start、line_end 调用 nbrag_get_chunks_by_lines。
+    大文件和大范围内容也使用 nbrag_read_more_original_text 按连续 line ranges 阅读。只有明确需要 chunk boundaries、scope metadata、overlap 或 chunking inspection 时，才使用 chunk tools。
 
     fetch_context_chars is a per-hit original-text context-character budget used during automatic expansion, not a final total response budget.
 
@@ -295,9 +298,9 @@ def nbrag_grep(
 
     Use this when exact wording matters: article numbers, headings, exact phrases, API names, class/function names, constants, imports, decorators, error strings, or other precise text.
     This is for literal/regex matching after you already know or suspect the wording to target; it is not the tool for semantic discovery.
-    Do not use it for concept search, synonym search, or paraphrase search.
+    Use nbrag_search_and_fetch() for concept, synonym, or paraphrase retrieval.
 
-    Each `<nbrag_match>` exposes file_path, doc_id, line_start, and line_end as key = value lines; single-line matches use equal bounds. `<nbrag_original_text_content>` is a stored-original-text excerpt bounded by match_context_chars.
+    Each `<nbrag_match>` exposes file_path, doc_id, line_start, and line_end as XML attributes; single-line matches use equal bounds. `<nbrag_original_text_content>` is a stored-original-text excerpt bounded by match_context_chars.
     """
     return mcp_tools.nbrag_grep(keyword, collection_name, max_results, case_sensitive, filter_file_path, match_context_chars)
 
@@ -314,7 +317,7 @@ def nbrag_find_definition(
     If a result comes from non-Python text, it should be clearly treated as regex fallback rather than as a strong symbol-definition result.
 
     Use this after search, grep, or prior retrieval context has already narrowed the symbol name.
-    Each `<nbrag_definition>` exposes doc_id, file_path, and line bounds as key = value lines. `<nbrag_definition_content>` is an AST-aware Python definition body; regex_fallback is only a candidate text match.
+    Each `<nbrag_definition>` exposes doc_id, file_path, and line bounds as XML attributes. `<nbrag_definition_content>` is an AST-aware Python definition body; regex_fallback is only a candidate text match.
     """
     return mcp_tools.nbrag_find_definition(symbol, collection_name, max_results)
 
@@ -332,7 +335,7 @@ def nbrag_find_files(
     Returns the full absolute file_path that other tools require for file_path / filter_file_path parameters.
     This is a handle-discovery step, not a semantic retrieval step.
 
-    Each `<nbrag_file>` exposes matched file_path, filename, doc_id, and total_chunks as key = value lines.
+    Each `<nbrag_file>` exposes matched file_path, filename, doc_id, and total_chunks as XML attributes.
     """
     return mcp_tools.nbrag_find_files(pattern, collection_name, max_results, case_sensitive)
 
@@ -346,11 +349,11 @@ def nbrag_get_file_chunks(
 ) -> str:
     """Paginated chunk view for a stored file.
 
-    Use this when you want chunk-by-chunk browsing together with line and scope metadata.
-    This is a chunk-based view and can include overlapping content by design.
-    For overlap-free original text, use nbrag_read_more_original_text() instead.
+    Use this for paginated inspection of chunk boundaries, scope metadata, overlap, or chunking quality.
+    Use nbrag_read_more_original_text() for continuous original text, large files, and wider source context.
+    Adjacent chunks in this view overlap by the ingestion overlap configuration.
 
-    Returned text includes file-level key = value metadata and one `<nbrag_chunk>` block per chunk. Each `<nbrag_chunk_content>` always contains one RAG chunk, bounded by that chunk's boundaries rather than complete original text.
+    Returned text exposes pagination metadata on the root and `<pagination>` tags, plus one `<nbrag_chunk>` per chunk with reusable handles as XML attributes. Each `<nbrag_chunk_content>` always contains one RAG chunk, bounded by that chunk's boundaries rather than complete original text.
     """
     return mcp_tools.nbrag_get_file_chunks(file_path, collection_name, start_chunk, max_chunks)
 
@@ -364,13 +367,13 @@ def nbrag_read_more_original_text(
 ) -> str:
     """
     获取某个文件的原始内容。
-    如果某个 ranked hit 对回答有用，就复用其 file_path、line_start、line_end，读取范围设为以 hit 的 line_start 为锚点前 200 行到后 400 行：line_start=max(1, hit line_start-200)，line_end=hit line_start+400。
-    如果首次扩读后仍缺少回答所需的上下文，就根据缺失内容相对于当前阅读窗的位置，继续扩大读取范围。
+    如果某个 ranked hit 对回答有用，就把它的 line_start 记作 hit_line_start，再读取 line_start=max(1, hit_line_start-200) 到 line_end=hit_line_start+400 的连续原文。
+    如果缺少前文，就减小 line_start；如果缺少后文，就增大 line_end。大文件和大范围内容也按连续 line ranges 读取。
 
     This reads the stored original text snapshot captured in the knowledge base at ingestion time; it is not a live filesystem refresh.
-    Use it when you need clean quoting, broader source context, or a specific line range. Omit both line bounds only when you intentionally need the complete stored file.
+    Use it for clean quoting, broader source context, a specific line range, or a complete stored file. Omit both line bounds to read the complete stored file.
 
-    Returned text includes file_path, doc_id, total_lines, line_start, and line_end as key = value lines, with original text under `<nbrag_original_text_content>`.
+    Returned text includes file_path, doc_id, total_lines, line_start, and line_end as XML attributes, with original text under `<nbrag_original_text_content>`.
     Unlike chunk-based tools, this returns overlap-free stored original text snapshot, not a truncated chunk."""
     return mcp_tools.nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)
 
@@ -378,18 +381,19 @@ def nbrag_read_more_original_text(
 @mcp.tool()
 def nbrag_get_adjacent_chunks(
     doc_id: str = Field(description="Document ID returned by nbrag tools such as search/search_and_fetch/grep/list"),
-    chunk_index: int = Field(description="Target chunk index from a prior `<nbrag_ranked_hit>` or `<nbrag_chunk>` metadata block. grep and find_definition do not provide chunk_index; do not substitute line_start."),
+    chunk_index: int = Field(description="Target chunk index from a prior `<nbrag_ranked_hit>` or `<nbrag_chunk>` metadata block. Use the chunk_index attribute returned by those entities."),
     collection_name: str = FuncFields.collection_name,
     window: int = Field(default=3, description="Return chunk_index ± window chunks"),
 ) -> str:
-    """Expand chunk context around a known ranked hit.
+    """Inspect chunk structure around a known ranked hit.
 
-    Use this when nbrag_search() or nbrag_search_and_fetch() already gave you doc_id + chunk_index
-    and you want nearby chunks. grep results may provide doc_id, but grep alone does not provide chunk_index,
+    Use this for nearby chunk boundaries, scope metadata, overlap, or chunking inspection.
+    Use nbrag_read_more_original_text() for wider source context and large files.
+    nbrag_search() or nbrag_search_and_fetch() must already have provided doc_id + chunk_index. grep results may provide doc_id, but grep alone does not provide chunk_index,
     so grep output is not sufficient by itself for this tool.
 
     Returned text includes file_path, total_chunks, and the adjacent chunks with line markers.
-    Each `<nbrag_chunk_content>` always contains one RAG chunk, bounded by that chunk's boundaries rather than complete original text. Use nbrag_read_more_original_text for overlap-free original text."""
+    Each `<nbrag_chunk_content>` always contains one RAG chunk; adjacent chunks overlap by the ingestion overlap configuration."""
     return mcp_tools.nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name, window)
 
 
@@ -403,9 +407,9 @@ def nbrag_get_chunks_by_lines(
     """Return all chunks covering a line range.
 
     Use this when you already know a line range and want chunk-level context with scope metadata.
-    Compared with nbrag_read_more_original_text(), this keeps chunk/scope structure but can include overlapping content by design.
+    Compared with nbrag_read_more_original_text(), this keeps chunk/scope structure; adjacent chunks overlap by the ingestion overlap configuration.
 
-    Returned text includes doc_id, file_path, requested line bounds, and one `<nbrag_chunk>` key = value metadata block per overlapping chunk. Each `<nbrag_chunk_content>` always contains one RAG chunk, bounded by that chunk's boundaries rather than complete original text."""
+    Returned text includes doc_id, file_path, requested line bounds, and one `<nbrag_chunk>` with XML attributes per overlapping chunk. Each `<nbrag_chunk_content>` always contains one RAG chunk, bounded by that chunk's boundaries rather than complete original text."""
     return mcp_tools.nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)
 
 
@@ -419,9 +423,9 @@ def nbrag_list(
 
     Use this when the user explicitly wants to browse imported documents,
     or when you need inventory handles such as doc_id and file_path before a follow-up read.
-    This is for collection inventory and handle discovery, not the default path for semantic question answering.
+    This provides collection inventory and handle discovery. Use nbrag_search_and_fetch() for semantic question answering.
 
-    Each `<nbrag_document>` exposes doc_id, filename, total_chunks, and file_path as key = value lines."""
+    The root and `<pagination>` tag expose offset, limit, has_more, and next_offset when another page exists. Each `<nbrag_document>` exposes doc_id, filename, total_chunks, and file_path as XML attributes."""
     return mcp_tools.nbrag_list(collection_name=collection_name, offset=offset, limit=limit)
 
 

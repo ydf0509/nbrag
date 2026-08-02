@@ -1,0 +1,11 @@
+- [x] URL 解析：`https://github.com/owner/repo` 正确提取 owner/repo
+- [x] URL 解析：`https://github.com/owner/repo/tree/dev` 忽略 /tree 部分
+- [x] URL 解析：URL 尾部斜杠不影响解析
+- [x] 下载：构造正确的 GitHub archive URL
+- [x] 下载：网络错误时抛出异常，不静默
+- [x] 解压：ZIP 解压到临时目录
+- [x] 主函数：成功调用 batch_ingest，传入解压目录
+- [x] 主函数：file_extensions 自动追加 .md, .txt, .rst
+- [x] 主函数：.git 目录自动排除
+- [x] 主函数：异常不捕获，直接上抛
+- [x] 主函数：verbose 模式打印下载和解压路径

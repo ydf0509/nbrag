@@ -2,11 +2,14 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-`nbrag` 是一个 PyPI 三方包，用来构建本地文本知识库，并通过 MCP server 对外提供检索能力。
+`nbrag` 是一个 PyPI 三方包，用来构建本地文本知识库，并通过 MCP server 给 llm提供rag知识库检索能力。   
+nbrag 是 agentic rag，由llm主动调用主动根据上下文构造向量检索语句和bm25检索语句。   
+nbrag 使llm能根据chunk块，自动以及llm自主扩大阅读范围，吊打任何传统rag，可以完成横跨多个文件的多跳检索的极端复杂任务推理。     
+nbrag 作为mcp可以配置给任意agent工具，包括openclaw codex claudecode cursor trae opencode workbuddy lc-aegnt 等等。    
 
-适合这样的场景：你希望 MCP 客户端能从你自己掌控的文件里检索证据，例如内部文档、法规、手册、笔记、本地项目文档或 
+适合这样的场景：你希望 MCP 客户端能从你自己掌控的文件里检索知识，例如内部文档、法规、手册、笔记、本地项目文档或 
 Python 源码。
-nbrag 自带 向量检索 bm25检索 和混合检索，通过强力的提示词和10+个工具，ai检索出最相关的证据。
+nbrag 自带 向量检索 bm25检索 和混合检索，通过强力的提示词和10+个工具，ai检索出最相关的知识。
 
 ## nbrag 是做什么的
 
@@ -147,6 +150,30 @@ set_collection_profile(
 ```
 
 仓库里的 `scripts/` 目录下已经有一些 ingest 示例可参考。
+
+### 导入 GitHub 项目到 nbrag 知识库
+
+`nbrag.contrib.ingest_github_proj` 可以直接下载 GitHub 仓库 ZIP 并导入知识库：
+
+```python
+from nbrag.contrib.ingest_github_proj import ingest_github_proj
+
+ingest_github_proj(
+    "https://github.com/owner/repo",
+    collection_name="repo",
+    relative_paths=["src", "docs"],
+    branch="main",
+    delete_first=True,
+    verbose=True,
+)
+```
+
+### ingest_github_proj 的好处
+
+你可以使用 `nbrag/.agents/skills/ingest-github-proj/SKILL.md` 里的 skill，让ai帮你写导入github项目的脚本。
+
+你可以把你关心的 github项目的 源码和教程 同时都向量化到一个知识库，源码和教程一把抓， 让ai无幻觉辅助你写代码。 llm搭配nbrag mcp 吊打 llm搭配知名的context7 mcp。
+
 
 ## 启动 MCP server
 

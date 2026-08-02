@@ -135,21 +135,21 @@ class McpContractTests(unittest.TestCase):
                 self.assertNotIn("<top_result_handles>", result)
                 self.assertNotIn("<guidance>", result)
                 for child_tag in child_tags:
-                    self.assertIn(f"<{child_tag}>", result)
+                    self.assertRegex(result, rf"<{child_tag}(?:\s[^>]*)?>")
                     self.assertIn(f"</{child_tag}>", result)
 
-        self.assertIn("file_path = D:/docs/file.txt", search_result_text)
-        self.assertIn("chunk_index = 1", search_result_text)
-        self.assertIn("line_start = 3\nline_end = 3", grep_result)
-        self.assertIn("line_start = 1\nline_end = 3", raw_result)
+        self.assertIn('file_path="D:/docs/file.txt"', search_result_text)
+        self.assertIn('chunk_index="1"', search_result_text)
+        self.assertIn('line_start="3" line_end="3"', grep_result)
+        self.assertIn('line_start="1" line_end="3"', raw_result)
         self.assertNotIn("<nbrag_raw_file>", raw_result)
         self.assertNotIn("<nbrag_raw_content>", raw_result)
         path_error = mcp_tools.nbrag_read_more_original_text("file.txt", "kb")
         self.assertTrue(path_error.startswith('<nbrag_read_more_original_text status="error">'))
-        self.assertIn("<error>\ntype = invalid_file_path\nfield = file_path", path_error)
+        self.assertIn('<error type="invalid_file_path" field="file_path">', path_error)
         with patch("nbrag.mcp_tools.get_file_chunks", return_value={"found": False}):
             not_found_error = mcp_tools.nbrag_read_more_original_text("D:/docs/missing.txt", "kb")
-        self.assertIn("message = Stored original text not found.", not_found_error)
+        self.assertIn("<message>\nStored original text not found.", not_found_error)
 
     def test_no_results_is_success_with_zero_count(self) -> None:
         with patch("nbrag.mcp_tools.grep_knowledge", return_value=[]), \
@@ -159,6 +159,9 @@ class McpContractTests(unittest.TestCase):
         self.assertTrue(result.startswith('<nbrag_grep status="success" returned_match_count="0">'))
         self.assertIn("<execution>\noutcome = no_results", result)
         self.assertNotIn("<error>", result)
+        self.assertIn('<no_results type="no_results" field="keyword">', result)
+        self.assertIn("<recovery>", result)
+        self.assertIn("switch to nbrag_search_and_fetch", result)
 
     def test_server_search_only_vector_uses_dedicated_helper(self) -> None:
         with patch("nbrag.server.mcp_tools.nbrag_search_only_vector", return_value="VECTOR") as mock_vector, \
@@ -174,6 +177,25 @@ class McpContractTests(unittest.TestCase):
         self.assertEqual(result, "VECTOR")
         mock_vector.assert_called_once_with("semantic intent", "kb", 2, "D:/docs/file.md", False)
         mock_search.assert_not_called()
+
+    def test_bm25_query_is_optional_in_server_schema_and_runtime(self) -> None:
+        search_signature = inspect.signature(server.nbrag_search)
+        fetch_signature = inspect.signature(server.nbrag_search_and_fetch)
+        self.assertEqual(search_signature.parameters["bm25_query"].default.default, "")
+        self.assertEqual(fetch_signature.parameters["bm25_query"].default.default, "")
+
+        fake_result = (["text"], [{
+            "source": "D:/docs/file.txt",
+            "doc_id": "doc-1",
+            "chunk_index": 0,
+            "total_chunks": 1,
+            "line_start": 1,
+            "line_end": 1,
+        }], [0.1], False, 1, [])
+        with patch("nbrag.mcp_tools.search", return_value=fake_result) as mock_search:
+            mcp_tools.nbrag_search("query", "kb")
+
+        self.assertIsNone(mock_search.call_args.kwargs["bm25_query"])
 
     def test_delete_reports_deleted_count_and_filename(self) -> None:
         with patch("nbrag.mcp_tools.delete_document", return_value=(3, "劳动合同法.md")):
@@ -195,13 +217,14 @@ class McpContractTests(unittest.TestCase):
 
         self.assertIn("<nbrag_follow_up>", result)
         self.assertIn("`<nbrag_chunk_content>` is exactly one RAG chunk", result)
-        self.assertIn("When the answer, quotation, or verification depends on text outside the shown chunk or original-text excerpt", result)
+        self.assertIn("If the answer, quotation, or verification depends on text outside the shown range", result)
         self.assertIn("`<nbrag_original_text_content>` takes its range semantics from its outer entity", result)
         self.assertIn("under `<nbrag_match>` it is bounded by match_context_chars", result)
         self.assertIn("under `<nbrag_original_text_excerpt>` it is bounded by fetch_context_chars", result)
         self.assertIn("under `<nbrag_original_text>` it is the explicitly requested stored-original-text reading window", result)
-        self.assertIn("以 hit 的 line_start 为锚点前 200 行到后 400 行", result)
-        self.assertIn("如果首次扩读后仍缺少回答所需的上下文", result)
+        self.assertIn("line_start=max(1, hit_line_start-200)", result)
+        self.assertIn("For large files and wide reading ranges", result)
+        self.assertIn("Chunk tools inspect chunk boundaries", result)
 
     def test_routing_guidance_is_reused_within_a_conversation(self) -> None:
         with patch("nbrag.mcp_tools._load_workflow_skill_text", return_value=""):
@@ -224,7 +247,7 @@ class McpContractTests(unittest.TestCase):
         with patch("nbrag.mcp_tools.grep_knowledge", return_value=fake_results):
             result = mcp_tools.nbrag_grep("exact phrase", "kb")
 
-        self.assertIn("<nbrag_match>\nfile_path = D:/docs/file.txt\ndoc_id = doc-1\nline_start = 4\nline_end = 4", result)
+        self.assertIn('<nbrag_match file_path="D:/docs/file.txt" doc_id="doc-1" line_start="4" line_end="4">', result)
         self.assertNotIn("Top match handles", result)
         self.assertNotIn("guidance", result)
 
@@ -241,17 +264,60 @@ class McpContractTests(unittest.TestCase):
         with patch("nbrag.mcp_tools.find_symbol_definition", return_value=fake_results):
             result = mcp_tools.nbrag_find_definition("demo", "kb")
 
-        self.assertIn("<nbrag_definition>\nsymbol_type = function\nqualified_name = demo\nfile_path = D:/docs/demo.py\ndoc_id = doc-1\nline_start = 2\nline_end = 3", result)
+        self.assertIn('<nbrag_definition symbol_type="function" qualified_name="demo" file_path="D:/docs/demo.py" doc_id="doc-1" line_start="2" line_end="3">', result)
         self.assertNotIn("Top definition handles", result)
         self.assertNotIn("guidance", result)
 
     def test_list_exposes_handles_only_on_document_entities(self) -> None:
         fake_rows = {"doc-1": {"source": "D:/docs/file.txt", "filename": "file.txt", "total_chunks": 2}}
-        with patch("nbrag.mcp_tools.list_documents", return_value=fake_rows):
+        with patch("nbrag.mcp_tools.list_documents", side_effect=[fake_rows, {}]):
             result = mcp_tools.nbrag_list("kb")
 
-        self.assertIn("<nbrag_document>\ndoc_id = doc-1\nfile_path = D:/docs/file.txt", result)
+        self.assertIn('<nbrag_document doc_id="doc-1" file_path="D:/docs/file.txt"', result)
         self.assertNotIn("Unlocks:", result)
+
+    def test_pagination_metadata_is_returned_for_chunks_and_documents(self) -> None:
+        chunk_data = {
+            "found": True,
+            "source": "D:/docs/file.txt",
+            "doc_id": "doc-1",
+            "total_chunks": 4,
+            "total_lines": 20,
+            "end_chunk": 2,
+            "chunks": [{
+                "index": 1,
+                "line_start": 5,
+                "line_end": 10,
+                "scope": "Demo",
+                "content": "chunk",
+            }],
+        }
+        with patch("nbrag.mcp_tools.get_file_chunks", return_value=chunk_data):
+            chunk_result = mcp_tools.nbrag_get_file_chunks("D:/docs/file.txt", "kb", start_chunk=1, max_chunks=1)
+
+        self.assertIn('has_more="true" next_start_chunk="2"', chunk_result.splitlines()[0])
+        self.assertIn('<pagination start_chunk="1" max_chunks="1" returned_chunk_count="1" total_chunks="4" has_more="true" next_start_chunk="2">', chunk_result)
+
+        page = {"doc-1": {"source": "D:/docs/a.txt", "filename": "a.txt", "total_chunks": 1}}
+        next_page = {"doc-2": {"source": "D:/docs/b.txt", "filename": "b.txt", "total_chunks": 1}}
+        with patch("nbrag.mcp_tools.list_documents", side_effect=[page, next_page]):
+            list_result = mcp_tools.nbrag_list("kb", offset=0, limit=1)
+
+        self.assertIn('has_more="true" next_offset="1"', list_result.splitlines()[0])
+        self.assertIn('<pagination offset="0" limit="1" returned_document_count="1" has_more="true" next_offset="1">', list_result)
+
+    def test_invalid_parameters_return_structured_errors_without_calling_retrieval(self) -> None:
+        with patch("nbrag.mcp_tools.search") as mock_search:
+            result = mcp_tools.nbrag_search("query", "kb", top_k=0)
+        mock_search.assert_not_called()
+        self.assertTrue(result.startswith('<nbrag_search status="error">'))
+        self.assertIn('<error type="invalid_parameter" field="top_k">', result)
+        self.assertIn("top_k must be an integer >= 1.", result)
+
+        with patch("nbrag.mcp_tools.get_context_chunks") as mock_context:
+            range_result = mcp_tools.nbrag_get_chunks_by_lines("doc-1", 10, 5, "kb")
+        mock_context.assert_not_called()
+        self.assertIn('<error type="invalid_parameter" field="line_end">', range_result)
 
     def test_search_output_includes_handles_and_filter_note(self) -> None:
         fake_config = SimpleNamespace(rerank=SimpleNamespace(model="reranker-v2"))
@@ -290,12 +356,12 @@ class McpContractTests(unittest.TestCase):
         self.assertIn("name = filter_file_path\nvalue = D:/docs/labor_law/劳动合同法.md", result)
         self.assertNotIn("bm25 = off", result)
         self.assertNotIn("rerank = reranker-v2", result)
-        self.assertIn("file_path = D:/docs/labor_law/劳动合同法.md", result)
-        self.assertIn("total_chunks = 9", result)
-        self.assertIn("chunk_index = 3", result)
+        self.assertIn('file_path="D:/docs/labor_law/劳动合同法.md"', result)
+        self.assertIn('total_chunks="9"', result)
+        self.assertIn('chunk_index="3"', result)
         self.assertNotIn("Available follow-up tools when you need to expand, quote, or verify:", result)
-        self.assertIn("<nbrag_ranked_hit>\nrank = 1", result)
-        self.assertIn("score = 0.9876", result)
+        self.assertIn('<nbrag_ranked_hit rank="1"', result)
+        self.assertIn('score="0.9876"', result)
 
     def test_search_and_fetch_auto_fetches_original_text_excerpt(self) -> None:
         fake_config = SimpleNamespace(rerank=SimpleNamespace(model="reranker-v2"))
@@ -343,14 +409,15 @@ class McpContractTests(unittest.TestCase):
 
         mock_get_file_chunks.assert_called_once_with("D:/docs/labor_law/劳动合同法.md", "worker_rights", 0, 0, raw=True)
         self.assertIn("<nbrag_follow_up>", result)
-        self.assertLess(result.index("<nbrag_follow_up>"), result.index("<nbrag_ranked_hit>"))
-        self.assertIn("Do not treat either bounded result as complete source context.", result)
-        self.assertIn("file_path -> nbrag_read_more_original_text(file_path, collection_name, line_start, line_end)", result)
-        self.assertIn("doc_id + chunk_index -> nbrag_get_adjacent_chunks(doc_id, chunk_index, collection_name)", result)
-        self.assertIn("doc_id + line_start + line_end -> nbrag_get_chunks_by_lines(doc_id, line_start, line_end, collection_name)", result)
-        self.assertIn("<nbrag_ranked_hit>", result)
-        self.assertIn("<nbrag_original_text_excerpt>", result)
-        self.assertIn("file_path = D:/docs/labor_law/劳动合同法.md\ndoc_id = doc-1\nline_start = 1\nline_end = 3", result)
+        self.assertLess(result.index("<nbrag_follow_up>"), result.index("<nbrag_ranked_hit "))
+        self.assertIn("Both result types are bounded.", result)
+        self.assertIn("line_start=max(1, hit_line_start-200)", result)
+        self.assertIn("For large files and wide reading ranges", result)
+        self.assertIn("nbrag_read_more_original_text over consecutive line ranges", result)
+        self.assertNotIn("doc_id + chunk_index -> nbrag_get_adjacent_chunks", result)
+        self.assertIn("<nbrag_ranked_hit ", result)
+        self.assertIn("<nbrag_original_text_excerpt ", result)
+        self.assertIn('file_path="D:/docs/labor_law/劳动合同法.md" doc_id="doc-1" line_start="1" line_end="3"', result)
         self.assertIn("第二行", result)
 
     def test_search_and_fetch_zero_disables_auto_fetch(self) -> None:
@@ -377,7 +444,7 @@ class McpContractTests(unittest.TestCase):
             )
 
         mock_get_file_chunks.assert_not_called()
-        self.assertNotIn("\n<nbrag_original_text_excerpt>\n", result)
+        self.assertNotIn("\n<nbrag_original_text_excerpt ", result)
 
     def test_search_and_fetch_merges_same_document_excerpts(self) -> None:
         fake_search_result = (
@@ -418,7 +485,7 @@ class McpContractTests(unittest.TestCase):
             )
 
         mock_get_file_chunks.assert_called_once_with("D:/docs/file.txt", "kb", 0, 0, raw=True)
-        excerpt_count = result.count("\n<nbrag_original_text_excerpt>\n")
+        excerpt_count = result.count("\n<nbrag_original_text_excerpt ")
         self.assertEqual(excerpt_count, 1)
         self.assertLess(excerpt_count, 2)
 
@@ -441,7 +508,7 @@ class McpContractTests(unittest.TestCase):
         mock_get_file_chunks.assert_called_once_with(
             "D:/docs/file.txt", "kb", 0, 0, raw=True, line_start=None, line_end=None,
         )
-        self.assertIn("line_start = 1\nline_end = 2", result)
+        self.assertIn('line_start="1" line_end="2"', result)
 
     def test_original_text_description_expands_a_useful_hit_asymmetrically(self) -> None:
         signature = inspect.signature(server.nbrag_read_more_original_text)
@@ -450,8 +517,8 @@ class McpContractTests(unittest.TestCase):
 
         self.assertIn("hit line_start-200", line_start_description)
         self.assertIn("hit line_start+400", line_end_description)
-        self.assertIn("以 hit 的 line_start 为锚点前 200 行到后 400 行", server.nbrag_read_more_original_text.__doc__)
-        self.assertIn("如果首次扩读后仍缺少回答所需的上下文", server.nbrag_read_more_original_text.__doc__)
+        self.assertIn("hit_line_start", server.nbrag_read_more_original_text.__doc__)
+        self.assertIn("大文件和大范围内容也按连续 line ranges 读取", server.nbrag_read_more_original_text.__doc__)
 
     def test_get_raw_file_returns_full_content_when_line_bounds_are_none(self) -> None:
         with patch("nbrag.retrieval._get_existing_collection", return_value=SimpleNamespace(count=lambda: 1)), \

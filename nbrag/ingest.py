@@ -36,6 +36,31 @@ from nbrag.symbol_index import build_symbol_index
 CHROMA_UPSERT_BATCH = 5000
 
 
+def _refresh_search_indexes(collection_name, verbose=False):
+    if verbose:
+        print("\n[rag] Building BM25 index...")
+    try:
+        col = get_collection(collection_name)
+        all_data = _batch_get(col, include=["documents"])
+        build_bm25_index(collection_name, all_data["documents"], all_data["ids"])
+        if verbose:
+            print(f"[rag] BM25 index built ({len(all_data['ids'])} chunks)")
+    except Exception as e:
+        if verbose:
+            print(f"[rag] BM25 index build failed (non-fatal): {e}")
+
+    if verbose:
+        print("[rag] Building Symbol index...")
+    try:
+        sym_index = build_symbol_index(collection_name)
+        if verbose:
+            sym_count = sum(len(v) for v in (sym_index or {}).values())
+            print(f"[rag] Symbol index built ({sym_count} symbols)")
+    except Exception as e:
+        if verbose:
+            print(f"[rag] Symbol index build failed (non-fatal): {e}")
+
+
 def prepare_file_no_embed(file_path, chunk_size=DEFAULT_CHUNK_SIZE,
                           chunk_overlap=DEFAULT_CHUNK_OVERLAP):
     """阶段 1a：读取 + 切分 + Enrichment（无 Embedding，无 DB 操作，可并行）。"""
@@ -269,13 +294,10 @@ def _batch_write_to_db(prepared_list, collection_name,
             print(f"  [batch-upsert] {min(end, len(all_ids))}/{len(all_ids)} chunks written")
 
 
-def ingest_file(file_path, collection_name="default",
-                chunk_size=DEFAULT_CHUNK_SIZE,
-                chunk_overlap=DEFAULT_CHUNK_OVERLAP,
-                sleep_interval=0.0,
-                use_cache=True,
-                verbose=False):
-    """导入单个文件到知识库，返回结果 dict（串行版本）。"""
+def _ingest_file(file_path, collection_name,
+                 chunk_size, chunk_overlap,
+                 sleep_interval, use_cache, verbose,
+                 refresh_indexes):
     from nbrag import state
 
     if use_cache:
@@ -309,7 +331,24 @@ def ingest_file(file_path, collection_name="default",
         state._stats_cache_ts = 0.0
         state._raw_text_cache = None
         state._raw_text_cache_ts = 0.0
+        if refresh_indexes:
+            _refresh_search_indexes(collection_name, verbose=verbose)
     return result
+
+
+def ingest_file(file_path, collection_name="default",
+                chunk_size=DEFAULT_CHUNK_SIZE,
+                chunk_overlap=DEFAULT_CHUNK_OVERLAP,
+                sleep_interval=0.0,
+                use_cache=True,
+                verbose=False):
+    """导入单个文件到知识库，返回结果 dict（串行版本）。"""
+    return _ingest_file(
+        file_path, collection_name,
+        chunk_size, chunk_overlap,
+        sleep_interval, use_cache, verbose,
+        refresh_indexes=True,
+    )
 
 
 def ingest_path(path, collection_name="default",
@@ -334,9 +373,10 @@ def ingest_path(path, collection_name="default",
     skipped = []
     for fp in files:
         try:
-            r = ingest_file(
+            r = _ingest_file(
                 fp, collection_name, chunk_size, chunk_overlap,
-                sleep_interval=sleep_interval, use_cache=use_cache, verbose=verbose,
+                sleep_interval, use_cache, verbose,
+                refresh_indexes=False,
             )
         except Exception as e:
             r = {"ok": False, "error": f"{os.path.basename(fp)}: {type(e).__name__}: {e}"}
@@ -347,6 +387,9 @@ def ingest_path(path, collection_name="default",
             skipped.append(r["reason"])
         else:
             errors.append(r["error"])
+
+    if results:
+        _refresh_search_indexes(collection_name, verbose=verbose)
 
     return results, errors, len(skipped)
 
@@ -402,13 +445,14 @@ def batch_ingest(paths, collection_name="default",
     all_files = []
     for p in paths:
         p = os.path.expanduser(p)
-        if os.path.exists(p):
-            found = collect_files(p, file_extensions=file_extensions, excluded_paths=effective_excluded_paths)
-            if verbose:
-                ext_info = f" (filter: {file_extensions})" if file_extensions else ""
-                exclude_info = f" excluded_paths: {len(effective_excluded_paths) if not isinstance(effective_excluded_paths, str) else 1}" if effective_excluded_paths else ""
-                print(f"[rag] {p} -> {len(found)} files{ext_info}{exclude_info}")
-            all_files.extend(found)
+        if not os.path.exists(p):
+            raise FileNotFoundError(f"Path does not exist: {p}")
+        found = collect_files(p, file_extensions=file_extensions, excluded_paths=effective_excluded_paths)
+        if verbose:
+            ext_info = f" (filter: {file_extensions})" if file_extensions else ""
+            exclude_info = f" excluded_paths: {len(effective_excluded_paths) if not isinstance(effective_excluded_paths, str) else 1}" if effective_excluded_paths else ""
+            print(f"[rag] {p} -> {len(found)} files{ext_info}{exclude_info}")
+        all_files.extend(found)
 
     files_to_process = []
     cached_count = 0
@@ -536,29 +580,7 @@ def batch_ingest(paths, collection_name="default",
         print("\n[rag] No files to process (all cached).\n")
 
     if results:
-        if verbose:
-            print("\n[rag] Building BM25 index...")
-        try:
-            col = get_collection(collection_name)
-            all_data = _batch_get(col, include=["documents"])
-            build_bm25_index(collection_name, all_data["documents"], all_data["ids"])
-            if verbose:
-                print(f"[rag] BM25 index built ({len(all_data['ids'])} chunks)")
-        except Exception as e:
-            if verbose:
-                print(f"[rag] BM25 index build failed (non-fatal): {e}")
-
-    if results:
-        if verbose:
-            print("[rag] Building Symbol index...")
-        try:
-            sym_index = build_symbol_index(collection_name)
-            if verbose:
-                sym_count = sum(len(v) for v in (sym_index or {}).values())
-                print(f"[rag] Symbol index built ({sym_count} symbols)")
-        except Exception as e:
-            if verbose:
-                print(f"[rag] Symbol index build failed (non-fatal): {e}")
+        _refresh_search_indexes(collection_name, verbose=verbose)
 
     elapsed = _time.time() - t0
     stats = {
