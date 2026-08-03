@@ -1,5 +1,9 @@
 # nbrag MCP XML 化 + Handle 一致性 Implementation Plan
 
+> **历史接口快照**
+>
+> 本计划描述的是实施时的旧 MCP 契约，不是当前接口。旧名称映射为：`nbrag_search` → `nbrag_retrieve_no_expand`，`nbrag_search_and_fetch` → `nbrag_retrieve`，`nbrag_search_only_bm25` → `nbrag_retrieve_only_bm25`，`nbrag_search_only_vector` → `nbrag_retrieve_only_vector`；请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** 把 13 个 nbrag MCP 工具函数的返回改成 XML 标签 + 纯文本正文格式，handle 字段跨函数名字+形态完全一致，让 AI 打组合拳时零转换复用 handle。

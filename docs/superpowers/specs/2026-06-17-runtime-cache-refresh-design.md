@@ -1,5 +1,9 @@
 # Runtime Cache Refresh Design
 
+> **历史接口快照**
+>
+> 本设计中的 `nbrag_search` 和 `nbrag_search_and_fetch` 是旧 MCP 名称，当前分别映射为 `nbrag_retrieve_no_expand` 和 `nbrag_retrieve`；请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 ## Goal
 
 Prevent long-running HTTP MCP processes from holding stale Chroma/BM25/doc-id/symbol runtime caches after a rare external ingest rebuilds a prepared collection in `rag_db`.

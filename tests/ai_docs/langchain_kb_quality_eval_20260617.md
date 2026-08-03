@@ -1,5 +1,9 @@
 # LangChain 知识库检索质量评测
 
+> **历史接口快照**
+>
+> 本评估中的 `nbrag_search_and_fetch` 是旧 MCP 名称，当前映射为 `nbrag_retrieve`；`filter_file_path` 名称未变。请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 日期：2026-06-17
 
 对象：`langchain_ai_codes_and_docs`

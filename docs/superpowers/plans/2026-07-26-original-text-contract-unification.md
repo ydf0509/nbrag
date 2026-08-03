@@ -1,5 +1,9 @@
 # `nbrag_read_more_original_text` 原文返回标签调整计划
 
+> **历史接口快照**
+>
+> 本计划中的 `nbrag_search_and_fetch` 是旧 MCP 名称，当前映射为 `nbrag_retrieve`。计划中引用的旧原文标签或参数也不构成当前契约；请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 ## 目标
 
 只调整当前 `nbrag_read_more_original_text` 工具的对外返回契约，消除该工具名称中的 `original_text` 与返回标签中的 `raw` 混用。

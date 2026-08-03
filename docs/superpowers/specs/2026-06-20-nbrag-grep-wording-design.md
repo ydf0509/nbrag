@@ -1,5 +1,9 @@
 # nbrag_grep Wording Cleanup Design
 
+> **历史接口快照**
+>
+> 本设计中的 `nbrag_search_and_fetch` 是旧 MCP 名称，当前映射为 `nbrag_retrieve`；请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 ## Goal
 
 Tighten the `nbrag_grep` wording so AI agents understand exactly when to use it and what it actually does, without changing any implementation logic.

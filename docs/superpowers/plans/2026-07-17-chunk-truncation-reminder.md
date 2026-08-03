@@ -1,5 +1,9 @@
 # chunk 截断提醒 Implementation Plan
 
+> **历史接口快照**
+>
+> 本计划使用的是旧 MCP 名称，不是当前接口。旧名称映射为：`nbrag_search` → `nbrag_retrieve_no_expand`，`nbrag_search_and_fetch` → `nbrag_retrieve`，`nbrag_search_only_bm25` → `nbrag_retrieve_only_bm25`，`nbrag_search_only_vector` → `nbrag_retrieve_only_vector`；请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** 在 nbrag 的三层 AI-facing 文本（mcp_tools.py 返回内容、server.py docstring、SKILL.md）中明确告诉 LLM "chunk 必然截断，有用必须扩展"，并把 Unlocks 措辞从"candidate"改为"required"。

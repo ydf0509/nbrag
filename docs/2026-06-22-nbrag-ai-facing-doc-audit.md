@@ -1,5 +1,9 @@
 # nbrag AI-facing 文案 / 注释 / Skill 审核与优化建议
 
+> **历史接口快照**
+>
+> 本文记录的是当时的审核建议，不是当前 MCP 契约。旧名称映射为：`nbrag_search` → `nbrag_retrieve_no_expand`，`nbrag_search_and_fetch` → `nbrag_retrieve`，`nbrag_search_only_bm25` → `nbrag_retrieve_only_bm25`，`nbrag_search_only_vector` → `nbrag_retrieve_only_vector`；旧 `fetch_top_n_raw` → `expand_top_n`，旧 `fetch_context_chars` → `expand_context_chars`。请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 > 目的：**只记录问题和改进建议，不修改任何现有文件**。
 >
 > 审核范围：

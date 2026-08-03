@@ -1,5 +1,5 @@
 #coding=utf-8
-"""测试 nbrag_search_only_vector() —— 纯向量语义检索（通过端口 9101 调用 MCP）。"""
+"""测试 nbrag_retrieve_only_vector() —— 纯向量语义检索（通过端口 9101 调用 MCP）。"""
 from _mcp_request import call_mcp_tool
 
 # ===== 可编辑参数区域 =====
@@ -15,8 +15,8 @@ params = {
     "top_k": TOP_K, "filter_file_path": FILTER_FILE_PATH,
     "include_content": INCLUDE_CONTENT,
 }
-result = call_mcp_tool("nbrag_search_only_vector", params)
-print(f"调用函数: nbrag_search_only_vector")
+result = call_mcp_tool("nbrag_retrieve_only_vector", params)
+print(f"调用函数: nbrag_retrieve_only_vector")
 print(f"入参: {params}")
 print("-" * 70)
 print(result)

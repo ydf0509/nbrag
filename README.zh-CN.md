@@ -243,8 +243,8 @@ python -m nbrag --transport streamable-http --port 9101
 
 | 能力 | 代表工具 | 作用 |
 |---|---|---|
-| 搜索 | `nbrag_search`, `nbrag_search_and_fetch` | 在导入后的 collection 里做语义/混合检索 |
-| 检索诊断 | `nbrag_search_only_bm25`, `nbrag_search_only_vector` | 单独观察词法检索或向量检索效果 |
+| 检索 | `nbrag_retrieve`, `nbrag_retrieve_no_expand` | 在导入后的 collection 里做语义/混合检索 |
+| 检索诊断 | `nbrag_retrieve_only_bm25`, `nbrag_retrieve_only_vector` | 单独观察词法检索或向量检索效果 |
 | 精确文本查找 | `nbrag_grep` | 在保存的原文里做逐行匹配 |
 | 原文读取 | `nbrag_read_more_original_text`, `nbrag_get_file_chunks` | 读取原文或 chunk 视图 |
 | 扩展与定位 | `nbrag_get_adjacent_chunks`, `nbrag_get_chunks_by_lines`, `nbrag_find_files` | 围绕命中扩展上下文，或定位精确文件路径 |

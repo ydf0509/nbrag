@@ -1,5 +1,9 @@
 # chunk 截断提醒设计
 
+> **历史接口快照**
+>
+> 本设计使用的是旧 MCP 名称。映射为：`nbrag_search` → `nbrag_retrieve_no_expand`，`nbrag_search_and_fetch` → `nbrag_retrieve`，`nbrag_search_only_bm25` → `nbrag_retrieve_only_bm25`，`nbrag_search_only_vector` → `nbrag_retrieve_only_vector`；请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 ## 背景与动机
 
 LLM 在使用 nbrag 检索知识库时，看到 `<hit>` / `<match>` / `<definition>` / `<chunk>` 的 `<content>` 就认为"内容够了"，直接开始总结回答，不会继续调用工具扩展获取完整内容。

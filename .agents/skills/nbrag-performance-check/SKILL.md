@@ -10,7 +10,7 @@ description: Use when changing retrieval, caching, Chroma query flow, grep, find
 ## 什么时候用
 
 - 改了 `retrieval.py`、`mcp_tools.py`、缓存逻辑、Chroma 查询链路后
-- 改了 `search / grep / find_files / raw_file` 路径后
+- 改了 `nbrag_retrieve* / nbrag_grep / nbrag_find_files / nbrag_read_more_original_text` 路径后
 - 用户问“这个优化到底快了没有”
 - 需要比较不同工具、不同 collection 的平均耗时
 
@@ -37,7 +37,7 @@ D:/ProgramData/miniconda3/envs/py312/python.exe d:/codes/nbrag/tests/ai_codes/be
 
 重点看：
 
-- `nbrag_search*`：通常受 embedding / rerank / 召回链路影响
+- `nbrag_retrieve_no_expand*`：通常受 embedding / rerank / 召回链路影响
 - `nbrag_grep`：通常受 raw text cache / 原文扫描逻辑影响
 - `nbrag_find_files`：通常受 metadata 获取和文档列表缓存影响
 - `nbrag_read_more_original_text` / `nbrag_get_file_chunks`：通常受本地缓存和文件读取路径影响
@@ -70,7 +70,7 @@ D:/ProgramData/miniconda3/envs/py312/python.exe d:/codes/nbrag/tests/ai_codes/be
 - 不要只看 `avg`，也看 `max`
 - 不要只看一个 collection，至少对比小库和大库
 - 不要把首次冷启动和缓存命中混在一起解释
-- `search_and_fetch` 比 `search` 慢不一定是坏事，可能只是多拿了原文证据
+- `nbrag_retrieve` 比 `nbrag_retrieve_no_expand` 慢不一定是坏事，可能只是多拿了原文证据，可能只是多拿了原文证据
 
 ## 输出结论时建议
 

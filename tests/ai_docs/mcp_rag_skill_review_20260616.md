@@ -1,5 +1,9 @@
 # nbrag MCP 注释、RAG 功能、Skill 优化记录
 
+> **历史接口快照**
+>
+> 本记录使用的是旧 MCP 名称。映射为：`nbrag_search` → `nbrag_retrieve_no_expand`，`nbrag_search_and_fetch` → `nbrag_retrieve`；旧 `filter_file_path` → `filter_file_path`（名称未变）。请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 日期：2026-06-16
 
 范围：

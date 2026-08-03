@@ -66,13 +66,13 @@ class McpContractTests(unittest.TestCase):
             stats_result = mcp_tools.nbrag_stats()
         with patch("nbrag.mcp_tools.search", return_value=search_result), \
              patch("nbrag.mcp_tools.get_config", return_value=config):
-            search_result_text = mcp_tools.nbrag_search("query", "kb")
-            bm25_result = mcp_tools.nbrag_search_only_bm25("term", "kb")
-            vector_result = mcp_tools.nbrag_search_only_vector("query", "kb")
+            search_result_text = mcp_tools.nbrag_retrieve_no_expand("query", "kb")
+            bm25_result = mcp_tools.nbrag_retrieve_only_bm25("term", "kb")
+            vector_result = mcp_tools.nbrag_retrieve_only_vector("query", "kb")
         with patch("nbrag.mcp_tools.search", return_value=search_result), \
              patch("nbrag.mcp_tools.get_config", return_value=config), \
              patch("nbrag.mcp_tools.get_file_chunks", return_value=raw_data):
-            fetch_result = mcp_tools.nbrag_search_and_fetch("query", "kb")
+            fetch_result = mcp_tools.nbrag_retrieve("query", "kb")
         with patch("nbrag.mcp_tools.grep_knowledge", return_value=[{
             "source": "D:/docs/file.txt",
             "doc_id": "doc-1",
@@ -113,10 +113,10 @@ class McpContractTests(unittest.TestCase):
         contracts = [
             (help_result, "nbrag_help", "returned_guidance_count", []),
             (stats_result, "nbrag_stats", "returned_collection_count", ["nbrag_collection"]),
-            (search_result_text, "nbrag_search", "returned_hit_count", ["nbrag_ranked_hit", "nbrag_chunk_content"]),
-            (bm25_result, "nbrag_search_only_bm25", "returned_hit_count", ["nbrag_ranked_hit", "nbrag_chunk_content"]),
-            (vector_result, "nbrag_search_only_vector", "returned_hit_count", ["nbrag_ranked_hit", "nbrag_chunk_content"]),
-            (fetch_result, "nbrag_search_and_fetch", "returned_hit_count", ["nbrag_follow_up", "nbrag_ranked_hit", "nbrag_chunk_content", "nbrag_original_text_excerpt", "nbrag_original_text_content"]),
+            (search_result_text, "nbrag_retrieve_no_expand", "returned_hit_count", ["nbrag_ranked_hit", "nbrag_chunk_content"]),
+            (bm25_result, "nbrag_retrieve_only_bm25", "returned_hit_count", ["nbrag_ranked_hit", "nbrag_chunk_content"]),
+            (vector_result, "nbrag_retrieve_only_vector", "returned_hit_count", ["nbrag_ranked_hit", "nbrag_chunk_content"]),
+            (fetch_result, "nbrag_retrieve", "returned_hit_count", ["nbrag_follow_up", "nbrag_ranked_hit", "nbrag_chunk_content", "nbrag_original_text_expand", "nbrag_original_text_content"]),
             (grep_result, "nbrag_grep", "returned_match_count", ["nbrag_match", "nbrag_original_text_content"]),
             (definition_result, "nbrag_find_definition", "returned_definition_count", ["nbrag_definition", "nbrag_definition_content"]),
             (files_result, "nbrag_find_files", "returned_file_count", ["nbrag_file"]),
@@ -161,12 +161,12 @@ class McpContractTests(unittest.TestCase):
         self.assertNotIn("<error>", result)
         self.assertIn('<no_results type="no_results" field="keyword">', result)
         self.assertIn("<recovery>", result)
-        self.assertIn("switch to nbrag_search_and_fetch", result)
+        self.assertIn("switch to nbrag_retrieve", result)
 
-    def test_server_search_only_vector_uses_dedicated_helper(self) -> None:
-        with patch("nbrag.server.mcp_tools.nbrag_search_only_vector", return_value="VECTOR") as mock_vector, \
-             patch("nbrag.server.mcp_tools.nbrag_search") as mock_search:
-            result = server.nbrag_search_only_vector(
+    def test_server_retrieve_only_vector_uses_dedicated_helper(self) -> None:
+        with patch("nbrag.server.mcp_tools.nbrag_retrieve_only_vector", return_value="VECTOR") as mock_vector, \
+             patch("nbrag.server.mcp_tools.nbrag_retrieve_no_expand") as mock_retrieve:
+            result = server.nbrag_retrieve_only_vector(
                 query="semantic intent",
                 collection_name="kb",
                 top_k=2,
@@ -176,13 +176,13 @@ class McpContractTests(unittest.TestCase):
 
         self.assertEqual(result, "VECTOR")
         mock_vector.assert_called_once_with("semantic intent", "kb", 2, "D:/docs/file.md", False)
-        mock_search.assert_not_called()
+        mock_retrieve.assert_not_called()
 
     def test_bm25_query_is_optional_in_server_schema_and_runtime(self) -> None:
-        search_signature = inspect.signature(server.nbrag_search)
-        fetch_signature = inspect.signature(server.nbrag_search_and_fetch)
-        self.assertEqual(search_signature.parameters["bm25_query"].default.default, "")
-        self.assertEqual(fetch_signature.parameters["bm25_query"].default.default, "")
+        retrieve_no_expand_signature = inspect.signature(server.nbrag_retrieve_no_expand)
+        retrieve_signature = inspect.signature(server.nbrag_retrieve)
+        self.assertEqual(retrieve_no_expand_signature.parameters["bm25_query"].default.default, "")
+        self.assertEqual(retrieve_signature.parameters["bm25_query"].default.default, "")
 
         fake_result = (["text"], [{
             "source": "D:/docs/file.txt",
@@ -193,7 +193,7 @@ class McpContractTests(unittest.TestCase):
             "line_end": 1,
         }], [0.1], False, 1, [])
         with patch("nbrag.mcp_tools.search", return_value=fake_result) as mock_search:
-            mcp_tools.nbrag_search("query", "kb")
+            mcp_tools.nbrag_retrieve_no_expand("query", "kb")
 
         self.assertIsNone(mock_search.call_args.kwargs["bm25_query"])
 
@@ -220,7 +220,7 @@ class McpContractTests(unittest.TestCase):
         self.assertIn("If the answer, quotation, or verification depends on text outside the shown range", result)
         self.assertIn("`<nbrag_original_text_content>` takes its range semantics from its outer entity", result)
         self.assertIn("under `<nbrag_match>` it is bounded by match_context_chars", result)
-        self.assertIn("under `<nbrag_original_text_excerpt>` it is bounded by fetch_context_chars", result)
+        self.assertIn("under `<nbrag_original_text_expand>` it is bounded by expand_context_chars", result)
         self.assertIn("under `<nbrag_original_text>` it is the explicitly requested stored-original-text reading window", result)
         self.assertIn("line_start=max(1, hit_line_start-200)", result)
         self.assertIn("For large files and wide reading ranges", result)
@@ -233,7 +233,7 @@ class McpContractTests(unittest.TestCase):
         self.assertIn("current conversation context", help_result)
         self.assertIn("reusable for all later nbrag retrieval questions", help_result)
         self.assertNotIn("new retrieval task", help_result)
-        for tool in (server.nbrag_search, server.nbrag_search_and_fetch, server.nbrag_stats):
+        for tool in (server.nbrag_retrieve_no_expand, server.nbrag_retrieve, server.nbrag_stats):
             self.assertIn("current conversation context", tool.__doc__)
             self.assertNotIn("new retrieval task", tool.__doc__)
 
@@ -308,9 +308,9 @@ class McpContractTests(unittest.TestCase):
 
     def test_invalid_parameters_return_structured_errors_without_calling_retrieval(self) -> None:
         with patch("nbrag.mcp_tools.search") as mock_search:
-            result = mcp_tools.nbrag_search("query", "kb", top_k=0)
+            result = mcp_tools.nbrag_retrieve_no_expand("query", "kb", top_k=0)
         mock_search.assert_not_called()
-        self.assertTrue(result.startswith('<nbrag_search status="error">'))
+        self.assertTrue(result.startswith('<nbrag_retrieve_no_expand status="error">'))
         self.assertIn('<error type="invalid_parameter" field="top_k">', result)
         self.assertIn("top_k must be an integer >= 1.", result)
 
@@ -319,7 +319,7 @@ class McpContractTests(unittest.TestCase):
         mock_context.assert_not_called()
         self.assertIn('<error type="invalid_parameter" field="line_end">', range_result)
 
-    def test_search_output_includes_handles_and_filter_note(self) -> None:
+    def test_retrieve_no_expand_output_includes_handles_and_filter_note(self) -> None:
         fake_config = SimpleNamespace(rerank=SimpleNamespace(model="reranker-v2"))
         fake_search_result = (
             ["matched text"],
@@ -340,7 +340,7 @@ class McpContractTests(unittest.TestCase):
         )
         with patch("nbrag.mcp_tools.search", return_value=fake_search_result), \
              patch("nbrag.mcp_tools.get_config", return_value=fake_config):
-            result = mcp_tools.nbrag_search(
+            result = mcp_tools.nbrag_retrieve_no_expand(
                 query="trial period",
                 collection_name="worker_rights",
                 top_k=1,
@@ -351,7 +351,7 @@ class McpContractTests(unittest.TestCase):
                 bm25_query="试用期",
             )
 
-        self.assertTrue(result.startswith('<nbrag_search status="success" returned_hit_count="1">'))
+        self.assertTrue(result.startswith('<nbrag_retrieve_no_expand status="success" returned_hit_count="1">'))
         self.assertIn("name = collection_name\nvalue = worker_rights", result)
         self.assertIn("name = filter_file_path\nvalue = D:/docs/labor_law/劳动合同法.md", result)
         self.assertNotIn("bm25 = off", result)
@@ -363,7 +363,7 @@ class McpContractTests(unittest.TestCase):
         self.assertIn('<nbrag_ranked_hit rank="1"', result)
         self.assertIn('score="0.9876"', result)
 
-    def test_search_and_fetch_auto_fetches_original_text_excerpt(self) -> None:
+    def test_retrieve_auto_expands_original_text(self) -> None:
         fake_config = SimpleNamespace(rerank=SimpleNamespace(model="reranker-v2"))
         fake_search_result = (
             ["ranked text"],
@@ -397,12 +397,12 @@ class McpContractTests(unittest.TestCase):
         with patch("nbrag.mcp_tools.search", return_value=fake_search_result), \
              patch("nbrag.mcp_tools.get_config", return_value=fake_config), \
              patch("nbrag.mcp_tools.get_file_chunks", return_value=raw_file_data) as mock_get_file_chunks:
-            result = mcp_tools.nbrag_search_and_fetch(
+            result = mcp_tools.nbrag_retrieve(
                 query="trial period",
                 collection_name="worker_rights",
                 top_k=1,
-                fetch_top_n_original_text_excerpt=1,
-                fetch_context_chars=200,
+                expand_top_n=1,
+                expand_context_chars=200,
                 filter_file_path="",
                 bm25_query="试用期",
             )
@@ -416,11 +416,11 @@ class McpContractTests(unittest.TestCase):
         self.assertIn("nbrag_read_more_original_text over consecutive line ranges", result)
         self.assertNotIn("doc_id + chunk_index -> nbrag_get_adjacent_chunks", result)
         self.assertIn("<nbrag_ranked_hit ", result)
-        self.assertIn("<nbrag_original_text_excerpt ", result)
+        self.assertIn("<nbrag_original_text_expand ", result)
         self.assertIn('file_path="D:/docs/labor_law/劳动合同法.md" doc_id="doc-1" line_start="1" line_end="3"', result)
         self.assertIn("第二行", result)
 
-    def test_search_and_fetch_zero_disables_auto_fetch(self) -> None:
+    def test_retrieve_zero_disables_auto_expand(self) -> None:
         fake_search_result = (
             ["first hit"],
             [{
@@ -439,14 +439,14 @@ class McpContractTests(unittest.TestCase):
         )
         with patch("nbrag.mcp_tools.search", return_value=fake_search_result), \
              patch("nbrag.mcp_tools.get_file_chunks") as mock_get_file_chunks:
-            result = mcp_tools.nbrag_search_and_fetch(
-                "query", "kb", fetch_top_n_original_text_excerpt=0,
+            result = mcp_tools.nbrag_retrieve(
+                "query", "kb", expand_top_n=0,
             )
 
         mock_get_file_chunks.assert_not_called()
-        self.assertNotIn("\n<nbrag_original_text_excerpt ", result)
+        self.assertNotIn("\n<nbrag_original_text_expand ", result)
 
-    def test_search_and_fetch_merges_same_document_excerpts(self) -> None:
+    def test_retrieve_merges_same_document_expansions(self) -> None:
         fake_search_result = (
             ["first hit", "second hit"],
             [
@@ -480,14 +480,14 @@ class McpContractTests(unittest.TestCase):
         }
         with patch("nbrag.mcp_tools.search", return_value=fake_search_result), \
              patch("nbrag.mcp_tools.get_file_chunks", return_value=raw_file_data) as mock_get_file_chunks:
-            result = mcp_tools.nbrag_search_and_fetch(
-                "query", "kb", fetch_top_n_original_text_excerpt=2, fetch_context_chars=0,
+            result = mcp_tools.nbrag_retrieve(
+                "query", "kb", expand_top_n=2, expand_context_chars=0,
             )
 
         mock_get_file_chunks.assert_called_once_with("D:/docs/file.txt", "kb", 0, 0, raw=True)
-        excerpt_count = result.count("\n<nbrag_original_text_excerpt ")
-        self.assertEqual(excerpt_count, 1)
-        self.assertLess(excerpt_count, 2)
+        expand_count = result.count("\n<nbrag_original_text_expand ")
+        self.assertEqual(expand_count, 1)
+        self.assertLess(expand_count, 2)
 
     def test_get_raw_file_uses_none_for_omitted_line_bounds(self) -> None:
         raw_file_data = {

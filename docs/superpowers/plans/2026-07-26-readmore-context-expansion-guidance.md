@@ -1,5 +1,9 @@
 # `nbrag_read_more_original_text` 上下文扩展指引改造计划
 
+> **历史接口快照**
+>
+> 本计划中的 `nbrag_search` 和 `nbrag_search_and_fetch` 分别是旧 MCP 名称，当前映射为 `nbrag_retrieve_no_expand` 和 `nbrag_retrieve`；请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 ## 目标
 
 将 `nbrag_read_more_original_text` 的 AI 使用契约统一为“有用 chunk 的主动扩读”：

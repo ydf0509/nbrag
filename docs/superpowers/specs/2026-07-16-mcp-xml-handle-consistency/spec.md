@@ -1,5 +1,9 @@
 # Spec: nbrag MCP 返回格式 XML 化 + Handle 字段一致性
 
+> **历史接口快照**
+>
+> 本规格使用的是旧 MCP 名称。映射为：`nbrag_search` → `nbrag_retrieve_no_expand`，`nbrag_search_and_fetch` → `nbrag_retrieve`，`nbrag_search_only_bm25` → `nbrag_retrieve_only_bm25`，`nbrag_search_only_vector` → `nbrag_retrieve_only_vector`；请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 **日期**: 2026-07-16
 **类型**: 格式化层重构（逻辑零改动）
 **前置 skill**: `.agents/skills/nbrag-handle-consistency/SKILL.md`

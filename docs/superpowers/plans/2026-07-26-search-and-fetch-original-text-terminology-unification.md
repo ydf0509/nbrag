@@ -1,5 +1,9 @@
 # `nbrag_search_and_fetch` 自动原文摘录术语与契约统一计划
 
+> **历史接口快照**
+>
+> 本计划中的 `nbrag_search_and_fetch` 是旧 MCP 名称，当前映射为 `nbrag_retrieve`；旧 `fetch_top_n_original_text_excerpt` → `expand_top_n`，旧 `fetch_context_chars` → `expand_context_chars`。请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 ## 背景与目标
 
 `nbrag_read_more_original_text()` 已采用 `original_text` 作为对外术语，但 `nbrag_search_and_fetch()` 的自动摘录仍同时出现 `raw`、`stored original content`、`raw-context`、`fetched raw excerpt`、`自动取证` 等说法。

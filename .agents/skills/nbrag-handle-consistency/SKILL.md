@@ -92,16 +92,16 @@ description: Use when editing nbrag MCP tool functions, return text, Field defin
 nbrag 的多轮检索靠 handle 在函数间流动：
 
 ```
-search_and_fetch 返回 → AI 读取 handle → AI 选下一个函数 → AI 把 handle 填进入参 → 下一个函数返回 → ...
+nbrag_retrieve 返回 → AI 读取 handle → AI 选下一个函数 → AI 把 handle 填进入参 → 下一个函数返回 → ...
 ```
 
 handle 流动路径举例：
-- `search_and_fetch` 返回 `doc_id + chunk_index` → 喂给 `get_adjacent_chunks(doc_id, chunk_index, ...)`
-- `search_and_fetch` 返回 `doc_id + line_start + line_end` → 喂给 `get_chunks_by_lines(doc_id, line_start, line_end, ...)`
-- `search_and_fetch` 返回 `file_path` → 喂给 `get_raw_file(file_path, ...)`
-- `search` 返回 `file_path` → 喂给 `get_file_chunks(file_path, ...)` 或 `get_raw_file(file_path, ...)`
+- `nbrag_retrieve` 返回 `doc_id + chunk_index` → 喂给 `get_adjacent_chunks(doc_id, chunk_index, ...)`
+- `nbrag_retrieve` 返回 `doc_id + line_start + line_end` → 喂给 `get_chunks_by_lines(doc_id, line_start, line_end, ...)`
+- `nbrag_retrieve` 返回 `file_path` → 喂给 `get_raw_file(file_path, ...)`
+- `nbrag_retrieve_no_expand` 返回 `file_path` → 喂给 `get_file_chunks(file_path, ...)` 或 `get_raw_file(file_path, ...)`
 - `grep` 返回 `file_path + line_start + line_end` → 喂给 `get_raw_file(file_path, ..., line_start, line_end)` 或 `get_chunks_by_lines(doc_id, line_start, line_end, ...)`
-- `find_files` 返回 `file_path` → 喂给 `search(filter_file_path=...)` 或 `get_raw_file(file_path, ...)`
+- `find_files` 返回 `file_path` → 喂给 `nbrag_retrieve_no_expand(filter_file_path=...)` 或 `get_raw_file(file_path, ...)`
 - `find_definition` 返回 `file_path + line_start + line_end` → 喂给 `get_raw_file(file_path, ..., line_start, line_end)` 取定义完整上下文，或 `get_chunks_by_lines(doc_id, line_start, line_end, ...)` 取覆盖该定义的 chunk
 - `list` 返回 `doc_id + file_path` → 喂给 `get_file_chunks(file_path, ...)` 或 `get_adjacent_chunks(doc_id, chunk_index, ...)`
 
@@ -120,10 +120,10 @@ AI 传递 handle 靠**模式匹配 + 语义联想**，不是查 schema 表。字
 
 ### 标准返回结构
 
-以 `nbrag_search_and_fetch` 为例：
+以 `nbrag_retrieve` 为例：
 
 ```xml
-<nbrag_search_and_fetch collection_name="my_kb" total_chunks="1234" bm25="on" rerank="BAAI/bge-reranker-v2-m3">
+<nbrag_retrieve collection_name="my_kb" total_chunks="1234" bm25="on" rerank="BAAI/bge-reranker-v2-m3">
 
 <ranked_hits>
 <hit rank="1" file_path="D:/codes/foo.py" doc_id="abc123" chunk_index="3" total_chunks="10" line_start="15" line_end="28" scope="ClassA.get_by_id" dist="0.1234" score="0.5678">
@@ -142,7 +142,7 @@ def get_by_id(self, id):
 </raw>
 </fetched_raw>
 
-</nbrag_search_and_fetch>
+</nbrag_retrieve>
 ```
 
 grep 示例（单行匹配 `line_start==line_end`，多行匹配 `line_start<line_end`）：
@@ -183,10 +183,10 @@ def process(data):
 
 | 函数 | 根标签 | 集合标签 | 单条标签 | 差异信息归属 |
 |---|---|---|---|---|
-| `nbrag_search` | `<nbrag_search>` | `<ranked_hits>` | `<hit>` | 根属性：`bm25` / `rerank` / `filter_file_path` |
-| `nbrag_search_and_fetch` | `<nbrag_search_and_fetch>` | `<ranked_hits>` + `<fetched_raw>` | `<hit>` / `<raw>` | 根属性同上；`<fetched_raw>` 内 `<raw>` 携带 `line_start`/`line_end` |
-| `nbrag_search_only_bm25` | `<nbrag_search_only_bm25>` | `<ranked_hits>` | `<hit>` | 根属性：`bm25` / `rerank=off` |
-| `nbrag_search_only_vector` | `<nbrag_search_only_vector>` | `<ranked_hits>` | `<hit>` | 根属性：`bm25=off` / `rerank=off` |
+| `nbrag_retrieve_no_expand` | `<nbrag_retrieve_no_expand>` | `<ranked_hits>` | `<hit>` | 根属性：`bm25` / `rerank` / `filter_file_path` |
+| `nbrag_retrieve` | `<nbrag_retrieve>` | `<ranked_hits>` + `<fetched_raw>` | `<hit>` / `<raw>` | 根属性同上；`<fetched_raw>` 内 `<raw>` 携带 `line_start`/`line_end` |
+| `nbrag_retrieve_only_bm25` | `<nbrag_retrieve_only_bm25>` | `<ranked_hits>` | `<hit>` | 根属性：`bm25` / `rerank=off` |
+| `nbrag_retrieve_only_vector` | `<nbrag_retrieve_only_vector>` | `<ranked_hits>` | `<hit>` | 根属性：`bm25=off` / `rerank=off` |
 | `nbrag_grep` | `<nbrag_grep>` | `<matches>` | `<match>` | 根属性：`case_sensitive` / `filter_file_path`；单行匹配 `line_start==line_end`，多行匹配 `line_start<line_end` |
 | `nbrag_find_definition` | `<nbrag_find_definition>` | `<definitions>` | `<definition>` | 单条属性：`symbol_type` / `qualified_name`；`<methods_summary>` 子元素（若有） |
 | `nbrag_find_files` | `<nbrag_find_files>` | `<files>` | `<file>` | 单条属性：`filename` / `match` |
@@ -225,7 +225,7 @@ Recovery: use nbrag_find_files(pattern, collection_name) when you only know a fi
 ### `file_path` vs `filter_file_path`
 
 - `file_path`（入参）= 明确读取这个文件（如 `get_raw_file(file_path=...)`）
-- `filter_file_path`（入参）= 把检索范围缩到这个文件（如 `search(filter_file_path=...)`）
+- `filter_file_path`（入参）= 把检索范围缩到这个文件（如 `nbrag_retrieve_no_expand(filter_file_path=...)`）
 
 两者值是同一个（绝对路径 handle），但入参语义不同。保留不同名字，但在 `filter_file_path` 的 Field description 里加一句值兼容说明。
 

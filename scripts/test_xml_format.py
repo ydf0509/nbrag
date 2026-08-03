@@ -32,10 +32,10 @@ load_config()
 from nbrag.mcp_tools import (
     nbrag_help,
     nbrag_stats,
-    nbrag_search,
-    nbrag_search_and_fetch,
-    nbrag_search_only_bm25,
-    nbrag_search_only_vector,
+    nbrag_retrieve_no_expand,
+    nbrag_retrieve,
+    nbrag_retrieve_only_bm25,
+    nbrag_retrieve_only_vector,
     nbrag_grep,
     nbrag_find_definition,
     nbrag_find_files,
@@ -205,16 +205,16 @@ else:
     _coll = S["collection_name"]
 
     # =======================================================================
-    # Step 3: nbrag_search_and_fetch  (extract 5 handles from first <hit>)
+    # Step 3: nbrag_retrieve  (extract 5 handles from first ranked hit)
     # =======================================================================
     try:
-        out = nbrag_search_and_fetch(
+        out = nbrag_retrieve(
             query=_query, collection_name=_coll, bm25_query=_bm25_query
         )
         ok = (
-            "<nbrag_search_and_fetch" in out
+            "<nbrag_retrieve" in out
             and "<nbrag_ranked_hit>" in out
-            and "<nbrag_original_text_excerpt>" in out
+            and "<nbrag_original_text_expand>" in out
         )
         if not ok:
             _record(3, False, f"XML shape mismatch; output head: {out[:200]!r}")
@@ -237,15 +237,15 @@ else:
         _record(3, False, f"exception: {exc!r}")
 
     # =======================================================================
-    # Step 4: nbrag_search with include_content=False  (self-closing <hit/>)
+    # Step 4: nbrag_retrieve_no_expand with include_content=False
     # =======================================================================
     try:
-        out = nbrag_search(
+        out = nbrag_retrieve_no_expand(
             query=_query, collection_name=_coll,
             include_content=False, bm25_query=_bm25_query,
         )
         ok = (
-            "<nbrag_search" in out
+            "<nbrag_retrieve_no_expand" in out
             and "<nbrag_ranked_hit>" in out
             and "<nbrag_chunk_content>" not in out
         )
@@ -254,21 +254,21 @@ else:
         _record(4, False, f"exception: {exc!r}")
 
     # =======================================================================
-    # Step 5: nbrag_search_only_bm25
+    # Step 5: nbrag_retrieve_only_bm25
     # =======================================================================
     try:
-        out = nbrag_search_only_bm25(bm25_query=_bm25_query, collection_name=_coll)
-        ok = "<nbrag_search_only_bm25" in out
+        out = nbrag_retrieve_only_bm25(bm25_query=_bm25_query, collection_name=_coll)
+        ok = "<nbrag_retrieve_only_bm25" in out
         _record(5, ok, "" if ok else f"XML shape mismatch; output head: {out[:200]!r}")
     except Exception as exc:  # noqa: BLE001
         _record(5, False, f"exception: {exc!r}")
 
     # =======================================================================
-    # Step 6: nbrag_search_only_vector
+    # Step 6: nbrag_retrieve_only_vector
     # =======================================================================
     try:
-        out = nbrag_search_only_vector(query=_query, collection_name=_coll)
-        ok = "<nbrag_search_only_vector" in out
+        out = nbrag_retrieve_only_vector(query=_query, collection_name=_coll)
+        ok = "<nbrag_retrieve_only_vector" in out
         _record(6, ok, "" if ok else f"XML shape mismatch; output head: {out[:200]!r}")
     except Exception as exc:  # noqa: BLE001
         _record(6, False, f"exception: {exc!r}")

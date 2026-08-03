@@ -1,5 +1,9 @@
 # nbrag BM25 + RRF 混合检索实现计划
 
+> **历史接口快照**
+>
+> 本计划使用的是旧 MCP 名称。`nbrag_search` → `nbrag_retrieve_no_expand`，`nbrag_search_and_fetch` → `nbrag_retrieve`；请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 ## 一、背景
 
 ### 当前检索架构
