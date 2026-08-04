@@ -1,6 +1,6 @@
 ---
 name: nbrag-workflow
-description: 当任务需要从 nbrag 知识库检索证据，或需要判断 nbrag 工具及后续读取路径时使用。
+description: 当任务需要从 nbrag 知识库检索知识，或需要精通 nbrag 工具怎么使用时候使用。
 ---
 
 # nbrag workflow
@@ -19,7 +19,7 @@ nbrag 是给 Agent 使用的通用 Agentic RAG MCP。知识库可以包含代码
 
 nbrag MCP 提供了十几个工具，但最核心的检索路径由 `nbrag_retrieve()` 和 `nbrag_read_more_original_text()` 组成：先检索多个内容块，再围绕有价值的命中读取相邻、更大范围的连续原文。
 
-`nbrag_retrieve()` 是默认的检索工具。它返回的 chunk 和 auto-expanded original-text block 都是有限范围的 evidence，不是完整文件。
+`nbrag_retrieve()` 是默认的检索工具。它返回的 chunk 和 auto-expanded original-text block 都是有限范围的检索内容，不是完整文件。
 
 如果需要控制 rerank、BM25、文件过滤或 metadata-only 输出，就使用 `nbrag_retrieve_no_expand()`。
 
@@ -68,7 +68,7 @@ nbrag_read_more_original_text(
 
 如果对话上下文足以确定代词所指对象或明显笔误，就可以在保持用户原意的前提下补全 `query`。如果指代仍不明确，就保留用户当前表达继续检索。
 
-## Evidence boundaries
+## 检索内容边界
 
 | 返回内容 | 真实边界 |
 |---|---|
@@ -176,12 +176,12 @@ nbrag_read_more_original_text(
 | 需要 exact wording、编号或原文措辞 | `nbrag_grep()` |
 | grep 没找到，但问题可能是 paraphrase 或 concept | `nbrag_retrieve()` |
 | 只知道部分文件名或路径 | `nbrag_find_files()` |
-| 当前 evidence 有用但上下文太短 | `nbrag_read_more_original_text()` |
+| 当前检索结果有用但上下文太短 | `nbrag_read_more_original_text()` |
 | 需要检查 chunk boundaries 或 scope metadata | 选择对应 chunk tool |
 | 需要比较 lexical-only 和 vector-only recall | `nbrag_retrieve_only_bm25()` / `nbrag_retrieve_only_vector()` |
 
 ## 作答前检查
 
-直接回答前，确认当前 evidence 的边界，并判断答案、引用或核查是否依赖边界外内容。
+直接回答前，确认当前检索内容的边界，并判断答案、引用或核查是否依赖边界外内容。
 
-如果依赖边界外内容，就用 `nbrag_read_more_original_text()` 读取缺失的连续原文。根据回答、引用和核查所需的 evidence 范围继续检索与扩读。
+如果依赖边界外内容，就用 `nbrag_read_more_original_text()` 读取缺失的连续原文。根据回答、引用和核查所需的知识范围继续检索与扩读。

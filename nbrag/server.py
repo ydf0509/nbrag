@@ -50,7 +50,7 @@ def nbrag_help() -> str:
  nbrag 是 agentic rag，由llm主动调用主动根据上下文构造向量检索语句和bm25检索语句,不是那种传统一轮rag。
  nbrag 使llm能根据chunk块，自动以及llm自主扩大阅读范围，吊打任何传统rag，可以完成横跨多个文件的多跳检索的极端复杂任务推理。
 
-nbrag_help() explains how to use nbrag as an evidence-retrieval workflow rather
+nbrag_help() explains how to use nbrag as a knowledge-retrieval workflow rather
 than a one-shot search tool. It establishes:
 
 - which tool fits the goal: semantic search, exact grep, Python definition
@@ -109,7 +109,7 @@ class FuncFields:
     collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)")
     top_k: int = Field(default=20, description="Number of ranked hits to return,通常情况下保持默认值就就好了，llm不用擅自修改")
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking. In the current hybrid implementation, this narrows vector retrieval to that file and skips cross-file BM25 fusion. Value comes from the file_path handle returned by nbrag tools.")
-    bm25_query: str = Field(default="", description="Optional lexical-anchor query used only by BM25. Omit it or pass an empty string when no grounded lexical anchor is available; the hybrid search still uses query for vector retrieval and reranking. When provided, build it from wording likely to appear literally in the source: exact terms, aliases, article numbers, abbreviations, codes, API/class names, symbol names, titles, place names, event markers, error strings, or short phrases. Compared with query, bm25_query carries more source-facing lexical anchors and can combine multiple grounded anchors only when they target the same evidence. Do not mix unverified alternatives, unrelated entities, or adjacent provisions merely as a keyword bag. Refine anchors across turns from the user's wording, ongoing dialogue, or earlier hits.如果知识库内容是英文的，请使用英文语句检索")
+    bm25_query: str = Field(default="", description="Optional lexical-anchor query used only by BM25. Omit it or pass an empty string when no grounded lexical anchor is available; the hybrid search still uses query for vector retrieval and reranking. When provided, build it from wording likely to appear literally in the source: exact terms, aliases, article numbers, abbreviations, codes, API/class names, symbol names, titles, place names, event markers, error strings, or short phrases. Compared with query, bm25_query carries more source-facing lexical anchors and can combine multiple grounded anchors only when they target the same knowledge. Do not mix unverified alternatives, unrelated entities, or adjacent provisions merely as a keyword bag. Refine anchors across turns from the user's wording, ongoing dialogue, or earlier hits.如果知识库内容是英文的，请使用英文语句检索")
     include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only lookup when you only need handles like file_path/doc_id/chunk_index. Content is a truncated chunk fragment, not the full source")
     file_path: str = Field(description="Exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted")
     
@@ -143,7 +143,7 @@ def nbrag_retrieve_no_expand(
     - query may be clarified across turns using ongoing dialogue or earlier hits, for example by restoring omitted entities, resolving pronouns, or sharpening the event/relation/attribute wording once the target is clear
     - bm25_query is the lexical-anchor query used only by BM25
     - compared with query, bm25_query should carry more source-facing lexical anchors and be improved across turns using grounded wording discovered from the conversation or earlier hits
-    - a single bm25_query can combine multiple anchors when they all target the same evidence, such as exact terms, aliases, titles, article numbers, symbol names, place names, event markers, or repeated phrases from earlier results
+    - a single bm25_query can combine multiple anchors when they all target the same knowledge, such as exact terms, aliases, titles, article numbers, symbol names, place names, event markers, or repeated phrases from earlier results
     - setting bm25_query does not disable vector retrieval or reranking
     - setting filter_file_path narrows retrieval to one stored file; in the current hybrid implementation this also disables cross-file BM25 fusion
 
@@ -179,7 +179,7 @@ def nbrag_retrieve_only_bm25(
 
     Use this to isolate lexical recall when exact terms matter: article numbers, abbreviations, error codes, identifiers, exact phrases, titles, aliases, or other high-precision wording.
     This is ranked retrieval, not literal line matching.
-    A single bm25_query can combine multiple grounded lexical anchors when you want to test whether BM25 can target the right evidence by wording alone.
+    A single bm25_query can combine multiple grounded lexical anchors when you want to test whether BM25 can target the right knowledge by wording alone.
 
     Each `<nbrag_ranked_hit>` exposes result-specific handles as XML attributes. Each `<nbrag_chunk_content>` always contains one RAG chunk, bounded by that chunk's boundaries rather than complete original text.
 
@@ -248,14 +248,14 @@ def nbrag_retrieve(
 
     Once collection_name is known, this is the normal default for most source-backed questions.
 
-    Use it for questions about meaning, usage, explanation, examples, or source-backed evidence.
+    Use it for questions about meaning, usage, explanation, examples, or source-backed knowledge.
 
     Query guidance:
     - query is the main semantic query used by vector retrieval and reranking; keep it as the real question/statement you want answered
     - query may be clarified across turns using ongoing dialogue or earlier hits, for example by restoring omitted entities, resolving pronouns, or sharpening the event/relation/attribute wording once the target is clear
     - bm25_query is the lexical-anchor query used only by BM25
     - compared with query, bm25_query should carry more source-facing lexical anchors and be improved across turns using grounded wording discovered from the conversation or earlier hits
-    - a single bm25_query can combine multiple anchors when they all target the same evidence, such as exact terms, aliases, titles, article numbers, symbol names, place names, event markers, or repeated phrases from earlier results
+    - a single bm25_query can combine multiple anchors when they all target the same knowledge, such as exact terms, aliases, titles, article numbers, symbol names, place names, event markers, or repeated phrases from earlier results
     - setting bm25_query does not disable vector retrieval or reranking
     - setting filter_file_path narrows retrieval to one stored file; in the current hybrid implementation this also disables cross-file BM25 fusion
 

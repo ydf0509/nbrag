@@ -10,9 +10,9 @@ This lets it complete extreme multi-hop reasoning tasks across multiple files â€
 
 nbrag works with any MCP-compatible agent, including OpenClaw, Codex, Claude Code, Cursor, Trae, Opencode, WorkBuddy, lc-agent, and more.
 
-Use it when you want an MCP client to retrieve evidence from files you control, such as internal documentation, regulations, manuals, notes, local project docs, or Python source code.
+Use it when you want an MCP client to retrieve knowledge from files you control, such as internal documentation, regulations, manuals, notes, local project docs, or Python source code.
 
-nbrag comes with vector search, BM25 search, and hybrid search built in. Through well-crafted prompts and 10+ MCP tools, an AI agent can retrieve the most relevant evidence.
+nbrag comes with vector search, BM25 search, and hybrid search built in. Through well-crafted prompts and 10+ MCP tools, an AI agent can retrieve the most relevant knowledge.
 
 ## When to use nbrag
 

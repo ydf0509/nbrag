@@ -407,7 +407,7 @@ def nbrag_add_document(
 
 def _retrieve_follow_up_guidance() -> str:
     return _tagged_text("nbrag_follow_up", body=[
-        "Evidence boundaries:",
+        "Knowledge boundaries:",
         "- `<nbrag_chunk_content>` is exactly one RAG chunk; its original-text context stops at the chunk boundaries, and adjacent chunks overlap by the ingestion overlap configuration.",
         "- `<nbrag_original_text_expand>` is an overlap-free auto-expanded original-text block with file_path, doc_id, line_start, and line_end; its `<nbrag_original_text_content>` is bounded by expand_context_chars, not the complete stored file.",
         "",
@@ -442,7 +442,7 @@ def nbrag_help() -> str:
         "- If collection_name is unknown, call nbrag_stats() next.",
         "",
         "Step 2: choose the retrieval path",
-        "- Use nbrag_retrieve() for most questions about meaning, explanation, usage, examples, or source-backed evidence after collection_name is clear.",
+        "- Use nbrag_retrieve() for most questions about meaning, explanation, usage, examples, or source-backed knowledge after collection_name is clear.",
         "- Use nbrag_retrieve_no_expand() when you need ranked retrieval with finer controls or metadata-only output.",
         "- Use nbrag_grep() when exact wording matters in stored original text: article numbers, exact phrases, identifiers, headings, constants, imports, decorators, or error strings.",
         "- Use nbrag_find_definition() for Python .py symbol definitions.",
