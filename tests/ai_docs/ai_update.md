@@ -1,5 +1,9 @@
 # AI 重大更新记录
 
+> **历史接口快照**
+>
+> 本记录使用的是旧 MCP 名称。`nbrag_search` → `nbrag_retrieve_no_expand`，`nbrag_search_and_fetch` → `nbrag_retrieve`；请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 ## 2026-06-08: batch_ingest 批量写入优化（delete_first=True）
 
 **改动范围**：core.py

@@ -446,7 +446,7 @@ def grep_knowledge(keyword, collection_name="default", max_results=10,
                    case_sensitive=False, filter_file_path=None, match_context_chars=DEFAULT_MATCH_CONTEXT_CHARS):
     """在知识库的全局 raw text cache 中进行关键词/正则搜索。
 
-    match_context_chars 是每个匹配结果的总上下文预算，会近似平分到匹配行前后；不是所有结果的总长度上限。
+    match_context_chars 是每个匹配结果的总上下文预算，按 1:2 比例分配到匹配行前后（前文占 1 份，后文占 2 份）；不是所有结果的总长度上限。
     """
     if filter_file_path and not _is_absolute_path(filter_file_path):
         return []
@@ -477,7 +477,7 @@ def grep_knowledge(keyword, collection_name="default", max_results=10,
                 continue
 
             total_context = max(match_context_chars, 0)
-            before_chars = total_context // 2
+            before_chars = total_context // 3
             after_chars = total_context - before_chars
             ctx_char_start = max(0, line_start - before_chars)
             ctx_char_end = min(len(content), line_end + after_chars)

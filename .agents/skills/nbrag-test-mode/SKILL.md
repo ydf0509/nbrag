@@ -1,6 +1,6 @@
 ---
 name: nbrag-test-mode
-description: "When user explicitly requests to query/retrieve knowledge using nbrag, this is a test of nbrag's real retrieval capability—AI MUST ONLY use nbrag MCP tools (nbrag_search_*, nbrag_find_*, nbrag_read_more_*, etc.) and NO other tools like Read/Grep/SearchCodebase/Glob/LS/RunCommand."
+description: "When user explicitly requests to query/retrieve knowledge using nbrag, this is a test of nbrag's real retrieval capability—AI MUST ONLY use nbrag MCP tools (nbrag_retrieve_*, nbrag_find_*, nbrag_read_more_*, etc.) and NO other tools like Read/Grep/SearchCodebase/Glob/LS/RunCommand."
 ---
 
 # nbrag-test-mode

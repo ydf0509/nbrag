@@ -8,10 +8,10 @@
   2.  nbrag_stats                      (无参) → 拿到 collection_name
   3.  nbrag_list                       (collection_name) → 拿到 doc_id / file_path
   4.  nbrag_find_files                 (pattern, collection_name) → 拿到 file_path
-  5.  nbrag_search                     (query, bm25_query, collection_name) → 拿到 chunk_index/line
-  6.  nbrag_search_only_bm25           (bm25_query, collection_name)
-  7.  nbrag_search_only_vector         (query, collection_name)
-  8.  nbrag_search_and_fetch           (query, bm25_query, collection_name)
+  5.  nbrag_retrieve_no_expand         (query, bm25_query, collection_name) → 拿到 chunk_index/line
+  6.  nbrag_retrieve_only_bm25          (bm25_query, collection_name)
+  7.  nbrag_retrieve_only_vector        (query, collection_name)
+  8.  nbrag_retrieve                    (query, bm25_query, collection_name)
   9.  nbrag_grep                        (keyword, collection_name) → 拿到 doc_id/line
   10. nbrag_find_definition            (symbol, collection_name) — 非 py 源时返回 fallback 提示
   11. nbrag_get_file_chunks            (file_path, collection_name)
@@ -162,10 +162,10 @@ record("nbrag_list", code, t)
 # 从 list 输出中提取第一个 doc_id 和 file_path
 doc_id = ""
 file_path = ""
-m = re.search(r'doc_id="([^"]+)"', t) or re.search(r'doc_id:\s*([^\s,\n]+)', t)
+m = re.search(r'doc_id="([^"]+)"', t)
 if m:
     doc_id = m.group(1)
-m = re.search(r'file_path="([^"]+)"', t) or re.search(r'file_path:\s*([^\s,\n]+)', t)
+m = re.search(r'file_path="([^"]+)"', t)
 if m:
     file_path = m.group(1)
 print(f"\n[parse] doc_id={doc_id!r}  file_path={file_path!r}")
@@ -182,62 +182,62 @@ if not file_path:
         file_path = m.group(1)
     print(f"[parse] updated file_path={file_path!r}")
 
-# ---------- 5. nbrag_search ----------
-code, t = call_tool("nbrag_search", {
+# ---------- 5. nbrag_retrieve_no_expand ----------
+code, t = call_tool("nbrag_retrieve_no_expand", {
     "query": "离婚时夫妻共同财产如何分割",
     "bm25_query": "离婚 共同财产 分割",
     "collection_name": COLL,
     "top_k": 3,
 })
-show("5. nbrag_search", code, t)
-record("nbrag_search", code, t)
+show("5. nbrag_retrieve_no_expand", code, t)
+record("nbrag_retrieve_no_expand", code, t)
 # 提取 chunk_index / line_start / line_end / doc_id
 chunk_index = None
 line_start = line_end = None
-m = re.search(r'chunk_index="(\d+)"', t) or re.search(r'chunk_index:(\d+)', t)
+m = re.search(r'chunk_index="(\d+)"', t)
 if m:
     chunk_index = int(m.group(1))
-m = re.search(r'line_start="(\d+)"', t) or re.search(r'line_start:(\d+)', t)
+m = re.search(r'line_start="(\d+)"', t)
 if m:
     line_start = int(m.group(1))
-m = re.search(r'line_end="(\d+)"', t) or re.search(r'line_end:(\d+)', t)
+m = re.search(r'line_end="(\d+)"', t)
 if m:
     line_end = int(m.group(1))
 if not doc_id:
-    m = re.search(r'doc_id="([^"]+)"', t) or re.search(r'doc_id:([^\s,]+)', t)
+    m = re.search(r'doc_id="([^"]+)"', t)
     if m:
         doc_id = m.group(1)
 print(f"[parse] chunk_index={chunk_index} line={line_start}-{line_end} doc_id={doc_id!r}")
 
-# ---------- 6. nbrag_search_only_bm25 ----------
-code, t = call_tool("nbrag_search_only_bm25", {
+# ---------- 6. nbrag_retrieve_only_bm25 ----------
+code, t = call_tool("nbrag_retrieve_only_bm25", {
     "bm25_query": "夫妻共同财产 离婚",
     "collection_name": COLL,
     "top_k": 3,
 })
-show("6. nbrag_search_only_bm25", code, t)
-record("nbrag_search_only_bm25", code, t)
+show("6. nbrag_retrieve_only_bm25", code, t)
+record("nbrag_retrieve_only_bm25", code, t)
 
-# ---------- 7. nbrag_search_only_vector ----------
-code, t = call_tool("nbrag_search_only_vector", {
+# ---------- 7. nbrag_retrieve_only_vector ----------
+code, t = call_tool("nbrag_retrieve_only_vector", {
     "query": "离婚财产分割的法律规定",
     "collection_name": COLL,
     "top_k": 3,
 })
-show("7. nbrag_search_only_vector", code, t)
-record("nbrag_search_only_vector", code, t)
+show("7. nbrag_retrieve_only_vector", code, t)
+record("nbrag_retrieve_only_vector", code, t)
 
-# ---------- 8. nbrag_search_and_fetch ----------
-code, t = call_tool("nbrag_search_and_fetch", {
+# ---------- 8. nbrag_retrieve ----------
+code, t = call_tool("nbrag_retrieve", {
     "query": "什么情形下法院判决离婚",
     "bm25_query": "法院 判决 离婚 情形",
     "collection_name": COLL,
     "top_k": 3,
-    "fetch_top_n_original_text_excerpt": 1,
-    "fetch_context_chars": 800,
+    "expand_top_n": 1,
+    "expand_context_chars": 800,
 })
-show("8. nbrag_search_and_fetch", code, t, limit=1500)
-record("nbrag_search_and_fetch", code, t)
+show("8. nbrag_retrieve", code, t, limit=1500)
+record("nbrag_retrieve", code, t)
 
 # ---------- 9. nbrag_grep ----------
 code, t = call_tool("nbrag_grep", {
@@ -249,7 +249,7 @@ show("9. nbrag_grep", code, t)
 record("nbrag_grep", code, t)
 # 补 doc_id / line
 if not doc_id:
-    m = re.search(r'doc_id="([^"]+)"', t) or re.search(r'doc_id:([^\s,]+)', t)
+    m = re.search(r'doc_id="([^"]+)"', t)
     if m:
         doc_id = m.group(1)
 if line_start is None:
@@ -279,7 +279,7 @@ if file_path:
     show("11. nbrag_get_file_chunks", code, t, limit=300)
     record("nbrag_get_file_chunks", code, t)
     # 提取 total_chunks
-    m = re.search(r'total_chunks="(\d+)"', t) or re.search(r'total_chunks:(\d+)', t)
+    m = re.search(r'total_chunks="(\d+)"', t)
     if m:
         print(f"[parse] total_chunks={m.group(1)}")
     # 显示 Next page 行（这是之前 bug 点）

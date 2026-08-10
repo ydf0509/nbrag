@@ -1,5 +1,9 @@
 # nbrag 中英文 BM25 Tokenizer 最佳方案
 
+> **历史接口快照**
+>
+> 本计划中的 `nbrag_search` 是旧 MCP 名称，当前映射为 `nbrag_retrieve_no_expand`；请以当前 `nbrag/server.py` 暴露的工具 schema 为准。
+
 > 目标：不顾虑早期兼容、不顾虑重新 ingest、不顾虑新增 PyPI 依赖，以跨领域任意文本知识库的检索效果优先。目标内容包括但不限于法律、医学、金融、科研论文、企业制度、技术手册、教材、产品文档、代码库和业务知识库。
 
 ## 结论

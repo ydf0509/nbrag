@@ -101,11 +101,11 @@ handle 字段的名字与形态有严格契约，详见 `nbrag-handle-consistenc
 - lexical retrieval → identifiers / titles / article numbers / exact phrases / error strings / symbols
 
 常见路径：
-- semantic → `nbrag_search()` / `nbrag_search_and_fetch()`
+- semantic → `nbrag_retrieve_no_expand()` / `nbrag_retrieve()`
 - lexical → `bm25_query` / `nbrag_grep()`
 
-### 3. `nbrag_search(_and_fetch)` vs `nbrag_grep()`
-- `nbrag_search()` / `nbrag_search_and_fetch()` = ranked semantic or hybrid retrieval
+### 3. `nbrag_retrieve(_no_expand)` vs `nbrag_grep()`
+- `nbrag_retrieve_no_expand()` / `nbrag_retrieve()` = ranked semantic or hybrid retrieval
 - `nbrag_grep()` = literal / regex matching over stored original text
 
 不要把 `grep` 描述成 concept search。
@@ -127,7 +127,7 @@ handle 字段的名字与形态有严格契约，详见 `nbrag-handle-consistenc
 
 ### 7. logical tool names vs exposed tool names
 文档里可以解释逻辑名，如：
-- `nbrag_search`
+- `nbrag_retrieve`
 - `nbrag_grep`
 
 但要提醒：

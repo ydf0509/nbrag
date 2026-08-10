@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import builtins
 import os
+import re
 import sys
 
 _THIS_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -68,7 +69,7 @@ def main() -> int:
         original_stdout = sys.stdout
         sys.stdout = _DualWriter(original_stdout, output_file)
         try:
-            section("nbrag MCP 检索函数返回证据报告（HTTP 端口 9101）")
+            section("nbrag MCP 检索函数返回知识库（HTTP 端口 9101）")
             print_save_file("说明: 本脚本只如实记录每个 MCP 工具的调用入参和返回结果，不做任何质量判定。")
             print_save_file("质量判断完全交给读取本 txt 的 AI。")
             print_save_file(f"输出文件: {OUTPUT_TXT_PATH}")
@@ -81,21 +82,21 @@ def main() -> int:
                    {"collection_name": "worker_rights", "limit": 2, "offset": 0})
 
             # ---- 检索类 ----
-            record("nbrag_search(query, bm25_query, top_k=3, include_content=True)", "nbrag_search",
+            record("nbrag_retrieve_no_expand(query, bm25_query, top_k=3, include_content=True)", "nbrag_retrieve_no_expand",
                    {"query": "1年劳动合同试用期期限上限", "bm25_query": "试用期 一年劳动合同", "collection_name": "worker_rights",
                     "top_k": 3, "include_content": True})
-            record("nbrag_search(metadata-only: include_content=False)", "nbrag_search",
+            record("nbrag_retrieve_no_expand(metadata-only: include_content=False)", "nbrag_retrieve_no_expand",
                    {"query": "1年劳动合同试用期期限上限", "bm25_query": "试用期 一年劳动合同", "collection_name": "worker_rights",
                     "top_k": 2, "include_content": False})
-            record("nbrag_search_only_bm25(query='试用期', include_content=False)", "nbrag_search_only_bm25",
-                   {"query": "试用期", "collection_name": "worker_rights",
+            record("nbrag_retrieve_only_bm25(bm25_query='试用期', include_content=False)", "nbrag_retrieve_only_bm25",
+                   {"bm25_query": "试用期", "collection_name": "worker_rights",
                     "top_k": 2, "include_content": False})
-            record("nbrag_search_only_vector(query, include_content=False)", "nbrag_search_only_vector",
+            record("nbrag_retrieve_only_vector(query, include_content=False)", "nbrag_retrieve_only_vector",
                    {"query": "1年劳动合同试用期期限上限", "collection_name": "worker_rights",
                     "top_k": 2, "include_content": False})
-            record("nbrag_search_and_fetch(query, bm25_query, top_k=3, fetch_top_n_original_text_excerpt=1, fetch_context_chars=4000)", "nbrag_search_and_fetch",
+            record("nbrag_retrieve(query, bm25_query, top_k=3, expand_top_n=1, expand_context_chars=4000)", "nbrag_retrieve",
                    {"query": "1年劳动合同试用期期限上限", "bm25_query": "试用期 一年劳动合同", "collection_name": "worker_rights",
-                    "top_k": 3, "fetch_top_n_original_text_excerpt": 1, "fetch_context_chars": 4000})
+                    "top_k": 3, "expand_top_n": 1, "expand_context_chars": 4000})
 
             # ---- 精确/词法类 ----
             record("nbrag_grep(keyword='试用期', max_results=5)", "nbrag_grep",
@@ -122,15 +123,15 @@ def main() -> int:
                     "collection_name": "worker_rights", "start_chunk": 0, "max_chunks": 2})
 
             # ---- 需要 doc_id 的工具 ----
-            print_save_file("[前置] 通过 nbrag_search 获取真实 doc_id")
-            search_output = call_mcp_tool("nbrag_search", {
+            print_save_file("[前置] 通过 nbrag_retrieve_no_expand 获取真实 doc_id")
+            search_output = call_mcp_tool("nbrag_retrieve_no_expand", {
                 "query": "试用期", "collection_name": "worker_rights",
                 "top_k": 1, "include_content": False,
             })
             worker_doc_id = ""
-            for token in search_output.replace("\n", " ").split():
-                if token.startswith("doc_id:"):
-                    worker_doc_id = token.split(":", 1)[1]
+            doc_id_match = re.search(r'doc_id="([^"]+)"', search_output)
+            if doc_id_match:
+                worker_doc_id = doc_id_match.group(1)
             print_save_file(f"解析到 worker_doc_id = {worker_doc_id!r}")
             print_save_file()
 
@@ -143,7 +144,7 @@ def main() -> int:
                 print_save_file("[跳过] get_adjacent_chunks / get_chunks_by_lines：未解析到 doc_id")
 
             section("报告结束")
-            print_save_file("以上是每个 MCP 函数在 HTTP 端口 9101 下的真实返回证据。")
+            print_save_file("以上是每个 MCP 函数在 HTTP 端口 9101 下的真实返回知识库内容。")
         finally:
             sys.stdout = original_stdout
 

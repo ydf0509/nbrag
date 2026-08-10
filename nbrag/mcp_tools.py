@@ -116,7 +116,7 @@ def _build_line_char_index(content: str) -> tuple[list[str], list[int]]:
 
 
 def _line_window_from_context_chars(lines: list[str], offsets: list[int], line_start: int, line_end: int, per_hit_context_chars: int) -> tuple[int, int]:
-    """Expand around the matched line range using a total per-hit context budget split before/after."""
+    """Expand around the matched line range using a total per-hit context budget split before/after in a 1:2 ratio."""
     total_lines = len(lines)
     if total_lines == 0:
         return 1, 1
@@ -129,7 +129,7 @@ def _line_window_from_context_chars(lines: list[str], offsets: list[int], line_s
     if per_hit_context_chars <= 0:
         return hit_start, hit_end
 
-    before_chars = per_hit_context_chars // 2
+    before_chars = per_hit_context_chars // 3
     after_chars = per_hit_context_chars - before_chars
     hit_char_start = offsets[hit_start - 1]
     hit_char_end = offsets[hit_end]
@@ -405,11 +405,11 @@ def nbrag_add_document(
     return "\n".join(lines)
 
 
-def _search_and_fetch_follow_up_guidance() -> str:
+def _retrieve_follow_up_guidance() -> str:
     return _tagged_text("nbrag_follow_up", body=[
-        "Evidence boundaries:",
+        "Knowledge boundaries:",
         "- `<nbrag_chunk_content>` is exactly one RAG chunk; its original-text context stops at the chunk boundaries, and adjacent chunks overlap by the ingestion overlap configuration.",
-        "- `<nbrag_original_text_excerpt>` is an overlap-free stored-original-text excerpt with file_path, doc_id, line_start, and line_end; its `<nbrag_original_text_content>` is bounded by fetch_context_chars, not the complete stored file.",
+        "- `<nbrag_original_text_expand>` is an overlap-free auto-expanded original-text block with file_path, doc_id, line_start, and line_end; its `<nbrag_original_text_content>` is bounded by expand_context_chars, not the complete stored file.",
         "",
         "Both result types are bounded. If the answer, quotation, or verification depends on text outside the shown range, read a wider continuous original-text range.",
         "",
@@ -428,7 +428,7 @@ def nbrag_help() -> str:
     skeleton = [
         "nbrag help: tool usage guide for AI agents using nbrag",
         "",
-        "Use the actual exposed tool names you received from the MCP host. They may include prefixes such as xxx_nbrag_search.",
+        "Use the actual exposed tool names you received from the MCP host. They may include prefixes such as xxx_nbrag_retrieve.",
         "",
         "Purpose: nbrag_help establishes how to choose retrieval tools, keep query and bm25_query in distinct roles, distinguish chunk text from stored original text, and reuse follow-up handles safely.",
         "",
@@ -442,8 +442,8 @@ def nbrag_help() -> str:
         "- If collection_name is unknown, call nbrag_stats() next.",
         "",
         "Step 2: choose the retrieval path",
-        "- Use nbrag_search_and_fetch() for most questions about meaning, explanation, usage, examples, or source-backed evidence after collection_name is clear.",
-        "- Use nbrag_search() when you need ranked retrieval with finer controls or metadata-only output.",
+        "- Use nbrag_retrieve() for most questions about meaning, explanation, usage, examples, or source-backed knowledge after collection_name is clear.",
+        "- Use nbrag_retrieve_no_expand() when you need ranked retrieval with finer controls or metadata-only output.",
         "- Use nbrag_grep() when exact wording matters in stored original text: article numbers, exact phrases, identifiers, headings, constants, imports, decorators, or error strings.",
         "- Use nbrag_find_definition() for Python .py symbol definitions.",
         "",
@@ -459,12 +459,12 @@ def nbrag_help() -> str:
         "- `<nbrag_file>` / `<nbrag_document>` → file_path, doc_id",
         "- `<nbrag_chunk>` → chunk_index, line_start, line_end; file-level handles remain on the containing result",
         "",
-        "`<nbrag_original_text_content>` takes its range semantics from its outer entity: under `<nbrag_match>` it is bounded by match_context_chars; under `<nbrag_original_text_excerpt>` it is bounded by fetch_context_chars; under `<nbrag_original_text>` it is the explicitly requested stored-original-text reading window. Python `<nbrag_definition_content>` is an AST-aware definition body when symbol_type is class/function/method; regex_fallback is only a candidate text match.",
+        "`<nbrag_original_text_content>` takes its range semantics from its outer entity: under `<nbrag_match>` it is bounded by match_context_chars; under `<nbrag_original_text_expand>` it is bounded by expand_context_chars; under `<nbrag_original_text>` it is the explicitly requested stored-original-text reading window. Python `<nbrag_definition_content>` is an AST-aware definition body when symbol_type is class/function/method; regex_fallback is only a candidate text match.",
         "",
         "Stable follow-up fields: file_path, doc_id, chunk_index, line_start, line_end.",
         "",
-        "search_and_fetch result guidance:",
-        _search_and_fetch_follow_up_guidance(),
+        "nbrag_retrieve result guidance:",
+        _retrieve_follow_up_guidance(),
     ]
     if skill_text:
         skeleton.extend(["", "nbrag workflow skill:", skill_text])
@@ -500,7 +500,7 @@ def _format_search_results(
     filter_file_path: str = "",
     include_content: bool = True,
     bm25_query: str = "",
-    root_tag: str = "nbrag_search",
+    root_tag: str = "nbrag_retrieve_no_expand",
 ) -> str:
     query, issue = _validate_required_text(query, "query")
     if issue:
@@ -551,7 +551,7 @@ def _format_search_results(
 
 
 @_contract_tool("returned_hit_count", "nbrag_ranked_hit")
-def nbrag_search(
+def nbrag_retrieve_no_expand(
     query: str,
     collection_name: str,
     top_k: int = 20,
@@ -571,12 +571,12 @@ def nbrag_search(
         filter_file_path=filter_file_path,
         include_content=include_content,
         bm25_query=bm25_query,
-        root_tag="nbrag_search",
+        root_tag="nbrag_retrieve_no_expand",
     )
 
 
 @_contract_tool("returned_hit_count", "nbrag_ranked_hit")
-def nbrag_search_only_bm25(
+def nbrag_retrieve_only_bm25(
     bm25_query: str,
     collection_name: str,
     top_k: int = 20,
@@ -584,7 +584,7 @@ def nbrag_search_only_bm25(
     include_content: bool = True,
 ) -> str:
     return _format_search_results(
-        query=  bm25_query,
+        query=bm25_query,
         collection_name=collection_name,
         top_k=top_k,
         use_rerank=False,
@@ -592,12 +592,12 @@ def nbrag_search_only_bm25(
         use_vector=False,
         filter_file_path=filter_file_path,
         include_content=include_content,
-        root_tag="nbrag_search_only_bm25",
+        root_tag="nbrag_retrieve_only_bm25",
     )
 
 
 @_contract_tool("returned_hit_count", "nbrag_ranked_hit")
-def nbrag_search_only_vector(
+def nbrag_retrieve_only_vector(
     query: str,
     collection_name: str,
     top_k: int = 20,
@@ -613,17 +613,17 @@ def nbrag_search_only_vector(
         use_vector=True,
         filter_file_path=filter_file_path,
         include_content=include_content,
-        root_tag="nbrag_search_only_vector",
+        root_tag="nbrag_retrieve_only_vector",
     )
 
 
 @_contract_tool("returned_hit_count", "nbrag_ranked_hit")
-def nbrag_search_and_fetch(
+def nbrag_retrieve(
     query: str,
     collection_name: str,
     top_k: int = 20,
-    fetch_top_n_original_text_excerpt: int = 5,
-    fetch_context_chars: int = DEFAULT_FETCH_CONTEXT_CHARS,
+    expand_top_n: int = 5,
+    expand_context_chars: int = DEFAULT_FETCH_CONTEXT_CHARS,
     filter_file_path: str = "",
     bm25_query: str = "",
 ) -> str:
@@ -636,12 +636,10 @@ def nbrag_search_and_fetch(
     top_k, issue = _validate_int(top_k, "top_k", 1)
     if issue:
         return issue
-    fetch_top_n_original_text_excerpt, issue = _validate_int(
-        fetch_top_n_original_text_excerpt, "fetch_top_n_original_text_excerpt", 0,
-    )
+    expand_top_n, issue = _validate_int(expand_top_n, "expand_top_n", 0)
     if issue:
         return issue
-    fetch_context_chars, issue = _validate_int(fetch_context_chars, "fetch_context_chars", 0)
+    expand_context_chars, issue = _validate_int(expand_context_chars, "expand_context_chars", 0)
     if issue:
         return issue
     filter_file_path = _str_param(filter_file_path)
@@ -680,13 +678,13 @@ def nbrag_search_and_fetch(
         _le = meta.get("line_end", 0)
         ls = int(_ls) if isinstance(_ls, (int, float)) else 0
         le = int(_le) if isinstance(_le, (int, float)) else 0
-        if i < fetch_top_n_original_text_excerpt and doc_id != "?" and src != "?":
+        if i < expand_top_n and doc_id != "?" and src != "?":
             if doc_id not in fetch_targets:
                 fetch_targets[doc_id] = {"src": str(src), "ranges": []}
             fetch_targets[doc_id]["ranges"].append((ls, le))
 
-    lines_fetched = []
-    if fetch_top_n_original_text_excerpt > 0 and fetch_targets:
+    lines_expanded = []
+    if expand_top_n > 0 and fetch_targets:
         for doc_id, info in fetch_targets.items():
             src = str(info["src"])
             ranges = info["ranges"]
@@ -700,29 +698,29 @@ def nbrag_search_and_fetch(
             raw_content = str(raw_data.get("content", ""))
             raw_lines, offsets = _build_line_char_index(raw_content)
             expanded_ranges = [
-                _line_window_from_context_chars(raw_lines, offsets, ls, le, fetch_context_chars)
+                _line_window_from_context_chars(raw_lines, offsets, ls, le, expand_context_chars)
                 for ls, le in ranges
             ]
             merged_ranges = _merge_line_ranges(expanded_ranges)
 
             for start, end in merged_ranges:
                 excerpt = "".join(raw_lines[start - 1:end]) if raw_lines else raw_content
-                if lines_fetched:
-                    lines_fetched.extend(["", "", ""])
-                lines_fetched.append(_entity_text("nbrag_original_text_excerpt", [
+                if lines_expanded:
+                    lines_expanded.extend(["", "", ""])
+                lines_expanded.append(_entity_text("nbrag_original_text_expand", [
                     ("file_path", src),
                     ("doc_id", doc_id),
                     ("line_start", start),
                     ("line_end", end),
                 ], [_tagged_text("nbrag_original_text_content", body=[excerpt])]))
 
-    lines = ["<nbrag_search_and_fetch>", _search_and_fetch_follow_up_guidance(), ""]
+    lines = ["<nbrag_retrieve>", _retrieve_follow_up_guidance(), ""]
     lines.extend(lines_hits)
     lines.append("")
-    if lines_fetched:
-        lines.extend(lines_fetched)
+    if lines_expanded:
+        lines.extend(lines_expanded)
         lines.append("")
-    lines.append("</nbrag_search_and_fetch>")
+    lines.append("</nbrag_retrieve>")
     return "\n".join(lines)
 
 
@@ -770,7 +768,7 @@ def nbrag_grep(
             "keyword",
             "No grep matches.",
             "Check exact wording/case, escape regex metacharacters if you intended literal matching, "
-            "try regex if appropriate, or switch to nbrag_search_and_fetch for semantic discovery "
+            "try regex if appropriate, or switch to nbrag_retrieve for semantic discovery "
             "when this is a concept, alias, or paraphrase rather than exact source wording.",
         )
 
@@ -818,7 +816,7 @@ def nbrag_find_definition(
             "no_results",
             "symbol",
             "No definition found. Python source may use a different exact name, or this knowledge base may be non-Python text.",
-            "Try nbrag_grep for exact text/regex, use nbrag_search_and_fetch for concept/example discovery, "
+            "Try nbrag_grep for exact text/regex, use nbrag_retrieve for concept/example discovery, "
             "or verify that this collection actually contains Python .py source files.",
         )
 
@@ -875,7 +873,7 @@ def nbrag_find_files(pattern: str, collection_name: str, max_results: int = 20, 
             "pattern",
             "No files matched.",
             "Try a shorter filename fragment, a different suffix, a regex pattern, "
-            "or first use nbrag_search_and_fetch/nbrag_grep to discover candidate files.",
+            "or first use nbrag_retrieve/nbrag_grep to discover candidate files.",
         )
 
     lines = ['<nbrag_find_files>']
@@ -921,7 +919,7 @@ def nbrag_get_adjacent_chunks(doc_id: str, chunk_index: int, collection_name: st
             "not_found",
             "doc_id",
             f"No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search result.{suffix}",
-            "Copy doc_id and chunk_index from a prior nbrag_search / nbrag_search_and_fetch `<nbrag_ranked_hit>`, "
+            "Copy doc_id and chunk_index from a prior nbrag_retrieve_no_expand / nbrag_retrieve `<nbrag_ranked_hit>`, "
             "or use nbrag_read_more_original_text if you only need original text without chunk boundaries.",
         )
 
@@ -933,7 +931,7 @@ def nbrag_get_adjacent_chunks(doc_id: str, chunk_index: int, collection_name: st
             "not_found",
             "doc_id",
             f"No adjacent chunks found. Check that doc_id is valid and chunk_index came from a search result.{suffix}",
-            "Copy doc_id and chunk_index from a prior nbrag_search / nbrag_search_and_fetch `<nbrag_ranked_hit>`, "
+            "Copy doc_id and chunk_index from a prior nbrag_retrieve_no_expand / nbrag_retrieve `<nbrag_ranked_hit>`, "
             "or use nbrag_read_more_original_text if you only need original text without chunk boundaries.",
         )
 
@@ -1241,7 +1239,7 @@ def nbrag_stats() -> str:
             ("last_ingested_at", last_ingested_at),
         ]))
     lines.append('')
-    lines.append('After choosing collection_name, continue with nbrag_search_and_fetch for most questions.')
+    lines.append('After choosing collection_name, continue with nbrag_retrieve for most questions.')
     lines.append('')
     lines.append('</nbrag_stats>')
     return "\n".join(lines)

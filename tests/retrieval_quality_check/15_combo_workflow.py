@@ -1,7 +1,7 @@
 """Combo workflow end-to-end test: verify XML returns let an LLM-like agent
 chain nbrag tools by extracting follow-up handles from each XML response.
 
-Chain: nbrag_help -> nbrag_stats -> nbrag_search -> nbrag_get_adjacent_chunks
+Chain: nbrag_help -> nbrag_stats -> nbrag_retrieve_no_expand -> nbrag_get_adjacent_chunks
        -> nbrag_read_more_original_text -> nbrag_get_chunks_by_lines
 """
 
@@ -43,15 +43,15 @@ collection_name = collection.get("collection_name", "")
 assert collection_name, "FAILED: cannot extract collection_name from <nbrag_collection>"
 print(f"\n[extracted] collection_name = {collection_name!r}")
 
-# Step 3: search -> pick file_path, doc_id, chunk_index, line_start, line_end from top <nbrag_ranked_hit>
-xml_search = call_mcp_tool("nbrag_search", {
+# Step 3: retrieve -> pick file_path, doc_id, chunk_index, line_start, line_end from top <nbrag_ranked_hit>
+xml_search = call_mcp_tool("nbrag_retrieve_no_expand", {
     "query": "试用期 最长不能超过多久",
     "bm25_query": "试用期 期限 一年 劳动合同",
     "collection_name": collection_name,
     "top_k": 3,
     "include_content": False,
 })
-step("STEP 3: nbrag_search()", xml_search)
+step("STEP 3: nbrag_retrieve_no_expand()", xml_search)
 hit = extract_fields(xml_search, "nbrag_ranked_hit")
 print(f"\n[<nbrag_ranked_hit>] doc_id={hit.get('doc_id')!r} chunk_index={hit.get('chunk_index')!r}")
 doc_id = hit.get("doc_id", "")

@@ -39,3 +39,6 @@ D:/codes/nbrag/nbrag/skills/nbrag-workflow/SKILL.md
 这些文件的文字说明和函数返回都是面向ai的，而不是面向人的
 要参考 D:/codes/nbrag/.agents/skills/nbrag-code-authoring/SKILL.md 这个 nbrag-code-authoring 这个skill
 
+## 措辞说明
+
+nbrag是知识库， 不要说成是证据库， 是检索知识， 不是检索证据
