@@ -51,9 +51,6 @@ nbrag_read_more_original_text(
 | 只知道文件名或路径片段 | `nbrag_find_files()` | 获取准确的 full absolute `file_path` |
 | 浏览已导入文件 | `nbrag_list()` | 获取 document inventory、`doc_id` 和 `file_path` |
 | 读取连续原文 | `nbrag_read_more_original_text()` | 读取 overlap-free stored original text，支持指定 line range 或完整文件 |
-| 检查 chunk 结构 | `nbrag_get_file_chunks()` | 分页查看 chunk boundaries 和 scope metadata |
-| 检查某个 hit 周围的 chunk 结构 | `nbrag_get_adjacent_chunks()` | 查看相邻 chunk boundaries、scope 和 overlap |
-| 检查某个 line range 覆盖哪些 chunks | `nbrag_get_chunks_by_lines()` | 返回与该行范围重叠的 chunks |
 
 ## `query` 和 `bm25_query`
 
@@ -78,7 +75,7 @@ nbrag_read_more_original_text(
 | `<nbrag_original_text_content>` under `<nbrag_original_text>` | `nbrag_read_more_original_text()` 明确请求的原文窗口；省略两个 line bounds 时才是完整 stored file |
 | `<nbrag_definition_content>` | Python 结果通常是 AST definition；`symbol_type="regex_fallback"` 只是非 Python candidate text |
 
-Chunk overlap 用于提高 retrieval recall。需要连续上下文、引用原文或阅读大文件时，使用 `nbrag_read_more_original_text()`。Chunk tools 用于检查 chunk boundaries、scope metadata、overlap 或 chunking 质量。
+Chunk overlap 用于提高 retrieval recall。需要连续上下文、引用原文或阅读大文件时，使用 `nbrag_read_more_original_text()`。
 
 ## 扩读原文
 
@@ -110,7 +107,6 @@ nbrag_read_more_original_text(
 | `<nbrag_match>` | `file_path`, `doc_id`, `line_start`, `line_end`；行号表示匹配行，不是 excerpt 的完整边界 |
 | `<nbrag_definition>` | `file_path`, `doc_id`, `line_start`, `line_end`；没有 `chunk_index` |
 | `<nbrag_file>` / `<nbrag_document>` | `file_path`, `doc_id` |
-| `<nbrag_chunk>` | `file_path`, `doc_id`, `chunk_index`, `line_start`, `line_end` |
 
 `collection_name` 继续使用当前知识库的值。
 
@@ -155,17 +151,7 @@ nbrag_read_more_original_text(
 3. 如果还需要后文，就把下一次 `line_start` 设到当前 `line_end` 之后，并继续向后读取。
 4. 如果需要整个文件，就省略 `line_start` 和 `line_end`。
 
-阅读大文件时，使用 `nbrag_read_more_original_text()` 按连续 line ranges 扩读。`nbrag_get_file_chunks()` 用于检查 chunk boundaries、scope metadata、overlap 或 chunking 质量。
-
-### 检查 chunk structure
-
-需要检查 chunk structure 时，使用以下工具：
-
-- `nbrag_get_file_chunks()`：分页检查某个文件的 chunks；根据 `has_more` 和 `next_start_chunk` 继续。
-- `nbrag_get_adjacent_chunks()`：检查已知 `doc_id + chunk_index` 周围的 chunks。
-- `nbrag_get_chunks_by_lines()`：检查某个 `doc_id + line range` 与哪些 chunks 重叠。
-
-这些工具返回的相邻 chunks 一定按 ingestion 时配置的 overlap 重叠，连续原文读取使用 `nbrag_read_more_original_text()`。
+阅读大文件时，使用 `nbrag_read_more_original_text()` 按连续 line ranges 扩读。
 
 ## Recovery
 
@@ -177,7 +163,6 @@ nbrag_read_more_original_text(
 | grep 没找到，但问题可能是 paraphrase 或 concept | `nbrag_retrieve()` |
 | 只知道部分文件名或路径 | `nbrag_find_files()` |
 | 当前检索结果有用但上下文太短 | `nbrag_read_more_original_text()` |
-| 需要检查 chunk boundaries 或 scope metadata | 选择对应 chunk tool |
 | 需要比较 lexical-only 和 vector-only recall | `nbrag_retrieve_only_bm25()` / `nbrag_retrieve_only_vector()` |
 
 ## 作答前检查

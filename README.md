@@ -247,11 +247,58 @@ After the server starts, `nbrag` exposes a set of retrieval-oriented MCP tools. 
 | Expansion and lookup | `nbrag_get_adjacent_chunks`, `nbrag_get_chunks_by_lines`, `nbrag_find_files` | expanding context around hits and resolving exact file paths |
 | Inventory and routing | `nbrag_stats`, `nbrag_list` | discovering collections and browsing imported documents |
 
-## How this differs from naive RAG
+## Why naive RAG falls short and nbrag wins — a concrete example
 
-Naive RAG is usually a fixed one-shot pipeline: retrieve top-k chunks once and place them into the prompt.
+Naive RAG's biggest flaw is treating retrieval as a one-shot similarity gamble: the query goes straight to embedding, whatever comes back is what you get, and there is no awareness when it goes wrong.
 
-`nbrag` is different in two practical ways:
+### A typical conversation
+
+Suppose a knowledge base contains data on countries worldwide: history, area, economy, population, culture, GDP, military strength, weapons, etc.
+
+The user asks two questions in sequence. The first is "Who has a stronger military, the US or China?", the second is "And what about the US vs Russia?" — note the second is deliberately incomplete; the user never spells out "Whose military is stronger, the US or Russia?".
+
+> User: Who has a stronger military, the US or China?
+> User: And what about the US vs Russia?
+
+### Naive RAG: a chain of dead ends
+
+"And what about the US vs Russia?" is a chain of dead ends for naive RAG:
+
+- **Incomplete query sends retrieval off target**: "And what about..." is pure coreference with no "military" signal, so embedding has no idea what to look for, and it returns chunks about population, culture, land area — anything but military strength;
+- **Cannot find text that does not exist**: the knowledge base only has per-country data (US military, Russia military); there is no ready-made "US vs Russia military comparison" passage. Naive RAG can only return chunks that actually exist in the corpus — and the "answer" chunk does not exist at all, so any retrieval comes up empty;
+- **No cross-document assembly**: even if it luckily retrieves a US military chunk, top-k is a single similarity gamble that will not also pull Russia's data. Evidence for the two sides lives in separate chunks and cannot be stitched into a comparison;
+- **Single-turn, no memory**: round one "US vs China" ends and is gone; round two "US vs Russia" is fully isolated and gambles from scratch, not even knowing the US was already searched;
+- **No self-check, no recovery**: it cannot tell half the answer is missing. Wrong is wrong, one-shot, no second chance.
+
+### Agentic RAG (nbrag): stateful evidence collection
+
+nbrag turns retrieval from a one-shot pipeline into a multi-round, stateful, self-directed evidence-collection loop:
+
+1. **Round one decomposes sub-questions and searches both countries**: for "US vs China military", the LLM decomposes "military" into warheads, carriers, submarines, bombers, army/navy/air force headcount, etc., and retrieves both US and China military data into context;
+2. **Round two resolves coreference and only fills in Russia**: "And what about the US vs Russia?" is expanded to "US vs Russia military". The LLM sees the US data is already in context from round one, so it searches only Russia — no redundant US search;
+3. **Every round uses dual-channel retrieval**:
+   - **Semantic channel** (query): "warhead counts, carrier groups, service headcount, and other military data" — handles concepts;
+   - **Lexical anchors** (bm25_query): e.g. `Russia submarines bombers carriers`, `Russia army navy air force` — handles strong literal tokens. When an incomplete query is semantically unreliable, country names and weapon names act as a fallback;
+4. **Expand on every hit**: useful chunks are auto-expanded to surrounding original text so answers are not cut off at chunk boundaries;
+5. **Evidence-completeness self-check**: a comparison needs both sides; if some Russian data point is still missing, it keeps searching until the evidence is complete;
+6. **LLM synthesis**: US data from chunk A, Russia data from chunk B — collected separately, then assembled into a data-backed military comparison.
+
+### Comparison
+
+| Dimension | Naive RAG | Agentic RAG (nbrag) |
+| --- | --- | --- |
+| Incomplete query | retrieved as-is, no signal | coreference resolved with context |
+| Retrieval target | most similar text snippets | evidence that answers when combined |
+| Cross-document synthesis | dies when no comparison passage exists | gathers each side, then synthesizes |
+| State across turns | none | remembers what was retrieved; round two only adds Russia |
+| Retrieval channel | single vector similarity | semantic query + BM25 lexical anchors, dual-channel |
+| Self-check | does not know what is missing | knows which country's data is missing |
+| Recovery | none, one-shot | multi-round expand, re-check, revise |
+| Final answer | makes it up when no ready-made passage exists | comparison backed by retrieved data |
+
+**In one sentence**: naive RAG retrieves what looks similar and quotes ready-made passages; agentic RAG thinks before searching, searches again when needed, remembers what it already found, and assembles evidence into the answer — that is the core gap between nbrag and naive RAG.
+
+Beyond this, nbrag differs in two practical ways:
 
 - you prepare and control the knowledge base yourself
 - retrieval is exposed through MCP tools, so the client can search, refine, inspect original text, and fetch more context when needed

@@ -116,7 +116,7 @@ def _build_line_char_index(content: str) -> tuple[list[str], list[int]]:
 
 
 def _line_window_from_context_chars(lines: list[str], offsets: list[int], line_start: int, line_end: int, per_hit_context_chars: int) -> tuple[int, int]:
-    """Expand around the matched line range using a total per-hit context budget split before/after."""
+    """Expand around the matched line range using a total per-hit context budget split before/after in a 1:2 ratio."""
     total_lines = len(lines)
     if total_lines == 0:
         return 1, 1
@@ -129,7 +129,7 @@ def _line_window_from_context_chars(lines: list[str], offsets: list[int], line_s
     if per_hit_context_chars <= 0:
         return hit_start, hit_end
 
-    before_chars = per_hit_context_chars // 2
+    before_chars = per_hit_context_chars // 3
     after_chars = per_hit_context_chars - before_chars
     hit_char_start = offsets[hit_start - 1]
     hit_char_end = offsets[hit_end]

@@ -609,7 +609,7 @@ AI should reason explicitly about retrieval mode, lexical anchoring, and follow-
 
 对应中文版可以写：
 ```md
-AI 应显式判断检索模式、词法锚点和后续证据扩展方式，而不是机械串联工具。
+AI 应显式判断检索模式、词法锚点和后续知识扩展方式，而不是机械串联工具。
 ```
 
 ---

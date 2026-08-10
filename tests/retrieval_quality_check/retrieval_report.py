@@ -69,7 +69,7 @@ def main() -> int:
         original_stdout = sys.stdout
         sys.stdout = _DualWriter(original_stdout, output_file)
         try:
-            section("nbrag MCP 检索函数返回证据报告（HTTP 端口 9101）")
+            section("nbrag MCP 检索函数返回知识库（HTTP 端口 9101）")
             print_save_file("说明: 本脚本只如实记录每个 MCP 工具的调用入参和返回结果，不做任何质量判定。")
             print_save_file("质量判断完全交给读取本 txt 的 AI。")
             print_save_file(f"输出文件: {OUTPUT_TXT_PATH}")
@@ -144,7 +144,7 @@ def main() -> int:
                 print_save_file("[跳过] get_adjacent_chunks / get_chunks_by_lines：未解析到 doc_id")
 
             section("报告结束")
-            print_save_file("以上是每个 MCP 函数在 HTTP 端口 9101 下的真实返回证据。")
+            print_save_file("以上是每个 MCP 函数在 HTTP 端口 9101 下的真实返回知识库内容。")
         finally:
             sys.stdout = original_stdout
 

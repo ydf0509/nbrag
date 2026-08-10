@@ -105,11 +105,11 @@ def nbrag_add_document(
 
 
 class FuncFields:
-    query: str = Field(description="Main semantic query used by vector retrieval and reranking. Keep it as a natural-language question or statement that preserves the real retrieval target. Use ongoing dialogue or earlier retrieval results to resolve pronouns, restore omitted entities, fix obvious typos, or sharpen the event/relation/attribute wording once the target is clear. Let query stay semantically complete and readable; use bm25_query separately for lexical anchors.如果知识库内容是英文的，请使用英文语句检索")
+    query: str = Field(description="主语义查询，用于向量检索和重排序。写成完整的自然语言问句，不要堆关键词；语义越完整召回越准。精确关键词匹配交给 bm25_query。")
     collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats first if unknown)")
-    top_k: int = Field(default=20, description="Number of ranked hits to return,通常情况下保持默认值就就好了，llm不用擅自修改")
+    top_k: int = Field(default=20, description="返回的排序命中数量。通常保持默认值即可，无需修改。")
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking. In the current hybrid implementation, this narrows vector retrieval to that file and skips cross-file BM25 fusion. Value comes from the file_path handle returned by nbrag tools.")
-    bm25_query: str = Field(default="", description="Optional lexical-anchor query used only by BM25. Omit it or pass an empty string when no grounded lexical anchor is available; the hybrid search still uses query for vector retrieval and reranking. When provided, build it from wording likely to appear literally in the source: exact terms, aliases, article numbers, abbreviations, codes, API/class names, symbol names, titles, place names, event markers, error strings, or short phrases. Compared with query, bm25_query carries more source-facing lexical anchors and can combine multiple grounded anchors only when they target the same knowledge. Do not mix unverified alternatives, unrelated entities, or adjacent provisions merely as a keyword bag. Refine anchors across turns from the user's wording, ongoing dialogue, or earlier hits.如果知识库内容是英文的，请使用英文语句检索")
+    bm25_query: str = Field(default="", description="可选的精确关键词查询，仅用于 BM25 检索。没有精确关键词时留空即可。提供时填源文本中可能原样出现的词：术语、别名、编号、缩写、API/类名、标题等。可以组合多个关键词。")
     include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only lookup when you only need handles like file_path/doc_id/chunk_index. Content is a truncated chunk fragment, not the full source")
     file_path: str = Field(description="Exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted")
     
@@ -233,7 +233,7 @@ def nbrag_retrieve(
     collection_name: str = FuncFields.collection_name,
     top_k: int = FuncFields.top_k,
     expand_top_n: int = Field(default=5, description="Number of top ranked hits eligible for auto-expanding stored original-text context. Hits from the same document can produce merged ranges, so the final <nbrag_original_text_expand> count can be lower. 0 disables auto-expand."),
-    expand_context_chars: int = Field(default=DEFAULT_FETCH_CONTEXT_CHARS, description=f"Per ranked hit: approximate original-text context-character budget around the matched line range, split about half before and half after. This is per eligible hit, not a total response cap. Default {DEFAULT_FETCH_CONTEXT_CHARS} means roughly {DEFAULT_FETCH_CONTEXT_CHARS // 2} chars before and {DEFAULT_FETCH_CONTEXT_CHARS // 2} chars after each hit."),
+    expand_context_chars: int = Field(default=DEFAULT_FETCH_CONTEXT_CHARS, description=f"Per ranked hit: approximate original-text context-character budget around the matched line range, split roughly 1:2 before and after (1 part before, 2 parts after). This is per eligible hit, not a total response cap."),
     filter_file_path: str = FuncFields.filter_file_path,
     bm25_query: str = FuncFields.bm25_query,
 ) -> str:
@@ -291,7 +291,7 @@ def nbrag_grep(
     max_results: int = Field(default=10, description="Maximum number of matches to return"),
     case_sensitive: bool = Field(default=False, description="Case-sensitive matching"),
     filter_file_path: str = FuncFields.filter_file_path,
-    match_context_chars: int = Field(default=DEFAULT_MATCH_CONTEXT_CHARS, description=f"Per match: approximate total context chars around the matched line range, split about half before and half after. This is per match, not a total cap across all matches. Default {DEFAULT_MATCH_CONTEXT_CHARS} means roughly {DEFAULT_MATCH_CONTEXT_CHARS // 2} chars before and {DEFAULT_MATCH_CONTEXT_CHARS // 2} chars after each match"),
+    match_context_chars: int = Field(default=DEFAULT_MATCH_CONTEXT_CHARS, description=f"Per match: approximate total context chars around the matched line range, split roughly 1:2 before and after (1 part before, 2 parts after). This is per match, not a total cap across all matches."),
 ) -> str:
     """Literal text or regex search over stored original text, matched line by line.
 
@@ -365,7 +365,7 @@ def nbrag_read_more_original_text(
     line_end: int | None = Field(default=None, description="Optional end line (1-based, inclusive) of the stored-original-text reading window. For a useful ranked hit, set line_end=hit line_start+400. Omit it to end at the last line of the stored file."),
 ) -> str:
     """
-    获取某个文件的原始内容。
+    根据行号范围获取某个文件的原始内容。
     如果某个 ranked hit 对回答有用，就把它的 line_start 记作 hit_line_start，再读取 line_start=max(1, hit_line_start-200) 到 line_end=hit_line_start+400 的连续原文。
     如果缺少前文，就减小 line_start；如果缺少后文，就增大 line_end。大文件和大范围内容也按连续 line ranges 读取。
 
