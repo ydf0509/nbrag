@@ -40,7 +40,7 @@ Repository = "https://github.com/ydf0509/nbrag"
 nbrag = "nbrag.server:main"
 
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling>=1.24,<1.25"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build]
