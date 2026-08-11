@@ -1,0 +1,769 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "Polynesians from Tahiti were probably the first people to settle Rarotonga -- the largest of the Cook Islands -- around A.D. 900. Over time, Samoans and Tongans also settled in Rarotonga, and Rarotongans voyaged to the northern Cook Islands, settling Manihiki and Rakahanga. Pukapuka and Penrhyn in the northern Cook Islands were settled directly from Samoa. Prior to European contact, there was considerable travel and trade between inhabitants of the different islands and atolls, but they were not united in a single political entity. Spanish navigators were the first Europeans to spot the northern Cook Islands in 1595, followed by the first landing in 1606, but no further European contact occurred until the 1760s. In 1773, British explorer James COOK spotted Manuae in the southern Cook Islands, and Russian mapmakers named the islands after COOK in the 1820s. <br><br>Fearing France would militarily occupy the islands as it did in Tahiti, Rarotongans asked the UK for protectorate status in the 1840s and 1860s, a request the UK ignored. In 1888, Queen MAKEA TAKAU of Rarotonga formally petitioned for protectorate status, to which the UK reluctantly agreed. In 1901, the UK placed Rarotonga and the rest of the islands in the New Zealand Colony, and in 1915, the Cook Islands Act organized the islands into one political entity. It remained a protectorate until 1965, when New Zealand granted the Cook Islands self-governing status. The Cook Islands has a great deal of local autonomy and is an independent member of international organizations, but it is in free association with New Zealand, which is responsible for its defense and foreign affairs. In September 2023, the US recognized the Cook Islands as a sovereign and independent state."
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Oceania, group of islands in the South Pacific Ocean, about halfway between Hawaii and New Zealand"
+    },
+    "Geographic coordinates": {
+      "text": "21 14 S, 159 46 W"
+    },
+    "Map references": {
+      "text": "Oceania"
+    },
+    "Area": {
+      "total ": {
+        "text": "236 sq km"
+      },
+      "land": {
+        "text": "236 sq km"
+      },
+      "water": {
+        "text": "0 sq km"
+      }
+    },
+    "Area - comparative": {
+      "text": "1.3 times the size of Washington, D.C."
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "0 km"
+      }
+    },
+    "Coastline": {
+      "text": "120 km"
+    },
+    "Maritime claims": {
+      "territorial sea": {
+        "text": "12 nm"
+      },
+      "exclusive economic zone": {
+        "text": "200 nm"
+      },
+      "continental shelf": {
+        "text": "200 nm or to the edge of the continental margin"
+      }
+    },
+    "Climate": {
+      "text": "tropical oceanic; moderated by trade winds; a dry season from April to November and a more humid season from December to March"
+    },
+    "Terrain": {
+      "text": "low coral atolls in north; volcanic, hilly islands in south"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Te Manga 652 m"
+      },
+      "lowest point": {
+        "text": "Pacific Ocean 0 m"
+      }
+    },
+    "Natural resources": {
+      "text": "coconuts (copra)"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "7.9% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 2.1% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 5.8% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 0% (2022 est.)"
+      },
+      "forest": {
+        "text": "65% (2023 est.)"
+      },
+      "other": {
+        "text": "27.1% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "NA"
+    },
+    "Population distribution": {
+      "text": "most of the population is found on the island of Rarotonga"
+    },
+    "Natural hazards": {
+      "text": "tropical cyclones (November to March)"
+    },
+    "Geography - note": {
+      "text": "the northern Cook Islands are seven low-lying, sparsely populated, coral atolls; the southern Cook Islands, where most of the population lives, consist of eight elevated, fertile, volcanic isles, including the largest, Rarotonga, at 67 sq km"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "7,592 (2025 est.)"
+      },
+      "male": {
+        "text": "3,890"
+      },
+      "female": {
+        "text": "3,702"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Cook Islander(s)"
+      },
+      "adjective": {
+        "text": "Cook Islander"
+      }
+    },
+    "Ethnic groups": {
+      "text": "Cook Island Maori 77.4%, part Cook Island Maori 8.3%, Fijian 3.6%, New Zealand Maori/European 3.4%, Filipino 2.9%, other Pacific Islands 1.8%, other 2.6% (2021 est.)"
+    },
+    "Languages": {
+      "text": "English (official) 86.4%, Cook Islands Maori (Rarotongan) (official) 76.2%, other 8.3% (2011 est.)",
+      "note": "<strong>note:</strong> shares sum to more than 100% because some respondents gave more than one answer on the census"
+    },
+    "Religions": {
+      "text": "Protestant 55% (Cook Islands Christian Church 43.1%, Seventh Day Adventist 8.3%, Assemblies of God 3.6%), Roman Catholic 16.7%, Church of Jesus Christ 3.9%, Jehovah's Witness 2.2%, Apostolic Church 2.1%, other 4.5%, none/unspecified 15.6% (2021 est.)"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "18.2% (male 738/female 671)"
+      },
+      "15-64 years": {
+        "text": "65.9% (male 2,634/female 2,479)"
+      },
+      "65 years and over": {
+        "text": "16% (2024 est.) (male 608/female 631)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "53 (2025 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "27.4 (2025 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "25.5 (2025 est.)"
+      },
+      "potential support ratio": {
+        "text": "3.9 (2025 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "41.5 years (2025 est.)"
+      },
+      "male": {
+        "text": "40.7 years"
+      },
+      "female": {
+        "text": "41.4 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "-2.15% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "11.85 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "9.48 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "-23.84 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "most of the population is found on the island of Rarotonga"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "76.2% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.52% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.04 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1.1 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "1.06 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "0.96 male(s)/female"
+      },
+      "total population": {
+        "text": "1.05 male(s)/female (2024 est.)"
+      }
+    },
+    "Maternal mortality ratio": {
+      "text": "0 deaths/100,000 live births (2023 est.)"
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "14.8 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "19 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "11.1 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "77.6 years (2024 est.)"
+      },
+      "male": {
+        "text": "74.8 years"
+      },
+      "female": {
+        "text": "80.6 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "1.99 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "0.97 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: urban": {
+        "text": "urban: NA"
+      },
+      "improved: rural": {
+        "text": "rural: NA"
+      },
+      "improved: total": {
+        "text": "total: 100% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: NA"
+      },
+      "unimproved: rural": {
+        "text": "rural: NA"
+      },
+      "unimproved: total": {
+        "text": "total: 0% of population (2022 est.)"
+      }
+    },
+    "Health expenditure": {
+      "Health expenditure (as % of GDP)": {
+        "text": "3.2% of GDP (2020)"
+      },
+      "Health expenditure (as % of national budget)": {
+        "text": "11.9% of national budget (2022 est.)"
+      }
+    },
+    "Physician density": {
+      "text": "1.67 physicians/1,000 population (2020)"
+    },
+    "Hospital bed density": {
+      "text": "8.2 beds/1,000 population (2021 est.)"
+    },
+    "Sanitation facility access": {
+      "improved: total": {
+        "text": "total: 96.8% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 3.2% of population (2022 est.)"
+      }
+    },
+    "Obesity - adult prevalence rate": {
+      "text": "55.9% (2016)"
+    },
+    "Alcohol consumption per capita": {
+      "total": {
+        "text": "12.97 liters of pure alcohol (2019 est.)"
+      },
+      "beer": {
+        "text": "3.62 liters of pure alcohol (2019 est.)"
+      },
+      "wine": {
+        "text": "2.28 liters of pure alcohol (2019 est.)"
+      },
+      "spirits": {
+        "text": "7.07 liters of pure alcohol (2019 est.)"
+      },
+      "other alcohols": {
+        "text": "0 liters of pure alcohol (2019 est.)"
+      }
+    },
+    "Tobacco use": {
+      "total": {
+        "text": "24% (2025 est.)"
+      },
+      "male": {
+        "text": "28.6% (2025 est.)"
+      },
+      "female": {
+        "text": "20.1% (2025 est.)"
+      }
+    },
+    "Currently married women (ages 15-49)": {
+      "text": "53.2% (2021 est.)"
+    },
+    "Education expenditure": {
+      "Education expenditure (% GDP)": {
+        "text": "3.4% of GDP (2024 est.)"
+      },
+      "Education expenditure (% national budget)": {
+        "text": "9.2% national budget (2025 est.)"
+      }
+    },
+    "School life expectancy (primary to tertiary education)": {
+      "total": {
+        "text": "15 years (2023 est.)"
+      },
+      "male": {
+        "text": "15 years (2023 est.)"
+      },
+      "female": {
+        "text": "15 years (2023 est.)"
+      }
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "solid- and liquid-waste disposal; soil degradation; deforestation; use of pesticides; improper disposal of pollutants; overfishing and destructive fishing practices; over-dredging of lagoons and coral rubble beds; unregulated building"
+    },
+    "International environmental agreements": {
+      "party to": {
+        "text": "Antarctic-Marine Living Resources, Biodiversity, Climate Change, Climate Change-Kyoto Protocol, Climate Change-Paris Agreement, Comprehensive Nuclear Test Ban, Desertification, Hazardous Wastes, Law of the Sea, Ozone Layer Protection, Ship Pollution"
+      },
+      "signed, but not ratified": {
+        "text": "none of the selected agreements"
+      }
+    },
+    "Climate": {
+      "text": "tropical oceanic; moderated by trade winds; a dry season from April to November and a more humid season from December to March"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "7.9% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 2.1% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 5.8% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 0% (2022 est.)"
+      },
+      "forest": {
+        "text": "65% (2023 est.)"
+      },
+      "other": {
+        "text": "27.1% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "76.2% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.52% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "103,000 metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "103,000 metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Particulate matter emissions": {
+      "text": "7.8 micrograms per cubic meter (2019 est.)"
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "none"
+      },
+      "conventional short form": {
+        "text": "Cook Islands"
+      },
+      "former": {
+        "text": "Hervey Islands"
+      },
+      "etymology": {
+        "text": "named after Captain James COOK, the British explorer who visited the islands in 1773 and 1777"
+      }
+    },
+    "Government type": {
+      "text": "parliamentary democracy"
+    },
+    "Dependency status": {
+      "text": "self-governing in free association with New Zealand; Cook Islands is fully responsible for internal affairs and conducts its own international relations, including establishing diplomatic relationships with foreign countries; New Zealand has a constitutional responsibility to respond to requests for assistance with foreign affairs, disasters, and defense&nbsp;"
+    },
+    "Capital": {
+      "name": {
+        "text": "Avarua"
+      },
+      "geographic coordinates": {
+        "text": "21 12 S, 159 46 W"
+      },
+      "time difference": {
+        "text": "UTC-10 (5 hours behind Washington, DC, during Standard Time)"
+      },
+      "etymology": {
+        "text": "translates as \"two harbors\" in Maori"
+      }
+    },
+    "Legal system": {
+      "text": "common law similar to New Zealand common law"
+    },
+    "Constitution": {
+      "history": {
+        "text": "4 August 1965 (Cook Islands Constitution Act 1964)"
+      },
+      "amendment process": {
+        "text": "proposed by Parliament; passage requires at least two-thirds majority vote by the Parliament membership in each of several readings and assent of the chief of state&rsquo;s representative; passage of amendments relating to the chief of state also requires two-thirds majority approval in a referendum"
+      }
+    },
+    "International law organization participation": {
+      "text": "has not submitted an ICJ jurisdiction declaration (New Zealand normally retains responsibility for external affairs); accepts ICCt jurisdiction"
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "King CHARLES III (since 8 September 2022); represented by Sir Tom J. MARSTERS (since 9 August 2013); New Zealand High Commissioner Catherine GRAHAM (since 8 September 2024)"
+      },
+      "head of government": {
+        "text": "Prime Minister Mark BROWN (since 1 October 2020)"
+      },
+      "cabinet": {
+        "text": "Cabinet chosen by the prime minister"
+      },
+      "election/appointment process": {
+        "text": "the monarchy is hereditary; UK representative appointed by the monarch; New Zealand high commissioner appointed by the New Zealand Government; following legislative elections, the leader of the majority party or majority coalition usually becomes prime minister"
+      }
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "Parliament"
+      },
+      "legislative structure": {
+        "text": "unicameral"
+      },
+      "number of seats": {
+        "text": "24 (directly elected)"
+      },
+      "electoral system": {
+        "text": "plurality/majority"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "4 years"
+      },
+      "most recent election date": {
+        "text": "8/1/2022"
+      },
+      "parties elected and seats per party": {
+        "text": "CIP (12); Demo (5); Cook Islands United Party (3); OCI (1); independent (3)"
+      },
+      "percentage of women in chamber": {
+        "text": "25%"
+      },
+      "expected date of next election": {
+        "text": "2026"
+      },
+      "note": "<strong>note:</strong> the House of Ariki, a 24-member parliamentary body of traditional leaders appointed by the King's representative, serves as a consultative body to the Parliament"
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "Court of Appeal (consists of the chief justice and 3 judges of the High Court); High Court (consists of the chief justice and at least 4 judges and organized into civil, criminal, and land divisions)&nbsp;"
+      },
+      "judge selection and term of office": {
+        "text": "High Court chief justice appointed by the Queen's Representative on the advice of the Executive Council tendered by the prime minister; other judges appointed by the Queen's Representative, on the advice of the Executive Council tendered by the chief justice, High Court chief justice, and the minister of justice; chief justice and judges appointed for 3-year renewable terms"
+      },
+      "subordinate courts": {
+        "text": "justices of the peace"
+      },
+      "note": "<strong>note:</strong> appeals beyond the Cook Islands Court of Appeal are heard by the Judicial Committee of the Privy Council (in London)"
+    },
+    "Political parties": {
+      "text": "Cook Islands Party or CIP<br>Democratic Party or Demo<br>One Cook Islands or OCI"
+    },
+    "Diplomatic representation in the US": {
+      "text": "none (self-governing in free association with New Zealand)"
+    },
+    "Diplomatic representation from the US": {
+      "embassy": {
+        "text": "none (self-governing in free association with New Zealand)"
+      },
+      "note": "<strong>note:</strong> on 25 September 2023, the US officially established diplomatic relations with Cook Islands"
+    },
+    "International organization participation": {
+      "text": "ACP, ADB, AOSIS, FAO, ICAO, ICCt, ICRM, IFAD, IFRCS, IMO, IMSO, IOC, ITUC (NGOs), OPCW, PIF, Sparteca, SPC, UNESCO, UPU, WHO, WMO"
+    },
+    "Independence": {
+      "text": "4 August 1965 (Cook Islands became self-governing state in free association with New Zealand)"
+    },
+    "National holiday": {
+      "text": "Constitution Day, the first Monday in August (1965)"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> blue with the UK flag in the upper-left quadrant and a large circle of 15 five-pointed white stars (one for each island) centered in the right half of the flag"
+    },
+    "National symbol(s)": {
+      "text": "a circle of 15 five-pointed white stars on a blue field, tiare maori flower (<em>Gardenia taitensis</em>)"
+    },
+    "National color(s)": {
+      "text": "green, white"
+    },
+    "National coat of arms": {
+      "text": "the coat of arms was designed by Papa Motu Kora, a <em>mataiapo</em> (traditional chief) from the Matavera village in Rarotonga; the shield with a circle of 15 five-pointed white stars represents the protection of the people and the country; on each side of the shield is a flying fish (<em>maroro</em>) and a white tern (<em>kakaia</em>); a Rarotongan orator club above the fish represents local traditions, and a cross above the tern symbolizes Christianity; a red-feathered Ariki headdress (<em>pare kura</em>) at the top of the shield represents the country’s traditional ranking system"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"God Save the King\""
+      },
+      "lyrics/music": {
+        "text": "unknown"
+      },
+      "history": {
+        "text": "royal anthem"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "high-income self-governing New Zealand territorial economy; tourism-based activity but diversifying; severely curtailed by COVID-19 pandemic; copra and tropical fruit exporter; Asian Development Bank aid recipient"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2024": {
+        "text": "$401.155 million (2024 est.)"
+      },
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$364.686 million (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$306.285 million (2022 est.)"
+      },
+      "note": "<strong>note:</strong> data are in 2015 dollars"
+    },
+    "Real GDP growth rate": {
+      "Real GDP growth rate 2022": {
+        "text": "10.5% (2022 est.)"
+      },
+      "Real GDP growth rate 2021": {
+        "text": "-24.5% (2021 est.)"
+      },
+      "Real GDP growth rate 2020": {
+        "text": "-5.2% (2020 est.)"
+      }
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2024": {
+        "text": "$29,800 (2024 est.)"
+      },
+      "Real GDP per capita 2023": {
+        "text": "$25,700 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$19,700 (2022 est.)"
+      },
+      "note": "<strong>note:</strong> data in 2015 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$409.077 million (2024 est.)",
+      "note": "<strong>note:</strong> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2022": {
+        "text": "10.6% (2022 est.)"
+      },
+      "Inflation rate (consumer prices) 2021": {
+        "text": "1.9% (2021 est.)"
+      },
+      "Inflation rate (consumer prices) 2020": {
+        "text": "1% (2020 est.)"
+      },
+      "note": "<strong>note:</strong> annual % change based on consumer prices"
+    },
+    "Agricultural products": {
+      "text": "coconuts, vegetables, papayas, pork, sweet potatoes, tomatoes, fruits, mangoes/guavas, watermelons, chicken (2023)",
+      "note": "<b>note:</b> top ten agricultural products based on tonnage"
+    },
+    "Industries": {
+      "text": "fishing, fruit processing, tourism, clothing, handicrafts"
+    },
+    "Budget": {
+      "revenues": {
+        "text": "$113.687 million (2022 est.)"
+      },
+      "expenditures": {
+        "text": "$143.391 million (2022 est.)"
+      },
+      "note": "<b>note:</b> central government revenues and expenses (excluding grants/extrabudgetary units/social security funds) converted to US dollars at average official exchange rate for year indicated"
+    },
+    "Exports - partners": {
+      "text": "Japan 33%, Thailand 15%, Greece 15%, France 11%, China 8% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "fish, ships, garments, shellfish (2023)",
+      "note": "<strong>note:</strong> top export commodities based on value in dollars over $500,000"
+    },
+    "Imports - partners": {
+      "text": "NZ 44%, Italy 26%, Fiji 9%, China 7%, Australia 3% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "ships, refined petroleum, cars, plastic products, additive manufacturing machines (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "New Zealand dollars (NZD) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "1.652 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "1.628 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "1.577 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "1.414 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "1.542 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "17,000 kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "37.5 million kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "3.2 million kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "60.9% of total installed capacity (2023 est.)"
+      },
+      "solar": {
+        "text": "39.1% of total installed capacity (2023 est.)"
+      }
+    },
+    "Coal": {
+      "imports": {
+        "text": "1 metric tons (2022 est.)"
+      }
+    },
+    "Petroleum": {
+      "refined petroleum consumption": {
+        "text": "700 bbl/day (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "6,990 (2022 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "48 (2022 est.)"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "18,100 (2022 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "123 (2022 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "1 privately owned TV station in Rarotonga provides a mix of local news and overseas-sourced programs (2019)"
+    },
+    "Internet country code": {
+      "text": ".ck"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "64.8% (2021 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "2,700 (2018 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "15 (2018 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "E5"
+    },
+    "Airports": {
+      "text": "10 (2025)"
+    },
+    "Merchant marine": {
+      "total": {
+        "text": "190 (2023)"
+      },
+      "by type": {
+        "text": "bulk carrier 19, general cargo 44, oil tanker 58, other 69"
+      }
+    },
+    "Ports": {
+      "total ports": {
+        "text": "1 (2024)"
+      },
+      "large": {
+        "text": "0"
+      },
+      "medium": {
+        "text": "0"
+      },
+      "small": {
+        "text": "0"
+      },
+      "very small": {
+        "text": "1"
+      },
+      "ports with oil terminals": {
+        "text": "1"
+      },
+      "key ports": {
+        "text": "Avatiu"
+      }
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "no regular military forces; Cook Islands Police Service"
+    },
+    "Military - note": {
+      "text": "defense is the responsibility of New Zealand in consultation with the Cook Islands and at its request<br><br>the Cook Islands have a \"shiprider\" agreement with the US, which allows local maritime law enforcement officers to embark on US Coast Guard (USCG) and US Navy (USN) vessels, including to board and search vessels suspected of violating laws or regulations within its designated exclusive economic zone (EEZ) or on the high seas; \"shiprider\" agreements also enable USCG personnel and USN vessels with embarked USCG law enforcement personnel to work with host nations to protect critical regional resources (2025)"
+    }
+  },
+  "Transnational Issues": {
+  }
+}

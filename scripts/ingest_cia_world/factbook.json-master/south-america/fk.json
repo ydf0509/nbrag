@@ -1,0 +1,579 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "Although first sighted by an English navigator in 1592, the first landing (English) did not occur until almost a century later in 1690, and the first settlement (French) was not established until 1764. The colony was turned over to Spain two years later, and the islands have since been the subject of a territorial dispute, first between Britain and Spain, then between Britain and Argentina. The UK asserted its claim to the islands by establishing a naval garrison there in 1833. Argentina invaded the islands in 1982. The British responded with an expeditionary force and after fierce fighting forced an Argentine surrender on 14 June 1982. With hostilities ended and Argentine forces withdrawn, UK administration resumed. In response to renewed calls from Argentina for Britain to relinquish control of the islands, a referendum was held in 2013 that resulted in 99.8% of the population voting to remain a part of the UK."
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Southern South America, islands in the South Atlantic Ocean, about 500 km east of southern Argentina"
+    },
+    "Geographic coordinates": {
+      "text": "51 45 S, 59 00 W"
+    },
+    "Map references": {
+      "text": "South America"
+    },
+    "Area": {
+      "total ": {
+        "text": "12,173 sq km"
+      },
+      "land": {
+        "text": "12,173 sq km"
+      },
+      "water": {
+        "text": "0 sq km"
+      },
+      "note": "<strong>note:</strong> includes the two main islands of East and West Falkland and about 200 small islands"
+    },
+    "Area - comparative": {
+      "text": "slightly smaller than Connecticut"
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "0 km"
+      }
+    },
+    "Coastline": {
+      "text": "1,288 km"
+    },
+    "Maritime claims": {
+      "territorial sea": {
+        "text": "12 nm"
+      },
+      "continental shelf": {
+        "text": "200 nm"
+      },
+      "exclusive fishing zone": {
+        "text": "200 nm"
+      }
+    },
+    "Climate": {
+      "text": "cold marine; strong westerly winds, cloudy, humid; rain occurs on more than half of days in year; average annual rainfall is 60 cm in Stanley; occasional snow all year, except in January and February, but typically does not accumulate"
+    },
+    "Terrain": {
+      "text": "rocky, hilly, mountainous with some boggy, undulating plains"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Mount Usborne 705 m"
+      },
+      "lowest point": {
+        "text": "Atlantic Ocean 0 m"
+      }
+    },
+    "Natural resources": {
+      "text": "fish, squid, wildlife, calcified seaweed, sphagnum moss"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "93.2% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 0% (2022 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0% (2022 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 93.2% (2023 est.)"
+      },
+      "forest": {
+        "text": "0% (2022 est.)"
+      },
+      "other": {
+        "text": "6.8% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "NA"
+    },
+    "Population distribution": {
+      "text": "a very small population, with most residents living in and around Stanley"
+    },
+    "Natural hazards": {
+      "text": "strong winds persist throughout the year"
+    },
+    "Geography - note": {
+      "text": "deeply indented coast provides good natural harbors; short growing season"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "3,142 (2021)"
+      },
+      "male": {
+        "text": "1,645"
+      },
+      "female": {
+        "text": "1,497"
+      },
+      "note": "<strong>note:</strong> data include all persons usually resident in the islands at the time of the 2021 census"
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Falkland Islander(s)"
+      },
+      "adjective": {
+        "text": "Falkland Island"
+      }
+    },
+    "Ethnic groups": {
+      "text": "Falkland Islander 48.3%, British 23.1%, St. Helenian 7.5%, Chilean 4.6%, mixed 6%, other 8.5%, unspecified 2% (2016 est.)",
+      "note": "<strong>note: </strong>data represent population by national identity"
+    },
+    "Languages": {
+      "text": "English 89%, Spanish 7.7%, other 3.3% (2006 est.)"
+    },
+    "Religions": {
+      "text": "Christian 57.1%, other 1.6%, none 35.4%, unspecified 6% (2016 est.)"
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "38.4 (2021)"
+      },
+      "youth dependency ratio": {
+        "text": "21.8 (2021)"
+      },
+      "elderly dependency ratio": {
+        "text": "16.6 (2021)"
+      },
+      "potential support ratio": {
+        "text": "6 (2021)"
+      }
+    },
+    "Population growth rate": {
+      "text": "0.01% (2014 est.)"
+    },
+    "Birth rate": {
+      "text": "10.9 births/1,000 population (2012 est.)"
+    },
+    "Death rate": {
+      "text": "4.9 deaths/1,000 population (2012 est.)"
+    },
+    "Population distribution": {
+      "text": "a very small population, with most residents living in and around Stanley"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "79.7% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.53% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "2,000 STANLEY (capital) (2018)"
+    },
+    "Sex ratio": {
+      "total population": {
+        "text": "1.12 male(s)/female (2016 est.)"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "(2017 est.) 77.9"
+      },
+      "male": {
+        "text": "75.6"
+      },
+      "female": {
+        "text": "79.6"
+      }
+    },
+    "Drinking water source": {
+      "improved: urban": {
+        "text": "urban: 100% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 0% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 21.8% of population"
+      }
+    },
+    "Sanitation facility access": {
+      "improved: urban": {
+        "text": "urban: 100% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 100% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 100% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 0% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 0% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0% of population (2022 est.)"
+      }
+    },
+    "Currently married women (ages 15-49)": {
+      "text": "47.7% (2016 est.)"
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "overfishing by unlicensed vessels; grazing threatens important habitats; soil erosion from fires"
+    },
+    "Climate": {
+      "text": "cold marine; strong westerly winds, cloudy, humid; rain occurs on more than half of days in year; average annual rainfall is 60 cm in Stanley; occasional snow all year, except in January and February, but typically does not accumulate"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "93.2% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 0% (2022 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0% (2022 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 93.2% (2023 est.)"
+      },
+      "forest": {
+        "text": "0% (2022 est.)"
+      },
+      "other": {
+        "text": "6.8% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "79.7% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.53% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "36,000 metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "36,000 metric tonnes of CO2 (2023 est.)"
+      }
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "none"
+      },
+      "conventional short form": {
+        "text": "Falkland Islands (Islas Malvinas)"
+      },
+      "etymology": {
+        "text": "the archipelago takes its name from the Falkland Sound, the strait separating the two main islands; the channel was named after the Fifth Viscount of FALKLAND, who sponsored an expedition to the islands in 1690; the Spanish name for the archipelago derives from the French \"Iles Malouines,\" meaning Islands of Malo, the name French explorer Louis-Antoine de BOUGAINVILLE gave the islands in 1764 in honor of the French port of Saint-Malo"
+      }
+    },
+    "Government type": {
+      "text": "parliamentary democracy (Legislative Assembly); self-governing overseas territory of the UK"
+    },
+    "Dependency status": {
+      "text": "overseas territory of the UK; also claimed by Argentina"
+    },
+    "Capital": {
+      "name": {
+        "text": "Stanley"
+      },
+      "geographic coordinates": {
+        "text": "51 42 S, 57 51 W"
+      },
+      "time difference": {
+        "text": "UTC-3 (2 hour ahead of Washington, DC, during Standard Time)"
+      },
+      "etymology": {
+        "text": "named in 1844 after Edward SMITH-STANLEY, the 14th Earl of Derby"
+      }
+    },
+    "Legal system": {
+      "text": "English common law and local statutes"
+    },
+    "Constitution": {
+      "history": {
+        "text": "previous 1985; latest entered into force 1 January 2009 (The Falkland Islands Constitution Order 2008)"
+      }
+    },
+    "Citizenship": {
+      "text": "see United Kingdom"
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "King CHARLES III (since 8 September 2022); represented by Governor Colin MARTIN-REYNOLDS (since 29 July 2025)"
+      },
+      "head of government": {
+        "text": "Chief Executive Andrea Patricia CLAUSEN (since 1 April 2025)"
+      },
+      "cabinet": {
+        "text": "Executive Council elected by the Legislative Council"
+      },
+      "election/appointment process": {
+        "text": "the monarchy is hereditary; monarch appoints the governor, who appoints the chief executive"
+      }
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "Legislative Assembly"
+      },
+      "legislative structure": {
+        "text": "unicameral"
+      },
+      "number of seats": {
+        "text": "10 (8 directly elected, 2 appointed)"
+      },
+      "electoral system": {
+        "text": "plurality/majority"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "4 years"
+      },
+      "most recent election date": {
+        "text": "12/11/2025"
+      },
+      "percentage of women in chamber": {
+        "text": "25% note: does not include the speaker"
+      },
+      "expected date of next election": {
+        "text": "November 2025"
+      }
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "Court of Appeal (consists of the court president, the chief justice as an ex officio non-resident member, and 2 justices of appeal); Supreme Court (consists of the chief justice)"
+      },
+      "judge selection and term of office": {
+        "text": "chief justice, court of appeal president, and justices appointed by the governor; tenure specified in each justice's instrument of appointment"
+      },
+      "subordinate courts": {
+        "text": "Magistrate's Court (senior magistrate presides over civil and criminal divisions); Court of Summary Jurisdiction"
+      },
+      "note": "<strong>note:</strong> appeals beyond the Court of Appeal are referred to the Judicial Committee of the Privy Council (in London)"
+    },
+    "Political parties": {
+      "text": "none; all independents"
+    },
+    "Diplomatic representation in the US": {
+      "text": "none (administered by the UK; claimed by Argentina)"
+    },
+    "Diplomatic representation from the US": {
+      "embassy": {
+        "text": "none (administered by the UK; claimed by Argentina)"
+      }
+    },
+    "International organization participation": {
+      "text": "UPU"
+    },
+    "Independence": {
+      "text": "none (overseas territory of the UK; also claimed by Argentina)"
+    },
+    "National holiday": {
+      "text": "Liberation Day, 14 June (1982)"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> blue with the UK flag in the upper-left quadrant and the Falkland Island coat of arms centered on the right half of the flag; the coat of arms has a white ram above the ship \"Desire\" (whose crew discovered the islands), with a scroll at the bottom bearing the motto DESIRE THE RIGHT"
+    },
+    "National symbol(s)": {
+      "text": "ram"
+    },
+    "National color(s)": {
+      "text": "red, white, blue"
+    },
+    "National coat of arms": {
+      "text": "the Falkland Islands adopted its coat of arms in 1948; the shield highlights the national symbol, the ram, which represents the country’s agricultural industry and stands on native tussock grass; English navigator John Davis’s sailing vessel, the <em>Desire</em>,<em> </em>is shown, referencing his sighting of the islands in 1592; below the shield is the national motto, “Desire the Right”"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"God Save the King\""
+      },
+      "lyrics/music": {
+        "text": "unknown"
+      },
+      "history": {
+        "text": "official anthem, as a UK territory"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "British South American territorial economy; longstanding fishing industry; surging tourism prior to COVID-19 and Brexit; recent offshore hydrocarbon discoveries threaten ecotourism industries; no central bank and must have British approval on currency shifts"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2015": {
+        "text": "$70,800 (2015 est.)"
+      },
+      "Real GDP per capita 2014": {
+        "text": "$63,000 (2014 est.)"
+      }
+    },
+    "GDP (official exchange rate)": {
+      "text": "$206.4 million (2015 est.)"
+    },
+    "Agricultural products": {
+      "text": "fodder and vegetable crops; venison, sheep, dairy products; fish, squid"
+    },
+    "Industries": {
+      "text": "fish and wool processing; tourism"
+    },
+    "Exports - partners": {
+      "text": "Spain 68%, Morocco 10%, USA 8%, Namibia 3%, Germany 2% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "shellfish, fish, wool, sheep and goat meat (2023)",
+      "note": "<strong>note:</strong> top export commodities based on value in dollars over $500,000"
+    },
+    "Imports - partners": {
+      "text": "UK 68%, Greece 19%, Spain 11%, Netherlands 1%, NZ 0% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "refined petroleum, aircraft parts, prefabricated buildings, plastic products, surveying equipment (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "Falkland pounds (FKP) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "0.78 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "0.805 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "0.811 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "0.727 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "0.78 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "10,000 kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "18.257 million kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "900,000 kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "73.9% of total installed capacity (2023 est.)"
+      },
+      "wind": {
+        "text": "26.1% of total installed capacity (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "refined petroleum consumption": {
+        "text": "200 bbl/day (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "2,000 (2021 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "53 (2021 est.)"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "6,420 (2022 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "184 (2022 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "TV service provided by a multi-channel service provider; radio provided by public broadcaster Falkland Islands Radio Service and the British Forces Broadcasting Service&nbsp; (2007)"
+    },
+    "Internet country code": {
+      "text": ".fk"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "99% (2021 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "1,000 (2020 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "33 (2020 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "VP-F"
+    },
+    "Airports": {
+      "text": "34 (2025)"
+    },
+    "Merchant marine": {
+      "total": {
+        "text": "2 (2023)"
+      },
+      "by type": {
+        "text": "general cargo 1, other 1"
+      }
+    },
+    "Ports": {
+      "total ports": {
+        "text": "1 (2024)"
+      },
+      "large": {
+        "text": "0"
+      },
+      "medium": {
+        "text": "1"
+      },
+      "small": {
+        "text": "0"
+      },
+      "very small": {
+        "text": "0"
+      },
+      "ports with oil terminals": {
+        "text": "1"
+      },
+      "key ports": {
+        "text": "Stanley"
+      }
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "no regular military forces"
+    },
+    "Military - note": {
+      "text": "defense is the responsibility of the UK, which maintains a military presence on the islands"
+    }
+  },
+  "Transnational Issues": {
+  }
+}

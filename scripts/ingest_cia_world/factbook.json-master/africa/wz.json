@@ -1,0 +1,1103 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "A Swazi kingdom was founded in the mid-18th century and ruled by a series of kings, including MSWATI II, a 19th century ruler whose name was adopted for the country and its predominant ethnic group. European countries defined the kingdom’s modern borders during the late-19th century, and Swaziland (as it became known) was administered as a UK high commission territory from 1903 until its independence in 1968. A new constitution that came into effect in 2005 included provisions for a more independent parliament and judiciary, but the legal status of political parties remains unclear, and the kingdom is still considered an absolute monarchy. King MSWATI III renamed the country from Swaziland to Eswatini in 2018 to reflect the name most commonly used by its citizens. <br><br>In 2021, MSWATI III used security forces to suppress prodemocracy protests. A national dialogue and reconciliation process agreed to in the wake of violence has not materialized. In November 2023, King MSWATI III appointed a new prime minister following peaceful national elections.  Despite its classification as a lower-middle income country, Eswatini suffers from severe poverty, corruption, and high unemployment. Eswatini has the world's highest HIV/AIDS prevalence rate, although recent years have shown marked declines in new infections. Eswatini is the only country in Africa that recognizes Taiwan."
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Southern Africa, between Mozambique and South Africa"
+    },
+    "Geographic coordinates": {
+      "text": "26 30 S, 31 30 E"
+    },
+    "Map references": {
+      "text": "Africa"
+    },
+    "Area": {
+      "total ": {
+        "text": "17,364 sq km"
+      },
+      "land": {
+        "text": "17,204 sq km"
+      },
+      "water": {
+        "text": "160 sq km"
+      }
+    },
+    "Area - comparative": {
+      "text": "slightly smaller than New Jersey"
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "546 km"
+      },
+      "border countries": {
+        "text": "Mozambique 108 km; South Africa 438 km"
+      }
+    },
+    "Coastline": {
+      "text": "0 km (landlocked)"
+    },
+    "Maritime claims": {
+      "text": "none (landlocked)"
+    },
+    "Climate": {
+      "text": "varies from tropical to near temperate"
+    },
+    "Terrain": {
+      "text": "mostly mountains and hills; some moderately sloping plains"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Emlembe 1,862 m"
+      },
+      "lowest point": {
+        "text": "Great Usutu River 21 m"
+      },
+      "mean elevation": {
+        "text": "305 m"
+      }
+    },
+    "Natural resources": {
+      "text": "asbestos, coal, clay, cassiterite, hydropower, forests, small gold and diamond deposits, quarry stone, and talc"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "69.5% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 10.3% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 1% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 58.1% (2023 est.)"
+      },
+      "forest": {
+        "text": "25.4% (2023 est.)"
+      },
+      "other": {
+        "text": "5.2% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "500 sq km (2012)"
+    },
+    "Population distribution": {
+      "text": "because of its mountainous terrain, the population distribution is uneven throughout the country, concentrating primarily in valleys and plains as shown in this population distribution map"
+    },
+    "Natural hazards": {
+      "text": "drought"
+    },
+    "Geography - note": {
+      "text": "landlocked; almost completely surrounded by South Africa"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "1,137,268 (2025 est.)"
+      },
+      "male": {
+        "text": "557,204"
+      },
+      "female": {
+        "text": "580,064"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "liSwati (singular), emaSwati (plural); note - former term, Swazi(s), still used among English speakers"
+      },
+      "adjective": {
+        "text": "Swati; note - former term, Swazi, still used among English speakers"
+      }
+    },
+    "Ethnic groups": {
+      "text": "<p>predominantly Swazi; smaller populations of other African ethnic groups, including the Zulu, as well as people of European ancestry</p>"
+    },
+    "Languages": {
+      "text": "English (official, used for government business), siSwati (official)"
+    },
+    "Religions": {
+      "text": "Christian 90% (Zionist - a blend of Christianity and traditional African religions - 40%, Roman Catholic 20%, other Christian 30% - includes Anglican, Methodist, Church of Jesus Christ, Jehovah's Witness), Muslim 2%, other 8% (includes Baha'i, Buddhist, Hindu, indigenous, Jewish) (2015 est.)"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "31.6% (male 180,328/female 179,840)"
+      },
+      "15-64 years": {
+        "text": "64.3% (male 341,298/female 390,884)"
+      },
+      "65 years and over": {
+        "text": "4% (2024 est.) (male 16,974/female 28,765)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "52.2 (2025 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "44.7 (2025 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "7.5 (2025 est.)"
+      },
+      "potential support ratio": {
+        "text": "13.3 (2025 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "24.8 years (2025 est.)"
+      },
+      "male": {
+        "text": "23.4 years"
+      },
+      "female": {
+        "text": "25.8 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "0.87% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "20.66 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "8.3 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "-3.68 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "because of its mountainous terrain, the population distribution is uneven throughout the country, concentrating primarily in valleys and plains as shown in this population distribution map"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "24.8% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "2.42% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "68,000 MBABANE (capital) (2018)"
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.03 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "0.87 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "0.59 male(s)/female"
+      },
+      "total population": {
+        "text": "0.9 male(s)/female (2024 est.)"
+      }
+    },
+    "Maternal mortality ratio": {
+      "text": "118 deaths/100,000 live births (2023 est.)"
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "38 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "40.7 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "32.5 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "60.7 years (2024 est.)"
+      },
+      "male": {
+        "text": "58.7 years"
+      },
+      "female": {
+        "text": "62.8 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "2.64 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "1.3 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: urban": {
+        "text": "urban: 98% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 65.5% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 73.5% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 2% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 34.5% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 26.5% of population (2022 est.)"
+      }
+    },
+    "Health expenditure": {
+      "Health expenditure (as % of GDP)": {
+        "text": "7% of GDP (2021)"
+      },
+      "Health expenditure (as % of national budget)": {
+        "text": "11.3% of national budget (2022 est.)"
+      }
+    },
+    "Physician density": {
+      "text": "0.56 physicians/1,000 population (2023)"
+    },
+    "Sanitation facility access": {
+      "improved: urban": {
+        "text": "urban: 92.4% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 84.2% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 86.2% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 7.6% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 15.8% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 13.8% of population (2022 est.)"
+      }
+    },
+    "Obesity - adult prevalence rate": {
+      "text": "16.5% (2016)"
+    },
+    "Alcohol consumption per capita": {
+      "total": {
+        "text": "7.68 liters of pure alcohol (2019 est.)"
+      },
+      "beer": {
+        "text": "2.45 liters of pure alcohol (2019 est.)"
+      },
+      "wine": {
+        "text": "0.06 liters of pure alcohol (2019 est.)"
+      },
+      "spirits": {
+        "text": "0 liters of pure alcohol (2019 est.)"
+      },
+      "other alcohols": {
+        "text": "5.17 liters of pure alcohol (2019 est.)"
+      }
+    },
+    "Tobacco use": {
+      "total": {
+        "text": "8.5% (2025 est.)"
+      },
+      "male": {
+        "text": "16.1% (2025 est.)"
+      },
+      "female": {
+        "text": "1.2% (2025 est.)"
+      }
+    },
+    "Children under the age of 5 years underweight": {
+      "text": "5% (2021 est.)"
+    },
+    "Currently married women (ages 15-49)": {
+      "text": "36.4% (2022 est.)"
+    },
+    "Child marriage": {
+      "women married by age 15": {
+        "text": "0.1% (2022)"
+      },
+      "women married by age 18": {
+        "text": "1.9% (2022)"
+      },
+      "men married by age 18": {
+        "text": "0% (2022)"
+      }
+    },
+    "Education expenditure": {
+      "Education expenditure (% GDP)": {
+        "text": "6% of GDP (2024 est.)"
+      },
+      "Education expenditure (% national budget)": {
+        "text": "19.2% national budget (2025 est.)"
+      }
+    },
+    "Literacy": {
+      "total population": {
+        "text": "90.8% (2022 est.)"
+      },
+      "male": {
+        "text": "91.1% (2022 est.)"
+      },
+      "female": {
+        "text": "90.4% (2022 est.)"
+      }
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "limited supplies of potable water; overhunting depleting wildlife; population growth, deforestation, and overgrazing lead to soil erosion and soil degradation"
+    },
+    "International environmental agreements": {
+      "party to": {
+        "text": "Biodiversity, Climate Change, Climate Change-Kyoto Protocol, Climate Change-Paris Agreement, Comprehensive Nuclear Test Ban, Desertification, Endangered Species, Hazardous Wastes, Law of the Sea, Nuclear Test Ban, Ozone Layer Protection, Wetlands"
+      },
+      "signed, but not ratified": {
+        "text": "none of the selected agreements"
+      }
+    },
+    "Climate": {
+      "text": "varies from tropical to near temperate"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "69.5% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 10.3% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 1% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 58.1% (2023 est.)"
+      },
+      "forest": {
+        "text": "25.4% (2023 est.)"
+      },
+      "other": {
+        "text": "5.2% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "24.8% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "2.42% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "1.326 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from coal and metallurgical coke": {
+        "text": "410,000 metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "916,000 metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Particulate matter emissions": {
+      "text": "16.4 micrograms per cubic meter (2019 est.)"
+    },
+    "Waste and recycling": {
+      "municipal solid waste generated annually": {
+        "text": "218,200 tons (2024 est.)"
+      },
+      "percent of municipal solid waste recycled": {
+        "text": "17.3% (2022 est.)"
+      }
+    },
+    "Total water withdrawal": {
+      "municipal": {
+        "text": "41.3 million cubic meters (2022 est.)"
+      },
+      "industrial": {
+        "text": "20.7 million cubic meters (2022 est.)"
+      },
+      "agricultural": {
+        "text": "1.006 billion cubic meters (2022 est.)"
+      }
+    },
+    "Total renewable water resources": {
+      "text": "4.51 billion cubic meters (2022 est.)"
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "Kingdom of Eswatini"
+      },
+      "conventional short form": {
+        "text": "Eswatini"
+      },
+      "local long form": {
+        "text": "Umbuso weSwatini"
+      },
+      "local short form": {
+        "text": "eSwatini"
+      },
+      "former": {
+        "text": "Swaziland"
+      },
+      "etymology": {
+        "text": "the country name derives from 19th century King MSWATI II, under whose rule Swati territory was expanded and unified"
+      },
+      "note": "<strong>note:</strong> pronounced ay-swatini or eh-swatini"
+    },
+    "Government type": {
+      "text": "absolute monarchy"
+    },
+    "Capital": {
+      "name": {
+        "text": "Mbabane (administrative capital); Lobamba (royal and legislative capital)"
+      },
+      "geographic coordinates": {
+        "text": "26 19 S, 31 08 E"
+      },
+      "time difference": {
+        "text": "UTC+2 (7 hours ahead of Washington, DC, during Standard Time)"
+      },
+      "etymology": {
+        "text": "the origin of the name is unclear; it may come from the Mbabane River next to the city, whose name is said to derive from the word <em>lubabe</em>, a type of shrub; another theory cites a local chief, Mbabane KUNENE, as the source of the name"
+      }
+    },
+    "Administrative divisions": {
+      "text": "4 regions; Hhohho, Lubombo, Manzini, Shiselweni"
+    },
+    "Legal system": {
+      "text": "mixed system of civil, common, and customary law"
+    },
+    "Constitution": {
+      "history": {
+        "text": "previous 1968, 1978; latest signed by the king 26 July 2005, effective 8 February 2006"
+      },
+      "amendment process": {
+        "text": "proposed at a joint sitting of both houses of Parliament; passage requires majority vote by both houses and/or majority vote in a referendum, and assent of the king; passage of amendments affecting \"specially entrenched\" constitutional provisions requires at least three-fourths majority vote by both houses, passage by simple majority vote in a referendum, and assent of the king; passage of \"entrenched\" provisions requires at least two-thirds majority vote of both houses, passage in a referendum, and assent of the king"
+      }
+    },
+    "International law organization participation": {
+      "text": "accepts compulsory ICJ jurisdiction with reservations; non-party state to the ICCt"
+    },
+    "Citizenship": {
+      "citizenship by birth": {
+        "text": "no"
+      },
+      "citizenship by descent only": {
+        "text": "both parents must be citizens of Eswatini"
+      },
+      "dual citizenship recognized": {
+        "text": "no"
+      },
+      "residency requirement for naturalization": {
+        "text": "5 years"
+      }
+    },
+    "Suffrage": {
+      "text": "18 years of age"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "King MSWATI III (since 25 April 1986)"
+      },
+      "head of government": {
+        "text": "Prime Minister Russell DLAMINI (since 6 November 2023)"
+      },
+      "cabinet": {
+        "text": "Cabinet recommended by the prime minister, confirmed by the monarch; at least one-half of the cabinet membership must be appointed from among elected members of the House of Assembly"
+      },
+      "election/appointment process": {
+        "text": "the monarchy is hereditary; prime minister appointed by the monarch from among members of the House of Assembly"
+      }
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "Parliament (Libandla)"
+      },
+      "legislative structure": {
+        "text": "bicameral"
+      }
+    },
+    "Legislative branch - lower chamber": {
+      "chamber name": {
+        "text": "House of Assembly"
+      },
+      "number of seats": {
+        "text": "74 (59 directly elected; 4 indirectly elected; 10 appointed)"
+      },
+      "electoral system": {
+        "text": "plurality/majority"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "5 years"
+      },
+      "most recent election date": {
+        "text": "9/29/2023"
+      },
+      "percentage of women in chamber": {
+        "text": "21.6%"
+      },
+      "expected date of next election": {
+        "text": "September 2028"
+      },
+      "note": "<strong>note:</strong> four women, one representing each region, elected by the members if representation of elected women is less than 30%"
+    },
+    "Legislative branch - upper chamber": {
+      "chamber name": {
+        "text": "Senate"
+      },
+      "number of seats": {
+        "text": "30 (10 indirectly elected; 20 appointed)"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "5 years"
+      },
+      "most recent election date": {
+        "text": "11/6/2023"
+      },
+      "percentage of women in chamber": {
+        "text": "46.7%"
+      },
+      "expected date of next election": {
+        "text": "November 2028"
+      }
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "Supreme Court (consists of the chief justice and at least 4 justices) and the High Court (consists of the chief justice ex officio and 4 justices)"
+      },
+      "judge selection and term of office": {
+        "text": "justices of the Supreme Court and High Court appointed by the monarch on the advice of the Judicial Service Commission (JSC), a judicial advisory body consisting of the Supreme Court Chief Justice, 4 members appointed by the monarch, and the chairman of the Civil Service Commission; justices of both courts eligible for retirement at age 65 with mandatory retirement at age 75"
+      },
+      "subordinate courts": {
+        "text": "magistrates' courts; National Swazi Courts for administering customary/traditional laws (jurisdiction restricted to customary law for Swazi citizens)"
+      },
+      "note": "<strong>note: </strong>the Supreme Court has jurisdiction in all constitutional matters"
+    },
+    "Political parties": {
+      "text": "political parties exist but conditions for their operations, particularly in elections, are undefined, legally unclear, or culturally restricted; the following are considered political associations:<br>African United Democratic Party or AUDP <br>Ngwane National Liberatory Congress or NNLC <br>People's United Democratic Movement or PUDEMO <br>Swazi Democratic Party or SWADEPA "
+    },
+    "Diplomatic representation in the US": {
+      "chief of mission": {
+        "text": "Ambassador Kennedy Fitzgerald GROENING (7 June 2022)"
+      },
+      "chancery": {
+        "text": "1712 New Hampshire Avenue NW, Washington, DC 20009"
+      },
+      "telephone": {
+        "text": "[1] (202) 234-5002"
+      },
+      "FAX": {
+        "text": "[1] (202) 234-8254"
+      },
+      "email address and website": {
+        "text": "<br>swaziland@compuserve.com"
+      }
+    },
+    "Diplomatic representation from the US": {
+      "chief of mission": {
+        "text": "Ambassador (vacant) Charg&eacute; d&rsquo;Affaires Marc WEINSTOCK (since August 2025)"
+      },
+      "embassy": {
+        "text": "Corner of MR 103 and Cultural Center Drive, Ezulwini, P.O. Box D202, The Gables, H106"
+      },
+      "mailing address": {
+        "text": "2350 Mbabane Place, Washington DC&nbsp; 20521-2350"
+      },
+      "telephone": {
+        "text": "(268) 2417-9000"
+      },
+      "FAX": {
+        "text": "[268] 2416-3344"
+      },
+      "email address and website": {
+        "text": "<br>ConsularMbabane@state.gov<br><br>Homepage - U.S. Embassy in Eswatini (usembassy.gov)"
+      }
+    },
+    "International organization participation": {
+      "text": "ACP, AfDB, AU, C, COMESA, FAO, G-77, IAEA, IBRD, ICAO, ICRM, IDA, IFAD, IFC, IFRCS, ILO, IMF, IMO, Interpol, IOC, IOM, ISO (correspondent), ITSO, ITU, ITUC (NGOs), MIGA, NAM, OPCW, PCA, SACU, SADC, UN, UNCTAD, UNESCO, UNIDO, UNWTO, UPU, WCO, WHO, WIPO, WMO, WTO"
+    },
+    "Independence": {
+      "text": "6 September 1968 (from the UK)"
+    },
+    "National holiday": {
+      "text": "Independence Day (Somhlolo Day), 6 September (1968)"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> three horizontal bands of blue (top), red (triple-width), and blue; the red band is edged in yellow, with a large black-and-white shield in the center that covers two horizontal spears and a staff with feather tassels<br><br><strong>meaning:</strong> blue stands for peace and stability, red for past struggles, and yellow for the mineral resources of the country; the shield, spears, and staff symbolize protection from enemies, and the shield colors stand for ethnic groups living in peaceful coexistence"
+    },
+    "National symbol(s)": {
+      "text": "lion, elephant"
+    },
+    "National color(s)": {
+      "text": "blue, yellow, red"
+    },
+    "National coat of arms": {
+      "text": "the national coat of arms was adopted in 1968 after independence from the United Kingdom; two national symbols, the lion (representing the king of Eswatini) and the elephant (representing the queen mother), support a traditional Nguni shield; above the shield is the king's <em>lidlabe</em>, or crown of feathers, and at the bottom is Eswatini's motto, <em>Siyinqaba</em>, or \"We are the fortress”"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"Nkulunkulu Mnikati wetibusiso temaSwati\" (O God, Bestower of the Blessings of the Swazi)"
+      },
+      "lyrics/music": {
+        "text": "Andrease Enoke Fanyana SIMELANE/David Kenneth RYCROFT"
+      },
+      "history": {
+        "text": "adopted 1968; uses elements of both ethnic Swazi and Western music styles"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "landlocked southern African economy; South African trade dependent and currency pegging; CMA and SACU member state; COVID-19 economic slowdown; growing utilities inflation; persistent poverty and unemployment; HIV/AIDS labor force disruptions"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2024": {
+        "text": "$12.885 billion (2024 est.)"
+      },
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$12.553 billion (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$12.135 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "Real GDP growth rate": {
+      "Real GDP growth rate 2024": {
+        "text": "2.6% (2024 est.)"
+      },
+      "Real GDP growth rate 2023": {
+        "text": "3.4% (2023 est.)"
+      },
+      "Real GDP growth rate 2022": {
+        "text": "1.1% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual GDP % growth based on constant local currency"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2024": {
+        "text": "$10,400 (2024 est.)"
+      },
+      "Real GDP per capita 2023": {
+        "text": "$10,200 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$10,000 (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$4.892 billion (2024 est.)",
+      "note": "<b>note:</b> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2019": {
+        "text": "2.6% (2019 est.)"
+      },
+      "Inflation rate (consumer prices) 2018": {
+        "text": "4.8% (2018 est.)"
+      },
+      "Inflation rate (consumer prices) 2017": {
+        "text": "6.2% (2017 est.)"
+      },
+      "note": "<b>note:</b> annual % change based on consumer prices"
+    },
+    "GDP - composition, by sector of origin": {
+      "agriculture": {
+        "text": "6.8% (2023 est.)"
+      },
+      "industry": {
+        "text": "34.7% (2023 est.)"
+      },
+      "services": {
+        "text": "51.7% (2023 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to non-allocated consumption not captured in sector-reported data"
+    },
+    "GDP - composition, by end use": {
+      "household consumption": {
+        "text": "64% (2023 est.)"
+      },
+      "government consumption": {
+        "text": "19.5% (2023 est.)"
+      },
+      "investment in fixed capital": {
+        "text": "16.1% (2023 est.)"
+      },
+      "investment in inventories": {
+        "text": "3.1% (2023 est.)"
+      },
+      "exports of goods and services": {
+        "text": "48.7% (2023 est.)"
+      },
+      "imports of goods and services": {
+        "text": "-51.4% (2023 est.)"
+      },
+      "note": "<strong>note:</strong> figures may not total 100% due to rounding or gaps in data collection"
+    },
+    "Agricultural products": {
+      "text": "sugarcane, maize, root vegetables, grapefruits, oranges, milk, pineapples, bananas, beef, sweet potatoes (2023)",
+      "note": "<b>note:</b> top ten agricultural products based on tonnage"
+    },
+    "Industries": {
+      "text": "soft drink concentrates, coal, forestry, sugar processing, textiles, and apparel"
+    },
+    "Industrial production growth rate": {
+      "text": "0.5% (2023 est.)",
+      "note": "<b>note:</b> annual % change in industrial value added based on constant local currency"
+    },
+    "Labor force": {
+      "text": "390,600 (2024 est.)",
+      "note": "<b>note:</b> number of people ages 15 or older who are employed or seeking work"
+    },
+    "Unemployment rate": {
+      "Unemployment rate 2024": {
+        "text": "34.4% (2024 est.)"
+      },
+      "Unemployment rate 2023": {
+        "text": "35.1% (2023 est.)"
+      },
+      "Unemployment rate 2022": {
+        "text": "35.4% (2022 est.)"
+      },
+      "note": "<b>note:</b> % of labor force seeking employment"
+    },
+    "Youth unemployment rate (ages 15-24)": {
+      "total": {
+        "text": "58.2% (2024 est.)"
+      },
+      "male": {
+        "text": "56% (2024 est.)"
+      },
+      "female": {
+        "text": "60.3% (2024 est.)"
+      },
+      "note": "<b>note:</b> % of labor force ages 15-24 seeking employment"
+    },
+    "Population below poverty line": {
+      "text": "58.9% (2016 est.)",
+      "note": "<b>note:</b> % of population with income below national poverty line"
+    },
+    "Gini Index coefficient - distribution of family income": {
+      "Gini Index coefficient - distribution of family income 2016": {
+        "text": "54.6 (2016 est.)"
+      },
+      "note": "<b>note:</b> index (0-100) of income distribution; higher values represent greater inequality"
+    },
+    "Household income or consumption by percentage share": {
+      "lowest 10%": {
+        "text": "1.4% (2016 est.)"
+      },
+      "highest 10%": {
+        "text": "42.7% (2016 est.)"
+      },
+      "note": "<b>note:</b> % share of income accruing to lowest and highest 10% of population"
+    },
+    "Remittances": {
+      "Remittances 2023": {
+        "text": "1.7% of GDP (2023 est.)"
+      },
+      "Remittances 2022": {
+        "text": "2.7% of GDP (2022 est.)"
+      },
+      "Remittances 2021": {
+        "text": "2.8% of GDP (2021 est.)"
+      },
+      "note": "<b>note:</b> personal transfers and compensation between resident and non-resident individuals/households/entities"
+    },
+    "Budget": {
+      "revenues": {
+        "text": "$1.217 billion (2021 est.)"
+      },
+      "expenditures": {
+        "text": "$1.439 billion (2021 est.)"
+      },
+      "note": "<b>note:</b> central government revenues and expenses (excluding grants/extrabudgetary units/social security funds) converted to US dollars at average official exchange rate for year indicated"
+    },
+    "Public debt": {
+      "Public debt 2021": {
+        "text": "35.9% of GDP (2021 est.)"
+      },
+      "note": "<strong>note:</strong> central government debt as a % of GDP"
+    },
+    "Taxes and other revenues": {
+      "text": "24.5% (of GDP) (2021 est.)",
+      "note": "<strong>note:</strong> central government tax revenue as a % of GDP"
+    },
+    "Current account balance": {
+      "Current account balance 2023": {
+        "text": "$107.534 million (2023 est.)"
+      },
+      "Current account balance 2022": {
+        "text": "-$140.972 million (2022 est.)"
+      },
+      "Current account balance 2021": {
+        "text": "$125.318 million (2021 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - net trade and primary/secondary income in current dollars"
+    },
+    "Exports": {
+      "Exports 2023": {
+        "text": "$2.174 billion (2023 est.)"
+      },
+      "Exports 2022": {
+        "text": "$2.095 billion (2022 est.)"
+      },
+      "Exports 2021": {
+        "text": "$2.132 billion (2021 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - exports of goods and services in current dollars"
+    },
+    "Exports - partners": {
+      "text": "South Africa 61%, Ireland 4%, Mozambique 4%, Kenya 4%, Nigeria 3% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "scented mixtures, raw sugar, industrial acids/oils/alcohols, garments, wood (2023)",
+      "note": "<b>note:</b> top five export commodities based on value in dollars"
+    },
+    "Imports": {
+      "Imports 2023": {
+        "text": "$2.351 billion (2023 est.)"
+      },
+      "Imports 2022": {
+        "text": "$2.288 billion (2022 est.)"
+      },
+      "Imports 2021": {
+        "text": "$2.173 billion (2021 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - imports of goods and services in current dollars"
+    },
+    "Imports - partners": {
+      "text": "South Africa 71%, China 8%, India 4%, USA 2%, Mozambique 1% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "refined petroleum, electricity, plastic products, cotton fabric, garments (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Reserves of foreign exchange and gold": {
+      "Reserves of foreign exchange and gold 2023": {
+        "text": "$479.261 million (2023 est.)"
+      },
+      "Reserves of foreign exchange and gold 2022": {
+        "text": "$452.352 million (2022 est.)"
+      },
+      "Reserves of foreign exchange and gold 2021": {
+        "text": "$572.282 million (2021 est.)"
+      },
+      "note": "<b>note:</b> holdings of gold (year-end prices)/foreign exchange/special drawing rights in current dollars"
+    },
+    "Debt - external": {
+      "Debt - external 2023": {
+        "text": "$923.266 million (2023 est.)"
+      },
+      "note": "<b>note:</b> present value of external debt in current US dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "emalangeni per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "18.318 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "18.454 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "16.362 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "14.783 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "16.47 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "82.3% (2022 est.)"
+      },
+      "electrification - urban areas": {
+        "text": "86.1%"
+      },
+      "electrification - rural areas": {
+        "text": "81.6%"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "285,000 kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "1.308 billion kWh (2023 est.)"
+      },
+      "imports": {
+        "text": "928.237 million kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "167.476 million kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "3.1% of total installed capacity (2023 est.)"
+      },
+      "solar": {
+        "text": "4.9% of total installed capacity (2023 est.)"
+      },
+      "hydroelectricity": {
+        "text": "54.4% of total installed capacity (2023 est.)"
+      },
+      "biomass and waste": {
+        "text": "37.6% of total installed capacity (2023 est.)"
+      }
+    },
+    "Coal": {
+      "production": {
+        "text": "253,000 metric tons (2023 est.)"
+      },
+      "consumption": {
+        "text": "202,000 metric tons (2023 est.)"
+      },
+      "exports": {
+        "text": "4,000 metric tons (2023 est.)"
+      },
+      "imports": {
+        "text": "201,000 metric tons (2023 est.)"
+      },
+      "proven reserves": {
+        "text": "4.644 billion metric tons (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "refined petroleum consumption": {
+        "text": "6,000 bbl/day (2023 est.)"
+      }
+    },
+    "Energy consumption per capita": {
+      "Total energy consumption per capita 2023": {
+        "text": "18.823 million Btu/person (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "35,600 (2024 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "3 (2024 est.)"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "1.74 million (2024 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "140 (2024 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "1 state-owned TV station; satellite dishes can access South African providers; state-owned radio network with 3 channels; 1 private radio station (2019)"
+    },
+    "Internet country code": {
+      "text": ".sz"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "58% (2023 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "34,000 (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "3 (2023 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "3DC"
+    },
+    "Airports": {
+      "text": "16 (2025)"
+    },
+    "Heliports": {
+      "text": "1 (2025)"
+    },
+    "Railways": {
+      "total": {
+        "text": "301 km (2014)"
+      },
+      "narrow gauge": {
+        "text": "301 km (2014) 1.067-m gauge"
+      }
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "Umbutfo Eswatini Defense Force (UEDF): Army (includes a small air wing); the Royal Eswatini Police Service (REPS) (2025)"
+    },
+    "Military expenditures": {
+      "Military Expenditures 2024": {
+        "text": "1.4% of GDP (2024 est.)"
+      },
+      "Military Expenditures 2023": {
+        "text": "1.4% of GDP (2023 est.)"
+      },
+      "Military Expenditures 2022": {
+        "text": "1.6% of GDP (2022 est.)"
+      },
+      "Military Expenditures 2021": {
+        "text": "1.7% of GDP (2021 est.)"
+      },
+      "Military Expenditures 2020": {
+        "text": "1.8% of GDP (2020 est.)"
+      }
+    },
+    "Military and security service personnel strengths": {
+      "text": "estimated 3,000 active-duty Defense Force (2025)"
+    },
+    "Military equipment inventories and acquisitions": {
+      "text": "the UEDF has a small inventory of mostly older light weapons and equipment originating from Europe, South Africa, Taiwan, and the US (2025)"
+    },
+    "Military service age and obligation": {
+      "text": "18-35 years of age for voluntary military service for men and women; no conscription (2025)"
+    },
+    "Military - note": {
+      "text": "the UEDF&rsquo;s primary mission is external defense, which includes mostly securing the borders; it also has domestic security responsibilities, including protecting members of the royal family; the king is the UEDF commander in chief and holds the position of minister of defense, although the UEDF reports to the Army commander and principal undersecretary of defense for day-to-day operations; the Royal Eswatini Police Service (REPS) is responsible for maintaining internal security as well as migration and border crossing enforcement; it is under the prime minister, although the king is the force&rsquo;s titular commissioner in chief; the UEDF was originally created in 1973 as the Royal Swaziland Defense Force (2025)"
+    }
+  },
+  "Transnational Issues": {
+    "Refugees and internally displaced persons": {
+      "refugees": {
+        "text": "4,459 (2024 est.)"
+      },
+      "IDPs": {
+        "text": "56 (2024 est.)"
+      }
+    }
+  }
+}

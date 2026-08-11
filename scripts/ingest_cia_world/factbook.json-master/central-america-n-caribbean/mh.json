@@ -1,0 +1,661 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "English and Irish colonists from St. Kitts first settled on Montserrat in 1632; the first African slaves arrived three decades later. The British and French fought for possession of the island for most of the 18th century, but it finally was confirmed as a British possession in 1783. The island's sugar plantation economy was converted to small farm landholdings in the mid-19th century. The Soufriere Hills Volcano erupted in 1995, devastating much of the island; two thirds of the population fled abroad. Montserrat has endured volcanic activity since, with the last eruption occurring in 2013."
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Caribbean, island in the Caribbean Sea, southeast of Puerto Rico"
+    },
+    "Geographic coordinates": {
+      "text": "16 45 N, 62 12 W"
+    },
+    "Map references": {
+      "text": "Central America and the Caribbean"
+    },
+    "Area": {
+      "total ": {
+        "text": "102 sq km"
+      },
+      "land": {
+        "text": "102 sq km"
+      },
+      "water": {
+        "text": "0 sq km"
+      }
+    },
+    "Area - comparative": {
+      "text": "about 0.6 times the size of Washington, D.C."
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "0 km"
+      }
+    },
+    "Coastline": {
+      "text": "40 km"
+    },
+    "Maritime claims": {
+      "territorial sea": {
+        "text": "12 nm"
+      },
+      "exclusive fishing zone": {
+        "text": "200 nm"
+      }
+    },
+    "Climate": {
+      "text": "tropical; little daily or seasonal temperature variation"
+    },
+    "Terrain": {
+      "text": "volcanic island, mostly mountainous, with small coastal lowland"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Soufriere Hills volcano pre-eruption height was 915 m; current lava dome is subject to periodic build up and collapse; estimated dome height was 1,050 m in 2015"
+      },
+      "lowest point": {
+        "text": "Caribbean Sea 0 m"
+      }
+    },
+    "Natural resources": {
+      "text": "NEGL"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "30% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 20% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0% (2022 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 10% (2023 est.)"
+      },
+      "forest": {
+        "text": "24.2% (2023 est.)"
+      },
+      "other": {
+        "text": "45.8% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "0 sq km (2022)"
+    },
+    "Population distribution": {
+      "text": "only the northern half of the island is populated; the southern portion is uninhabitable due to volcanic activity"
+    },
+    "Natural hazards": {
+      "text": "volcanic eruptions; severe hurricanes (June to November) <br><br><strong>volcanism:</strong> Soufrière Hills volcano (915 m) has erupted continuously since 1995; a massive eruption in 1997 destroyed most of the capital, Plymouth, and made about half of the island uninhabitable; the island of Montserrat is part of the volcanic island arc of the Lesser Antilles that extends from Saba in the north to Grenada in the south"
+    },
+    "Geography - note": {
+      "text": "the island is entirely volcanic in origin and composed of three major volcanic centers of differing ages"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "5,468 (2024 est.)"
+      },
+      "male": {
+        "text": "2,728"
+      },
+      "female": {
+        "text": "2,740"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Montserratian(s)"
+      },
+      "adjective": {
+        "text": "Montserratian"
+      }
+    },
+    "Ethnic groups": {
+      "text": "African/Black 86.2%, mixed 4.8%, Hispanic/Spanish 3%, Caucasian/White 2.7%, East Indian/Indian 1.6%, other 1.8% (2018 est.)"
+    },
+    "Languages": {
+      "text": "English"
+    },
+    "Religions": {
+      "text": "Protestant 71.4% (includes Anglican 17.7%, Pentecostal/Full Gospel 16.1%, Seventh Day Adventist 15%, Methodist 13.9%, Church of God 6.7%, other Protestant 2%), Roman Catholic 11.4%, Rastafarian 1.4%, Hindu 1.2%, Jehovah's Witness 1%, Muslim 0.4%, other/not stated 5.1%, none 7.9% (2018 est.)"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "15.8% (male 446/female 420)"
+      },
+      "15-64 years": {
+        "text": "76.1% (male 2,062/female 2,101)"
+      },
+      "65 years and over": {
+        "text": "8% (2024 est.) (male 220/female 219)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "31.3 (2024 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "20.8 (2024 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "10.5 (2024 est.)"
+      },
+      "potential support ratio": {
+        "text": "9.5 (2024 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "37.1 years (2025 est.)"
+      },
+      "male": {
+        "text": "35.4 years"
+      },
+      "female": {
+        "text": "37.8 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "0.55% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "11.64 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "6.18 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "0 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "only the northern half of the island is populated; the southern portion is uninhabitable due to volcanic activity"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "9.3% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.94% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.03 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1.06 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "0.98 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "1 male(s)/female"
+      },
+      "total population": {
+        "text": "1 male(s)/female (2024 est.)"
+      }
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "9.4 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "8 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "11.6 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "76.1 years (2024 est.)"
+      },
+      "male": {
+        "text": "76.9 years"
+      },
+      "female": {
+        "text": "75.3 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "1.34 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "0.65 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: total": {
+        "text": "total: 98.1% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 1.9% of population (2022 est.)"
+      }
+    },
+    "Sanitation facility access": {
+      "improved: total": {
+        "text": "total: 99.6% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0.4% of population (2022 est.)"
+      }
+    },
+    "Currently married women (ages 15-49)": {
+      "text": "35.8% (2023 est.)"
+    },
+    "Education expenditure": {
+      "Education expenditure (% GDP)": {
+        "text": "7.2% of GDP (2023 est.)"
+      },
+      "Education expenditure (% national budget)": {
+        "text": "5.7% national budget (2025 est.)"
+      }
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "land erosion on slopes that have been cleared for cultivation"
+    },
+    "Climate": {
+      "text": "tropical; little daily or seasonal temperature variation"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "30% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 20% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0% (2022 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 10% (2023 est.)"
+      },
+      "forest": {
+        "text": "24.2% (2023 est.)"
+      },
+      "other": {
+        "text": "45.8% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "9.3% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.94% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "24,000 metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "24,000 metric tonnes of CO2 (2023 est.)"
+      }
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "none"
+      },
+      "conventional short form": {
+        "text": "Montserrat"
+      },
+      "etymology": {
+        "text": "explorer Christopher COLUMBUS named the island in 1493 after the Benedictine abbey Santa Maria de Montserrat, near Barcelona, Spain"
+      }
+    },
+    "Government type": {
+      "text": "parliamentary democracy; self-governing overseas territory of the UK"
+    },
+    "Dependency status": {
+      "text": "overseas territory of the UK"
+    },
+    "Capital": {
+      "name": {
+        "text": "Plymouth"
+      },
+      "geographic coordinates": {
+        "text": "16 42 N, 62 13 W"
+      },
+      "time difference": {
+        "text": "UTC-4 (1 hour ahead of Washington, DC, during Standard Time)"
+      },
+      "etymology": {
+        "text": "now entirely deserted because of volcanic activity, the city was named after Plymouth, England"
+      },
+      "note": "<strong>note:</strong> Plymouth was abandoned in 1997 because of volcanic activity; interim government buildings have been built at Brades Estate, the de facto capital, at the northwest end of Montserrat"
+    },
+    "Administrative divisions": {
+      "text": "3 parishes; Saint Anthony, Saint Georges, Saint Peter"
+    },
+    "Legal system": {
+      "text": "English common law"
+    },
+    "Constitution": {
+      "history": {
+        "text": "previous 1960; latest put into force 20 October 2010 (The Montserrat Constitution Order 2010)"
+      }
+    },
+    "Citizenship": {
+      "text": "see United Kingdom"
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "King CHARLES III (since 8 September 2022); represented by Governor Sarah TUCKER (since 6 April 2023)"
+      },
+      "head of government": {
+        "text": "Premier Easton TAYLOR-FARRELL (since 19 November 2019)"
+      },
+      "cabinet": {
+        "text": "Executive Council consists of the governor, the premier, 3 other ministers, the attorney general, and the finance secretary"
+      },
+      "election/appointment process": {
+        "text": "the monarchy is hereditary; governor appointed by the monarch; following legislative elections, the leader of the majority party usually becomes premier"
+      }
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "Legislative Assembly"
+      },
+      "legislative structure": {
+        "text": "unicameral"
+      },
+      "number of seats": {
+        "text": "12 (directly elected)"
+      },
+      "electoral system": {
+        "text": "plurality/majority"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "5 years"
+      },
+      "most recent election date": {
+        "text": "11/18/2019"
+      },
+      "parties elected and seats per party": {
+        "text": "MCAP (5); PDM (3); independent (1)"
+      },
+      "percentage of women in chamber": {
+        "text": "33.3%"
+      },
+      "expected date of next election": {
+        "text": "2024"
+      },
+      "note": "<strong>note:</strong> the Assembly elects the speaker from the outside for a 5-year term; the Assembly includes 2 ex-officio members, the attorney general and the financial secretary"
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "the Eastern Caribbean Supreme Court (ECSC) is the superior court of the Organization of Eastern Caribbean States; the ECSC is headquartered on St. Lucia and consists of the Court of Appeal -- headed by the chief justice and 4 judges -- and the High Court with 18 judges; the Court of Appeal travels to member states on a schedule to hear appeals from the High Court and subordinate courts; Montserrat is a member of the Caribbean Court of Justice"
+      },
+      "judge selection and term of office": {
+        "text": "chief justice of Eastern Caribbean Supreme Court appointed by the British monarch; other justices and judges appointed by the Judicial and Legal Services Commission, and independent body of judicial officials; Court of Appeal justices appointed for life with mandatory retirement at age 65; High Court judges appointed for life with mandatory retirement at age 62"
+      },
+      "subordinate courts": {
+        "text": "magistrate's court"
+      }
+    },
+    "Political parties": {
+      "text": "Movement for Change and Prosperity or MCAP <br>People's Democratic Movement or PDM"
+    },
+    "Diplomatic representation in the US": {
+      "text": "none (overseas territory of the UK)"
+    },
+    "Diplomatic representation from the US": {
+      "embassy": {
+        "text": "none (overseas territory of the UK); alternate contact is the US Embassy in Barbados [1] (246) 227-4000; US Embassy Bridgetown, Wildey Business Park, St. Michael BB 14006, Barbados, WI"
+      }
+    },
+    "International organization participation": {
+      "text": "Caricom, CDB, Interpol (subbureau), OECS, UPU"
+    },
+    "Independence": {
+      "text": "none (overseas territory of the UK)"
+    },
+    "National holiday": {
+      "text": "Official birthday of King Charles III, usually celebrated the second Saturday in June (1948)"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> blue with the UK flag in the upper-left quadrant and the Montserratian coat of arms centered in the right half of the flag; the arms show a woman in a green dress standing beside a yellow harp and embracing a large, dark-brown cross with her right arm<br><br><strong>meaning:</strong> the woman is Erin, the female personification of Ireland, the harp is an Irish symbol, and the cross represents the Christian faith; blue stands for awareness, trustworthiness, determination, and righteousness"
+    },
+    "National coat of arms": {
+      "text": "Montserrat's coat of arms dates back to 1909 and reflects the country's Irish settlers, who first arrived in 1632; the woman in the green dress is Erin, the personification of Ireland, and she holds Ireland's symbol, a gold harp; the cross represents Christianity, Monserrat's predominant religion"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"God Save the King\""
+      },
+      "lyrics/music": {
+        "text": "unknown"
+      },
+      "history": {
+        "text": "official anthem, as a UK territory"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "formerly high-income economy; volcanic activity destroyed much of original infrastructure and economy; new capital and port is being developed; key geothermal and solar power generation; key music recording operations"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2024": {
+        "text": "$89.254 million (2024 est.)"
+      },
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$86.875 million (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$80.972 million (2022 est.)"
+      },
+      "note": "<strong>note:</strong> data in 2015 dollars"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2024": {
+        "text": "$19,300 (2024 est.)"
+      },
+      "Real GDP per capita 2023": {
+        "text": "$18,200 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$16,200 (2022 est.)"
+      },
+      "note": "<strong>note:</strong> data in 2015 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$84.537 million (2024 est.)",
+      "note": "<strong>note:</strong> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2022": {
+        "text": "4% (2022 est.)"
+      },
+      "Inflation rate (consumer prices) 2021": {
+        "text": "1.7% (2021 est.)"
+      },
+      "Inflation rate (consumer prices) 2020": {
+        "text": "-1.9% (2020 est.)"
+      },
+      "note": "<strong>note:</strong> annual % change based on consumer prices"
+    },
+    "GDP - composition, by end use": {
+      "household consumption": {
+        "text": "90.8% (2017 est.)"
+      },
+      "government consumption": {
+        "text": "50.4% (2017 est.)"
+      },
+      "investment in fixed capital": {
+        "text": "17.9% (2017 est.)"
+      },
+      "investment in inventories": {
+        "text": "-0.1% (2017 est.)"
+      },
+      "exports of goods and services": {
+        "text": "29.5% (2017 est.)"
+      },
+      "imports of goods and services": {
+        "text": "-88.6% (2017 est.)"
+      }
+    },
+    "Agricultural products": {
+      "text": "cabbages, carrots, cucumbers, tomatoes, onions, peppers; livestock products"
+    },
+    "Industries": {
+      "text": "tourism, rum, textiles, electronic appliances"
+    },
+    "Budget": {
+      "revenues": {
+        "text": "$55.651 million (2014 est.)"
+      },
+      "expenditures": {
+        "text": "$43.652 million (2014 est.)"
+      },
+      "note": "<b>note:</b> central government revenues and expenses (excluding grants/extrabudgetary units/social security funds) converted to US dollars at average official exchange rate for year indicated"
+    },
+    "Exports - partners": {
+      "text": "USA 25%, Antigua &amp; Barbuda 13%, Guyana 13%, Egypt 12%, France 10% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "gravel and crushed stone, sand (2023)",
+      "note": "<strong>note:</strong> top export commodities based on value in dollars over $500,000"
+    },
+    "Imports": {
+      "Imports 2021": {
+        "text": "$15.3 million (2021 est.)"
+      },
+      "Imports 2017": {
+        "text": "$39.44 million (2017 est.)"
+      },
+      "Imports 2016": {
+        "text": "$36.1 million (2016 est.)"
+      }
+    },
+    "Imports - partners": {
+      "text": "USA 62%, Antigua &amp; Barbuda 6%, UK 5%, Belgium 4%, Trinidad &amp; Tobago 3% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "refined petroleum, electric generating sets, cars, stone processing machines, x-ray equipment (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "East Caribbean dollars (XCD) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "2.7 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "2.7 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "2.7 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "2.7 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "2.7 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "100% (2020)"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "6,000 kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "15.968 million kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "370,000 kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "87.8% of total installed capacity (2023 est.)"
+      },
+      "solar": {
+        "text": "12.2% of total installed capacity (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "refined petroleum consumption": {
+        "text": "200 bbl/day (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "3,000 (2020 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "67 (2020 est.)"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "5,000 (2020 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "110 (2020 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "Radio Montserrat, a public radio broadcaster, transmits on 1 station and has a repeater transmission to a second station; repeater transmissions from the GEM Radio Network of Trinidad and Tobago provide another 2 radio stations; cable and satellite TV available (2007)"
+    },
+    "Internet country code": {
+      "text": ".ms"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "54.6% (2011 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "2,700 (2018 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "55 (2018 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "VP-M"
+    },
+    "Airports": {
+      "text": "1 (2025)"
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "no regular military forces; Royal Montserrat Defense Force (ceremonial, civil defense duties), Montserrat Police Force (2025)"
+    },
+    "Military - note": {
+      "text": "defense is the responsibility of the UK"
+    }
+  },
+  "Transnational Issues": {
+  }
+}

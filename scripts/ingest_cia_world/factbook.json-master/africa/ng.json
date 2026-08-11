@@ -1,0 +1,1121 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "<p>Nomadic peoples from the Saharan north and agriculturalists from the south settled present-day Niger. The Taureg kingdom of Takedda was one of the largest kingdoms in the north and played a prominent role in regional trade in the 14th century. In the south, the primary ethnic groups were the Songhai-Zarma in the west, the Hausa in the center, and the Kanuri in the east. When European colonizers arrived in the 19th century, the region was an assemblage of disparate local kingdoms.</p> <p>In the late 19th century, the British and French agreed to partition the middle regions of the Niger River, and France began its conquest of what would become the colony of Niger.  France experienced determined local resistance -- particularly during the Tuareg uprising (1916-1917) -- but established a colonial administration in 1922.</p> <p>After achieving independence from France in 1960, Niger experienced single-party or military rule until 1991, when political pressure forced General Ali SAIBOU to allow multiparty elections. Political infighting and democratic backsliding led to coups in 1996 and 1999. In 1999, military officers restored democratic rule and held elections that brought Mamadou TANDJA to power. TANDJA was reelected in 2004 and spearheaded a 2009 constitutional amendment allowing him to extend his presidential term. In 2010, military officers led another coup that deposed TANDJA. ISSOUFOU Mahamadou was elected in 2011 and reelected in 2016. In 2021, BAZOUM Mohamed won the presidential election, marking Niger’s first transition from one democratically elected president to another. Nonetheless, a military junta led by General Abdourahamane TIANI once again seized power in July 2023, detaining President BAZOUM and announcing the creation of a National Council for the Safeguarding of the Homeland (CNSP).<br><br>Niger is one of the poorest countries in the world with minimal government services and insufficient funds to develop its resource base. It is ranked fourth to last in the world on the UN Development Program's Human Development Index of 2023/2024. The largely agrarian and subsistence-based economy is frequently disrupted by extended droughts common to the Sahel region of Africa. The Nigerien Government continues its attempts to diversify the economy through increased oil production and mining projects. In addition, Niger is facing increased security concerns on its borders from various external threats including insecurity in Libya, spillover from the conflict and terrorism in Mali, and violent extremism in northeastern Nigeria.</p>"
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Western Africa, southeast of Algeria"
+    },
+    "Geographic coordinates": {
+      "text": "16 00 N, 8 00 E"
+    },
+    "Map references": {
+      "text": "Africa"
+    },
+    "Area": {
+      "total ": {
+        "text": "1.267 million sq km"
+      },
+      "land": {
+        "text": "1,266,700 sq km"
+      },
+      "water": {
+        "text": "300 sq km"
+      }
+    },
+    "Area - comparative": {
+      "text": "slightly less than twice the size of Texas"
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "5,834 km"
+      },
+      "border countries": {
+        "text": "Algeria 951 km; Benin 277 km; Burkina Faso 622 km; Chad 1,196 km; Libya 342 km; Mali 838 km; Nigeria 1,608 km"
+      }
+    },
+    "Coastline": {
+      "text": "0 km (landlocked)"
+    },
+    "Maritime claims": {
+      "text": "none (landlocked)"
+    },
+    "Climate": {
+      "text": "desert; mostly hot, dry, dusty; tropical in extreme south"
+    },
+    "Terrain": {
+      "text": "predominately desert plains and sand dunes; flat to rolling plains in south; hills in north"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Idoukal-n-Taghes 2,022 m"
+      },
+      "lowest point": {
+        "text": "Niger River 200 m"
+      },
+      "mean elevation": {
+        "text": "474 m"
+      }
+    },
+    "Natural resources": {
+      "text": "uranium, coal, iron ore, tin, phosphates, gold, molybdenum, gypsum, salt, petroleum"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "36.8% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 14% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0.1% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 22.7% (2023 est.)"
+      },
+      "forest": {
+        "text": "0.8% (2023 est.)"
+      },
+      "other": {
+        "text": "62.4% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "2,881 sq km (2022)"
+    },
+    "Major lakes (area sq km)": {
+      "fresh water lake(s)": {
+        "text": "Lake Chad (endorheic lake shared with Chad, Nigeria, and Cameroon) - 10,360-25,900 sq km<br>note - area varies by season and year to year"
+      }
+    },
+    "Major rivers (by length in km)": {
+      "text": "Niger (shared with Guinea [s], Mali, Benin, and Nigeria [m]) - 4,200 km<br><br><strong>note:</strong> [s] after country name indicates river source; [m] after country name indicates river mouth"
+    },
+    "Major watersheds (area sq km)": {
+      "Atlantic Ocean drainage": {
+        "text": "Niger (2,261,741 sq km)"
+      },
+      "Internal (endorheic basin) drainage": {
+        "text": "Lake Chad (2,497,738 sq km)"
+      }
+    },
+    "Major aquifers": {
+      "text": "Lake Chad Basin, Lullemeden-Irhazer Basin, Murzuk-Djado Basin"
+    },
+    "Population distribution": {
+      "text": "majority of the populace is located in the southernmost extreme of the country along the border with Nigeria and Benin, as shown in this population distribution map"
+    },
+    "Natural hazards": {
+      "text": "recurring droughts"
+    },
+    "Geography - note": {
+      "text": "landlocked; one of the hottest countries in the world; northern four-fifths is desert, southern one-fifth is savanna that is suitable for livestock and limited agriculture"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "27,322,555 (2025 est.)"
+      },
+      "male": {
+        "text": "13,542,629"
+      },
+      "female": {
+        "text": "13,779,926"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Nigerien(s)"
+      },
+      "adjective": {
+        "text": "Nigerien"
+      }
+    },
+    "Ethnic groups": {
+      "text": "Hausa 53.1%, Zarma/Songhai 21.2%, Tuareg 11%, Fulani (Peuhl) 6.5%, Kanuri 5.9%, Gurma 0.8%, Arab 0.4%, Tubu 0.4%, other/unavailable 0.9% (2006 est.)"
+    },
+    "Languages": {
+      "text": "Hausa, Zarma, French (official), Fufulde, Tamashek, Kanuri, Gurmancema, Tagdal",
+      "note": "<strong>note:</strong> represents the most-spoken languages; Niger has 10 national languages: Arabic, Buduma, Fulfuldé, Guimancema, Hausa, Kanuri, Sonay-Zarma, Tamajaq, Tassawaq, and Tubu"
+    },
+    "Religions": {
+      "text": "Muslim 95.5%, ethnic religionist 4.1%, Christian 0.3%, agnostics and other 0.1% (2020 est.)"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "49.5% (male 6,567,460/female 6,463,877)"
+      },
+      "15-64 years": {
+        "text": "47.8% (male 6,146,355/female 6,451,574)"
+      },
+      "65 years and over": {
+        "text": "2.7% (2024 est.) (male 342,388/female 371,130)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "108.2 (2025 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "102.6 (2025 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "5.7 (2025 est.)"
+      },
+      "potential support ratio": {
+        "text": "17.7 (2025 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "15.3 years (2025 est.)"
+      },
+      "male": {
+        "text": "14.9 years"
+      },
+      "female": {
+        "text": "15.6 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "3.65% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "46.29 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "9.24 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "-0.57 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "majority of the populace is located in the southernmost extreme of the country along the border with Nigeria and Benin, as shown in this population distribution map"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "17.1% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "4.72% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "1.437 million NIAMEY (capital) (2023)"
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.03 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1.02 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "0.95 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "0.92 male(s)/female"
+      },
+      "total population": {
+        "text": "0.98 male(s)/female (2024 est.)"
+      }
+    },
+    "Mother's mean age at first birth": {
+      "text": "18.5 years (2012 est.)",
+      "note": "<strong>note:</strong> data represents median age at first birth among women 20-49"
+    },
+    "Maternal mortality ratio": {
+      "text": "350 deaths/100,000 live births (2023 est.)"
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "63 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "69.2 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "59.2 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "60.9 years (2024 est.)"
+      },
+      "male": {
+        "text": "59.3 years"
+      },
+      "female": {
+        "text": "62.5 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "6.55 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "3.23 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: urban": {
+        "text": "urban: 88.3% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 40.9% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 48.9% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 11.7% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 59.1% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 51.1% of population (2022 est.)"
+      }
+    },
+    "Health expenditure": {
+      "Health expenditure (as % of GDP)": {
+        "text": "5.8% of GDP (2021)"
+      },
+      "Health expenditure (as % of national budget)": {
+        "text": "7.1% of national budget (2022 est.)"
+      }
+    },
+    "Physician density": {
+      "text": "0.04 physicians/1,000 population (2023)"
+    },
+    "Hospital bed density": {
+      "text": "0.3 beds/1,000 population (2020 est.)"
+    },
+    "Sanitation facility access": {
+      "improved: urban": {
+        "text": "urban: 81.9% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 15.2% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 26.4% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 18.1% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 84.8% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 73.6% of population (2022 est.)"
+      }
+    },
+    "Obesity - adult prevalence rate": {
+      "text": "5.5% (2016)"
+    },
+    "Alcohol consumption per capita": {
+      "total": {
+        "text": "0.11 liters of pure alcohol (2019 est.)"
+      },
+      "beer": {
+        "text": "0.04 liters of pure alcohol (2019 est.)"
+      },
+      "wine": {
+        "text": "0.01 liters of pure alcohol (2019 est.)"
+      },
+      "spirits": {
+        "text": "0.06 liters of pure alcohol (2019 est.)"
+      },
+      "other alcohols": {
+        "text": "0 liters of pure alcohol (2019 est.)"
+      }
+    },
+    "Tobacco use": {
+      "total": {
+        "text": "7.5% (2025 est.)"
+      },
+      "male": {
+        "text": "13.7% (2025 est.)"
+      },
+      "female": {
+        "text": "1.2% (2025 est.)"
+      }
+    },
+    "Children under the age of 5 years underweight": {
+      "text": "34.6% (2022 est.)"
+    },
+    "Currently married women (ages 15-49)": {
+      "text": "81.3% (2021 est.)"
+    },
+    "Education expenditure": {
+      "Education expenditure (% GDP)": {
+        "text": "4.1% of GDP (2023 est.)"
+      },
+      "Education expenditure (% national budget)": {
+        "text": "12.8% national budget (2023 est.)"
+      }
+    },
+    "Literacy": {
+      "total population": {
+        "text": "35.6% (2022 est.)"
+      },
+      "male": {
+        "text": "47.9% (2022 est.)"
+      },
+      "female": {
+        "text": "25.7% (2022 est.)"
+      }
+    },
+    "School life expectancy (primary to tertiary education)": {
+      "total": {
+        "text": "6 years (2017 est.)"
+      },
+      "male": {
+        "text": "7 years (2017 est.)"
+      },
+      "female": {
+        "text": "6 years (2017 est.)"
+      }
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "overgrazing; soil erosion; deforestation; desertification; contaminated water; inadequate potable water; wildlife populations (such as elephant, hippopotamus, giraffe, and lion) threatened by poaching and habitat destruction"
+    },
+    "International environmental agreements": {
+      "party to": {
+        "text": "Biodiversity, Climate Change, Climate Change-Kyoto Protocol, Climate Change-Paris Agreement, Comprehensive Nuclear Test Ban, Desertification, Endangered Species, Environmental Modification, Hazardous Wastes, Law of the Sea, Nuclear Test Ban, Ozone Layer Protection, Wetlands"
+      },
+      "signed, but not ratified": {
+        "text": "none of the selected agreements"
+      }
+    },
+    "Climate": {
+      "text": "desert; mostly hot, dry, dusty; tropical in extreme south"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "36.8% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 14% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0.1% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 22.7% (2023 est.)"
+      },
+      "forest": {
+        "text": "0.8% (2023 est.)"
+      },
+      "other": {
+        "text": "62.4% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "17.1% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "4.72% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "3.132 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from coal and metallurgical coke": {
+        "text": "622,000 metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "2.457 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from consumed natural gas": {
+        "text": "52,000 metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Particulate matter emissions": {
+      "text": "59.5 micrograms per cubic meter (2019 est.)"
+    },
+    "Methane emissions": {
+      "energy": {
+        "text": "137.8 kt (2022-2024 est.)"
+      },
+      "agriculture": {
+        "text": "713.8 kt (2019-2021 est.)"
+      },
+      "waste": {
+        "text": "128.2 kt (2019-2021 est.)"
+      },
+      "other": {
+        "text": "11.1 kt (2019-2021 est.)"
+      }
+    },
+    "Waste and recycling": {
+      "municipal solid waste generated annually": {
+        "text": "1.866 million tons (2024 est.)"
+      },
+      "percent of municipal solid waste recycled": {
+        "text": "20.3% (2022 est.)"
+      }
+    },
+    "Total water withdrawal": {
+      "municipal": {
+        "text": "193.247 million cubic meters (2022 est.)"
+      },
+      "industrial": {
+        "text": "38.654 million cubic meters (2022 est.)"
+      },
+      "agricultural": {
+        "text": "2.351 billion cubic meters (2022 est.)"
+      }
+    },
+    "Total renewable water resources": {
+      "text": "34,050,000,000 cubic meters (2022 est.)"
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "Republic of Niger"
+      },
+      "conventional short form": {
+        "text": "Niger"
+      },
+      "local long form": {
+        "text": "R&eacute;publique du Niger"
+      },
+      "local short form": {
+        "text": "Niger"
+      },
+      "etymology": {
+        "text": "named for the Niger River that passes through the southwest of the country; the name of the river probably comes from the local Tuareg name, <em>egereou n-igereouen </em>(big rivers)"
+      },
+      "note": "<strong>note:</strong> pronounced nee-ZHAIR"
+    },
+    "Government type": {
+      "text": "formerly, semi-presidential republic",
+      "note": "<strong>Note:</strong> on 26 July 2023, the National Council for the Safeguard of the Homeland, a military junta which took control of Niger's government, dissolved all government institutions, and rules by decree"
+    },
+    "Capital": {
+      "name": {
+        "text": "Niamey"
+      },
+      "geographic coordinates": {
+        "text": "13 31 N, 2 07 E"
+      },
+      "time difference": {
+        "text": "UTC+1 (6 hours ahead of Washington, DC, during Standard Time)"
+      },
+      "etymology": {
+        "text": "the origin of the name is unclear; one of many stories says that an African chief told his seven slaves \"<em>Wa niammane</em>,\" meaning \"stay here,\" and the name was later shortened to its present form"
+      }
+    },
+    "Administrative divisions": {
+      "text": "7 regions (<em>régions</em>, singular - <em>région</em>) and 1 capital district* (<em>communauté urbaine</em>); Agadez, Diffa, Dosso, Maradi, Niamey*, Tahoua, Tillaberi, Zinder"
+    },
+    "Legal system": {
+      "text": "<strong>note:</strong> following the 26 July 2023 military coup, the National Council for the Safeguard of the Homeland assumed control of all government institutions and rules by decree; formerly, mixed system of civil law, based on French civil law, Islamic law, and customary law"
+    },
+    "Constitution": {
+      "history": {
+        "text": "several previous; passed by referendum 31 October 2010, entered into force 25 November 2010"
+      },
+      "amendment process": {
+        "text": "formerly proposed by the president of the republic or the National Assembly; consideration of amendments requires at least three-fourths majority vote by the Assembly; passage requires at least four-fifths majority vote; if disapproved, the proposed amendment is dropped or submitted to a referendum; constitutional articles on the form of government, the multiparty system, the separation of state and religion, disqualification of Assembly members, amendment procedures, and amnesty of participants in the 2010 coup cannot be amended"
+      },
+      "note": "<strong>note: </strong>on 26 July 2023, the National Council for the Safeguard of the Homeland, a military junta which took control of Niger's government, dissolved the country's constitution"
+    },
+    "International law organization participation": {
+      "text": "has not submitted an ICJ jurisdiction declaration; accepts ICCt jurisdiction"
+    },
+    "Citizenship": {
+      "citizenship by birth": {
+        "text": "no"
+      },
+      "citizenship by descent only": {
+        "text": "at least one parent must be a citizen of Niger"
+      },
+      "dual citizenship recognized": {
+        "text": "yes"
+      },
+      "residency requirement for naturalization": {
+        "text": "unknown"
+      }
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "President of the National Council for the Safeguard of the Homeland (CNSP) General Abdourahame TIANI (since 28 July 2023)"
+      },
+      "head of government": {
+        "text": "CNSP Prime Minister Ali Mahaman Lamine ZEINE (since 9 August 2023)"
+      },
+      "cabinet": {
+        "text": "Cabinet appointed by the CNSP"
+      },
+      "election/appointment process": {
+        "text": "the CNSP rules by decree; previously, the president was directly elected by absolute-majority popular vote in 2 rounds, if needed, for a 5-year term (eligible for a second term); prime minister was appointed by the president, authorized by the National Assembly"
+      },
+      "most recent election date": {
+        "text": "27 December 2020, with a runoff held on 21 February 2021"
+      },
+      "election results": {
+        "text": "<em><br>2020/2021</em>: Mohamed BAZOUM elected president in second round; percent of vote in first round - Mohamed BAZOUM (PNDS-Tarrayya) 39.3%, Mahamane OUSMANE (MODEN/FA Lumana Africa) 17%, Seini OUMAROU (MNSD-Nassara) 9%, Albade ABOUDA (MPR-Jamhuriya) 7.1%, other 27.6%; percent of vote in second round - Mohamed BAZOUM 55.7%, Mahamane OUSMANE 44.3%"
+      },
+      "expected date of next election": {
+        "text": "2030"
+      },
+      "note": "<strong>note 1:</strong> deposed president Mohamed BAZOUM has been under house arrest since a military coup on 26 July 2023<br><br><strong>note 2:</strong> on 26 March 2025, the CNSP leader TIANI issued a decree promulgating the Charter of the Refoundation and was sworn in as the country’s president for a transition period of five years"
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "Advisory Council for the Refoundation (Conseil consultatif de la refondation)"
+      },
+      "legislative structure": {
+        "text": "unicameral"
+      },
+      "number of seats": {
+        "text": "194 (all appointed)"
+      },
+      "electoral system": {
+        "text": "mixed system"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "most recent election date": {
+        "text": "5/1/2025"
+      },
+      "percentage of women in chamber": {
+        "text": "19.6%"
+      },
+      "expected date of next election": {
+        "text": "April 2030"
+      },
+      "note": "<strong>note 1:</strong> on 26 July 2023, the National Council for the Safeguard of the Homeland, a military junta which took control of Niger's government, dissolved the National Assembly; a commission recommended to the junta in February 2025 a minimum of a five-year transition to democratic rule<br><br><strong>note 2:</strong> In May 2025, Transitional President Tiani signed decrees nominating 194 members of the Advisory Council for the Refoundation (Conseil consultatif de la refondation or CCR), CCR Bureau members, and the Speaker, Mamoudou Harouna Djingarey; the first session of the CCR convened on 28 June 2025"
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "High Court of Justice (consists of 7 members); Supreme Court (membership NA); Constitutional Court (consists of 7 judges)"
+      },
+      "judge selection and term of office": {
+        "text": "High Judicial Court members selected from among the legislature and judiciary to 5-year terms; Constitutional Court judges nominated/elected - 1 by the president of the Republic, 1 by the president of the National Assembly, 2 by peer judges, 2 by peer lawyers, 1 law professor by peers, and 1 from within Nigerien society; all appointed by the president; judges serve 6-year nonrenewable terms with one-third of membership renewed every 2 years"
+      },
+      "subordinate courts": {
+        "text": "Court of Cassation; Council of State; Court of Finances; various specialized tribunals and customary courts"
+      }
+    },
+    "Political parties": {
+      "text": "Alliance for Democracy and the Republic<br>Alliance for Democratic Renewal or ARD-Adaltchi-Mutuntchi <br>Alliance of Movements for the Emergence of Niger or AMEN AMIN<br>Congress for the Republic or CPR-Inganci<br>Democratic Alternation for Equity in Niger<br>Democratic and Republican Renewal-RDR-Tchanji<br>Democratic Movement for the Emergence of Niger Falala<br>Democratic Patriots' Rally or RPD Bazara<br>National Movement for the Development of Society-Nassara or MNSD-Nassara<br>Nigerien Alliance for Democracy and Progress-Zaman Lahiya or ANDP-Zaman Lahiya<br>Nigerien Democratic Movement for an African Federation or MODEN/FA Lumana<br>Nigerien Party for Democracy and Socialism or PNDS-Tarrayya<br>Nigerien Patriotic Movement or MPN-Kishin Kassa<br>Nigerien Rally for Democracy and Peace<br>Patriotic Movement for the Republic or MPR-Jamhuriya<br>Peace, Justice, Progress–Generation Doubara<br>Rally for Democracy and Progress-Jama'a or RDP-Jama'a<br>Rally for Peace and Progress or RPP Farilla<br>Social Democratic Rally or RSD-Gaskiyya<br>Social Democratic Party or PSD-Bassira",
+      "note": "<strong>note:</strong> after the 26 July 2023 military coup, the National Council for the Safeguard of the Homeland dissolved the National Assembly and prohibited all political party activity"
+    },
+    "Diplomatic representation in the US": {
+      "chief of mission": {
+        "text": "Ambassador (vacant); Charg&eacute; d'Affaires Hassane IDI (since 3 August 2023)"
+      },
+      "chancery": {
+        "text": "2204 R Street NW, Washington, DC 20008"
+      },
+      "telephone": {
+        "text": "[1] (202) 483-4224"
+      },
+      "FAX": {
+        "text": "[1] (202) 483-3169"
+      },
+      "email address and website": {
+        "text": "<br>communication@embassyofniger.org<br><br>http://www.embassyofniger.org/"
+      }
+    },
+    "Diplomatic representation from the US": {
+      "chief of mission": {
+        "text": "Ambassador Kathleen FITZGIBBON (since 2 December 2023)"
+      },
+      "embassy": {
+        "text": "BP 11201, Niamey"
+      },
+      "mailing address": {
+        "text": "2420 Niamey Place, Washington DC&nbsp; 20521-2420"
+      },
+      "telephone": {
+        "text": "[227] 20-72-26-61"
+      },
+      "FAX": {
+        "text": "[227] 20-73-55-60"
+      },
+      "email address and website": {
+        "text": "<br>consulateniamey@state.gov<br><br>https://ne.usembassy.gov/"
+      }
+    },
+    "International organization participation": {
+      "text": "ACP, AfDB, AU (suspended), CD, EITI (compliant country), Entente, FAO, FZ, G-77, IAEA, IBRD, ICAO, ICCt, ICRM, IDA, IDB, IFAD, IFC, IFRCS, ILO, IMF, Interpol, IOC, IOM, IPU, ISO (correspondent), ITSO, ITU, ITUC (NGOs), LCBC, MIGA, MINUSCA, MNJTF, MONUSCO, NAM, OIC, OIF, OPCW, UN, UNCTAD, UNESCO, UNIDO, UNOOSA, UNWTO, UPU, WADB (regional), WAEMU, WCO, WFTU (NGOs), WHO, WIPO, WMO, WTO"
+    },
+    "Independence": {
+      "text": "3 August 1960 (from France)"
+    },
+    "National holiday": {
+      "text": "Republic Day, 18 December (1958)",
+      "note": "<strong>note:</strong> commemorates the founding of the Republic of Niger, which predated independence from France in 1960"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> three equal horizontal bands of orange (top), white, and green, with an orange disk centered on the white band<br><br><strong>meaning:</strong> orange stands for the northern Sahara regions, white for purity and innocence, and green for hope and the fertile and productive southern and western areas, as well as the Niger River; the orange disc represents the sun and the people's sacrifices",
+      "note": "<strong>note:</strong> similar to the flag of India, which has a blue spoked wheel centered on the white band"
+    },
+    "National symbol(s)": {
+      "text": "zebu"
+    },
+    "National color(s)": {
+      "text": "orange, white, green"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"L'Honneur de la Patrie\" (The Honor of the Fatherland)"
+      },
+      "lyrics/music": {
+        "text": "a government-appointed committee wrote both the lyrics and the music"
+      },
+      "history": {
+        "text": "adopted 2023; replaced previous national anthem, \"La Nig&eacute;rienne\" (The Nigerien), that was adopted in 1961"
+      }
+    },
+    "National heritage": {
+      "total World Heritage Sites": {
+        "text": "3 (1 cultural, 2 natural)"
+      },
+      "selected World Heritage Site locales": {
+        "text": "Air and Ténéré Natural Reserves (n); W-Arly-Pendjari Complex (n); Historic Agadez (c)"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "low-income Sahel economy; major instability and humanitarian crises limit economic activity; COVID-19 eliminated recent antipoverty gains; economy rebounding since December 2020 Nigerian border reopening and new investments; uranium resource rich"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2024": {
+        "text": "$47.921 billion (2024 est.)"
+      },
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$44.199 billion (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$43.474 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "Real GDP growth rate": {
+      "Real GDP growth rate 2024": {
+        "text": "8.4% (2024 est.)"
+      },
+      "Real GDP growth rate 2023": {
+        "text": "1.7% (2023 est.)"
+      },
+      "Real GDP growth rate 2022": {
+        "text": "11.9% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual GDP % growth based on constant local currency"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2024": {
+        "text": "$1,800 (2024 est.)"
+      },
+      "Real GDP per capita 2023": {
+        "text": "$1,700 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$1,700 (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$19.538 billion (2024 est.)",
+      "note": "<b>note:</b> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2024": {
+        "text": "9.1% (2024 est.)"
+      },
+      "Inflation rate (consumer prices) 2023": {
+        "text": "3.7% (2023 est.)"
+      },
+      "Inflation rate (consumer prices) 2022": {
+        "text": "4.2% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual % change based on consumer prices"
+    },
+    "GDP - composition, by sector of origin": {
+      "agriculture": {
+        "text": "33.8% (2024 est.)"
+      },
+      "industry": {
+        "text": "17.8% (2024 est.)"
+      },
+      "services": {
+        "text": "45.4% (2024 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to non-allocated consumption not captured in sector-reported data"
+    },
+    "GDP - composition, by end use": {
+      "household consumption": {
+        "text": "59.2% (2024 est.)"
+      },
+      "government consumption": {
+        "text": "11.8% (2024 est.)"
+      },
+      "investment in fixed capital": {
+        "text": "18.7% (2024 est.)"
+      },
+      "investment in inventories": {
+        "text": "0% (2024 est.)"
+      },
+      "exports of goods and services": {
+        "text": "31.2% (2024 est.)"
+      },
+      "imports of goods and services": {
+        "text": "-20.8% (2024 est.)"
+      },
+      "note": "<strong>note:</strong> figures may not total 100% due to rounding or gaps in data collection"
+    },
+    "Agricultural products": {
+      "text": "millet, cowpeas, sorghum, onions, milk, sugarcane, cabbages, cassava, groundnuts, tomatoes (2023)",
+      "note": "<b>note:</b> top ten agricultural products based on tonnage"
+    },
+    "Industries": {
+      "text": "uranium mining, petroleum, cement, brick, soap, textiles, food processing, chemicals, slaughterhouses"
+    },
+    "Industrial production growth rate": {
+      "text": "12.1% (2024 est.)",
+      "note": "<b>note:</b> annual % change in industrial value added based on constant local currency"
+    },
+    "Labor force": {
+      "text": "10.486 million (2024 est.)",
+      "note": "<b>note:</b> number of people ages 15 or older who are employed or seeking work"
+    },
+    "Unemployment rate": {
+      "Unemployment rate 2024": {
+        "text": "0.4% (2024 est.)"
+      },
+      "Unemployment rate 2023": {
+        "text": "0.5% (2023 est.)"
+      },
+      "Unemployment rate 2022": {
+        "text": "0.5% (2022 est.)"
+      },
+      "note": "<b>note:</b> % of labor force seeking employment"
+    },
+    "Youth unemployment rate (ages 15-24)": {
+      "total": {
+        "text": "0.3% (2024 est.)"
+      },
+      "male": {
+        "text": "0.4% (2024 est.)"
+      },
+      "female": {
+        "text": "0.2% (2024 est.)"
+      },
+      "note": "<b>note:</b> % of labor force ages 15-24 seeking employment"
+    },
+    "Population below poverty line": {
+      "text": "45.5% (2021 est.)",
+      "note": "<b>note:</b> % of population with income below national poverty line"
+    },
+    "Gini Index coefficient - distribution of family income": {
+      "Gini Index coefficient - distribution of family income 2021": {
+        "text": "32.9 (2021 est.)"
+      },
+      "note": "<b>note:</b> index (0-100) of income distribution; higher values represent greater inequality"
+    },
+    "Household income or consumption by percentage share": {
+      "lowest 10%": {
+        "text": "3.8% (2021 est.)"
+      },
+      "highest 10%": {
+        "text": "27.8% (2021 est.)"
+      },
+      "note": "<b>note:</b> % share of income accruing to lowest and highest 10% of population"
+    },
+    "Remittances": {
+      "Remittances 2023": {
+        "text": "3.7% of GDP (2023 est.)"
+      },
+      "Remittances 2022": {
+        "text": "4.7% of GDP (2022 est.)"
+      },
+      "Remittances 2021": {
+        "text": "2.4% of GDP (2021 est.)"
+      },
+      "note": "<b>note:</b> personal transfers and compensation between resident and non-resident individuals/households/entities"
+    },
+    "Budget": {
+      "revenues": {
+        "text": "$2.325 billion (2019 est.)"
+      },
+      "expenditures": {
+        "text": "$2.785 billion (2019 est.)"
+      }
+    },
+    "Public debt": {
+      "Public debt 2016": {
+        "text": "45.2% of GDP (2016 est.)"
+      }
+    },
+    "Current account balance": {
+      "Current account balance 2023": {
+        "text": "-$2.333 billion (2023 est.)"
+      },
+      "Current account balance 2022": {
+        "text": "-$2.5 billion (2022 est.)"
+      },
+      "Current account balance 2021": {
+        "text": "-$2.099 billion (2021 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - net trade and primary/secondary income in current dollars"
+    },
+    "Exports": {
+      "Exports 2023": {
+        "text": "$1.223 billion (2023 est.)"
+      },
+      "Exports 2022": {
+        "text": "$1.376 billion (2022 est.)"
+      },
+      "Exports 2021": {
+        "text": "$1.487 billion (2021 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - exports of goods and services in current dollars"
+    },
+    "Exports - partners": {
+      "text": "UAE 31%, France 23%, China 18%, India 6%, Sweden 5% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "gold, oil seeds, uranium and thorium ore, radioactive chemicals, refined petroleum (2023)",
+      "note": "<b>note:</b> top five export commodities based on value in dollars"
+    },
+    "Imports": {
+      "Imports 2023": {
+        "text": "$3.808 billion (2023 est.)"
+      },
+      "Imports 2022": {
+        "text": "$4.194 billion (2022 est.)"
+      },
+      "Imports 2021": {
+        "text": "$4.027 billion (2021 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - imports of goods and services in current dollars"
+    },
+    "Imports - partners": {
+      "text": "China 26%, France 15%, India 12%, Nigeria 7%, UAE 6% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "rice, aircraft parts, iron structures, refined petroleum, centrifuges (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Debt - external": {
+      "Debt - external 2023": {
+        "text": "$3.793 billion (2023 est.)"
+      },
+      "note": "<b>note:</b> present value of external debt in current US dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "Communaute Financiere Africaine francs (XOF) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "606.345 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "606.57 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "623.76 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "554.531 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "575.586 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "19.5% (2022 est.)"
+      },
+      "electrification - urban areas": {
+        "text": "66.1%"
+      },
+      "electrification - rural areas": {
+        "text": "7.7%"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "377,000 kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "1.645 billion kWh (2023 est.)"
+      },
+      "imports": {
+        "text": "1.213 billion kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "372.245 million kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "97% of total installed capacity (2023 est.)"
+      },
+      "solar": {
+        "text": "3% of total installed capacity (2023 est.)"
+      }
+    },
+    "Coal": {
+      "production": {
+        "text": "427,000 metric tons (2023 est.)"
+      },
+      "consumption": {
+        "text": "426,000 metric tons (2023 est.)"
+      },
+      "imports": {
+        "text": "400 metric tons (2023 est.)"
+      },
+      "proven reserves": {
+        "text": "90 million metric tons (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "total petroleum production": {
+        "text": "13,000 bbl/day (2023 est.)"
+      },
+      "refined petroleum consumption": {
+        "text": "18,000 bbl/day (2023 est.)"
+      },
+      "crude oil estimated reserves": {
+        "text": "150 million barrels (2021 est.)"
+      }
+    },
+    "Natural gas": {
+      "production": {
+        "text": "26.805 million cubic meters (2023 est.)"
+      },
+      "consumption": {
+        "text": "26.872 million cubic meters (2023 est.)"
+      }
+    },
+    "Energy consumption per capita": {
+      "Total energy consumption per capita 2023": {
+        "text": "1.772 million Btu/person (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "58,000 (2021 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "(2022 est.) less than 1"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "17.2 million (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "66 (2023 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "state-run TV station; 3 private TV stations provide a mix of local and foreign programming; state-run radio has the only radio station with national coverage; about 30 private local radio stations; as many as 100 community radio stations; transmissions of multiple international broadcasters are available"
+    },
+    "Internet country code": {
+      "text": ".ne"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "23% (2023 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "14,000 (2022 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "(2022 est.) less than 1"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "5U"
+    },
+    "Airports": {
+      "text": "26 (2025)"
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "Nigerien Armed Forces (Forces Armees Nigeriennes, FAN): Army, Nigerien Air Force, Niger Gendarmerie<br><br>Ministry of Interior, Public Safety and Decentralization: Niger National Guard, National Police (2025)",
+      "note": "<strong>note 1:</strong> the Niger Gendarmerie (GN) and the Niger National Guard (GNN) are paramilitary forces; the GN has primary responsibility for rural security while the GNN is responsible for domestic security and the protection of high-level officials and government buildings<br><br><strong>note 2: </strong>the Directorate of Territorial Surveillance under the National Police is charged with border management"
+    },
+    "Military expenditures": {
+      "Military Expenditures 2024": {
+        "text": "2.2% of GDP (2024 est.)"
+      },
+      "Military Expenditures 2023": {
+        "text": "2% of GDP (2023 est.)"
+      },
+      "Military Expenditures 2022": {
+        "text": "1.7% of GDP (2022 est.)"
+      },
+      "Military Expenditures 2021": {
+        "text": "1.8% of GDP (2021 est.)"
+      },
+      "Military Expenditures 2020": {
+        "text": "2% of GDP (2020 est.)"
+      }
+    },
+    "Military and security service personnel strengths": {
+      "text": "estimated 50,000 active Armed Forces, including Gendarmerie; estimated 15-20,000 National Guard (2025)",
+      "note": "<strong>note: </strong>in 2020, the Nigerien Government announced it intended to increase the size of the FAN to 50,000 by 2025 and 100,000 by 2030"
+    },
+    "Military equipment inventories and acquisitions": {
+      "text": "the FAN's inventory is comprised of older, typically Soviet-era weapons and equipment, along with smaller quantities of more modern armaments such as unmanned aerial vehicles/drones, air defense systems, and armored vehicles; suppliers over the past decade include China, France, Russia, South Africa, T&uuml;rkiye, and the US (2025)"
+    },
+    "Military service age and obligation": {
+      "text": "18 is the legal minimum age for selective compulsory or voluntary military service for unmarried men and women; 24-month service term (2025)"
+    },
+    "Military - note": {
+      "text": "the military of Niger is responsible for territorial defense, but most of its focus is on internal and border security operations; the Islamic State of Iraq and ash-Sham in the Greater Sahara (ISIS-GS) and the al-Qaida affiliate Jama’at Nusrat al-Islam wal-Muslimin (JNIM) terrorist groups are active in western Niger and in adjacent strongholds in Burkina Faso and Mali, while the Nigeria-based Boko Haram and ISIS-West Africa groups threaten southeast Niger; parts of Niger also face spillover from communal, criminal, and vigilante violence in neighboring Nigeria; since the 2023 coup, some former ethnic separatist rebels have taken up arms in support of deposed President BAZOUM<br><br>the military has played a role in Niger's domestic politics since its establishment in 1960-61; prior to seizing control of the government in 2023, it attempted coups in 1974, 1996, 1999, 2010, and 2021, and ruled the country for much of the period before 1999 (2025)"
+    }
+  },
+  "Terrorism": {
+    "Terrorist group(s)": {
+      "text": "Boko Haram; Islamic State of Iraq and ash-Sham in the Greater Sahara (ISIS-GS); Islamic State of Iraq and ash-Sham – West Africa (ISIS-WA); Jama'at Nusrat al-Islam wal-Muslimin (JNIM); al-Mulathamun Battalion (al-Mourabitoun)",
+      "note": "<strong>note:</strong> details about the history, aims, leadership, organization, areas of operation, tactics, targets, weapons, size, and sources of support of the group(s) appear(s) in the Terrorism reference guide"
+    }
+  },
+  "Transnational Issues": {
+    "Refugees and internally displaced persons": {
+      "refugees": {
+        "text": "421,795 (2024 est.)"
+      },
+      "IDPs": {
+        "text": "891,565 (2024 est.)"
+      }
+    },
+    "Trafficking in persons": {
+      "tier rating": {
+        "text": "Tier 2 Watch List — the government did not demonstrate overall increasing efforts to eliminate trafficking compared with the previous reporting period, therefore Niger remained on Tier 2 Watch List for the second consecutive year; for more details, go to: https://www.state.gov/reports/2025-trafficking-in-persons-report/niger/"
+      }
+    }
+  }
+}

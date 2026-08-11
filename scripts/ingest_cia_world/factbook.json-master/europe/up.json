@@ -1,0 +1,1250 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "<p>Ukraine was the center of the first eastern Slavic state, Kyivan Rus, which was the largest and most powerful state in Europe during the 10th and 11th centuries. Weakened by internecine quarrels and Mongol invasions, Kyivan Rus was incorporated into the Grand Duchy of Lithuania and eventually into the Polish-Lithuanian Commonwealth. The cultural and religious legacy of Kyivan Rus laid the foundation for Ukrainian nationalism. A new Ukrainian state, the Cossack Hetmanate, was established during the mid-17th century after an uprising against the Poles. Despite continuous Muscovite pressure, the Hetmanate managed to remain autonomous for well over 100 years. During the latter part of the 18th century, the Russian Empire absorbed most Ukrainian territory. After czarist Russia collapsed in 1917, Ukraine -- which has long been known as the region's \"bread basket\" for its agricultural production -- achieved a short-lived period of independence (1917-20), but the country was reconquered and endured a Soviet rule that engineered two famines (1921-22 and 1932-33) in which over eight million died. In World War II, German and Soviet armies were responsible for seven to eight million more deaths. In 1986, a sudden power surge during a reactor-systems test at Ukraine's Chernobyl power station triggered the worst nuclear disaster in history, releasing massive amounts of radioactive material. Although Ukraine overwhelmingly voted for independence in 1991 as the Union of Soviet Socialist Republics (USSR) dissolved, democracy and prosperity remained elusive, with the legacy of state control, patronage politics, and endemic corruption stalling efforts at economic reform, privatization, and civil liberties.</p> <p>In 2004 and 2005, a mass protest dubbed the \"Orange Revolution\" forced the authorities to overturn a presidential election and allow a new internationally monitored vote that swept into power a reformist slate under Viktor YUSHCHENKO. Rival Viktor YANUKOVYCH became prime minister in 2006 and was elected president in 2010. In 2012, Ukraine held legislative elections that Western observers widely criticized as corrupt. In 2013, YANUKOVYCH backtracked on a trade and cooperation agreement with the EU -- in favor of closer economic ties with Russia -- and then used force against protestors who supported the agreement, leading to a three-month protestor occupation of Kyiv's central square. The government's use of violence to break up the protest camp in 2014 led to multiple deaths, international condemnation, a failed political deal, and the president's abrupt departure for Russia. Pro-West President Petro POROSHENKO took office later that year; Volodymyr ZELENSKYY succeeded him in 2019.</p> <p>Shortly after YANUKOVYCH's departure in 2014, Russian President Vladimir PUTIN ordered the invasion of Ukraine's Crimean Peninsula. In response, the UN passed a resolution confirming Ukraine's sovereignty and independence. In mid-2014, Russia began an armed conflict in two of Ukraine's eastern provinces. International efforts to end the conflict failed, and by 2022, more than 14,000 civilians were killed or wounded. On 24 February 2022, Russia escalated the conflict by invading the country on several fronts, in what has become the largest conventional military attack on a sovereign state in Europe since World War II. Russia made substantial gains in the early weeks of the invasion but underestimated Ukrainian resolve and combat capabilities. Despite Ukrainian resistance, Russia has laid claim to four Ukrainian oblasts -- Donetsk, Kherson, Luhansk, and Zaporizhzhia -- although none is fully under Russian control. The international community has not recognized the annexations. The invasion has also created Europe's largest refugee crisis since World War II, with over six million Ukrainian refugees recorded globally. It remains one of the two largest displacement crises worldwide (the other is the conflict in Syria). President ZELENSKYY has focused on boosting Ukrainian identity to unite the country behind the goals of ending the war through reclaiming territory and advancing Ukraine’s candidacy for EU membership. </p>"
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Eastern Europe, bordering the Black Sea, between Poland, Belarus, Romania, and Moldova in the west and Russia in the east"
+    },
+    "Geographic coordinates": {
+      "text": "49 00 N, 32 00 E"
+    },
+    "Map references": {
+      "text": "AsiaEurope"
+    },
+    "Area": {
+      "total ": {
+        "text": "603,550 sq km"
+      },
+      "land": {
+        "text": "579,330 sq km"
+      },
+      "water": {
+        "text": "24,220 sq km"
+      },
+      "note": "<strong>note:</strong> Russia annexed Crimea in 2014, an area of approximately 27,000 sq km (10,400 sq miles)"
+    },
+    "Area - comparative": {
+      "text": "almost four times the size of Georgia; slightly smaller than Texas"
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "5,581 km"
+      },
+      "border countries": {
+        "text": "Belarus 1,111 km; Hungary 128 km; Moldova 1,202 km; Poland 498 km; Romania 601 km; Russia 1,944 km, Slovakia 97 km"
+      }
+    },
+    "Coastline": {
+      "text": "2,782 km"
+    },
+    "Maritime claims": {
+      "territorial sea": {
+        "text": "12 nm"
+      },
+      "exclusive economic zone": {
+        "text": "200 nm"
+      },
+      "continental shelf": {
+        "text": "200 m or to the depth of exploitation"
+      }
+    },
+    "Climate": {
+      "text": "temperate continental; Mediterranean only on the southern Crimean coast; precipitation disproportionately distributed, highest in west and north, lesser in east and southeast; winters vary from cool along the Black Sea to cold farther inland; warm summers across the greater part of the country, hot in the south"
+    },
+    "Terrain": {
+      "text": "mostly fertile plains (steppes) and plateaus, with mountains found only in the west (the Carpathians) or in the extreme south of the Crimean Peninsula"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Hora Hoverla 2,061 m"
+      },
+      "lowest point": {
+        "text": "Black Sea 0 m"
+      },
+      "mean elevation": {
+        "text": "175 m"
+      }
+    },
+    "Natural resources": {
+      "text": "iron ore, coal, manganese, natural gas, oil, salt, sulfur, graphite, titanium, magnesium, kaolin, nickel, mercury, timber, arable land"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "71.3% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 56.8% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 1.5% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 13% (2023 est.)"
+      },
+      "forest": {
+        "text": "17.3% (2023 est.)"
+      },
+      "other": {
+        "text": "10.4% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "1,000 sq km (2022)"
+    },
+    "Major rivers (by length in km)": {
+      "text": "Dunay (Danube) (shared with Germany [s], Austria, Slovakia, Hungary, Croatia, Serbia, Bulgaria, Moldova, and Romania [m]) - 2,888 km; Dnipro (Dnieper) river mouth (shared with Russia [s] and Belarus) - 2,287 km; Dnister (Dniester) river source and mouth (shared with Moldova) - 1,411 km; Vistula (shared with Poland [s/m] and Belarus) - 1,213 km<br><br><strong>note:</strong> [s] after country name indicates river source; [m] after country name indicates river mouth"
+    },
+    "Major watersheds (area sq km)": {
+      "Atlantic Ocean drainage": {
+        "text": "<em>(Black Sea)</em> Danube (795,656 sq km), Don (458,694 sq km), Dnieper (533,966 sq km)"
+      }
+    },
+    "Population distribution": {
+      "text": "densest settlement in the eastern (Donbas) and western regions; notable concentrations in and around major urban areas of Kyiv, Kharkiv, Donets'k, Dnipropetrovs'k, and Odesa",
+      "note": "<strong>note: </strong>the ongoing war with Russia has shifted significant portions of the population, particularly in the east"
+    },
+    "Natural hazards": {
+      "text": "occasional floods; occasional droughts"
+    },
+    "Geography - note": {
+      "text": "strategic position at the crossroads between Europe and Asia; second-largest country in Europe after Russia"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "35,661,826 (2024 est.)"
+      },
+      "male": {
+        "text": "17,510,149"
+      },
+      "female": {
+        "text": "18,151,677"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Ukrainian(s)"
+      },
+      "adjective": {
+        "text": "Ukrainian"
+      }
+    },
+    "Ethnic groups": {
+      "text": "Ukrainian 77.8%, Russian 17.3%, Belarusian 0.6%, Moldovan 0.5%, Crimean Tatar 0.5%, Bulgarian 0.4%, Hungarian 0.3%, Romanian 0.3%, Polish 0.3%, Jewish 0.2%, other 1.8% (2001 est.)"
+    },
+    "Languages": {
+      "Languages": {
+        "text": "Ukrainian (official) 67.5%, Russian (regional language) 29.6%, other (includes Crimean Tatar, Moldovan/Romanian, and Hungarian) 2.9% (2001 est.)"
+      },
+      "major-language sample(s)": {
+        "text": "<br>Свiтова Книга Фактiв – найкраще джерело базової інформації. (Ukrainian)<br><br>The World Factbook, the indispensable source for basic information."
+      }
+    },
+    "Religions": {
+      "text": "Orthodox (includes the Orthodox Church of Ukraine (OCU), Ukrainian Autocephalous Orthodox Church (UAOC), and the Ukrainian Orthodox - Moscow Patriarchate (UOC-MP)), Ukrainian Greek Catholic, Roman Catholic, Protestant, Muslim, Jewish (2013 est.)",
+      "note": "<strong>note:</strong> Ukraine's population is overwhelmingly Christian; the vast majority - up to two thirds - identify themselves as Orthodox, but many do not specify a particular branch; the OCU and the UOC-MP each represent less than a quarter of the country's population, the Ukrainian Greek Catholic Church accounts for 8-10%, and the UAOC accounts for 1-2%; Muslim and Jewish adherents each compose less than 1% of the total population"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "12.3% (male 2,278,116/female 2,122,500)"
+      },
+      "15-64 years": {
+        "text": "67.8% (male 12,784,928/female 11,376,460)"
+      },
+      "65 years and over": {
+        "text": "19.9% (2024 est.) (male 2,447,105/female 4,652,717)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "47.6 (2024 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "18.2 (2024 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "29.4 (2024 est.)"
+      },
+      "potential support ratio": {
+        "text": "3.4 (2024 est.)"
+      },
+      "note": "<strong>note:</strong> data include Crimea"
+    },
+    "Median age": {
+      "total": {
+        "text": "44.6 years (2025 est.)"
+      },
+      "male": {
+        "text": "41.4 years"
+      },
+      "female": {
+        "text": "49.2 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "2.42% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "6.24 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "17.61 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "35.59 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "densest settlement in the eastern (Donbas) and western regions; notable concentrations in and around major urban areas of Kyiv, Kharkiv, Donets'k, Dnipropetrovs'k, and Odesa",
+      "note": "<strong>note: </strong>the ongoing war with Russia has shifted significant portions of the population, particularly in the east"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "70.1% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "-0.27% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "3.017 million KYIV (capital), 1.421 million Kharkiv, 1.008 million Odesa, 942,000 Dnipropetrovsk, 888,000 Donetsk (2023)"
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.06 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1.07 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "1.12 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "0.53 male(s)/female"
+      },
+      "total population": {
+        "text": "0.97 male(s)/female (2024 est.)"
+      }
+    },
+    "Mother's mean age at first birth": {
+      "text": "26.2 years (2019 est.)"
+    },
+    "Maternal mortality ratio": {
+      "text": "15 deaths/100,000 live births (2023 est.)"
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "8.4 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "9.7 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "7.6 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "70.5 years (2024 est.)"
+      },
+      "male": {
+        "text": "65.4 years"
+      },
+      "female": {
+        "text": "75.8 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "1.22 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "0.59 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: urban": {
+        "text": "urban: 90.8% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 100% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 93.6% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 9.2% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 0% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 6.4% of population (2022 est.)"
+      }
+    },
+    "Health expenditure": {
+      "Health expenditure (as % of GDP)": {
+        "text": "8% of GDP (2021)"
+      },
+      "Health expenditure (as % of national budget)": {
+        "text": "10.6% of national budget (2021 est.)"
+      }
+    },
+    "Physician density": {
+      "text": "3.53 physicians/1,000 population (2023)"
+    },
+    "Hospital bed density": {
+      "text": "6.3 beds/1,000 population (2020 est.)"
+    },
+    "Sanitation facility access": {
+      "improved: urban": {
+        "text": "urban: 100% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 100% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 100% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 0% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 0% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0% of population (2022 est.)"
+      }
+    },
+    "Obesity - adult prevalence rate": {
+      "text": "24.1% (2016)"
+    },
+    "Alcohol consumption per capita": {
+      "total": {
+        "text": "5.69 liters of pure alcohol (2019 est.)"
+      },
+      "beer": {
+        "text": "2.44 liters of pure alcohol (2019 est.)"
+      },
+      "wine": {
+        "text": "0.32 liters of pure alcohol (2019 est.)"
+      },
+      "spirits": {
+        "text": "2.88 liters of pure alcohol (2019 est.)"
+      },
+      "other alcohols": {
+        "text": "0.05 liters of pure alcohol (2019 est.)"
+      }
+    },
+    "Tobacco use": {
+      "total": {
+        "text": "20.4% (2025 est.)"
+      },
+      "male": {
+        "text": "35.5% (2025 est.)"
+      },
+      "female": {
+        "text": "8% (2025 est.)"
+      }
+    },
+    "Education expenditure": {
+      "Education expenditure (% GDP)": {
+        "text": "5.1% of GDP (2021 est.)"
+      },
+      "Education expenditure (% national budget)": {
+        "text": "12.7% national budget (2021 est.)"
+      }
+    },
+    "Literacy": {
+      "total population": {
+        "text": "100%"
+      },
+      "male": {
+        "text": "100%"
+      },
+      "female": {
+        "text": "100% (2021)"
+      }
+    },
+    "School life expectancy (primary to tertiary education)": {
+      "total": {
+        "text": "13 years (2021 est.)"
+      },
+      "male": {
+        "text": "13 years (2021 est.)"
+      },
+      "female": {
+        "text": "14 years (2021 est.)"
+      }
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "air and water pollution; land degradation; solid waste management; biodiversity loss; deforestation; radiation contamination in the northeast from 1986 nuclear accident in Chornobyl'&nbsp;"
+    },
+    "International environmental agreements": {
+      "party to": {
+        "text": "Air Pollution, Air Pollution-Nitrogen Oxides, Air Pollution-Sulphur 85, Antarctic-Environmental Protection, Antarctic-Marine Living Resources, Antarctic Treaty, Biodiversity, Climate Change, Climate Change-Kyoto Protocol, Climate Change-Paris Agreement, Comprehensive Nuclear Test Ban, Desertification, Endangered Species, Environmental Modification, Hazardous Wastes, Law of the Sea, Marine Dumping-London Convention, Nuclear Test Ban, Ozone Layer Protection, Ship Pollution, Wetlands"
+      },
+      "signed, but not ratified": {
+        "text": "Air Pollution-Heavy Metals, Air Pollution-Persistent Organic Pollutants, Air Pollution-Sulfur 94, Air Pollution-Volatile Organic Compounds"
+      }
+    },
+    "Climate": {
+      "text": "temperate continental; Mediterranean only on the southern Crimean coast; precipitation disproportionately distributed, highest in west and north, lesser in east and southeast; winters vary from cool along the Black Sea to cold farther inland; warm summers across the greater part of the country, hot in the south"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "71.3% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 56.8% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 1.5% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 13% (2023 est.)"
+      },
+      "forest": {
+        "text": "17.3% (2023 est.)"
+      },
+      "other": {
+        "text": "10.4% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "70.1% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "-0.27% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "106.847 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from coal and metallurgical coke": {
+        "text": "45.512 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "24.488 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from consumed natural gas": {
+        "text": "36.847 million metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Particulate matter emissions": {
+      "text": "15.2 micrograms per cubic meter (2019 est.)"
+    },
+    "Methane emissions": {
+      "energy": {
+        "text": "1,003.4 kt (2022-2024 est.)"
+      },
+      "agriculture": {
+        "text": "341.6 kt (2019-2021 est.)"
+      },
+      "waste": {
+        "text": "409.2 kt (2019-2021 est.)"
+      },
+      "other": {
+        "text": "70.9 kt (2019-2021 est.)"
+      }
+    },
+    "Waste and recycling": {
+      "municipal solid waste generated annually": {
+        "text": "15.242 million tons (2024 est.)"
+      },
+      "percent of municipal solid waste recycled": {
+        "text": "4.5% (2022 est.)"
+      }
+    },
+    "Total water withdrawal": {
+      "municipal": {
+        "text": "1.66 billion cubic meters (2022)"
+      },
+      "industrial": {
+        "text": "2.188 billion cubic meters (2022)"
+      },
+      "agricultural": {
+        "text": "1.031 billion cubic meters (2022)"
+      }
+    },
+    "Total renewable water resources": {
+      "text": "175.28 billion cubic meters (2022 est.)"
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "none"
+      },
+      "conventional short form": {
+        "text": "Ukraine"
+      },
+      "local long form": {
+        "text": "none"
+      },
+      "local short form": {
+        "text": "Ukraina"
+      },
+      "former": {
+        "text": "Ukrainian National Republic, Ukrainian State, Ukrainian Soviet Socialist Republic"
+      },
+      "etymology": {
+        "text": "the name derives from the Old East Slavic or Old Russian word <em>ukraina</em>, meaning \"borderland,\" which was used to describe the area on medieval Russia's border at the time of the Tatar invasion in the 13th century "
+      }
+    },
+    "Government type": {
+      "text": "semi-presidential republic"
+    },
+    "Capital": {
+      "name": {
+        "text": "Kyiv (Kiev is the transliteration from Russian)"
+      },
+      "geographic coordinates": {
+        "text": "50 26 N, 30 31 E"
+      },
+      "time difference": {
+        "text": "UTC+2 (7 hours ahead of Washington, DC, during Standard Time)"
+      },
+      "daylight saving time": {
+        "text": "+1hr, begins last Sunday in March; ends last Sunday in October"
+      },
+      "etymology": {
+        "text": "the origin of the name is unclear; traditionally, the name comes from a Prince Kiy, who is said to have founded the city in the 9th century"
+      }
+    },
+    "Administrative divisions": {
+      "text": "24 provinces (<em>oblasti</em>, singular - <em>oblast'</em>), 1 autonomous republic* (<em>avtonomna respublika</em>), and 2 municipalities** (<em>mista</em>, singular - <em>misto</em>) with oblast status; Cherkasy, Chernihiv, Chernivtsi, Crimea or Avtonomna Respublika Krym* (Simferopol), Dnipropetrovsk (Dnipro), Donetsk, Ivano-Frankivsk, Kharkiv, Kherson, Khmelnytskyi, Kirovohrad (Kropyvnytskyi), Kyiv**, Kyiv, Luhansk, Lviv, Mykolaiv, Odesa, Poltava, Rivne, Sevastopol**, Sumy, Ternopil, Vinnytsia, Volyn (Lutsk), Zakarpattia (Uzhhorod), Zaporizhzhia, Zhytomyr",
+      "note": "<strong>note 1:</strong> administrative divisions have the same names as their administrative centers; exceptions show the administrative center name in parentheses <br><br><strong>note 2:</strong> the United States does not recognize Russia's annexation or renaming of Ukraine's Autonomous Republic of Crimea and the municipality of Sevastopol; it similarly does not recognize the annexation of the Ukrainian oblasts Donetsk, Luhansk, Zaporizhzhia, and Kherson"
+    },
+    "Legal system": {
+      "text": "civil law system; judicial review of legislative acts"
+    },
+    "Constitution": {
+      "history": {
+        "text": "several previous; latest adopted and ratified 28 June 1996"
+      },
+      "amendment process": {
+        "text": "proposed by the president of Ukraine or by at least one third of the Supreme Council members; adoption requires simple majority vote by the Council and at least two-thirds majority vote in its next regular session; adoption of proposals relating to general constitutional principles, elections, and amendment procedures requires two-thirds majority vote by the Council and approval in a referendum; constitutional articles on personal rights and freedoms, national independence, and territorial integrity cannot be amended"
+      }
+    },
+    "International law organization participation": {
+      "text": "has not submitted an ICJ jurisdiction declaration; non-party state to the ICCt"
+    },
+    "Citizenship": {
+      "citizenship by birth": {
+        "text": "no"
+      },
+      "citizenship by descent only": {
+        "text": "at least one parent must be a citizen of Ukraine"
+      },
+      "dual citizenship recognized": {
+        "text": "no"
+      },
+      "residency requirement for naturalization": {
+        "text": "5 years"
+      }
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "President Volodymyr ZELENSKYY (since 20 May 2019)"
+      },
+      "head of government": {
+        "text": "Prime Minister Yulia SVYRYDENKO (since 17 July 2025)"
+      },
+      "cabinet": {
+        "text": "Cabinet of Ministers nominated by the prime minister, approved by the Verkhovna Rada"
+      },
+      "election/appointment process": {
+        "text": "president directly elected by absolute-majority popular vote in 2 rounds, if needed, for a 5-year term (eligible for a second term); prime minister selected by the Verkhovna Rada"
+      },
+      "most recent election date": {
+        "text": "31 March and 21 April 2019"
+      },
+      "election results": {
+        "text": "<em><br>2019:</em> Volodymyr ZELENSKYY elected president in second round; percent of vote in first round - Volodymyr ZELENSKYY (Servant of the People) 30.2%, Petro POROSHENKO (BPP-Solidarity) 15.6%, Yuliya TYMOSHENKO (Fatherland) 13.4%, Yuriy BOYKO (Opposition Platform-For Life) 11.7%, 35 other candidates 29.1%; percent of vote in the second round - Volodymyr ZELENSKYY 73.2%, Petro POROSHENKO 24.5%, other 2.3%; Denys SHMYHAL (independent) elected prime minister; Verkhovna Rada vote - 291-59<br><br><em>2014: </em>Petro POROSHENKO elected president in first round; percent of vote - Petro POROSHENKO (independent) 54.5%, Yuliya TYMOSHENKO (Fatherland) 12.9%, Oleh LYASHKO (Radical Party) 8.4%, other 24.2%; Volodymyr HROYSMAN (BPP) elected prime minister; Verkhovna Rada vote - 257-50"
+      },
+      "expected date of next election": {
+        "text": "scheduled for March/April 2024, but not held because Ukraine has been under martial law since February 2022"
+      },
+      "note": "<strong>note:</strong> a National Security and Defense Council or NSDC was created in 1992 and tasked with developing national security policy on domestic and international matters and advising the president; a presidential administration helps draft presidential edicts and provides policy support to the president"
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "Parliament (Verkhovna Rada)"
+      },
+      "legislative structure": {
+        "text": "unicameral"
+      },
+      "number of seats": {
+        "text": "450 (all directly elected)"
+      },
+      "electoral system": {
+        "text": "mixed system"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "5 years"
+      },
+      "most recent election date": {
+        "text": "7/21/2019"
+      },
+      "parties elected and seats per party": {
+        "text": "Servant of the People (254); Opposition Platform - For Life (43); Fatherland (26); European Solidarity (25); Independents (46); Other (30)"
+      },
+      "percentage of women in chamber": {
+        "text": "21.2%"
+      },
+      "expected date of next election": {
+        "text": "May 2025"
+      },
+      "note": "<strong>note 1:</strong> the next legislative election is expected to take place after the Russian-Ukrainian War ends<br><br><strong>note 2:</strong> voting not held in Crimea and parts of two Russian-occupied eastern oblasts leaving 26 seats vacant; although this brings the total to 424 elected members (of 450 potential), article 83 of the constitution mandates that a parliamentary majority consists of 226 seats"
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "Supreme Court of Ukraine or SCU (consists of 100 judges, organized into civil, criminal, commercial and administrative chambers, and a grand chamber); Constitutional Court (consists of 18 justices); High Anti-Corruption Court (consists of 39 judges, including 12 in the Appeals Chamber)"
+      },
+      "judge selection and term of office": {
+        "text": "Supreme Court judges recommended by the High Qualification Commission of Judges (a 16-member state body responsible for judicial candidate testing and assessment and judicial administration), submitted to the High Council of Justice, a 21-member independent body of judicial officials; judges serve until mandatory retirement at age 65; High Anti-Corruption Court judges are selected by the same process, with one addition &ndash; a majority of a combined High Qualification Commission of Judges and a 6-member Public Council of International Experts must vote in favor of potential judges in order to recommend their nomination to the High Council of Justice; Constitutional Court justices appointed - 6 each by the president, the Congress of Judges, and the Verkhovna Rada; judges serve 9-year nonrenewable terms"
+      },
+      "subordinate courts": {
+        "text": "Courts of Appeal; district courts"
+      }
+    },
+    "Political parties": {
+      "text": "European Solidarity or YeS<br>Fatherland or VOB<br>Holos<br>Servant of the People or SN"
+    },
+    "Diplomatic representation in the US": {
+      "chief of mission": {
+        "text": "Ambassador Olha STEFANISHYNA (since 19 September 2025)"
+      },
+      "chancery": {
+        "text": "3350 M Street NW, Washington, DC 20007"
+      },
+      "telephone": {
+        "text": "[1] (202) 349-2963"
+      },
+      "FAX": {
+        "text": "[1] (202) 333-0817"
+      },
+      "email address and website": {
+        "text": "<br>emb_us@mfa.gov.ua<br><br>https://usa.mfa.gov.ua/en"
+      },
+      "consulate(s) general": {
+        "text": "Chicago, New York, San Francisco"
+      }
+    },
+    "Diplomatic representation from the US": {
+      "chief of mission": {
+        "text": "Ambassador (vacant); Charg&eacute; d&rsquo;Affaires Ambassador Julie S. DAVIS (since 5 May 2025)"
+      },
+      "embassy": {
+        "text": "4 A. I. Igor Sikorsky Street, 04112 Kyiv"
+      },
+      "mailing address": {
+        "text": "5850 Kyiv Place, Washington, DC 20521-5850"
+      },
+      "telephone": {
+        "text": "[380] (44) 521-5000"
+      },
+      "FAX": {
+        "text": "[380] (44) 521-5544"
+      },
+      "email address and website": {
+        "text": "<br>kyivacs@state.gov<br><br>https://ua.usembassy.gov/"
+      }
+    },
+    "International organization participation": {
+      "text": "Australia Group, BSEC, CBSS (observer), CD, CE, CEI, CICA (observer), CIS (participating member, has not signed the 1993 CIS charter), EAEC (observer), EAPC, EBRD, FAO, GCTU, GUAM, IAEA, IBRD, ICAO, ICC (national committees), ICRM, IDA, IFC, IFRCS, IHO, ILO, IMF, IMO, IMSO, Interpol, IOC, IOM, IPU, ISO, ITU, ITUC (NGOs), LAIA (observer), MIGA, MONUSCO, NAM (observer), NSG, OAS (observer), OIF (observer), OPCW, OSCE, PCA, PFP, SELEC (observer), UN, UNCTAD, UNESCO, UNFICYP, UNIDO, UNISFA, UNMIL, UNMISS, UNOCI, UNOOSA, UNWTO, UPU, Wassenaar Arrangement, WCO, WFTU (NGOs), WHO, WIPO, WMO, WTO, ZC",
+      "note": "<strong>note</strong>: Ukraine is an EU candidate country and must complete accession criteria before being granted full membership"
+    },
+    "Independence": {
+      "text": "24 August 1991 (from the Soviet Union); notable earlier dates: ca. 982 (VOLODYMYR I consolidates Kyivan Rus); 1199 (Principality (later Kingdom) of Ruthenia formed); 1648 (establishment of the Cossack Hetmanate); 22 January 1918 (from Soviet Russia)"
+    },
+    "National holiday": {
+      "text": "Independence Day, 24 August (1991)",
+      "note": "<strong>note:</strong> 22 January 1918, the day Ukraine first declared its independence from Soviet Russia, is now celebrated as Unity Day"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> two equal horizontal bands of blue (top) and yellow<br><br><strong>meaning: </strong>the colors date back to medieval heraldry, but they are sometimes said to represent grain fields under a blue sky"
+    },
+    "National symbol(s)": {
+      "text": "tryzub (trident), sunflower"
+    },
+    "National color(s)": {
+      "text": "blue, yellow"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"Shche ne vmerla Ukraina\" (Ukraine Has Not Yet Perished)"
+      },
+      "lyrics/music": {
+        "text": "Paul CHUBYNSKYI/Mikhail VERBYTSKYI"
+      },
+      "history": {
+        "text": "music adopted 1991, lyrics adopted 2003; current version of the anthem is the first verse of CHUBYNSKYI's poem, plus the chorus"
+      }
+    },
+    "National heritage": {
+      "total World Heritage Sites": {
+        "text": "8 (7 cultural, 1 natural)"
+      },
+      "selected World Heritage Site locales": {
+        "text": "Kyiv: Saint Sophia Cathedral and Related Monastic Buildings, Kyiv Pechersk Lavra (c); Lviv Historic Center (c); Residence of Bukovinian and Dalmatian Metropolitans, Chernivtsi (c); Ancient City of Tauric Chersonese, Sevastopol (c); Wooden Tserkvas of the Carpathian Region (c); Ancient and Primeval Beech Forests of the Carpathians (n); Struve Geodetic Arc (c); The Historic Centre of Odesa (c)"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "<p>lower-middle-income, non-EU, Eastern European economy; key wheat and corn exporter; gradual recovery after 30% GDP contraction at start of war; damage to infrastructure and agriculture balanced by consumer and business resilience in western Ukraine; international aid has stabilized foreign exchange reserves, allowing managed currency float; continued progress on anti-corruption reforms</p>"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2024": {
+        "text": "$577.583 billion (2024 est.)"
+      },
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$561.23 billion (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$531.796 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "Real GDP growth rate": {
+      "Real GDP growth rate 2024": {
+        "text": "2.9% (2024 est.)"
+      },
+      "Real GDP growth rate 2023": {
+        "text": "5.5% (2023 est.)"
+      },
+      "Real GDP growth rate 2022": {
+        "text": "-28.8% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual GDP % growth based on constant local currency"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2024": {
+        "text": "$16,300 (2024 est.)"
+      },
+      "Real GDP per capita 2023": {
+        "text": "$15,900 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$13,800 (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$190.741 billion (2024 est.)",
+      "note": "<b>note:</b> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2024": {
+        "text": "6.5% (2024 est.)"
+      },
+      "Inflation rate (consumer prices) 2023": {
+        "text": "12.8% (2023 est.)"
+      },
+      "Inflation rate (consumer prices) 2022": {
+        "text": "20.2% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual % change based on consumer prices"
+    },
+    "GDP - composition, by sector of origin": {
+      "agriculture": {
+        "text": "7.1% (2024 est.)"
+      },
+      "industry": {
+        "text": "19% (2024 est.)"
+      },
+      "services": {
+        "text": "60.6% (2024 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to non-allocated consumption not captured in sector-reported data"
+    },
+    "GDP - composition, by end use": {
+      "household consumption": {
+        "text": "62.4% (2024 est.)"
+      },
+      "government consumption": {
+        "text": "37.9% (2024 est.)"
+      },
+      "investment in fixed capital": {
+        "text": "18.9% (2024 est.)"
+      },
+      "investment in inventories": {
+        "text": "-0.3% (2024 est.)"
+      },
+      "exports of goods and services": {
+        "text": "29.4% (2024 est.)"
+      },
+      "imports of goods and services": {
+        "text": "-48.3% (2024 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to rounding or gaps in data collection"
+    },
+    "Agricultural products": {
+      "text": "maize, wheat, potatoes, sugar beets, sunflower seeds, milk, barley, soybeans, rapeseed, tomatoes (2023)",
+      "note": "<b>note:</b> top ten agricultural products based on tonnage"
+    },
+    "Industries": {
+      "text": "industrial machinery, ferrous and nonferrous metals, automotive and aircraft components, electronics, chemicals, textiles, mining, construction"
+    },
+    "Industrial production growth rate": {
+      "text": "4.1% (2024 est.)",
+      "note": "<b>note:</b> annual % change in industrial value added based on constant local currency"
+    },
+    "Labor force": {
+      "text": "20.539 million (2021 est.)",
+      "note": "<b>note:</b> number of people ages 15 or older who are employed or seeking work"
+    },
+    "Unemployment rate": {
+      "Unemployment rate 2021": {
+        "text": "9.9% (2021 est.)"
+      },
+      "Unemployment rate 2020": {
+        "text": "9.5% (2020 est.)"
+      },
+      "Unemployment rate 2019": {
+        "text": "8.2% (2019 est.)"
+      },
+      "note": "<b>note:</b> % of labor force seeking employment"
+    },
+    "Youth unemployment rate (ages 15-24)": {
+      "total": {
+        "text": "19.1% (2021 est.)"
+      },
+      "male": {
+        "text": "18.1% (2021 est.)"
+      },
+      "female": {
+        "text": "20.4% (2021 est.)"
+      },
+      "note": "<b>note:</b> % of labor force ages 15-24 seeking employment"
+    },
+    "Population below poverty line": {
+      "text": "1.6% (2020 est.)",
+      "note": "<b>note:</b> % of population with income below national poverty line"
+    },
+    "Gini Index coefficient - distribution of family income": {
+      "Gini Index coefficient - distribution of family income 2020": {
+        "text": "25.6 (2020 est.)"
+      },
+      "note": "<b>note:</b> index (0-100) of income distribution; higher values represent greater inequality"
+    },
+    "Average household expenditures": {
+      "on food": {
+        "text": "41.7% of household expenditures (2023 est.)"
+      },
+      "on alcohol and tobacco": {
+        "text": "6.9% of household expenditures (2023 est.)"
+      }
+    },
+    "Household income or consumption by percentage share": {
+      "lowest 10%": {
+        "text": "4.3% (2020 est.)"
+      },
+      "highest 10%": {
+        "text": "21.7% (2020 est.)"
+      },
+      "note": "<b>note:</b> % share of income accruing to lowest and highest 10% of population"
+    },
+    "Remittances": {
+      "Remittances 2024": {
+        "text": "6.3% of GDP (2024 est.)"
+      },
+      "Remittances 2023": {
+        "text": "8.3% of GDP (2023 est.)"
+      },
+      "Remittances 2022": {
+        "text": "10.4% of GDP (2022 est.)"
+      },
+      "note": "<b>note:</b> personal transfers and compensation between resident and non-resident individuals/households/entities"
+    },
+    "Budget": {
+      "revenues": {
+        "text": "$86.185 billion (2023 est.)"
+      },
+      "expenditures": {
+        "text": "$121.657 billion (2023 est.)"
+      },
+      "note": "<b>note:</b> central government revenues (excluding grants) and expenditures converted to US dollars at average official exchange rate for year indicated"
+    },
+    "Public debt": {
+      "Public debt 2020": {
+        "text": "58.7% of GDP (2020 est.)"
+      },
+      "note": "<b>note:</b> central government debt as a % of GDP"
+    },
+    "Taxes and other revenues": {
+      "text": "17.5% (of GDP) (2023 est.)",
+      "note": "<b>note:</b> central government tax revenue as a % of GDP"
+    },
+    "Current account balance": {
+      "Current account balance 2024": {
+        "text": "-$13.749 billion (2024 est.)"
+      },
+      "Current account balance 2023": {
+        "text": "-$9.564 billion (2023 est.)"
+      },
+      "Current account balance 2022": {
+        "text": "$7.976 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - net trade and primary/secondary income in current dollars"
+    },
+    "Exports": {
+      "Exports 2024": {
+        "text": "$56.114 billion (2024 est.)"
+      },
+      "Exports 2023": {
+        "text": "$51.28 billion (2023 est.)"
+      },
+      "Exports 2022": {
+        "text": "$57.517 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - exports of goods and services in current dollars"
+    },
+    "Exports - partners": {
+      "text": "Poland 12%, Romania 9%, Turkey 7%, China 6%, Spain 6% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "corn, seed oils, wheat, iron ore, soybeans (2023)",
+      "note": "<b>note:</b> top five export commodities based on value in dollars"
+    },
+    "Imports": {
+      "Imports 2024": {
+        "text": "$92.025 billion (2024 est.)"
+      },
+      "Imports 2023": {
+        "text": "$89.159 billion (2023 est.)"
+      },
+      "Imports 2022": {
+        "text": "$83.254 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - imports of goods and services in current dollars"
+    },
+    "Imports - partners": {
+      "text": "China 16%, Poland 14%, Germany 8%, Turkey 6%, USA 4% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "refined petroleum, cars, natural gas, packaged medicine, plastic products (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Reserves of foreign exchange and gold": {
+      "Reserves of foreign exchange and gold 2024": {
+        "text": "$43.781 billion (2024 est.)"
+      },
+      "Reserves of foreign exchange and gold 2023": {
+        "text": "$40.51 billion (2023 est.)"
+      },
+      "Reserves of foreign exchange and gold 2022": {
+        "text": "$28.506 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> holdings of gold (year-end prices)/foreign exchange/special drawing rights in current dollars"
+    },
+    "Debt - external": {
+      "Debt - external 2023": {
+        "text": "$90.003 billion (2023 est.)"
+      },
+      "note": "<strong>note:</strong> present value of external debt in current US dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "hryvnia (UAH) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "40.152 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "36.574 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "32.342 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "27.286 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "26.958 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "100% (2022 est.)"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "60.297 million kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "89.402 billion kWh (2023 est.)"
+      },
+      "exports": {
+        "text": "6.1 billion kWh (2023 est.)"
+      },
+      "imports": {
+        "text": "3.28 billion kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "10.347 billion kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "32.9% of total installed capacity (2023 est.)"
+      },
+      "nuclear": {
+        "text": "50.6% of total installed capacity (2023 est.)"
+      },
+      "solar": {
+        "text": "4.5% of total installed capacity (2023 est.)"
+      },
+      "wind": {
+        "text": "1% of total installed capacity (2023 est.)"
+      },
+      "hydroelectricity": {
+        "text": "9.9% of total installed capacity (2023 est.)"
+      },
+      "biomass and waste": {
+        "text": "1% of total installed capacity (2023 est.)"
+      }
+    },
+    "Nuclear energy": {
+      "Number of operational nuclear reactors": {
+        "text": "15 (2025)"
+      },
+      "Number of nuclear reactors under construction": {
+        "text": "2 (2025)"
+      },
+      "Net capacity of operational nuclear reactors": {
+        "text": "13.11GW (2025 est.)"
+      },
+      "Percent of total electricity production": {
+        "text": "55% (2023 est.)"
+      },
+      "Number of nuclear reactors permanently shut down": {
+        "text": "4 (2025)"
+      }
+    },
+    "Coal": {
+      "production": {
+        "text": "19.603 million metric tons (2023 est.)"
+      },
+      "consumption": {
+        "text": "25.012 million metric tons (2023 est.)"
+      },
+      "exports": {
+        "text": "32,000 metric tons (2023 est.)"
+      },
+      "imports": {
+        "text": "5.442 million metric tons (2023 est.)"
+      },
+      "proven reserves": {
+        "text": "34.375 billion metric tons (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "total petroleum production": {
+        "text": "3,000 bbl/day (2023 est.)"
+      },
+      "refined petroleum consumption": {
+        "text": "192,000 bbl/day (2023 est.)"
+      },
+      "crude oil estimated reserves": {
+        "text": "395 million barrels (2021 est.)"
+      }
+    },
+    "Natural gas": {
+      "production": {
+        "text": "17.681 billion cubic meters (2023 est.)"
+      },
+      "consumption": {
+        "text": "19.705 billion cubic meters (2023 est.)"
+      },
+      "exports": {
+        "text": "95.994 million cubic meters (2022 est.)"
+      },
+      "imports": {
+        "text": "2.028 billion cubic meters (2023 est.)"
+      },
+      "proven reserves": {
+        "text": "1.104 trillion cubic meters (2021 est.)"
+      }
+    },
+    "Energy consumption per capita": {
+      "Total energy consumption per capita 2023": {
+        "text": "57.856 million Btu/person (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "1.434 million (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "4 (2023 est.)"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "50.3 million (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "135 (2021 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "media landscape dominated by oligarch-owned news outlets; United News created for 24-hour news about the war with Russia, a joint effort from the Ukrainian public broadcaster and top commercial TV channels; Ukraine Radio's Suspilne and privately owned Radio NV are the national talk radio networks (2021)"
+    },
+    "Internet country code": {
+      "text": ".ua"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "82% (2023 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "8.07 million (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "20 (2023 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "UR"
+    },
+    "Airports": {
+      "text": "152 (2025)"
+    },
+    "Heliports": {
+      "text": "44 (2025)"
+    },
+    "Railways": {
+      "total": {
+        "text": "21,733 km (2014)"
+      },
+      "standard gauge": {
+        "text": "49 km (2014) 1.435-m gauge (49 km electrified)"
+      },
+      "broad gauge": {
+        "text": "21,684 km (2014) 1.524-m gauge (9,250 km electrified)"
+      }
+    },
+    "Merchant marine": {
+      "total": {
+        "text": "410 (2023)"
+      },
+      "by type": {
+        "text": "container ship 1, general cargo 83, oil tanker 14, other 312"
+      }
+    },
+    "Ports": {
+      "total ports": {
+        "text": "26 (2024)"
+      },
+      "large": {
+        "text": "3"
+      },
+      "medium": {
+        "text": "0"
+      },
+      "small": {
+        "text": "8"
+      },
+      "very small": {
+        "text": "15"
+      },
+      "ports with oil terminals": {
+        "text": "8"
+      },
+      "key ports": {
+        "text": "Berdyansk, Dnipro-Buzkyy, Feodosiya, Illichivsk, Kerch, Kherson, Mariupol, Mykolayiv, Odesa, Sevastopol, Yuzhnyy"
+      }
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "Armed Forces of Ukraine (AFU; Zbroyni Syly Ukrayiny or ZSU): Ground Forces, Naval Forces, Air Forces, Air Assault Forces, Marine Corps, Special Operations Forces, Unmanned Systems Forces, Territorial Defense Forces (Reserves)<br><br>Ministry of Internal Affairs: National Guard of Ukraine, State Border Guard Service of Ukraine (includes Maritime Border Guard or Sea Guard), National Police of Ukraine (2025)",
+      "note": "<strong>note 1:</strong> combat units of the National Guard, National Police, and Border Guards come under the control of the Armed Forces in wartime.<br><br><strong>note 2: </strong>the Territorial Defense Forces (TDF) were formally established in July 2021; the TDF evolved from former Territorial Defense Battalions and other volunteer militia and paramilitary units that were organized in 2014-2015 to fight Russian-backed separatists in the Donbas; in January 2022, the TDF was activated as a separate military branch<br><br><strong>note 3:</strong> collectively, the AFU and the forces under the Ministry of Interior are known as the Defense Forces of Ukraine (DFU)"
+    },
+    "Military expenditures": {
+      "Military Expenditures 2021": {
+        "text": "4% of GDP (2021 est.)"
+      },
+      "Military Expenditures 2020": {
+        "text": "4.4% of GDP (2020 est.)"
+      },
+      "Military Expenditures 2019": {
+        "text": "3.4% of GDP (2019 est.)"
+      },
+      "Military Expenditures 2018": {
+        "text": "3.1% of GDP (2018 est.)"
+      },
+      "Military Expenditures 2017": {
+        "text": "3.1% of GDP (2017 est.)"
+      },
+      "note": "<strong>note:</strong> since Russia's invasion of the country in early 2022, annual defense spending has increased to more than 30% of GDP according to some estimates"
+    },
+    "Military and security service personnel strengths": {
+      "text": "estimated 850,000-1 million active Defense Forces (2025)",
+      "note": "<strong>note:</strong> following the Russian invasion of Ukraine in February 2022, President ZELENSKY announced a general mobilization of the country; prior to the invasion, Ukraine had approximately 200,000 active Armed Forces troops, approximately 50,000 National Guard, and approximately 40,000 State Border Guard"
+    },
+    "Military equipment inventories and acquisitions": {
+      "text": "prior to the full-scale Russian invasion in February 2022, the Ukrainian military was equipped largely with Russian-origin and Soviet-era weapons systems; since the invasion, it has received considerable quantities of weapons, including Soviet-era and more modern Western systems, from European countries and the US; Ukraine also has a growing inventory of domestically produced armaments (2025)"
+    },
+    "Military service age and obligation": {
+      "text": "18 years of age for voluntary service for men and women; 25 years of age for conscription for men; 18-24 months service obligation (2025)",
+      "note": "<strong>note 1: </strong>conscription was abolished in 2012, but reintroduced in 2014; following the Russian invasion in 2022, all non-exempt men ages 18-60 were required to register with their local recruitment offices and undergo medical screening for possible service; the Territorial Defense Forces accept volunteers, 18-60 years of age<br><br><strong>note 2: </strong>in February 2025, the military implemented a new option for volunteers age 18-24 to sign one-year contracts in return for higher wages, a signing bonus, exemption from mobilization for 12 months, and other social benefits<strong><br><br></strong><strong>note 3: </strong>women have been able to volunteer for military service since 1993; as of 2024, nearly 70,000 women were serving in the armed forces in both uniformed and civilian positions <br><br><strong>note 4:</strong> since 2015, the Ukrainian military has allowed foreigners and stateless persons, 18-45 (in special cases up to 60), to join on 3-5-year contracts, based on qualifications; following the 2022 Russian invasion, the military began accepting medically fit foreign volunteers on a larger scale into an International Legion"
+    },
+    "Military deployments": {
+      "text": "<strong>note:</strong> prior to the Russian invasion in 2022, Ukraine had committed about 500 troops to the Lithuania, Poland, and Ukraine joint military brigade (LITPOLUKRBRIG), which was established in 2014; the brigade is headquartered in Poland and is comprised of an international staff, three battalions, and specialized units; units affiliated with the multinational brigade remain within the structures of the armed forces of their respective countries until the brigade is activated for participation in an international operation"
+    },
+    "Military - note": {
+      "text": "the primary focus of the Ukrainian Armed Forces (UAF) is defense against Russian aggression; in February 2022, Russia launched a full-scale invasion of Ukraine in what is the largest conflict in Europe since the end of World War II in 1945; as of 2025, the front line of the fighting stretched about 1,000 kilometers (some 600 miles) north and south in eastern and southern Ukraine; Russia’s forces have also launched missile and armed drone strikes throughout Ukraine, hitting critical infrastructure, including power, water, and heating facilities, as well as other civilian targets; Russia first invaded Ukraine in 2014, occupying Ukraine’s province of Crimea and backing separatist forces in the Donbas region with arms, equipment, and training, as well as military personnel, although Moscow denied their presence prior to 2022; the UAF has received outside military assistance since the Russian invasion, including equipment and training, chiefly from Europe and the US<br><br>Ukraine has a relationship with NATO dating back to the early 1990s, when Ukraine joined the North Atlantic Cooperation Council (1991) and the Partnership for Peace program (1994); the relationship intensified in the wake of the 2014 Russia-Ukraine conflict and Russian seizure of Crimea to include NATO support for Ukrainian military capabilities development and capacity-building; NATO and individual NATO countries further increased support to the Ukrainian military following Russia’s 2022 invasion (2025)"
+    }
+  },
+  "Space": {
+    "Space agency/agencies": {
+      "text": "State Space Agency of Ukraine (SSAU; established 1992 as the National Space Agency of Ukraine or NSAU and renamed in 2010) (2025)"
+    },
+    "Space program overview": {
+      "text": "the country inherited a large, well-developed space program when it gained independence in 1991, taking over all the former Soviet defense/space industry that was located on its territory; the modern program includes the production of satellite/space launch vehicles (SLVs)/rocket carriers, satellites, and related components; prior to the Russian invasion in 2022, the country was producing more than 100 SLVs, SLV stages, or SLV engines annually; has worked with numerous foreign space agencies and industries, including those of Brazil, Canada, China, Japan, Kazakhstan, Russia (curtailed after 2014), Turkey, and the US, as well as the ESA, the EU, and their member states (particularly Italy and Poland); has about 20 state-run space industries; in 2019, the Ukrainian Parliament began allowing private companies to engage in space activities (2025)",
+      "note": "<strong>note: </strong>Dnipro, known as Ukraine's “Rocket City,” was one of the Soviet Union’s main centers for space, nuclear, and military industries and played a crucial role in the development and manufacture of both civilian and military rockets<strong><br></strong>"
+    },
+    "Key space-program milestones": {
+      "text": "1995 - first domestically produced remote sensing (RS) satellite (Sich-1) launched on Ukrainian Tsyklon-3 rocket<br><br>1997 - first Ukrainian astronaut in space on US Space Shuttle<br><br>1999 - first launch of Dnipro-1, a domestically produced satellite launch vehicle (SLV)<br><br>2008 - first launch of Zenit-3SLB, a domestically produced SLV <br><br>2014 - launched first domestically produced microsatellite (PolyITAN-1)<br><br>2020 - signed US-led Artemis Accords for space and lunar exploration<br><br>2021 - first successful launch of joint Ukrainian-US commercial light SLV (Alpha)<br><br>2022 - domestically produced RS microsatellite (Sich 2-30) launched by US<br><br>2024 - first Ukrainian woman to suborbital space on US commercial spacecraft"
+    }
+  },
+  "Transnational Issues": {
+    "Refugees and internally displaced persons": {
+      "refugees": {
+        "text": "2,876 (2024 est.)"
+      },
+      "IDPs": {
+        "text": "3,665,165 (2024 est.)"
+      },
+      "stateless persons": {
+        "text": "10,910 (2024 est.)"
+      }
+    }
+  }
+}

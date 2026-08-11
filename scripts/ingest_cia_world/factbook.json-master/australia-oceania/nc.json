@@ -1,0 +1,847 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "The first humans settled in New Caledonia around 1600 B.C. The Lapita were skilled navigators, and evidence of their pottery around the Pacific has served as a guide for understanding human expansion in the region. Successive waves of migrants from other islands in Melanesia intermarried with the Lapita, giving rise to the Kanak ethnic group considered indigenous to New Caledonia. British explorer James COOK was the first European to visit New Caledonia in 1774, giving it the Latin name for Scotland. Missionaries first landed in New Caledonia in 1840. In 1853, France annexed New Caledonia to preclude any British attempt to claim the island. France declared it a penal colony in 1864 and sent more than 20,000 prisoners to New Caledonia in the ensuing three decades.<br><br>Nickel was discovered in 1864, and French prisoners were directed to mine it. France brought in indentured servants and enslaved labor from elsewhere in Southeast Asia to work the mines, blocking Kanaks from accessing the most profitable part of the local economy. In 1878, High Chief ATAI led a rebellion against French rule. The Kanaks were relegated to reservations, leading to periodic smaller uprisings and culminating in a large revolt in 1917 that colonial authorities brutally suppressed. During World War II, New Caledonia became an important base for Allied troops, and the US moved its South Pacific headquarters to the island in 1942. Following the war, France made New Caledonia an overseas territory and granted French citizenship to all inhabitants in 1953, thereby permitting the Kanaks to move off the reservations.<br><br>The Kanak nationalist movement began in the 1950s, but most voters chose to remain a territory in an independence referendum in 1958. The European population of New Caledonia boomed in the 1970s with a renewed focus on nickel mining, reigniting Kanak nationalism. Key Kanak leaders were assassinated in the early 1980s, leading to escalating violence and dozens of fatalities. The Matignon Accords of 1988 provided for a 10-year transition period. The Noumea Accord of 1998 transferred increasing governing responsibility from France to New Caledonia over a 20-year period and provided for three independence referenda. In the first held in 2018, voters rejected independence by 57% to 43%; in the second held in 2020, voters rejected independence 53% to 47%. In the third referendum held in 2021, voters rejected independence 96% to 4%; however, a boycott by key Kanak groups spurred challenges about the legitimacy of the vote. Pro-independence parties subsequently won a majority in the New Caledonian Government for the first time. France and New Caledonia officials remain in talks about the status of the territory."
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Oceania, islands in the South Pacific Ocean, east of Australia"
+    },
+    "Geographic coordinates": {
+      "text": "21 30 S, 165 30 E"
+    },
+    "Map references": {
+      "text": "Oceania"
+    },
+    "Area": {
+      "total ": {
+        "text": "18,575 sq km"
+      },
+      "land": {
+        "text": "18,275 sq km"
+      },
+      "water": {
+        "text": "300 sq km"
+      }
+    },
+    "Area - comparative": {
+      "text": "slightly smaller than New Jersey"
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "0 km"
+      }
+    },
+    "Coastline": {
+      "text": "2,254 km"
+    },
+    "Maritime claims": {
+      "territorial sea": {
+        "text": "12 nm"
+      },
+      "exclusive economic zone": {
+        "text": "200 nm"
+      }
+    },
+    "Climate": {
+      "text": "tropical; modified by southeast trade winds; hot, humid"
+    },
+    "Terrain": {
+      "text": "coastal plains with interior mountains"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Mont Panie 1,628 m"
+      },
+      "lowest point": {
+        "text": "Pacific Ocean 0 m"
+      }
+    },
+    "Natural resources": {
+      "text": "nickel, chrome, iron, cobalt, manganese, silver, gold, lead, copper"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "10.1% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 0.3% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0.2% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 9.5% (2023 est.)"
+      },
+      "forest": {
+        "text": "48.8% (2023 est.)"
+      },
+      "other": {
+        "text": "41.1% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "100 sq km (2012)"
+    },
+    "Population distribution": {
+      "text": "most of the populace lives in the southern part of the main island, in and around the capital of Noumea"
+    },
+    "Natural hazards": {
+      "text": "cyclones, most frequent from November to March <br><br><strong>volcanism:</strong> Matthew and Hunter Islands are historically active"
+    },
+    "Geography - note": {
+      "text": "consists of the main island of New Caledonia (one of the largest in the Pacific Ocean), the archipelago of Iles Loyaut&eacute;, and numerous small, sparsely populated islands and atolls"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "307,612 (2025 est.)"
+      },
+      "male": {
+        "text": "153,036"
+      },
+      "female": {
+        "text": "154,576"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "New Caledonian(s)"
+      },
+      "adjective": {
+        "text": "New Caledonian"
+      }
+    },
+    "Ethnic groups": {
+      "text": "Kanak 39.1%, European 27.1%, Wallisian, Futunian 8.2%, Tahitian 2.1%, Indonesian 1.4%, Ni-Vanuatu 1%, Vietnamese 0.9%, other 17.7%, unspecified 2.5% (2014 est.)"
+    },
+    "Languages": {
+      "Languages": {
+        "text": "French (official), 33 Melanesian-Polynesian dialects"
+      },
+      "major-language sample(s)": {
+        "text": "<br>The World Factbook, une source indispensable d'informations de base. (French)<br><br>The World Factbook, the indispensable source for basic information."
+      }
+    },
+    "Religions": {
+      "text": "Christian 85.2%, Muslim 2.8%, other 1.6%, unaffiliated 10.4% (2020 est.)"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "20.7% (male 32,238/female 30,858)"
+      },
+      "15-64 years": {
+        "text": "68.4% (male 104,825/female 103,349)"
+      },
+      "65 years and over": {
+        "text": "10.8% (2024 est.) (male 14,326/female 18,571)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "46.2 (2025 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "30 (2025 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "16.2 (2025 est.)"
+      },
+      "potential support ratio": {
+        "text": "6.2 (2025 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "34.6 years (2025 est.)"
+      },
+      "male": {
+        "text": "33.5 years"
+      },
+      "female": {
+        "text": "35.1 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "1.11% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "13.6 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "6 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "3.54 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "most of the populace lives in the southern part of the main island, in and around the capital of Noumea"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "72.7% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "1.72% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "198,000 NOUMEA (capital) (2018)"
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.05 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1.04 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "1.01 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "0.77 male(s)/female"
+      },
+      "total population": {
+        "text": "0.99 male(s)/female (2024 est.)"
+      }
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "4.8 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "5.8 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "3.9 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "79.3 years (2024 est.)"
+      },
+      "male": {
+        "text": "75.4 years"
+      },
+      "female": {
+        "text": "83.3 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "1.82 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "0.89 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: total": {
+        "text": "total: 99.5% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0.5% of population (2022 est.)"
+      }
+    },
+    "Physician density": {
+      "text": "0.24 physicians/1,000 population (2018)"
+    },
+    "Sanitation facility access": {
+      "improved: total": {
+        "text": "total: 100% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0% of population (2022 est.)"
+      }
+    },
+    "Currently married women (ages 15-49)": {
+      "text": "46.4% (2019 est.)"
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "preservation of coral reefs; prevention of invasive species; limiting erosion caused by nickel mining and forest fires"
+    },
+    "Climate": {
+      "text": "tropical; modified by southeast trade winds; hot, humid"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "10.1% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 0.3% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0.2% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 9.5% (2023 est.)"
+      },
+      "forest": {
+        "text": "48.8% (2023 est.)"
+      },
+      "other": {
+        "text": "41.1% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "72.7% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "1.72% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "4.887 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from coal and metallurgical coke": {
+        "text": "2.312 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "2.575 million metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Waste and recycling": {
+      "municipal solid waste generated annually": {
+        "text": "108,200 tons (2024 est.)"
+      }
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "Territory of New Caledonia and Dependencies"
+      },
+      "conventional short form": {
+        "text": "New Caledonia"
+      },
+      "local long form": {
+        "text": "Territoire des Nouvelle-Cal&eacute;donie et d&eacute;pendances"
+      },
+      "local short form": {
+        "text": "Nouvelle-Cal&eacute;donie"
+      },
+      "etymology": {
+        "text": "the name came from British explorer Captain James COOK in 1774 and uses the Latin name for Scotland, Caledonia"
+      }
+    },
+    "Government type": {
+      "text": "parliamentary democracy (Territorial Congress); an overseas collectivity of France"
+    },
+    "Dependency status": {
+      "text": "special collectivity of France",
+      "note": "<strong>note:</strong> independence referenda took place in 2018, 2020, and 2021, with a majority voting in each case to reject independence in favor of the status quo"
+    },
+    "Capital": {
+      "name": {
+        "text": "Noumea"
+      },
+      "geographic coordinates": {
+        "text": "22 16 S, 166 27 E"
+      },
+      "time difference": {
+        "text": "UTC+11 (16 hours ahead of Washington, DC, during Standard Time)"
+      },
+      "etymology": {
+        "text": "established in 1854 as Port-de-France, the settlement was renamed Noumea in 1866 to avoid confusion with Fort-de-France in Martinique; the name Noumea may come from the local name of the peninsula the city was founded on"
+      }
+    },
+    "Administrative divisions": {
+      "text": "3 provinces; Province Iles (Islands Province), Province Nord (North Province), and Province Sud (South Province)"
+    },
+    "Legal system": {
+      "text": "civil law system based on French civil law"
+    },
+    "Constitution": {
+      "history": {
+        "text": "4 October 1958 (French Constitution with changes as reflected in the Noumea Accord of 5 May 1998)"
+      },
+      "amendment process": {
+        "text": "French constitution amendment procedures apply"
+      }
+    },
+    "Citizenship": {
+      "text": "see France"
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "President Emmanuel MACRON (since 14 May 2017); represented by High Commissioner Jacques BILLANT (since 3 May 2025)"
+      },
+      "head of government": {
+        "text": "President of the Government Alcide PONGA (since 8 January 2025)"
+      },
+      "cabinet": {
+        "text": "Cabinet elected from and by the Territorial Congress"
+      },
+      "election/appointment process": {
+        "text": "French president directly elected by absolute-majority popular vote in 2 rounds, if needed, for a 5-year term (eligible for a second term); high commissioner appointed by the French president on the advice of the French Ministry of Interior; president of New Caledonia elected by Territorial Congress for a 5-year term (no term limits)"
+      },
+      "most recent election date": {
+        "text": "8 July 2021"
+      },
+      "election results": {
+        "text": "<em><br>2025: </em>Alcide PONGA (The Republicans) elected president by Territorial Congress with 6 of 11 votes<em><br><br>2021:</em> Louis MAPOU (PALIKA) elected president by Territorial Congress with 6 of 11 votes"
+      },
+      "expected date of next election": {
+        "text": "2026"
+      }
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "Territorial Congress (Congr&egrave;s du Territoire)"
+      },
+      "legislative structure": {
+        "text": "unicameral"
+      },
+      "number of seats": {
+        "text": "54 (indirectly elected)"
+      },
+      "electoral system": {
+        "text": "proportional representation"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "5 years"
+      },
+      "most recent election date": {
+        "text": "5/12/2019"
+      },
+      "parties elected and seats per party": {
+        "text": "Future With Confidence 18, UNI 9, UC 9, CE 7, FLNKS 6, Oceanic Awakening 3, PT 1, LKS 1 (Anti-Independence 28, Pro-Independence 26)"
+      },
+      "expected date of next election": {
+        "text": "December 2025"
+      },
+      "note": "<strong>note 1:</strong> the Customary Senate is the assembly of the various traditional councils of the Kanaks, the indigenous population; it rules on laws affecting Kanaks <br><strong><br>note 2:</strong> New Caledonia indirectly elects 2 members to the French Senate and directly elects 2 members to the French National Assembly (see France entry for electoral details)"
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "Court of Appeal or Cour d'Appel; organized into civil, commercial, social, and pre-trial investigation chambers; court bench normally includes the court president and 2 counselors); Administrative Court (number of judges NA)"
+      },
+      "judge selection and term of office": {
+        "text": "judge appointment and tenure based on France's judicial system"
+      },
+      "subordinate courts": {
+        "text": "Courts of First Instance include: civil, juvenile, commercial, labor, police, criminal, assizes, and also a pre-trial investigation chamber; Joint Commerce Tribunal; administrative courts"
+      },
+      "note": "<strong>note:</strong> final appeals beyond the Court of Appeal are referred to the Court of Cassation or Cour de Cassation (in Paris); final appeals beyond the Administrative Court are referred to the Administrative Court of Appeal (in Paris)"
+    },
+    "Political parties": {
+      "text": "Caledonia Together or CE <br>Caledonian Union or UC <br>Future With Confidence or AEC <br>Kanak Socialist Front for National Liberation or FLNKS (alliance includes PALIKA, UNI, UC, and UPM) <br>Labor Party or PT <br>National Union for Independence or UNI <br>Oceanian Awakening <br>Party of Kanak Liberation or PALIKA <br>Socialist Kanak Liberation or LKS <br>The Republicans (formerly The Rally or UMP) "
+    },
+    "Diplomatic representation in the US": {
+      "text": "none (overseas territory of France)"
+    },
+    "Diplomatic representation from the US": {
+      "embassy": {
+        "text": "none (overseas territory of France)"
+      }
+    },
+    "International organization participation": {
+      "text": "ITUC (NGOs), PIF, SPC, UPU, WFTU (NGOs), WMO"
+    },
+    "Independence": {
+      "text": "none (overseas collectivity of France)",
+      "note": "<strong>note:</strong> in three independence referenda, on 4 November 2018, 4 October 2020, and 12 December 2021, the majority voted to reject independence in favor of maintaining the status quo"
+    },
+    "National holiday": {
+      "text": "Fête de la Fédération, 14 July (1790)",
+      "note": "<strong>note 1:</strong> the local holiday is New Caledonia Day, 24 September (1853)<br><br><strong>note 2:</strong> often incorrectly referred to as Bastille Day, France's national celebration commemorates the storming of the Bastille prison on 14 July 1789 and the establishment of a constitutional monarchy; other names for the holiday are <em>la Fête nationale</em> (National Holiday) and <em>le Quatorze Juillet</em> (14th of July)"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> the country has two official flags with equal status, the flag of France and the Kanak (ethnic Melanesian) flag; the latter consists of three equal horizontal bands of blue (top), red, and green; a large yellow disk shifted slightly to the left side is edged in black and displays a black <em>fleche faîtière</em> symbol, a native rooftop adornment"
+    },
+    "National symbol(s)": {
+      "text": "fl&egrave;che fa&icirc;ti&egrave;re (native rooftop adornment), kagu bird"
+    },
+    "National color(s)": {
+      "text": "grey, red"
+    },
+    "National coat of arms": {
+      "text": "the emblem features two symbols of the local Kanak people: the fl&egrave;che fa&icirc;ti&egrave;re, which is a common rooftop adornment on houses, and the nautilus shell, which represents the sea; the third part of the emblem is a stylized representation of a New Caledonia pine tree"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"La Marseillaise\" (The Song of Marseille)"
+      },
+      "lyrics/music": {
+        "text": "Claude-Joseph ROUGET de Lisle"
+      },
+      "history": {
+        "text": "official anthem, as a self-governing French territory"
+      }
+    },
+    "National heritage": {
+      "total World Heritage Sites": {
+        "text": "1 (natural); note - excerpted from the France entry"
+      },
+      "selected World Heritage Site locales": {
+        "text": "Lagoons of New Caledonia"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "upper-middle-income French Pacific territorial economy; enormous nickel reserves; ongoing French independence negotiations; large Chinese nickel exporter; luxury eco-tourism destination; large French aid recipient; high cost-of-living; lingering wealth disparities"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2024": {
+        "text": "$8.469 billion (2024 est.)"
+      },
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$8.642 billion (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$8.678 billion (2022 est.)"
+      },
+      "note": "<strong>note:</strong> data in 2015 dollars"
+    },
+    "Real GDP growth rate": {
+      "Real GDP growth rate 2022": {
+        "text": "3.5% (2022 est.)"
+      },
+      "Real GDP growth rate 2021": {
+        "text": "-2.1% (2021 est.)"
+      },
+      "Real GDP growth rate 2020": {
+        "text": "-2.4% (2020 est.)"
+      },
+      "note": "<b>note:</b> annual GDP % growth based on constant local currency"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2024": {
+        "text": "$34,600 (2024 est.)"
+      },
+      "Real GDP per capita 2023": {
+        "text": "$35,000 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$33,500 (2022 est.)"
+      },
+      "note": "<strong>note:</strong> data in 2015 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$10.129 billion (2024 est.)",
+      "note": "<b>note:</b> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2022": {
+        "text": "3.7% (2022 est.)"
+      },
+      "Inflation rate (consumer prices) 2021": {
+        "text": "0.6% (2021 est.)"
+      },
+      "Inflation rate (consumer prices) 2020": {
+        "text": "-0.5% (2020 est.)"
+      },
+      "note": "<b>note:</b> annual % change based on consumer prices"
+    },
+    "GDP - composition, by sector of origin": {
+      "agriculture": {
+        "text": "1.8% (2019 est.)"
+      },
+      "industry": {
+        "text": "22.3% (2019 est.)"
+      },
+      "services": {
+        "text": "65.2% (2019 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to non-allocated consumption not captured in sector-reported data"
+    },
+    "GDP - composition, by end use": {
+      "household consumption": {
+        "text": "65.6% (2017 est.)"
+      },
+      "government consumption": {
+        "text": "23.5% (2017 est.)"
+      },
+      "investment in fixed capital": {
+        "text": "27.9% (2017 est.)"
+      },
+      "investment in inventories": {
+        "text": "-0.1% (2017 est.)"
+      },
+      "exports of goods and services": {
+        "text": "21% (2017 est.)"
+      },
+      "imports of goods and services": {
+        "text": "-37.9% (2017 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to rounding or gaps in data collection"
+    },
+    "Agricultural products": {
+      "text": "coconuts, vegetables, fruits, pork, beef, maize, eggs, bananas, yams, oranges (2023)",
+      "note": "<b>note:</b> top ten agricultural products based on tonnage"
+    },
+    "Industries": {
+      "text": "nickel mining and smelting"
+    },
+    "Labor force": {
+      "text": "130,800 (2024 est.)",
+      "note": "<b>note:</b> number of people ages 15 or older who are employed or seeking work"
+    },
+    "Unemployment rate": {
+      "Unemployment rate 2024": {
+        "text": "11.2% (2024 est.)"
+      },
+      "Unemployment rate 2023": {
+        "text": "11% (2023 est.)"
+      },
+      "Unemployment rate 2022": {
+        "text": "10.8% (2022 est.)"
+      },
+      "note": "<b>note:</b> % of labor force seeking employment"
+    },
+    "Youth unemployment rate (ages 15-24)": {
+      "total": {
+        "text": "32.7% (2024 est.)"
+      },
+      "male": {
+        "text": "30.2% (2024 est.)"
+      },
+      "female": {
+        "text": "35.7% (2024 est.)"
+      },
+      "note": "<b>note:</b> % of labor force ages 15-24 seeking employment"
+    },
+    "Remittances": {
+      "Remittances 2022": {
+        "text": "6.5% of GDP (2022 est.)"
+      },
+      "Remittances 2021": {
+        "text": "6.2% of GDP (2021 est.)"
+      },
+      "Remittances 2020": {
+        "text": "6.6% of GDP (2020 est.)"
+      },
+      "note": "<b>note:</b> personal transfers and compensation between resident and non-resident individuals/households/entities"
+    },
+    "Budget": {
+      "revenues": {
+        "text": "$1.995 billion (2015 est.)"
+      },
+      "expenditures": {
+        "text": "$1.993 billion (2015 est.)"
+      }
+    },
+    "Public debt": {
+      "Public debt 2014": {
+        "text": "6.5% of GDP (2014 est.)"
+      }
+    },
+    "Current account balance": {
+      "Current account balance 2016": {
+        "text": "-$654.237 million (2016 est.)"
+      },
+      "Current account balance 2015": {
+        "text": "-$1.119 billion (2015 est.)"
+      },
+      "Current account balance 2014": {
+        "text": "-$1.3 billion (2014 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - net trade and primary/secondary income in current dollars"
+    },
+    "Exports": {
+      "Exports 2021": {
+        "text": "$1.92 billion (2021 est.)"
+      },
+      "Exports 2020": {
+        "text": "$1.8 billion (2020 est.)"
+      },
+      "Exports 2019": {
+        "text": "$1.79 billion (2019 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - exports of goods and services in current dollars"
+    },
+    "Exports - partners": {
+      "text": "China 75%, Japan 9%, Taiwan 3%, India 3%, France 2% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "iron alloys, nickel, nickel ore, processed crustaceans, shellfish (2023)",
+      "note": "<b>note:</b> top five export commodities based on value in dollars"
+    },
+    "Imports": {
+      "Imports 2021": {
+        "text": "$2.26 billion (2021 est.)"
+      },
+      "Imports 2020": {
+        "text": "$2.1 billion (2020 est.)"
+      },
+      "Imports 2019": {
+        "text": "$2.48 billion (2019 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - imports of goods and services in current dollars"
+    },
+    "Imports - partners": {
+      "text": "France 36%, Singapore 16%, Australia 15%, China 6%, NZ 3% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "refined petroleum, coal, cars, aircraft, packaged medicine (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "Comptoirs Francais du Pacifique francs (XPF) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "110.306 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "110.347 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "113.474 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "100.88 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "104.711 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "100% (2022 est.)"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "1.174 million kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "3.02 billion kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "66.3 million kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "73.8% of total installed capacity (2023 est.)"
+      },
+      "solar": {
+        "text": "7.3% of total installed capacity (2023 est.)"
+      },
+      "wind": {
+        "text": "1.4% of total installed capacity (2023 est.)"
+      },
+      "hydroelectricity": {
+        "text": "17.5% of total installed capacity (2023 est.)"
+      }
+    },
+    "Coal": {
+      "consumption": {
+        "text": "1.026 million metric tons (2023 est.)"
+      },
+      "imports": {
+        "text": "1.001 million metric tons (2023 est.)"
+      },
+      "proven reserves": {
+        "text": "2 million metric tons (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "refined petroleum consumption": {
+        "text": "17,000 bbl/day (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "46,000 (2021 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "16 (2022 est.)"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "263,000 (2022 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "92 (2022 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "the publicly owned French Overseas Network (RFO), which operates in France's overseas departments and territories, broadcasts over the RFO Nouvelle-Cal&eacute;donie TV and radio stations; a small number of privately owned radio stations also broadcast"
+    },
+    "Internet country code": {
+      "text": ".nc"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "82% (2017 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "56,000 (2022 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "19 (2022 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Airports": {
+      "text": "21 (2025)"
+    },
+    "Heliports": {
+      "text": "2 (2025)"
+    },
+    "Merchant marine": {
+      "total": {
+        "text": "23 (2023)"
+      },
+      "by type": {
+        "text": "general cargo 5, oil tanker 1, other 17"
+      }
+    },
+    "Ports": {
+      "total ports": {
+        "text": "3 (2024)"
+      },
+      "large": {
+        "text": "0"
+      },
+      "medium": {
+        "text": "0"
+      },
+      "small": {
+        "text": "1"
+      },
+      "very small": {
+        "text": "2"
+      },
+      "ports with oil terminals": {
+        "text": "1"
+      },
+      "key ports": {
+        "text": "Baie de Kouaoua, Baie Ugue, Noumea"
+      }
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "no regular military forces; Territorial Directorate of the National Police of New Caledonia (DTPN), Gendarmerie of New Caledonia (2025)"
+    },
+    "Military - note": {
+      "text": "defense is the responsibility of France, which bases land, air, and naval forces on New Caledonia (Forces Arm&eacute;es de la Nouvelle-Cal&eacute;donie, FANC)"
+    }
+  },
+  "Transnational Issues": {
+  }
+}

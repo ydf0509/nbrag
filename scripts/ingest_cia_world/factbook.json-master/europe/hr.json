@@ -1,0 +1,1148 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "The lands that today comprise Croatia were part of the Austro-Hungarian Empire until the end of World War I. In 1918, the Croats, Serbs, and Slovenes formed a kingdom known after 1929 as Yugoslavia. Following World War II, Yugoslavia became a federal independent communist state consisting of six socialist republics, including Croatia, under the strong hand of Josip Broz, aka TITO. Although Croatia declared its independence from Yugoslavia in 1991, it took four years of sporadic, but often bitter, fighting before Yugoslav forces were cleared from Croatian lands, along with a majority of Croatia's ethnic Serb population. Under UN supervision, the last Serb-held enclave in eastern Slavonia was returned to Croatia in 1998. The country joined NATO in 2009 and the EU in 2013. In January 2023, Croatia further integrated into the EU by joining the Eurozone and the Schengen Area."
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Southeastern Europe, bordering the Adriatic Sea, between Bosnia and Herzegovina and Slovenia"
+    },
+    "Geographic coordinates": {
+      "text": "45 10 N, 15 30 E"
+    },
+    "Map references": {
+      "text": "Europe"
+    },
+    "Area": {
+      "total ": {
+        "text": "56,594 sq km"
+      },
+      "land": {
+        "text": "55,974 sq km"
+      },
+      "water": {
+        "text": "620 sq km"
+      }
+    },
+    "Area - comparative": {
+      "text": "slightly smaller than West Virginia"
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "2,237 km"
+      },
+      "border countries": {
+        "text": "Bosnia and Herzegovina 956 km; Hungary 348 km; Montenegro 19 km; Serbia 314 km; Slovenia 600 km"
+      }
+    },
+    "Coastline": {
+      "text": "5,835 km (mainland 1,777 km; islands 4,058 km)"
+    },
+    "Maritime claims": {
+      "territorial sea": {
+        "text": "12 nm"
+      },
+      "continental shelf": {
+        "text": "200-m depth or to the depth of exploitation"
+      }
+    },
+    "Climate": {
+      "text": "Mediterranean and continental; continental climate predominant with hot summers and cold winters; mild winters, dry summers along coast"
+    },
+    "Terrain": {
+      "text": "geographically diverse; flat plains along Hungarian border, low mountains and highlands near Adriatic coastline and islands"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Dinara 1,831 m"
+      },
+      "lowest point": {
+        "text": "Adriatic Sea 0 m"
+      },
+      "mean elevation": {
+        "text": "331 m"
+      }
+    },
+    "Natural resources": {
+      "text": "oil, some coal, bauxite, low-grade iron ore, calcium, gypsum, natural asphalt, silica, mica, clays, salt, hydropower"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "26.6% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 15.5% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 1.4% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 9.6% (2023 est.)"
+      },
+      "forest": {
+        "text": "34.7% (2023 est.)"
+      },
+      "other": {
+        "text": "38.2% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "170 sq km (2022)"
+    },
+    "Major rivers (by length in km)": {
+      "text": "Dunav (Danube) (shared with Germany [s], Austria, Slovakia, Hungary, Serbia, Bulgaria, Ukraine, Moldova, and Romania [m]) - 2,888 km<br><br><strong>note:</strong> [s] after country name indicates river source; [m] after country name indicates river mouth"
+    },
+    "Major watersheds (area sq km)": {
+      "Atlantic Ocean drainage": {
+        "text": "<em>(Black Sea)</em> Danube (795,656 sq km)"
+      }
+    },
+    "Population distribution": {
+      "text": "more of the population lives in the northern half of the country, with approximately a quarter of the populace residing in and around the capital of Zagreb; many of the islands are sparsely populated"
+    },
+    "Natural hazards": {
+      "text": "destructive earthquakes"
+    },
+    "Geography - note": {
+      "text": "controls most land routes from Western Europe to the Aegean Sea and Turkish Straits; most Adriatic Sea islands lie off the coast of Croatia -- some 1,200 islands, islets, ridges, and rocks"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "4,071,208 (2025 est.)"
+      },
+      "male": {
+        "text": "1,968,334"
+      },
+      "female": {
+        "text": "2,102,874"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Croat(s), Croatian(s)"
+      },
+      "adjective": {
+        "text": "Croatian"
+      },
+      "note": "<strong>note:</strong> the French designation of \"Croate\" to Croatian mercenaries in the 17th century eventually became \"Cravate\" and later came to be applied to the soldiers' scarves - the cravat; Croatia celebrates Cravat Day every 18 October"
+    },
+    "Ethnic groups": {
+      "text": "Croat 91.6%, Serb 3.2%, other 3.9% (including Bosniak, Romani, Albanian, Italian, and Hungarian), unspecified 1.3% (2021 est.)"
+    },
+    "Languages": {
+      "Languages": {
+        "text": "Croatian (official) 95.2%, Serbian 1.2%, other 3.1% (including Bosnian, Romani, Albanian, and Italian) unspecified 0.5% (2021 est.)"
+      },
+      "major-language sample(s)": {
+        "text": "<br>Knjiga svjetskih činjenica, nužan izvor osnovnih informacija. (Croatian)<br><br>The World Factbook, the indispensable source for basic information."
+      }
+    },
+    "Religions": {
+      "text": "Roman Catholic 79%, Orthodox 3.3%, Protestant 0.3%, other Christian 4.8%, Muslim 1.3%, other 1.1%, agnostic 1.7%, none or atheist 4.7%, unspecified 3.9% (2021 est.)"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "13.8% (male 296,527/female 278,236)"
+      },
+      "15-64 years": {
+        "text": "63.1% (male 1,307,814/female 1,309,394)"
+      },
+      "65 years and over": {
+        "text": "23.1% (2024 est.) (male 399,090/female 559,055)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "55.9 (2025 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "21.5 (2025 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "34.4 (2025 est.)"
+      },
+      "potential support ratio": {
+        "text": "2.9 (2025 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "44.9 years (2025 est.)"
+      },
+      "male": {
+        "text": "43.2 years"
+      },
+      "female": {
+        "text": "47 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "-0.53% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "8.49 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "12.87 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "-0.87 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "more of the population lives in the northern half of the country, with approximately a quarter of the populace residing in and around the capital of Zagreb; many of the islands are sparsely populated"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "58.6% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.05% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "684,000 ZAGREB (capital) (2023)"
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.06 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1.07 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "1 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "0.71 male(s)/female"
+      },
+      "total population": {
+        "text": "0.93 male(s)/female (2024 est.)"
+      }
+    },
+    "Mother's mean age at first birth": {
+      "text": "29 years (2020 est.)"
+    },
+    "Maternal mortality ratio": {
+      "text": "3 deaths/100,000 live births (2023 est.)"
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "3.4 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "8.2 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "8.7 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "77.7 years (2024 est.)"
+      },
+      "male": {
+        "text": "74.6 years"
+      },
+      "female": {
+        "text": "81 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "1.43 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "0.69 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: urban": {
+        "text": "urban: 100% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 0% of population (2022 est.)"
+      }
+    },
+    "Health expenditure": {
+      "Health expenditure (as % of GDP)": {
+        "text": "8.1% of GDP (2021)"
+      },
+      "Health expenditure (as % of national budget)": {
+        "text": "13.7% of national budget (2022 est.)"
+      }
+    },
+    "Physician density": {
+      "text": "3.91 physicians/1,000 population (2022)"
+    },
+    "Hospital bed density": {
+      "text": "5.6 beds/1,000 population (2020 est.)"
+    },
+    "Obesity - adult prevalence rate": {
+      "text": "24.4% (2016)"
+    },
+    "Alcohol consumption per capita": {
+      "total": {
+        "text": "9.64 liters of pure alcohol (2019 est.)"
+      },
+      "beer": {
+        "text": "4.75 liters of pure alcohol (2019 est.)"
+      },
+      "wine": {
+        "text": "3.52 liters of pure alcohol (2019 est.)"
+      },
+      "spirits": {
+        "text": "1.37 liters of pure alcohol (2019 est.)"
+      },
+      "other alcohols": {
+        "text": "0.36 liters of pure alcohol (2019 est.)"
+      }
+    },
+    "Tobacco use": {
+      "total": {
+        "text": "32.8% (2025 est.)"
+      },
+      "male": {
+        "text": "33.6% (2025 est.)"
+      },
+      "female": {
+        "text": "32.1% (2025 est.)"
+      }
+    },
+    "Currently married women (ages 15-49)": {
+      "text": "50.1% (2021 est.)"
+    },
+    "Education expenditure": {
+      "Education expenditure (% GDP)": {
+        "text": "4.1% of GDP (2021 est.)"
+      },
+      "Education expenditure (% national budget)": {
+        "text": "8.5% national budget (2021 est.)"
+      }
+    },
+    "School life expectancy (primary to tertiary education)": {
+      "total": {
+        "text": "16 years (2022 est.)"
+      },
+      "male": {
+        "text": "15 years (2022 est.)"
+      },
+      "female": {
+        "text": "17 years (2022 est.)"
+      }
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "air pollution in urban areas, as well as emissions from neighboring countries; surface water pollution in the Danube River Basin"
+    },
+    "International environmental agreements": {
+      "party to": {
+        "text": "Air Pollution, Air Pollution-Heavy Metals, Air Pollution-Multi-effect Protocol, Air Pollution-Nitrogen Oxides, Air Pollution-Persistent Organic Pollutants, Air Pollution-Sulphur 94, Air Pollution-Volatile Organic Compounds, Biodiversity, Climate Change, Climate Change-Kyoto Protocol, Climate Change-Paris Agreement, Comprehensive Nuclear Test Ban, Desertification, Endangered Species, Hazardous Wastes, Law of the Sea, Marine Dumping-London Convention, Nuclear Test Ban, Ozone Layer Protection, Ship Pollution, Tropical Timber 2006, Wetlands, Whaling"
+      },
+      "signed, but not ratified": {
+        "text": "none of the selected agreements"
+      }
+    },
+    "Climate": {
+      "text": "Mediterranean and continental; continental climate predominant with hot summers and cold winters; mild winters, dry summers along coast"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "26.6% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 15.5% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 1.4% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 9.6% (2023 est.)"
+      },
+      "forest": {
+        "text": "34.7% (2023 est.)"
+      },
+      "other": {
+        "text": "38.2% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "58.6% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.05% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "16.467 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from coal and metallurgical coke": {
+        "text": "1.335 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "9.858 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from consumed natural gas": {
+        "text": "5.275 million metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Particulate matter emissions": {
+      "text": "15.2 micrograms per cubic meter (2019 est.)"
+    },
+    "Waste and recycling": {
+      "municipal solid waste generated annually": {
+        "text": "1.81 million tons (2024 est.)"
+      },
+      "percent of municipal solid waste recycled": {
+        "text": "20% (2022 est.)"
+      }
+    },
+    "Total water withdrawal": {
+      "municipal": {
+        "text": "465 million cubic meters (2022)"
+      },
+      "industrial": {
+        "text": "475 million cubic meters (2022)"
+      },
+      "agricultural": {
+        "text": "76 million cubic meters (2022)"
+      }
+    },
+    "Total renewable water resources": {
+      "text": "105.5 billion cubic meters (2022 est.)"
+    },
+    "Geoparks": {
+      "total global geoparks and regional networks": {
+        "text": "3 (2024)"
+      },
+      "global geoparks and regional networks": {
+        "text": "Biokovo-Imotski Lakes; Papuk; Vis Archipelago (2024)"
+      }
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "Republic of Croatia"
+      },
+      "conventional short form": {
+        "text": "Croatia"
+      },
+      "local long form": {
+        "text": "Republika Hrvatska"
+      },
+      "local short form": {
+        "text": "Hrvatska"
+      },
+      "former": {
+        "text": "People's Republic of Croatia, Socialist Republic of Croatia"
+      },
+      "etymology": {
+        "text": "name probably derives from the Croats, a Slavic tribe who migrated to the Balkans in the 7th century A.D., but that name may be related to the Russian word <em>khrebet</em>, meaning \"mountain chain\""
+      }
+    },
+    "Government type": {
+      "text": "parliamentary republic"
+    },
+    "Capital": {
+      "name": {
+        "text": "Zagreb"
+      },
+      "geographic coordinates": {
+        "text": "45 48 N, 16 00 E"
+      },
+      "time difference": {
+        "text": "UTC+1 (6 hours ahead of Washington, DC, during Standard Time)"
+      },
+      "daylight saving time": {
+        "text": "+1hr, begins last Sunday in March; ends last Sunday in October"
+      },
+      "etymology": {
+        "text": "the city's name means \"beyond the bank (or ditch)\"; <em>za </em>in Old Croat means \"beyond,\" and <em>greb </em>means \"bank\" or \"ditch,\" relating to the city's original site above the Sava River"
+      }
+    },
+    "Administrative divisions": {
+      "text": "20 counties (<em>zupanije</em>, singular - <em>zupanija</em>) and 1 city* (<em>grad </em>- singular) with special county status; Bjelovarsko-Bilogorska (Bjelovar-Bilogora), Brodsko-Posavska (Brod-Posavina), Dubrovacko-Neretvanska (Dubrovnik-Neretva), Istarska (Istria), Karlovacka (Karlovac), Koprivnicko-Krizevacka (Koprivnica-Krizevci), Krapinsko-Zagorska (Krapina-Zagorje), Licko-Senjska (Lika-Senj), Medimurska (Medimurje), Osjecko-Baranjska (Osijek-Baranja), Pozesko-Slavonska (Pozega-Slavonia), Primorsko-Goranska (Primorje-Gorski Kotar), Sibensko-Kninska (Sibenik-Knin), Sisacko-Moslavacka (Sisak-Moslavina), Splitsko-Dalmatinska (Split-Dalmatia), Varazdinska (Varazdin), Viroviticko-Podravska (Virovitica-Podravina), Vukovarsko-Srijemska (Vukovar-Syrmia), Zadarska (Zadar), Zagreb*, Zagrebacka (Zagreb county)"
+    },
+    "Legal system": {
+      "text": "civil law system influenced by legal heritage of Austria-Hungary"
+    },
+    "Constitution": {
+      "history": {
+        "text": "several previous; latest adopted 22 December 1990"
+      },
+      "amendment process": {
+        "text": "proposed by at least one fifth of the Assembly membership, by the president of the republic, by the Government of Croatia, or through petition by at least 10% of the total electorate; proceedings to amend require majority vote by the Assembly; passage requires two-thirds majority vote by the Assembly; passage by petition requires a majority vote in a referendum and promulgation by the Assembly"
+      }
+    },
+    "International law organization participation": {
+      "text": "has not submitted an ICJ jurisdiction declaration; accepts ICCt jurisdiction"
+    },
+    "Citizenship": {
+      "citizenship by birth": {
+        "text": "no"
+      },
+      "citizenship by descent only": {
+        "text": "at least one parent must be a citizen of Croatia"
+      },
+      "dual citizenship recognized": {
+        "text": "yes"
+      },
+      "residency requirement for naturalization": {
+        "text": "5 years"
+      }
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "President Zoran MILANOVIC (since 18 February 2020)"
+      },
+      "head of government": {
+        "text": "Prime Minister Andrej PLENKOVIC (since 19 October 2016)"
+      },
+      "cabinet": {
+        "text": "Council of Ministers named by the prime minister and approved by the Assembly"
+      },
+      "election/appointment process": {
+        "text": "president directly elected by absolute-majority popular vote in 2 rounds, if needed, for a 5-year term (eligible for a second term); the leader of the majority party or majority coalition is usually appointed prime minister by the president and approved by the Assembly"
+      },
+      "most recent election date": {
+        "text": "December 2024 (first round) and January 2025 (second round)"
+      },
+      "election results": {
+        "text": "<br><em>2025: </em>Zoran MILANOVIC elected president in second round; percent of vote in second round - Zoran MILANOVIC (SDP) 74.6%, Dragan PRIMORAC (independent) 25.3%<em><br><br>2019: </em>Zoran MILANOVIC elected president in second round; percent of vote in second round - Zoran MILANOVIC (SDP) 52.7%, Kolinda GRABAR-KITAROVIC (HDZ) 47.3%"
+      },
+      "expected date of next election": {
+        "text": "2029"
+      }
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "Croatian Parliament (Hrvatski Sabor)"
+      },
+      "legislative structure": {
+        "text": "unicameral"
+      },
+      "number of seats": {
+        "text": "151 (all directly elected)"
+      },
+      "electoral system": {
+        "text": "proportional representation"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "4 years"
+      },
+      "most recent election date": {
+        "text": "4/17/2024"
+      },
+      "parties elected and seats per party": {
+        "text": "Croatian Democratic Union (HDZ) (55); Social Democratic Party of Croatia (SDP) (37); Homeland Movement (DP) (11); We Can! – Political Platform (Možemo!) (10); Bridge (Most) (7); Other (20)"
+      },
+      "percentage of women in chamber": {
+        "text": "33.1%"
+      },
+      "expected date of next election": {
+        "text": "April 2028"
+      },
+      "note": "<strong>note:</strong> of the 151 seats, 140 members come from 10 multi-seat constituencies, with 3 members in a constituency for Croatian diaspora; voters belonging to recognized minorities elect an additional 8 members from a nationwide constituency: the Serb minority elects 3 members, the Hungarian and Italian minorities elect 1 each, the Czech and Slovak minorities elect 1 jointly, and all other minorities elect 2"
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "Supreme Court (consists of the court president and vice president, 25 civil department justices, and 16 criminal department justices)"
+      },
+      "judge selection and term of office": {
+        "text": "president of Supreme Court nominated by the president of Croatia and elected by the Sabor for a 4-year term; other Supreme Court justices appointed by the National Judicial Council; all judges serve until age 70"
+      },
+      "subordinate courts": {
+        "text": "Administrative Court; county, municipal, and specialized courts"
+      },
+      "note": "<strong>note:</strong> an 11-member Constitutional Court has jurisdiction limited to constitutional issues, but it is outside the judicial system"
+    },
+    "Political parties": {
+      "text": "Bosniaks Together<br>The Bridge or MOST (formerly the Bridge of Independent Lists)<br>Croatia Romani Union Kali Sara (SRRH)<br>Croatian Democratic Union or HDZ<br>Democratic Union of Hungarians in Croatia (DZMH)<br>Focus or Fokus<br>Homeland Movement or DP (also known as Miroslav Škoro Homeland Movement or DPMS)<br>Independent Democratic Serb Party or SDSS <br>Independent Platform of the North (NPS)<br>Istrian Democratic Assembly or IDS<br>Social Democratic Party of Croatia or SDP<br>We Can! or Mozemo! "
+    },
+    "Diplomatic representation in the US": {
+      "chief of mission": {
+        "text": "Ambassador Pjer &Scaron;IMUNOVIĆ (since 8 September 2017)"
+      },
+      "chancery": {
+        "text": "2343 Massachusetts Avenue NW, Washington, DC 20008"
+      },
+      "telephone": {
+        "text": "[1] (202) 588-5899"
+      },
+      "FAX": {
+        "text": "[1] (202) 588-8937"
+      },
+      "email address and website": {
+        "text": "<br>washington@mvep.hr<br><br>https://mvep.gov.hr/embassy-114969/114969"
+      },
+      "consulate(s) general": {
+        "text": "Chicago, Los Angeles, New York, Seattle (WA)"
+      },
+      "consulate(s)": {
+        "text": "Anchorage (AL), Houston, Kansas City (MO),Minneapolis/St. Paul (MN), New Orleans, Pittsburgh (PA)"
+      }
+    },
+    "Diplomatic representation from the US": {
+      "chief of mission": {
+        "text": "Ambassador Nicole McGRAW (since 21 October 2025)"
+      },
+      "embassy": {
+        "text": "Ulica Thomasa Jeffersona 2, 10010 Zagreb"
+      },
+      "mailing address": {
+        "text": "5080 Zagreb Place, Washington DC&nbsp; 20521-5080"
+      },
+      "telephone": {
+        "text": "[385] (1) 661-2200"
+      },
+      "FAX": {
+        "text": "[385] (1) 665-8933"
+      },
+      "email address and website": {
+        "text": "<br>ZagrebACS@state.gov<br><br>https://hr.usembassy.gov/"
+      }
+    },
+    "International organization participation": {
+      "text": "AIIB, Australia Group, BIS, BSEC (observer), CD, CE, CEI, EAPC, EBRD, ECB, EMU, EU, FAO, G-11, IADB, IAEA, IBRD, ICAO, ICC (national committees), ICCt, ICRM, IDA, IFAD, IFC, IFRCS, IHO, ILO, IMF, IMO, IMSO, Interpol, IOC, IOM, IPU, ISO, ITSO, ITU, ITUC (NGOs), MIGA, MINURSO, NAM (observer), NATO, NSG, OAS (observer), OIF (observer), OPCW, OSCE, PCA, Schengen Convention, SELEC, UN, UNCTAD, UNESCO, UNFICYP, UNHCR, UNIDO, UNIFIL, UNMIL, UNMOGIP, UNWTO, UPU, Wassenaar Arrangement, WCO, WHO, WIPO, WMO, WTO, ZC"
+    },
+    "Independence": {
+      "text": "25 June 1991 (from Yugoslavia); notable earlier dates: ca. 925 (Kingdom of Croatia established), 1 December 1918 (Kingdom of Serbs, Croats, and Slovenes established, later became Yugoslavia)",
+      "note": "<strong>note:</strong> 25 June 1991 was the day the Croatian parliament voted for independence; the legislature adopted a decision on 8 October 1991 to sever constitutional relations with Yugoslavia"
+    },
+    "National holiday": {
+      "text": "Statehood Day (National Day), 30 May (1990)",
+      "note": "<strong>note:</strong> marks the day in 1990 that the first modern multi-party Croatian parliament convened"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> three equal horizontal bands of red (top), white, and blue -- the pan-Slav colors -- with the Croatian coat of arms in the center, which consists of a main shield (a checkerboard of 13 red and 12 silver fields) with five smaller shields that form a crown over the main shield<br><br><strong>meaning:</strong> the small shields represent the five historic regions (from left to right): Croatia, Dubrovnik, Dalmatia, Istria, and Slavonia<br><br><strong>history:</strong> Russia's 19th-century flag inspired the pan-Slav colors"
+    },
+    "National symbol(s)": {
+      "text": "red-and-white checkerboard"
+    },
+    "National color(s)": {
+      "text": "red, white, blue"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"Lijepa nasa domovino\" (Our Beautiful Homeland)"
+      },
+      "lyrics/music": {
+        "text": "Antun MIHANOVIC/Josip RUNJANIN"
+      },
+      "history": {
+        "text": "adopted in 1972 while still part of Yugoslavia; the lyrics were written in 1835, and it served as an unofficial anthem beginning in 1891"
+      }
+    },
+    "National heritage": {
+      "total World Heritage Sites": {
+        "text": "10 (8 cultural, 2 natural)"
+      },
+      "selected World Heritage Site locales": {
+        "text": "Plitvice Lakes National Park (n); Historic Split (c); Old City of Dubrovnik (c); Euphrasian Basilica; Historic Trogir (c); Šibenik Cathedral (c); Stari Grad Plain (c); Zadar and Fort St. Nikola Venetian Defense Works (c); Primeval Beech Forests (n); Stećci Medieval Tombstones Graveyards (c)"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "<p>upper-middle-income Balkan economy; newest euro user (introduced in 2023); increased investments from EU structural funds and tourism sector contributing to strong but moderating economic growth; declining energy prices and restrictive monetary policy easing inflation; historically low unemployment rate with labor shortages within services and manufacturing sectors</p>"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2024": {
+        "text": "$164.825 billion (2024 est.)"
+      },
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$158.769 billion (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$153.693 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "Real GDP growth rate": {
+      "Real GDP growth rate 2024": {
+        "text": "3.8% (2024 est.)"
+      },
+      "Real GDP growth rate 2023": {
+        "text": "3.3% (2023 est.)"
+      },
+      "Real GDP growth rate 2022": {
+        "text": "7.3% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual GDP % growth based on constant local currency"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2024": {
+        "text": "$42,600 (2024 est.)"
+      },
+      "Real GDP per capita 2023": {
+        "text": "$41,100 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$39,900 (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$92.526 billion (2024 est.)",
+      "note": "<b>note:</b> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2024": {
+        "text": "3% (2024 est.)"
+      },
+      "Inflation rate (consumer prices) 2023": {
+        "text": "7.9% (2023 est.)"
+      },
+      "Inflation rate (consumer prices) 2022": {
+        "text": "10.8% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual % change based on consumer prices"
+    },
+    "GDP - composition, by sector of origin": {
+      "agriculture": {
+        "text": "3.4% (2024 est.)"
+      },
+      "industry": {
+        "text": "19.8% (2024 est.)"
+      },
+      "services": {
+        "text": "59.7% (2024 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to non-allocated consumption not captured in sector-reported data"
+    },
+    "GDP - composition, by end use": {
+      "household consumption": {
+        "text": "57% (2024 est.)"
+      },
+      "government consumption": {
+        "text": "22.6% (2024 est.)"
+      },
+      "investment in fixed capital": {
+        "text": "23.7% (2024 est.)"
+      },
+      "investment in inventories": {
+        "text": "-0.2% (2024 est.)"
+      },
+      "exports of goods and services": {
+        "text": "49.8% (2024 est.)"
+      },
+      "imports of goods and services": {
+        "text": "-52.9% (2024 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to rounding or gaps in data collection"
+    },
+    "Agricultural products": {
+      "text": "maize, wheat, sugar beets, milk, barley, soybeans, sunflower seeds, potatoes, pork, grapes (2023)",
+      "note": "<b>note:</b> top ten agricultural products based on tonnage"
+    },
+    "Industries": {
+      "text": "chemicals and plastics, machine tools, fabricated metal, electronics, pig iron and rolled steel products, aluminum, paper, wood products, construction materials, textiles, shipbuilding, petroleum and petroleum refining, food and beverages, tourism"
+    },
+    "Industrial production growth rate": {
+      "text": "2.1% (2024 est.)",
+      "note": "<b>note:</b> annual % change in industrial value added based on constant local currency"
+    },
+    "Labor force": {
+      "text": "1.733 million (2024 est.)",
+      "note": "<b>note:</b> number of people ages 15 or older who are employed or seeking work"
+    },
+    "Unemployment rate": {
+      "Unemployment rate 2024": {
+        "text": "5.3% (2024 est.)"
+      },
+      "Unemployment rate 2023": {
+        "text": "6.1% (2023 est.)"
+      },
+      "Unemployment rate 2022": {
+        "text": "7% (2022 est.)"
+      },
+      "note": "<b>note:</b> % of labor force seeking employment"
+    },
+    "Youth unemployment rate (ages 15-24)": {
+      "total": {
+        "text": "16.6% (2024 est.)"
+      },
+      "male": {
+        "text": "15.5% (2024 est.)"
+      },
+      "female": {
+        "text": "18.2% (2024 est.)"
+      },
+      "note": "<b>note:</b> % of labor force ages 15-24 seeking employment"
+    },
+    "Population below poverty line": {
+      "text": "18% (2021 est.)",
+      "note": "<b>note:</b> % of population with income below national poverty line"
+    },
+    "Gini Index coefficient - distribution of family income": {
+      "Gini Index coefficient - distribution of family income 2022": {
+        "text": "30 (2022 est.)"
+      },
+      "note": "<b>note:</b> index (0-100) of income distribution; higher values represent greater inequality"
+    },
+    "Average household expenditures": {
+      "on food": {
+        "text": "18.5% of household expenditures (2023 est.)"
+      },
+      "on alcohol and tobacco": {
+        "text": "7.9% of household expenditures (2023 est.)"
+      }
+    },
+    "Household income or consumption by percentage share": {
+      "lowest 10%": {
+        "text": "2.9% (2022 est.)"
+      },
+      "highest 10%": {
+        "text": "23% (2022 est.)"
+      },
+      "note": "<b>note:</b> % share of income accruing to lowest and highest 10% of population"
+    },
+    "Remittances": {
+      "Remittances 2024": {
+        "text": "7.3% of GDP (2024 est.)"
+      },
+      "Remittances 2023": {
+        "text": "7.2% of GDP (2023 est.)"
+      },
+      "Remittances 2022": {
+        "text": "7.5% of GDP (2022 est.)"
+      },
+      "note": "<b>note:</b> personal transfers and compensation between resident and non-resident individuals/households/entities"
+    },
+    "Budget": {
+      "revenues": {
+        "text": "$32.487 billion (2023 est.)"
+      },
+      "expenditures": {
+        "text": "$33.715 billion (2023 est.)"
+      },
+      "note": "<b>note:</b> central government revenues (excluding grants) and expenditures converted to US dollars at average official exchange rate for year indicated"
+    },
+    "Public debt": {
+      "Public debt 2023": {
+        "text": "75.6% of GDP (2023 est.)"
+      },
+      "note": "<b>note:</b> central government debt as a % of GDP"
+    },
+    "Taxes and other revenues": {
+      "text": "21.5% (of GDP) (2023 est.)",
+      "note": "<b>note:</b> central government tax revenue as a % of GDP"
+    },
+    "Current account balance": {
+      "Current account balance 2024": {
+        "text": "-$1.049 billion (2024 est.)"
+      },
+      "Current account balance 2023": {
+        "text": "$635.97 million (2023 est.)"
+      },
+      "Current account balance 2022": {
+        "text": "-$2.621 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - net trade and primary/secondary income in current dollars"
+    },
+    "Exports": {
+      "Exports 2024": {
+        "text": "$46.601 billion (2024 est.)"
+      },
+      "Exports 2023": {
+        "text": "$45.064 billion (2023 est.)"
+      },
+      "Exports 2022": {
+        "text": "$41.907 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - exports of goods and services in current dollars"
+    },
+    "Exports - partners": {
+      "text": "Italy 14%, Germany 11%, Slovenia 11%, Bosnia &amp; Herzegovina 6%, Austria 6% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "ships, garments, electricity, packaged medicine, wood (2023)",
+      "note": "<b>note:</b> top five export commodities based on value in dollars"
+    },
+    "Imports": {
+      "Imports 2024": {
+        "text": "$49.86 billion (2024 est.)"
+      },
+      "Imports 2023": {
+        "text": "$46.811 billion (2023 est.)"
+      },
+      "Imports 2022": {
+        "text": "$46.769 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - imports of goods and services in current dollars"
+    },
+    "Imports - partners": {
+      "text": "Italy 14%, Germany 14%, Slovenia 11%, Hungary 6%, Austria 5% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "refined petroleum, cars, garments, natural gas, crude petroleum (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Reserves of foreign exchange and gold": {
+      "Reserves of foreign exchange and gold 2024": {
+        "text": "$3.336 billion (2024 est.)"
+      },
+      "Reserves of foreign exchange and gold 2023": {
+        "text": "$3.176 billion (2023 est.)"
+      },
+      "Reserves of foreign exchange and gold 2022": {
+        "text": "$29.726 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> holdings of gold (year-end prices)/foreign exchange/special drawing rights in current dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "euros (EUR) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "0.924 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "0.925 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "0.95 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "0.845 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "0.876 (2020 est.)"
+      },
+      "note": "<strong>note:</strong> Croatia used the kuna prior to conversion to the euro on 1 January 2023. During the transition period the exchange rate was fixed at 7.53450 kuna to 1 euro."
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "100% (2022 est.)"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "5.518 million kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "16.408 billion kWh (2023 est.)"
+      },
+      "exports": {
+        "text": "8.461 billion kWh (2023 est.)"
+      },
+      "imports": {
+        "text": "10.038 billion kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "2.053 billion kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "31.2% of total installed capacity (2023 est.)"
+      },
+      "solar": {
+        "text": "1.7% of total installed capacity (2023 est.)"
+      },
+      "wind": {
+        "text": "14.8% of total installed capacity (2023 est.)"
+      },
+      "hydroelectricity": {
+        "text": "48.5% of total installed capacity (2023 est.)"
+      },
+      "geothermal": {
+        "text": "0.1% of total installed capacity (2023 est.)"
+      },
+      "biomass and waste": {
+        "text": "3.7% of total installed capacity (2023 est.)"
+      }
+    },
+    "Coal": {
+      "consumption": {
+        "text": "596,000 metric tons (2023 est.)"
+      },
+      "exports": {
+        "text": "1,000 metric tons (2022 est.)"
+      },
+      "imports": {
+        "text": "663,000 metric tons (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "total petroleum production": {
+        "text": "11,000 bbl/day (2023 est.)"
+      },
+      "refined petroleum consumption": {
+        "text": "70,000 bbl/day (2023 est.)"
+      },
+      "crude oil estimated reserves": {
+        "text": "71 million barrels (2021 est.)"
+      }
+    },
+    "Natural gas": {
+      "production": {
+        "text": "722.231 million cubic meters (2023 est.)"
+      },
+      "consumption": {
+        "text": "2.689 billion cubic meters (2023 est.)"
+      },
+      "exports": {
+        "text": "1.119 billion cubic meters (2023 est.)"
+      },
+      "imports": {
+        "text": "2.995 billion cubic meters (2023 est.)"
+      },
+      "proven reserves": {
+        "text": "24.919 billion cubic meters (2021 est.)"
+      }
+    },
+    "Energy consumption per capita": {
+      "Total energy consumption per capita 2023": {
+        "text": "79.907 million Btu/person (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "1.1 million (2024 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "29 (2024 est.)"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "4.72 million (2024 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "122 (2024 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "the national state-owned public broadcaster, Croatian Radiotelevision, operates 4 terrestrial TV networks, a satellite channel that rebroadcasts programs for Croatians overseas, and 6 regional TV centers; 2 private broadcasters with national terrestrial networks; 29 privately owned regional TV stations; multi-channel cable and satellite TV subscription services are available; state-owned public broadcaster operates 4 national radio networks and 23 regional radio stations; 2 privately owned national radio networks and 117 local radio stations (2019)"
+    },
+    "Internet country code": {
+      "text": ".hr"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "83% (2023 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "1.11 million (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "28 (2023 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "9A"
+    },
+    "Airports": {
+      "text": "45 (2025)"
+    },
+    "Heliports": {
+      "text": "7 (2025)"
+    },
+    "Railways": {
+      "total": {
+        "text": "2,617 km (2020) 980 km electrified"
+      }
+    },
+    "Merchant marine": {
+      "total": {
+        "text": "384 (2023)"
+      },
+      "by type": {
+        "text": "bulk carrier 10, general cargo 32, oil tanker 14, other 328"
+      }
+    },
+    "Ports": {
+      "total ports": {
+        "text": "16 (2024)"
+      },
+      "large": {
+        "text": "2"
+      },
+      "medium": {
+        "text": "0"
+      },
+      "small": {
+        "text": "6"
+      },
+      "very small": {
+        "text": "8"
+      },
+      "ports with oil terminals": {
+        "text": "8"
+      },
+      "key ports": {
+        "text": "Bakar, Dubrovnik, Omisalj, Rijeka Luka, Rovinj, Sibenik, Split, Zadar"
+      }
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "Armed Forces of the Republic of Croatia (Oruzane Snage Republike Hrvatske, OSRH): Croatian Army (Hrvatska Kopnena Vojska, HKoV), Croatian Navy (Hrvatska Ratna Mornarica, HRM; includes Coast Guard), Croatian Air Force (Hrvatsko Ratno Zrakoplovstvo, HRZ) (2025)",
+      "note": "<strong>note:</strong> the Ministry of the Interior is responsible for internal security, including law enforcement (Croatia Police) and border security"
+    },
+    "Military expenditures": {
+      "Military Expenditures 2025": {
+        "text": "2% of GDP (2025 est.)"
+      },
+      "Military Expenditures 2024": {
+        "text": "1.9% of GDP (2024 est.)"
+      },
+      "Military Expenditures 2023": {
+        "text": "1.7% of GDP (2023 est.)"
+      },
+      "Military Expenditures 2022": {
+        "text": "1.8% of GDP (2022 est.)"
+      },
+      "Military Expenditures 2021": {
+        "text": "2% of GDP (2021 est.)"
+      }
+    },
+    "Military and security service personnel strengths": {
+      "text": "approximately 15,000 active-duty military personnel (2025)"
+    },
+    "Military equipment inventories and acquisitions": {
+      "text": "the military's inventory is a mix of Soviet-era (largely from the former Yugoslavia) equipment and a growing amount of more modern, NATO-compatible weapon systems from suppliers such as France, Germany, T&uuml;rkiye, and the US (2025)"
+    },
+    "Military service age and obligation": {
+      "text": "18-29 years of age for voluntary military service for men and women; conscription abolished in 2008 but will be reinstated in 2026 when it will become mandatory for men aged 19-29 to undergo two months of basic military training (2025)",
+      "note": "<strong>note:</strong> as of 2024, women comprised about 14% of the military's full-time personnel"
+    },
+    "Military deployments": {
+      "text": "150 Kosovo (KFOR/NATO); also has a few hundred personnel participating in several other EU, NATO, and UN missions (2025)"
+    },
+    "Military - note": {
+      "text": "the Armed Forces of Croatia (OSRH) are responsible for the defense of Croatia’s sovereignty and territory, contributing to international humanitarian, peacekeeping, and security missions, and providing assistance to civil authorities for such missions as responding to disasters, search and rescue, anti-terrorism, and internal security in times of crisis if called upon by the prime minister or the president; Croatia joined NATO in 2009, and the OSRH participates in NATO missions, including its peacekeeping force in Kosovo and the Enhanced Forward Presence mission in Eastern Europe; it also contributes to EU and UN missions; the OSRH trains regularly with NATO and regional partners  <br><br>the OSRH was established in 1991 from the Croatian National Guard during the Croatian War of Independence (1991-95); during the war, the ground forces grew to as many as 60 brigades and dozens of independent battalions, and a single military offensive against Serbian forces in 1995 included some 100,000 Croatian troops; in 2000, Croatia initiated an effort to modernize and reform the OSRH into a small, professional military capable of meeting the challenges of NATO membership (2025)"
+    }
+  },
+  "Transnational Issues": {
+    "Refugees and internally displaced persons": {
+      "refugees": {
+        "text": "29,927 (2024 est.)"
+      },
+      "stateless persons": {
+        "text": "758 (2024 est.)"
+      }
+    }
+  }
+}

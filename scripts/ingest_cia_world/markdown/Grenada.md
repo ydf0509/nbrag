@@ -1,0 +1,584 @@
+# Grenada
+
+> GEC code: `gj` · Region: central-america-n-caribbean · Source: CIA World Factbook (factbook.json, CC0)
+
+## Introduction
+
+### Background
+
+The indigenous Carib people inhabited Grenada when Christopher COLUMBUS landed on the island in 1498, but it remained uncolonized for more than a century. The French settled Grenada in the 17th century, established sugar estates, and imported large numbers of African slaves. Britain took the island in 1762 and vigorously expanded sugar production. In the 19th century, cacao eventually surpassed sugar as the main export crop; in the 20th century, nutmeg became the leading export. In 1967, Britain gave Grenada autonomy over its internal affairs. Full independence was attained in 1974, making Grenada one of the smallest independent countries in the Western Hemisphere. In 1979, a leftist New Jewel Movement seized power under Maurice BISHOP, ushering in the Grenada Revolution. On 19 October 1983, factions within the revolutionary government overthrew and killed BISHOP and members of his party. Six days later, US forces and those of six other Caribbean nations intervened, quickly capturing the ringleaders and their hundreds of Cuban advisers. Rule of law was restored, and democratic elections were reinstituted the following year and have continued since.
+
+## Geography
+
+- **Location:** Caribbean, island between the Caribbean Sea and Atlantic Ocean, north of Trinidad and Tobago
+
+- **Geographic coordinates:** 12 07 N, 61 40 W
+
+- **Map references:** Central America and the Caribbean
+
+### Area
+
+- **total :** 344 sq km
+- **land:** 344 sq km
+- **water:** 0 sq km
+
+- **Area - comparative:** twice the size of Washington, D.C.
+
+- **Land boundaries:** - **total:** 0 km
+
+- **Coastline:** 121 km
+
+### Maritime claims
+
+- **territorial sea:** 12 nm
+- **exclusive economic zone:** 200 nm
+
+- **Climate:** tropical; tempered by northeast trade winds
+
+- **Terrain:** volcanic in origin with central mountains
+
+### Elevation
+
+- **highest point:** Mount Saint Catherine 840 m
+- **lowest point:** Caribbean Sea 0 m
+
+- **Natural resources:** timber, tropical fruit
+
+### Land use
+
+- **agricultural land:** 23.5% (2023 est.)
+- **agricultural land: arable land:** arable land: 8.8% (2023 est.)
+- **agricultural land: permanent crops:** permanent crops: 11.8% (2023 est.)
+- **agricultural land: permanent pasture:** permanent pasture: 2.9% (2023 est.)
+- **forest:** 52.1% (2023 est.)
+- **other:** 24.4% (2023 est.)
+
+- **Irrigated land:** 20 sq km (2012)
+
+- **Population distribution:** approximately one third of the population is found in the capital of St. George's; the island's population is concentrated along the coast
+
+### Natural hazards
+
+lies on edge of hurricane belt; hurricane season lasts from June to November 
+
+**volcanism:** Mount Saint Catherine (840 m) is on the island of Grenada; Kick 'em Jenny, an active submarine volcano (seamount) on the Caribbean Sea floor, lies about 8 km (5 mi) north of Grenada; these two volcanoes are at the southern end of the volcanic island arc of the Lesser Antilles that extends to the Dutch dependency of Saba in the north
+
+## People and Society
+
+### Population
+
+- **total:** 114,621 (2024 est.)
+- **male:** 58,168
+- **female:** 56,453
+
+### Nationality
+
+- **noun:** Grenadian(s)
+- **adjective:** Grenadian
+
+- **Ethnic groups:** African descent 82.4%, mixed 13.3%, East Indian 2.2%, other 1.3%, unspecified 0.9% (2011 est.)
+
+- **Languages:** English (official), French patois
+
+- **Religions:** Protestant 49.2% (includes Pentecostal 17.2%, Seventh Day Adventist 13.2%, Anglican 8.5%, Baptist 3.2%, Church of God 2.4%, Evangelical 1.9%, Methodist 1.6%, other 1.2%), Roman Catholic 36%, Jehovah's Witness 1.2%, Rastafarian 1.2%, other 5.5%, none 5.7%, unspecified 1.3% (2011 est.)
+
+### Age structure
+
+- **0-14 years:** 21.9% (male 13,095/female 12,003)
+- **15-64 years:** 65.3% (male 38,129/female 36,726)
+- **65 years and over:** 12.8% (2024 est.) (male 6,944/female 7,724)
+
+### Dependency ratios
+
+- **total dependency ratio:** 53.1 (2024 est.)
+- **youth dependency ratio:** 33.5 (2024 est.)
+- **elderly dependency ratio:** 19.6 (2024 est.)
+- **potential support ratio:** 5.1 (2024 est.)
+
+### Median age
+
+- **total:** 35.9 years (2025 est.)
+- **male:** 35.2 years
+- **female:** 35.7 years
+
+- **Population growth rate:** 0.24% (2025 est.)
+
+- **Birth rate:** 13 births/1,000 population (2025 est.)
+
+- **Death rate:** 8.41 deaths/1,000 population (2025 est.)
+
+- **Net migration rate:** -2.16 migrant(s)/1,000 population (2025 est.)
+
+- **Population distribution:** approximately one third of the population is found in the capital of St. George's; the island's population is concentrated along the coast
+
+### Urbanization
+
+- **urban population:** 37.1% of total population (2023)
+- **rate of urbanization:** 0.86% annual rate of change (2020-25 est.)
+
+- **Major urban areas - population:** 39,000 SAINT GEORGE'S (capital) (2018)
+
+### Sex ratio
+
+- **at birth:** 1.1 male(s)/female
+- **0-14 years:** 1.09 male(s)/female
+- **15-64 years:** 1.04 male(s)/female
+- **65 years and over:** 0.9 male(s)/female
+- **total population:** 1.03 male(s)/female (2024 est.)
+
+- **Maternal mortality ratio:** 48 deaths/100,000 live births (2023 est.)
+
+### Infant mortality rate
+
+- **total:** 8.8 deaths/1,000 live births (2025 est.)
+- **male:** 8.6 deaths/1,000 live births
+- **female:** 9.5 deaths/1,000 live births
+
+### Life expectancy at birth
+
+- **total population:** 76.3 years (2024 est.)
+- **male:** 73.7 years
+- **female:** 79.1 years
+
+- **Total fertility rate:** 1.89 children born/woman (2025 est.)
+
+- **Gross reproduction rate:** 0.9 (2025 est.)
+
+### Health expenditure
+
+- **Health expenditure (as % of GDP):** 5.7% of GDP (2021)
+- **Health expenditure (as % of national budget):** 6.3% of national budget (2022 est.)
+
+- **Physician density:** 1.38 physicians/1,000 population (2018)
+
+- **Hospital bed density:** 3.2 beds/1,000 population (2018 est.)
+
+- **Obesity - adult prevalence rate:** 21.3% (2016)
+
+### Alcohol consumption per capita
+
+- **total:** 8.62 liters of pure alcohol (2019 est.)
+- **beer:** 3.54 liters of pure alcohol (2019 est.)
+- **wine:** 0.56 liters of pure alcohol (2019 est.)
+- **spirits:** 4.21 liters of pure alcohol (2019 est.)
+- **other alcohols:** 0.31 liters of pure alcohol (2019 est.)
+
+### Education expenditure
+
+- **Education expenditure (% GDP):** 5.1% of GDP (2023 est.)
+- **Education expenditure (% national budget):** 11.4% national budget (2025 est.)
+
+### School life expectancy (primary to tertiary education)
+
+- **total:** 18 years (2018 est.)
+- **male:** 17 years (2018 est.)
+- **female:** 18 years (2018 est.)
+
+## Environment
+
+- **Environmental issues:** deforestation causing habitat and species loss; coastal erosion and contamination; pollution and sedimentation; inadequate solid waste management
+
+### International environmental agreements
+
+- **party to:** Biodiversity, Climate Change, Climate Change-Kyoto Protocol, Climate Change-Paris Agreement, Comprehensive Nuclear Test Ban, Desertification, Endangered Species, Law of the Sea, Ozone Layer Protection, Ship Pollution, Wetlands, Whaling
+- **signed, but not ratified:** none of the selected agreements
+
+- **Climate:** tropical; tempered by northeast trade winds
+
+### Land use
+
+- **agricultural land:** 23.5% (2023 est.)
+- **agricultural land: arable land:** arable land: 8.8% (2023 est.)
+- **agricultural land: permanent crops:** permanent crops: 11.8% (2023 est.)
+- **agricultural land: permanent pasture:** permanent pasture: 2.9% (2023 est.)
+- **forest:** 52.1% (2023 est.)
+- **other:** 24.4% (2023 est.)
+
+### Urbanization
+
+- **urban population:** 37.1% of total population (2023)
+- **rate of urbanization:** 0.86% annual rate of change (2020-25 est.)
+
+### Carbon dioxide emissions
+
+- **total emissions:** 348,000 metric tonnes of CO2 (2023 est.)
+- **from petroleum and other liquids:** 348,000 metric tonnes of CO2 (2023 est.)
+
+- **Particulate matter emissions:** 10.2 micrograms per cubic meter (2019 est.)
+
+### Waste and recycling
+
+- **municipal solid waste generated annually:** 29,500 tons (2024 est.)
+- **percent of municipal solid waste recycled:** 15.1% (2022 est.)
+
+### Total water withdrawal
+
+- **municipal:** 12 million cubic meters (2022 est.)
+- **industrial:** 0 cubic meters (2022 est.)
+- **agricultural:** 2.1 million cubic meters (2022 est.)
+
+- **Total renewable water resources:** 200 million cubic meters (2022 est.)
+
+## Government
+
+### Country name
+
+- **conventional long form:** none
+- **conventional short form:** Grenada
+- **etymology:** origin of the name remains obscure; some sources attribute the designation to Spanish influence (most likely named for the Spanish city of Granada); in Spanish *granada *means "pomegranate"
+
+- **Government type:** parliamentary democracy under a constitutional monarchy; a Commonwealth realm
+
+### Capital
+
+- **name:** Saint George's
+- **geographic coordinates:** 12 03 N, 61 45 W
+- **time difference:** UTC-4 (1 hour ahead of Washington, DC, during Standard Time)
+- **etymology:** originally named Ville de Fort Royal (Fort Royal Town), the name was changed to Saint George's Town in 1764, in honor of the patron saint of England, when the English took over Grenada from the French; the name was eventually shortened to Saint George's
+
+- **Administrative divisions:** 6 parishes and 1 dependency*; Carriacou and Petite Martinique*, Saint Andrew, Saint David, Saint George, Saint John, Saint Mark, Saint Patrick
+
+- **Legal system:** common law based on English model
+
+### Constitution
+
+- **history:** previous 1967; latest presented 19 December 1973, effective 7 February 1974, suspended 1979 following a revolution but restored in 1983
+- **amendment process:**
+proposed by either house of Parliament; passage requires two-thirds majority vote by the membership in both houses and assent of the governor general; passage of amendments to constitutional sections, such as personal rights and freedoms, the structure, authorities, and procedures of the branches of government, the delimitation of electoral constituencies, or the procedure for amending the constitution, also requires two-thirds majority approval in a referendum
+
+- **International law organization participation:** has not submitted an ICJ jurisdiction declaration; accepts ICCt jurisdiction
+
+### Citizenship
+
+- **citizenship by birth:** yes
+- **citizenship by descent only:** yes
+- **dual citizenship recognized:** yes
+- **residency requirement for naturalization:** 7 years for persons from a non-Caribbean state and 4 years for a person from a Caribbean state
+
+- **Suffrage:** 18 years of age; universal
+
+### Executive branch
+
+- **chief of state:** King CHARLES III (since 8 September 2022); represented by Governor General Cecile LA GRENADE (since 7 May 2013)
+- **head of government:** Prime Minister Dickon MITCHELL (since 24 June 2022)
+- **cabinet:** Cabinet appointed by the governor general on the advice of the prime minister
+- **election/appointment process:** the monarchy is hereditary; governor general appointed by the monarch; following legislative elections, the governor general usually appoints the leader of the majority party or majority coalition as prime minister
+
+### Legislative branch
+
+- **legislature name:** Parliament
+- **legislative structure:** bicameral
+
+### Legislative branch - lower chamber
+
+- **chamber name:** House of Representatives
+- **number of seats:** 15 (all directly elected)
+- **electoral system:** plurality/majority
+- **scope of elections:** full renewal
+- **term in office:** 5 years
+- **most recent election date:** 6/23/2022
+- **parties elected and seats per party:** National Democratic Congress (NDC) (9); New National Party (NNP) (6)
+- **percentage of women in chamber:** 31.3%
+- **expected date of next election:** June 2027
+
+### Legislative branch - upper chamber
+
+- **chamber name:** Senate
+- **number of seats:** 13 (all appointed)
+- **scope of elections:** full renewal
+- **term in office:** 5 years
+- **most recent election date:** 8/31/2022
+- **percentage of women in chamber:** 30.8%
+- **expected date of next election:** August 2027
+
+### Judicial branch
+
+- **highest court(s):**
+regionally, the Eastern Caribbean Supreme Court (ECSC) is the superior court of the Organization of Eastern Caribbean States; the ECSC is headquartered on St. Lucia and consists of the Court of Appeal -- headed by the chief justice and 4 judges -- and the High Court with 18 judges; the Court of Appeal travels to member states on a schedule to hear appeals from the High Court and subordinate courts
+- **judge selection and term of office:** chief justice of Eastern Caribbean Supreme Court appointed by the British monarch; other justices and judges appointed by the Judicial and Legal Services Commission, and independent body of judicial officials; Court of Appeal justices appointed for life with mandatory retirement at age 65; High Court judges appointed for life with mandatory retirement at age 62
+- **subordinate courts:** magistrates' courts; Court of Magisterial Appeals
+- **note:** **note:** appeals beyond the ECSC in civil and criminal matters are heard by the Judicial Committee of the Privy Council (in London)
+
+### Political parties
+
+National Democratic Congress or NDC
+New National Party or NNP
+
+### Diplomatic representation in the US
+
+- **chief of mission:** Ambassador Tarlie FRANCIS (since 15 September 2023)
+- **chancery:** 1701 New Hampshire Avenue NW, Washington, DC 20009
+- **telephone:** [1] (202) 265-2561
+- **FAX:** [1] (202) 265-2468
+- **email address and website:**
+embassy@grenadaembassyusa.org
+
+https://grenadaembassyusa.org/
+- **consulate(s) general:** Miami, New York
+
+### Diplomatic representation from the US
+
+- **chief of mission:** the US does not have an official embassy in Grenada; the Chargé d’Affaires to Barbados, Karin B. SULLIVAN, is accredited to Grenada
+- **embassy:** Lance-aux-Epines, Saint George's
+- **mailing address:** 3180 Grenada Place, Washington DC  20521-3180
+- **telephone:** [1] (473) 444-1173
+- **FAX:** [1] (473) 444-4820
+- **email address and website:**
+StgeorgesACS@state.gov
+
+https://bb.usembassy.gov/embassy/grenada/
+
+- **International organization participation:** ACP, ACS, AOSIS, CARIFORUM, CARIBCAN, Caricom, CBI, CDB, CELAC, CSME, ECCU, EPA, FAO, G-77, IBRD, ICAO, ICCt (signatory), ICRM, IDA, IFAD, IFC, IFRCS, ILO, IMF, IMO, Interpol, IOC, ITU, ITUC, LAES, MIGA, NAM, OAS, OECS, OPANAL, OPCW, Petrocaribe, UN, UNCTAD, UNESCO, UNIDO, UPU, WHO, WIPO, WTO
+
+- **Independence:** 7 February 1974 (from the UK)
+
+- **National holiday:** Independence Day, 7 February (1974)
+
+### Flag
+
+**description:** a rectangle divided diagonally into yellow triangles (top and bottom) and green triangles (left and right), with a wide red border around the flag; three five-pointed yellow stars are centered on the top and bottom of the red border, with one larger yellow star on a red disk at the center of the flag; a small yellow-and-red nutmeg pod is on the left triangle
+
+**meaning:** the seven stars stand for the country's administrative divisions, with the central star symbolizing the capital, St. George's; yellow stands for the sun and the warmth of the people, green for vegetation and agriculture, and red for harmony, unity, and courage
+
+- **National symbol(s):** Grenada dove, bougainvillea flower
+
+- **National color(s):** red, yellow, green
+
+### National coat of arms
+
+Grenada’s coat of arms shows Grand Etang Lake, a crater lake on the volcano that formed Grenada; in the center of the shield is Christopher Columbus’s ship, the *Santa Maria*, which landed on the island in 1498; the gold cross dividing the shield, the two Madonna lilies, and the national motto signal the importance of religion; two lions symbolize past UK rule (1762-1974), as well as Grenada’s current status as a Commonwealth country; the corn stalk and banana plant represent agriculture; the armadillo and Grenada dove next to the shield are native to the island, and the roses in the bougainvillea flower garland represent Grenada’s seven communities
+
+### National anthem(s)
+
+- **title:** "God Save the King"
+- **lyrics/music:** unknown
+- **history:** royal anthem, as a Commonwealth country
+
+## Economy
+
+- **Economic overview:** small OECS service-based economy; large tourism, construction, transportation, and education sectors; major spice exporter; shrinking but still high public debt; vulnerable to hurricanes; emerging blue economy incentives
+
+### Real GDP (purchasing power parity)
+
+- **Real GDP (purchasing power parity) 2024:** $2.08 billion (2024 est.)
+- **Real GDP (purchasing power parity) 2023:** $2.005 billion (2023 est.)
+- **Real GDP (purchasing power parity) 2022:** $1.916 billion (2022 est.)
+- **note:** note: data in 2021 dollars
+
+### Real GDP growth rate
+
+- **Real GDP growth rate 2024:** 3.7% (2024 est.)
+- **Real GDP growth rate 2023:** 4.7% (2023 est.)
+- **Real GDP growth rate 2022:** 7.3% (2022 est.)
+- **note:** note: annual GDP % growth based on constant local currency
+
+### Real GDP per capita
+
+- **Real GDP per capita 2024:** $17,700 (2024 est.)
+- **Real GDP per capita 2023:** $17,100 (2023 est.)
+- **Real GDP per capita 2022:** $16,400 (2022 est.)
+- **note:** note: data in 2021 dollars
+
+### GDP (official exchange rate)
+
+$1.391 billion (2024 est.)
+> note: note: data in current dollars at official exchange rate
+
+### Inflation rate (consumer prices)
+
+- **Inflation rate (consumer prices) 2024:** 1.1% (2024 est.)
+- **Inflation rate (consumer prices) 2023:** 2.7% (2023 est.)
+- **Inflation rate (consumer prices) 2022:** 2.6% (2022 est.)
+- **note:** note: annual % change based on consumer prices
+
+### GDP - composition, by sector of origin
+
+- **agriculture:** 2.7% (2024 est.)
+- **industry:** 14.8% (2024 est.)
+- **services:** 65.2% (2024 est.)
+- **note:** note: figures may not total 100% due to non-allocated consumption not captured in sector-reported data
+
+### Agricultural products
+
+sugarcane, coconuts, eggs, vegetables, fruits, bananas, plantains, grapefruits, avocados, mangoes/guavas (2023)
+> note: note: top ten agricultural products based on tonnage
+
+- **Industries:** food and beverages, textiles, light assembly operations, tourism, construction, education, call-center operations
+
+### Industrial production growth rate
+
+2.9% (2024 est.)
+> note: note: annual % change in industrial value added based on constant local currency
+
+### Population below poverty line
+
+25% (2018 est.)
+> note: **note:** % of population with income below national poverty line
+
+### Gini Index coefficient - distribution of family income
+
+- **Gini Index coefficient - distribution of family income 2018:** 43.8 (2018 est.)
+- **note:** **note:** index (0-100) of income distribution; higher values represent greater inequality
+
+### Household income or consumption by percentage share
+
+- **lowest 10%:** 2.1% (2018 est.)
+- **highest 10%:** 33.7% (2018 est.)
+- **note:** **note:** % share of income accruing to lowest and highest 10% of population
+
+### Remittances
+
+- **Remittances 2024:** 5% of GDP (2024 est.)
+- **Remittances 2023:** 5.3% of GDP (2023 est.)
+- **Remittances 2022:** 5.1% of GDP (2022 est.)
+- **note:** note: personal transfers and compensation between resident and non-resident individuals/households/entities
+
+### Budget
+
+- **revenues:** $288.404 million (2017 est.)
+- **expenditures:** $222.475 million (2017 est.)
+- **note:** note: central government revenues and expenses (excluding grants/extrabudgetary units/social security funds) converted to US dollars at average official exchange rate for year indicated
+
+- **Public debt:** - **Public debt 2016:** 82% of GDP (2016 est.)
+
+### Current account balance
+
+- **Current account balance 2024:** -$270.771 million (2024 est.)
+- **Current account balance 2023:** -$243.473 million (2023 est.)
+- **Current account balance 2022:** -$148.445 million (2022 est.)
+- **note:** note: balance of payments - net trade and primary/secondary income in current dollars
+
+### Exports
+
+- **Exports 2024:** $858.949 million (2024 est.)
+- **Exports 2023:** $828.529 million (2023 est.)
+- **Exports 2022:** $706.195 million (2022 est.)
+- **note:** note: balance of payments - exports of goods and services in current dollars
+
+### Exports - partners
+
+USA 24%, Antigua & Barbuda 13%, St. Vincent & the Grenadines 8%, Dominica 6%, Trinidad & Tobago 5% (2023)
+> note: note: top five export partners based on percentage share of exports
+
+### Exports - commodities
+
+nutmeg/cardamons, fish, wheat flours, frozen fruits and nuts, aqueous paints (2023)
+> note: note: top five export commodities based on value in dollars
+
+### Imports
+
+- **Imports 2024:** $990.587 million (2024 est.)
+- **Imports 2023:** $924.688 million (2023 est.)
+- **Imports 2022:** $785.022 million (2022 est.)
+- **note:** note: balance of payments - imports of goods and services in current dollars
+
+### Imports - partners
+
+USA 37%, Trinidad & Tobago 13%, Cayman Islands 10%, China 4%, UK 3% (2023)
+> note: note: top five import partners based on percentage share of imports
+
+### Imports - commodities
+
+refined petroleum, cars, poultry, ships, plastic products (2023)
+> note: note: top five import commodities based on value in dollars
+
+### Reserves of foreign exchange and gold
+
+- **Reserves of foreign exchange and gold 2024:** $423.263 million (2024 est.)
+- **Reserves of foreign exchange and gold 2023:** $404.13 million (2023 est.)
+- **Reserves of foreign exchange and gold 2022:** $371.767 million (2022 est.)
+- **note:** note: holdings of gold (year-end prices)/foreign exchange/special drawing rights in current dollars
+
+### Debt - external
+
+- **Debt - external 2023:** $501.371 million (2023 est.)
+- **note:** note: present value of external debt in current US dollars
+
+### Exchange rates
+
+- **Currency:** East Caribbean dollars (XCD) per US dollar -
+- **Exchange rates 2024:** 2.7 (2024 est.)
+- **Exchange rates 2023:** 2.7 (2023 est.)
+- **Exchange rates 2022:** 2.7 (2022 est.)
+- **Exchange rates 2021:** 2.7 (2021 est.)
+- **Exchange rates 2020:** 2.7 (2020 est.)
+
+## Energy
+
+- **Electricity access:** - **electrification - total population:** 94.2% (2022 est.)
+
+### Electricity
+
+- **installed generating capacity:** 60,000 kW (2023 est.)
+- **consumption:** 221.453 million kWh (2023 est.)
+- **transmission/distribution losses:** 18 million kWh (2023 est.)
+
+### Electricity generation sources
+
+- **fossil fuels:** 98.2% of total installed capacity (2023 est.)
+- **solar:** 1.7% of total installed capacity (2023 est.)
+- **wind:** 0.1% of total installed capacity (2023 est.)
+
+- **Coal:** - **imports:** 1 metric tons (2023 est.)
+
+- **Petroleum:** - **refined petroleum consumption:** 2,000 bbl/day (2023 est.)
+
+- **Energy consumption per capita:** - **Total energy consumption per capita 2023:** 41.703 million Btu/person (2023 est.)
+
+## Communications
+
+### Telephones - fixed lines
+
+- **total subscriptions:** 17,000 (2022 est.)
+- **subscriptions per 100 inhabitants:** 14 (2022 est.)
+
+### Telephones - mobile cellular
+
+- **total subscriptions:** 112,000 (2022 est.)
+- **subscriptions per 100 inhabitants:** 81 (2021 est.)
+
+### Broadcast media
+
+multiple publicly and privately owned TV and radio stations; state-owned Grenada Information Service (GIS) provides TV and radio; the Grenada Broadcasting Network, jointly owned by the government and the Caribbean Communications Network of Trinidad and Tobago, operates a TV station and 2 radio stations; multi-channel cable TV subscription service is provided by Columbus Communications Grenada (FLOW GRENADA); approximately 25 private radio stations (2019)
+
+- **Internet country code:** .gd
+
+- **Internet users:** - **percent of population:** 74% (2023 est.)
+
+### Broadband - fixed subscriptions
+
+- **total:** 35,000 (2022 est.)
+- **subscriptions per 100 inhabitants:** 30 (2022 est.)
+
+## Transportation
+
+- **Civil aircraft registration country code prefix:** J3
+
+- **Airports:** 2 (2025)
+
+### Merchant marine
+
+- **total:** 6 (2023)
+- **by type:** general cargo 3, other 3
+
+### Ports
+
+- **total ports:** 1 (2024)
+- **large:** 0
+- **medium:** 0
+- **small:** 1
+- **very small:** 0
+- **ports with oil terminals:** 1
+- **key ports:** St. George's
+
+## Military and Security
+
+- **Military and security forces:** no regular military forces; the Royal Grenada Police Force (under the Ministry of National Security) includes a Coast Guard and a paramilitary Special Services Unit (2025)
+
+### Military - note
+
+Grenada joined the Caribbean Regional Security System (RSS) in 1985; RSS signatories (Antigua and Barbuda, Barbados, Dominica, Guyana, Saint Kitts and Nevis, Saint Lucia, and Saint Vincent and the Grenadines) agreed to prepare contingency plans and assist one another, on request, in national emergencies, prevention of smuggling, search and rescue, immigration control, fishery protection, customs and excise control, maritime policing duties, protection of off-shore installations, pollution control, national and other disasters, and threats to national security (2025)
+
+## Transnational Issues
+
+- **Refugees and internally displaced persons:** - **IDPs:** 383 (2024 est.)

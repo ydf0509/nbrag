@@ -1,0 +1,825 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "Greenland, the world's largest island, is about 80% ice capped. The Inuit came to Greenland from North America in a series of migrations that stretched from 2500 BC to the11th century.&nbsp; Vikings reached the island in the 10th century from Iceland; Danish colonization began in the 18th century, and Greenland became part of the Kingdom of Denmark in 1953. It joined the European Community (now the EU) with Denmark in 1973 but withdrew in 1985 over a dispute centered on stringent fishing quotas. Greenland remains a member of the EU's Overseas Countries and Territories Association. The Danish parliament granted Greenland home rule in 1979; the law went into effect the following year. Greenland voted in favor of self-government in 2008 and acquired greater responsibility for internal affairs when the Act on Greenland Self-Government was signed into law in 2009. The Kingdom of Denmark, however, continues to exercise control over several policy areas on behalf of Greenland, including foreign affairs, security, and financial policy, in consultation with Greenland's Self-Rule Government."
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Northern North America, island between the Arctic Ocean and the North Atlantic Ocean, northeast of Canada"
+    },
+    "Geographic coordinates": {
+      "text": "72 00 N, 40 00 W"
+    },
+    "Map references": {
+      "text": "Arctic Region"
+    },
+    "Area": {
+      "total ": {
+        "text": "2,166,086 sq km"
+      },
+      "land": {
+        "text": "2,166,086 sq km (approximately 1,710,000 sq km ice-covered)"
+      }
+    },
+    "Area - comparative": {
+      "text": "slightly more than three times the size of Texas"
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "0 km"
+      }
+    },
+    "Coastline": {
+      "text": "44,087 km"
+    },
+    "Maritime claims": {
+      "territorial sea": {
+        "text": "3 nm"
+      },
+      "continental shelf": {
+        "text": "200 nm or agreed boundaries or median line"
+      },
+      "exclusive fishing zone": {
+        "text": "200 nm or agreed boundaries or median line"
+      }
+    },
+    "Climate": {
+      "text": "arctic to subarctic; cool summers, cold winters"
+    },
+    "Terrain": {
+      "text": "flat to gradually sloping icecap covers all but a narrow, mountainous, barren, rocky coast"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Gunnbjorn Fjeld 3,694 m"
+      },
+      "lowest point": {
+        "text": "Atlantic Ocean 0 m"
+      },
+      "mean elevation": {
+        "text": "1,792 m"
+      }
+    },
+    "Natural resources": {
+      "text": "coal, iron ore, lead, zinc, molybdenum, diamonds, gold, platinum, niobium, tantalite, uranium, fish, seals, whales, hydropower, possible oil and gas"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "0.6% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 0% (2022 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0% (2022 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 0.6% (2023 est.)"
+      },
+      "forest": {
+        "text": "0% (2023 est.)"
+      },
+      "other": {
+        "text": "99.4% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "NA"
+    },
+    "Population distribution": {
+      "text": "settlement concentrated on the southwest shoreline, with limited settlements scattered along the remaining coast; interior is uninhabited"
+    },
+    "Natural hazards": {
+      "text": "continuous permafrost over northern two-thirds of the island"
+    },
+    "Geography - note": {
+      "text": "dominates North Atlantic Ocean between North America and Europe; sparse population confined to small settlements along coast; close to one-quarter of the population lives in the capital, Nuuk; world's second largest ice sheet after that of Antarctica, covering an area of 1.71 million sq km (660,000 sq mi), or about 79% of the island, and containing 2.85 million cu km (684 thousand cu mi) of ice (almost 7% of the world's fresh water)"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "57,751 (2024 est.)"
+      },
+      "male": {
+        "text": "29,843"
+      },
+      "female": {
+        "text": "27,908"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Greenlander(s)"
+      },
+      "adjective": {
+        "text": "Greenlandic"
+      }
+    },
+    "Ethnic groups": {
+      "text": "Greenlandic 88.1%, Danish 7.1%, Filipino 1.6%, other Nordic peoples 0.9%, and other 2.3% (2024 est.)",
+      "note": "<strong>note:</strong> data represent population by country of birth"
+    },
+    "Languages": {
+      "text": "Greenlandic, Danish, English",
+      "note": "<strong>note: </strong>West Greenlandic or Kalaallisut is the official language; Tunumiisut (East Greenlandic) and Inuktun (Polar Inuit Greenlandic) are considered dialects of Kalaallisut and spoken by about 10% of Greenlanders"
+    },
+    "Religions": {
+      "text": "Evangelical Lutheran, traditional Inuit spiritual beliefs"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "20.4% (male 5,964/female 5,798)"
+      },
+      "15-64 years": {
+        "text": "67.1% (male 20,050/female 18,711)"
+      },
+      "65 years and over": {
+        "text": "12.5% (2024 est.) (male 3,829/female 3,399)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "49 (2024 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "30.3 (2024 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "18.6 (2024 est.)"
+      },
+      "potential support ratio": {
+        "text": "5.4 (2024 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "35.6 years (2025 est.)"
+      },
+      "male": {
+        "text": "35.9 years"
+      },
+      "female": {
+        "text": "34.7 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "-0.08% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "13.32 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "9.29 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "-4.82 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "settlement concentrated on the southwest shoreline, with limited settlements scattered along the remaining coast; interior is uninhabited"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "87.9% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.41% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "18,000 NUUK (capital) (2018)"
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.05 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1.03 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "1.07 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "1.13 male(s)/female"
+      },
+      "total population": {
+        "text": "1.07 male(s)/female (2024 est.)"
+      }
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "8.3 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "9.9 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "6.9 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "74.5 years (2024 est.)"
+      },
+      "male": {
+        "text": "71.8 years"
+      },
+      "female": {
+        "text": "77.3 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "1.87 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "0.91 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: total": {
+        "text": "total: 100% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0% of population (2022 est.)"
+      }
+    },
+    "Physician density": {
+      "text": "1.87 physicians/1,000 population (2016)"
+    },
+    "Sanitation facility access": {
+      "improved: total": {
+        "text": "total: 62.5% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 0% of population"
+      },
+      "unimproved: rural": {
+        "text": "rural: 0% of population"
+      },
+      "unimproved: total": {
+        "text": "total: 37.5% of population (2022 est.)"
+      }
+    },
+    "Currently married women (ages 15-49)": {
+      "text": "38.8% (2022 est.)"
+    },
+    "Education expenditure": {
+      "text": "10.2% of GDP (2019 est.)"
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "changes in sea levels and other disruptions in the Arctic environment"
+    },
+    "Climate": {
+      "text": "arctic to subarctic; cool summers, cold winters"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "0.6% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 0% (2022 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0% (2022 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 0.6% (2023 est.)"
+      },
+      "forest": {
+        "text": "0% (2023 est.)"
+      },
+      "other": {
+        "text": "99.4% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "87.9% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.41% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "527,000 metric tonnes of CO2 (2023 est.)"
+      },
+      "from coal and metallurgical coke": {
+        "text": "12 metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "527,000 metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Waste and recycling": {
+      "municipal solid waste generated annually": {
+        "text": "50,000 tons (2024 est.)"
+      }
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "none"
+      },
+      "conventional short form": {
+        "text": "Greenland"
+      },
+      "local long form": {
+        "text": "none"
+      },
+      "local short form": {
+        "text": "Kalaallit Nunaat"
+      },
+      "etymology": {
+        "text": "named by Norse navigator Erik THORVALDSSON (Erik the Red) in A.D. 985 to attract settlers to the island; the original Greenlandic name, Kalaallit Nunaat, means \"land of the people\""
+      }
+    },
+    "Government type": {
+      "text": "parliamentary democracy (Parliament of Greenland or Inatsisartut)"
+    },
+    "Dependency status": {
+      "text": "part of the Kingdom of Denmark; self-governing overseas administrative division of Denmark since 1979"
+    },
+    "Capital": {
+      "name": {
+        "text": "Nuuk"
+      },
+      "geographic coordinates": {
+        "text": "64 11 N, 51 45 W"
+      },
+      "time difference": {
+        "text": "UTC-2 (3 hours ahead of Washington, DC, during Standard Time)"
+      },
+      "daylight saving time": {
+        "text": "+1hr, begins last Sunday in March; ends last Sunday in October"
+      },
+      "time zone note": {
+        "text": "Greenland has three time zones"
+      },
+      "etymology": {
+        "text": "<em>nuuk </em>is the Inuit word for \"cape;\" until 1979, the name was Godthab, from the Danish words meaning \"good hope\""
+      }
+    },
+    "Administrative divisions": {
+      "text": "5 municipalities (<em>kommuner</em>, singular - <em>kommune</em>); Avannaata, Kujalleq, Qeqertalik, Qeqqata, Sermersooq",
+      "note": "<strong>note:</strong> Northeast Greenland National Park (Kalaallit Nunaanni Nuna Eqqissisimatitaq) and the Pituffik Space Base (formerly known as Thule Air Base) in northwest Greenland are two unincorporated areas; the national park's 972,000 sq km -- about 46% of the island -- makes it the largest national park in the world and also the most northerly"
+    },
+    "Legal system": {
+      "text": "Denmark's laws apply in some areas, and Greenland's law for the remainder"
+    },
+    "Constitution": {
+      "history": {
+        "text": "previous 1953 (Greenland established as a constituency in the Danish constitution), 1979 (Greenland Home Rule Act); latest 21 June 2009 (Greenland Self-Government Act)"
+      }
+    },
+    "Citizenship": {
+      "text": "see Denmark"
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "King FREDERIK X of Denmark (since 14 January 2024), represented by High Commissioner Julie Praest WILCHE (since May 2022) (2024)"
+      },
+      "head of government": {
+        "text": "Prime Minister Jens-Frederik NIELSEN (since 28 March 2025)"
+      },
+      "cabinet": {
+        "text": "Self-rule Government (Naalakkersuisut) elected by the Parliament (Inatsisartut)"
+      },
+      "election/appointment process": {
+        "text": "the monarchy is hereditary; high commissioner appointed by the monarch; premier indirectly elected by Parliament for a 4-year term"
+      },
+      "election results": {
+        "text": "<em>2025: </em>Jens-Frederik NIELSEN (D) elected premier<em><br><br>2021:</em> Mute B. EGEDE elected premier; Parliament vote - Mute B. EGEDE (Inuit Ataqatigiit) unanimous<br><br><em>2014:</em> Kim KIELSEN elected premier; Parliament vote - Kim KIELSEN (S) 27.2%, Sara OLSVIG (IA) 25.5%, Randi Vestergaard EVALDSEN (D) 19.5%, other 27.8%"
+      }
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "Parliament (Inatsisartut)"
+      },
+      "legislative structure": {
+        "text": "unicameral"
+      },
+      "number of seats": {
+        "text": "31 (directly elected)"
+      },
+      "electoral system": {
+        "text": "proportional representation"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "4 years"
+      },
+      "most recent election date": {
+        "text": "4/6/2021"
+      },
+      "parties elected and seats per party": {
+        "text": "IA (12); S (10); N (4); D (3); A (2)"
+      },
+      "percentage of women in chamber": {
+        "text": "35%"
+      },
+      "expected date of next election": {
+        "text": "2025"
+      },
+      "note": "<strong>note:</strong> Greenland elects 2 members to the Danish Parliament to serve 4-year terms"
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "High Court of Greenland (consists of the presiding professional judge and 2 lay assessors)"
+      },
+      "judge selection and term of office": {
+        "text": "judges appointed by the monarch on the recommendation of the Judicial Appointments Council, a 6-member independent body of judges and lawyers; judges appointed for life with retirement at age 70"
+      },
+      "subordinate courts": {
+        "text": "Court of Greenland; 18 district or magistrates' courts"
+      },
+      "note": "<strong>note:</strong> appeals beyond the High Court of Greenland can be heard by the Supreme Court (in Copenhagen)"
+    },
+    "Political parties": {
+      "text": "Democrats Party (Demokraatit) or D <br>Fellowship Party (Atassut) or A <br>Forward Party (Siumut) or S <br>Inuit Community (Inuit Ataqatigiit) or IA <br>Signpost Party (Naleraq) or N (formerly Partii Naleraq)"
+    },
+    "Diplomatic representation in the US": {
+      "chief of mission": {
+        "text": "Kenneth H&Oslash;EGH, Head of Representation (since 1 August 2021)"
+      },
+      "chancery": {
+        "text": "3200 Whitehaven Street, NW<br>Washington, DC  20008"
+      },
+      "telephone": {
+        "text": "[1] (202) 234-4300"
+      },
+      "FAX": {
+        "text": "[1] (202) 328-1470"
+      },
+      "email address and website": {
+        "text": "<br>washington@nanoq.gl<br><br>All Greenlandic Representations | GrÃ¸nlands ReprÃ¦sentation (grl-rep.dk); <br>https://naalakkersuisut.gl/en/Naalakkersuisut/Groenlands-repraesentation-Washington"
+      },
+      "note": "<strong>note</strong>: Greenland also has offices in the Danish consulates in Chicago and New York"
+    },
+    "Diplomatic representation from the US": {
+      "chief of mission": {
+        "text": "Consul Susan A. \"Suzi\" WILSON (since August 2025)"
+      },
+      "embassy": {
+        "text": "Aalisartut Aqqutaa 47<br>Nuuk 3900<br>Greenland"
+      },
+      "telephone": {
+        "text": "(+299) 384100"
+      },
+      "email address and website": {
+        "text": "<br>USConsulateNuuk@state.gov<br><br>Homepage - U.S. Embassy &amp; Consulate in the Kingdom of Denmark (usembassy.gov)"
+      }
+    },
+    "International organization participation": {
+      "text": "Arctic Council, ICC, NC, NIB, UPU"
+    },
+    "Independence": {
+      "text": "none (extensive self-rule as part of the Kingdom of Denmark)"
+    },
+    "National holiday": {
+      "text": "National Day, June 21",
+      "note": "<strong>note:</strong> marks the summer solstice and the longest day of the year in the Northern Hemisphere"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> two equal horizontal bands of white (top) and red, with a large disk set slightly to the left; the top half of the disk is red, and the bottom is white<br><br><strong>meaning:</strong> the design represents the sun reflecting off a field of ice; the colors are the same as the Danish flag and symbolize Greenland's links to the Kingdom of Denmark"
+    },
+    "National symbol(s)": {
+      "text": "polar bear"
+    },
+    "National color(s)": {
+      "text": "red, white"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"Nuna asiilasooq\" (The Land of Great Length)"
+      },
+      "lyrics/music": {
+        "text": "unknown"
+      },
+      "history": {
+        "text": "adopted 1979, when home rule was granted; the Greenlandic government recognizes this local Kalaallit song as a secondary anthem"
+      }
+    },
+    "National heritage": {
+      "total World Heritage Sites": {
+        "text": "3 (2 cultural, 1 natural); note - excerpted from the Denmark entry"
+      },
+      "selected World Heritage Site locales": {
+        "text": "Ilulissat Icefjord (n); Kujataa, Norse, and Inuit Farming (c); Aasivissuit–Nipisat, Inuit Hunting Ground (c)"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "high-income, self-governing Danish territorial economy; non-EU member but preferential market access; dependent on Danish financial support; exports led by fishing industry; growing tourism and interest in untapped mineral deposits; relies on hydropower for fuel"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$4.04 billion (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$4.005 billion (2022 est.)"
+      },
+      "Real GDP (purchasing power parity) 2021": {
+        "text": "$3.926 billion (2021 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "Real GDP growth rate": {
+      "Real GDP growth rate 2023": {
+        "text": "0.9% (2023 est.)"
+      },
+      "Real GDP growth rate 2022": {
+        "text": "2% (2022 est.)"
+      },
+      "Real GDP growth rate 2021": {
+        "text": "1.6% (2021 est.)"
+      },
+      "note": "<b>note:</b> annual GDP % growth based on constant local currency"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2023": {
+        "text": "$71,000 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$70,700 (2022 est.)"
+      },
+      "Real GDP per capita 2021": {
+        "text": "$69,300 (2021 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$3.327 billion (2023 est.)",
+      "note": "<b>note:</b> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2022": {
+        "text": "1.2% (2022 est.)"
+      },
+      "Inflation rate (consumer prices) 2021": {
+        "text": "0% (2021 est.)"
+      },
+      "Inflation rate (consumer prices) 2020": {
+        "text": "2.1% (2020 est.)"
+      },
+      "note": "<strong>note:</strong> annual % change based on consumer prices"
+    },
+    "GDP - composition, by sector of origin": {
+      "agriculture": {
+        "text": "16.6% (2023 est.)"
+      },
+      "industry": {
+        "text": "18.4% (2023 est.)"
+      },
+      "services": {
+        "text": "61% (2023 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to non-allocated consumption not captured in sector-reported data"
+    },
+    "GDP - composition, by end use": {
+      "household consumption": {
+        "text": "32.6% (2023 est.)"
+      },
+      "government consumption": {
+        "text": "41.7% (2023 est.)"
+      },
+      "investment in fixed capital": {
+        "text": "34.7% (2023 est.)"
+      },
+      "investment in inventories": {
+        "text": "1.3% (2023 est.)"
+      },
+      "exports of goods and services": {
+        "text": "40.8% (2023 est.)"
+      },
+      "imports of goods and services": {
+        "text": "-51.1% (2023 est.)"
+      },
+      "note": "<strong>note:</strong> figures may not total 100% due to rounding or gaps in data collection"
+    },
+    "Agricultural products": {
+      "text": "sheep, cattle, reindeer, fish, shellfish"
+    },
+    "Industries": {
+      "text": "fish processing (mainly shrimp and Greenland halibut), anorthosite and ruby mining, handicrafts, hides and skins, small shipyards"
+    },
+    "Industrial production growth rate": {
+      "text": "-1.3% (2023 est.)",
+      "note": "<strong>note:</strong> annual % change in industrial value added based on constant local currency"
+    },
+    "Budget": {
+      "revenues": {
+        "text": "$1.719 billion (2016 est.)"
+      },
+      "expenditures": {
+        "text": "$1.594 billion (2016 est.)"
+      }
+    },
+    "Exports": {
+      "Exports 2023": {
+        "text": "$1.357 billion (2023 est.)"
+      },
+      "Exports 2022": {
+        "text": "$1.286 billion (2022 est.)"
+      },
+      "Exports 2021": {
+        "text": "$1.122 billion (2021 est.)"
+      },
+      "note": "<strong>note: </strong>GDP expenditure basis - exports of goods and services in current dollars"
+    },
+    "Exports - partners": {
+      "text": "Denmark 50%, China 23%, UK 5%, Japan 5%, Germany 3% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "fish, shellfish, processed crustaceans, ships, precious stones (2023)",
+      "note": "<b>note:</b> top five export commodities based on value in dollars"
+    },
+    "Imports": {
+      "Imports 2023": {
+        "text": "$1.7 billion (2023 est.)"
+      },
+      "Imports 2022": {
+        "text": "$1.657 billion (2022 est.)"
+      },
+      "Imports 2021": {
+        "text": "$1.635 billion (2021 est.)"
+      },
+      "note": "<strong>note: </strong>GDP expenditure basis - imports of goods and services in current dollars"
+    },
+    "Imports - partners": {
+      "text": "Denmark 58%, Sweden 19%, Spain 8%, Iceland 7%, Canada 2% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "refined petroleum, ships, garments, plastic products, furniture (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "Danish kroner (DKK) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "6.894 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "6.89 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "7.076 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "6.287 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "6.542 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "100% (2022 est.)"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "190,000 kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "534.5 million kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "10 million kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "13.6% of total installed capacity (2023 est.)"
+      },
+      "solar": {
+        "text": "0.2% of total installed capacity (2023 est.)"
+      },
+      "hydroelectricity": {
+        "text": "85.8% of total installed capacity (2023 est.)"
+      },
+      "biomass and waste": {
+        "text": "0.5% of total installed capacity (2023 est.)"
+      }
+    },
+    "Coal": {
+      "imports": {
+        "text": "5 metric tons (2023 est.)"
+      },
+      "proven reserves": {
+        "text": "383 million metric tons (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "refined petroleum consumption": {
+        "text": "4,000 bbl/day (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "6,000 (2020 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "9 (2022 est.)"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "67,000 (2021 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "118 (2021 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "Greenland Broadcasting Company provides public radio and TV, with a broadcast station and a series of repeaters; a few private local TV and radio stations; Danish public radio rebroadcasts are available (2019)"
+    },
+    "Internet country code": {
+      "text": ".gl"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "70% (2017 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "18,000 (2022 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "32 (2022 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "OY-H"
+    },
+    "Airports": {
+      "text": "25 (2025)"
+    },
+    "Heliports": {
+      "text": "54 (2025)"
+    },
+    "Merchant marine": {
+      "total": {
+        "text": "10 (2023)"
+      },
+      "by type": {
+        "text": "other 10"
+      }
+    },
+    "Ports": {
+      "total ports": {
+        "text": "23 (2024)"
+      },
+      "large": {
+        "text": "0"
+      },
+      "medium": {
+        "text": "0"
+      },
+      "small": {
+        "text": "7"
+      },
+      "very small": {
+        "text": "10"
+      },
+      "size unknown": {
+        "text": "6"
+      },
+      "ports with oil terminals": {
+        "text": "5"
+      },
+      "key ports": {
+        "text": "Aasiaat, Illulissat (Jakobshavn), Kusanartoq, Nuuk, Paamuit (Frederikshab), Qeqertarsuaq, Sisimiut"
+      }
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "no regular military forces"
+    },
+    "Military - note": {
+      "text": "the Danish military’s Joint Arctic Command in Nuuk is responsible for coordinating Denmark's defense of Greenland<br><br>the US Space Force maintains a base on Greenland’s northwest coast, about 750 miles from the North Pole"
+    }
+  },
+  "Transnational Issues": {
+  }
+}

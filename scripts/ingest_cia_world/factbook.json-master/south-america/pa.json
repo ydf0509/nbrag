@@ -1,0 +1,1204 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "Several Indigenous groups, principally belonging to the Guarani language family, inhabited the area of modern Paraguay before the arrival of the Spanish in the early 16th century, when the territory was incorporated into the Viceroyalty of Peru. Paraguay achieved its independence from Spain in 1811 with the help of neighboring states. In the aftermath of independence, a series of military dictators ruled the country until 1870. During the disastrous War of the Triple Alliance (1864-70) -- fought against Argentina, Brazil, and Uruguay -- Paraguay lost two thirds of its adult males and much of its territory. The country stagnated economically for the next half-century and experienced a tumultuous series of political regimes. Following the Chaco War of 1932-35 with Bolivia, Paraguay gained a large part of the Chaco lowland region. The 35-year military dictatorship of Alfredo STROESSNER ended in 1989, and Paraguay has held relatively free and regular presidential elections since the country's return to democracy."
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Central South America, northeast of Argentina, southwest of Brazil"
+    },
+    "Geographic coordinates": {
+      "text": "23 00 S, 58 00 W"
+    },
+    "Map references": {
+      "text": "South America"
+    },
+    "Area": {
+      "total ": {
+        "text": "406,752 sq km"
+      },
+      "land": {
+        "text": "397,302 sq km"
+      },
+      "water": {
+        "text": "9,450 sq km"
+      }
+    },
+    "Area - comparative": {
+      "text": "about three times the size of New York State; slightly smaller than California"
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "4,655 km"
+      },
+      "border countries": {
+        "text": "Argentina 2,531 km; Bolivia 753 km; Brazil 1,371 km"
+      }
+    },
+    "Coastline": {
+      "text": "0 km (landlocked)"
+    },
+    "Maritime claims": {
+      "text": "none (landlocked)"
+    },
+    "Climate": {
+      "text": "subtropical to temperate; substantial rainfall in the eastern portions, becoming semiarid in the far west"
+    },
+    "Terrain": {
+      "text": "grassy plains and wooded hills east of Rio Paraguay; Gran Chaco region west of Rio Paraguay mostly low, marshy plain near the river, and dry forest and thorny scrub elsewhere"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Cerro Pero 842 m"
+      },
+      "lowest point": {
+        "text": "junction of R&iacute;o Paraguay and R&iacute;o Paran&aacute; 46 m"
+      },
+      "mean elevation": {
+        "text": "178 m"
+      }
+    },
+    "Natural resources": {
+      "text": "hydropower, timber, iron ore, manganese, limestone"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "54.1% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 11.5% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0.2% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 42.4% (2023 est.)"
+      },
+      "forest": {
+        "text": "36.9% (2023 est.)"
+      },
+      "other": {
+        "text": "7% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "1,362 sq km (2012)"
+    },
+    "Major rivers (by length in km)": {
+      "text": "Río de la Plata/Paraná (shared with Brazil [s], Argentina, and Uruguay [m]) - 4,880 km; Paraguay river mouth (shared with Brazil [s] and Argentina) - 2,549 km<br><br><strong>note:</strong> [s] after country name indicates river source; [m] after country name indicates river mouth"
+    },
+    "Major watersheds (area sq km)": {
+      "Atlantic Ocean drainage": {
+        "text": "Paran&aacute; (2,582,704 sq km)"
+      }
+    },
+    "Major aquifers": {
+      "text": "Guarani Aquifer System"
+    },
+    "Population distribution": {
+      "text": "most of the population resides in the eastern half of the country; to the west lies the Gran Chaco (a semi-arid lowland plain), which accounts for 60% of the land territory, but only 2% of the overall population"
+    },
+    "Natural hazards": {
+      "text": "local flooding in southeast (early September to June); poorly drained plains may become boggy (early October to June)"
+    },
+    "Geography - note": {
+      "text": "landlocked; lies between Argentina, Bolivia, and Brazil; population concentrated in eastern and southern part of country"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "7,604,044 (2025 est.)"
+      },
+      "male": {
+        "text": "3,809,407"
+      },
+      "female": {
+        "text": "3,794,637"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Paraguayan(s)"
+      },
+      "adjective": {
+        "text": "Paraguayan"
+      }
+    },
+    "Ethnic groups": {
+      "text": "Mestizo (mixed Spanish and Indigenous ancestry) 95%, other 5%"
+    },
+    "Languages": {
+      "Languages": {
+        "text": "Spanish (official) and Guarani (official) 46.3%, only Guarani 34%, only Spanish 15.2%, other (includes Portuguese, German, other Indigenous languages) 4.1%, no response 0.4% (2012 est.)"
+      },
+      "major-language sample(s)": {
+        "text": "<br>La Libreta Informativa del Mundo, la fuente indispensable de información básica. (Spanish)<br><br>The World Factbook, the indispensable source for basic information."
+      },
+      "note": "<strong>note:</strong> data represent predominant household language"
+    },
+    "Religions": {
+      "text": "Roman Catholic 80.4%, Protestant 7% (Evangelical (non-specific) 6.7%, Evangelical Pentecostal &lt;0.1%, Adventist &lt;0.1%, Protestant (non-specific) &lt;0.1%), Believer (not belonging to the church) 5.7%, other 0.6%, agnostic &lt;0.1%, none 0.2%, unspecified 6.2% (2023 est.)"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "22.2% (male 850,191/female 821,237)"
+      },
+      "15-64 years": {
+        "text": "68.4% (male 2,582,021/female 2,561,962)"
+      },
+      "65 years and over": {
+        "text": "9.4% (2024 est.) (male 337,164/female 369,974)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "46.7 (2025 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "32.4 (2025 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "14.3 (2025 est.)"
+      },
+      "potential support ratio": {
+        "text": "7 (2025 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "32.3 years (2025 est.)"
+      },
+      "male": {
+        "text": "31.6 years"
+      },
+      "female": {
+        "text": "32 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "1.06% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "15.66 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "4.97 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "-0.07 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "most of the population resides in the eastern half of the country; to the west lies the Gran Chaco (a semi-arid lowland plain), which accounts for 60% of the land territory, but only 2% of the overall population"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "63.1% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "1.64% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "3.511 million ASUNCION (capital) (2023)"
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.05 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1.04 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "1.01 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "0.91 male(s)/female"
+      },
+      "total population": {
+        "text": "1 male(s)/female (2024 est.)"
+      }
+    },
+    "Mother's mean age at first birth": {
+      "text": "22.9 years (2008 est.)",
+      "note": "<strong>note:</strong> data represents median age at first birth among women 25-29"
+    },
+    "Maternal mortality ratio": {
+      "text": "58 deaths/100,000 live births (2023 est.)"
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "21.4 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "26.1 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "17.7 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "78.8 years (2024 est.)"
+      },
+      "male": {
+        "text": "76.2 years"
+      },
+      "female": {
+        "text": "81.6 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "1.88 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "0.92 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: urban": {
+        "text": "urban: 99.9% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 99.1% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 99.6% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 0.1% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 0.9% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0.4% of population (2022 est.)"
+      }
+    },
+    "Health expenditure": {
+      "Health expenditure (as % of GDP)": {
+        "text": "8% of GDP (2021)"
+      },
+      "Health expenditure (as % of national budget)": {
+        "text": "17.4% of national budget (2022 est.)"
+      }
+    },
+    "Physician density": {
+      "text": "3.89 physicians/1,000 population (2022)"
+    },
+    "Hospital bed density": {
+      "text": "1 beds/1,000 population (2020 est.)"
+    },
+    "Sanitation facility access": {
+      "improved: urban": {
+        "text": "urban: 100% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 94.9% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 98.1% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 0% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 5.1% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 1.9% of population (2022 est.)"
+      }
+    },
+    "Obesity - adult prevalence rate": {
+      "text": "20.3% (2016)"
+    },
+    "Alcohol consumption per capita": {
+      "total": {
+        "text": "5.47 liters of pure alcohol (2019 est.)"
+      },
+      "beer": {
+        "text": "3.27 liters of pure alcohol (2019 est.)"
+      },
+      "wine": {
+        "text": "0.59 liters of pure alcohol (2019 est.)"
+      },
+      "spirits": {
+        "text": "1.59 liters of pure alcohol (2019 est.)"
+      },
+      "other alcohols": {
+        "text": "0.03 liters of pure alcohol (2019 est.)"
+      }
+    },
+    "Tobacco use": {
+      "total": {
+        "text": "9.3% (2025 est.)"
+      },
+      "male": {
+        "text": "15.5% (2025 est.)"
+      },
+      "female": {
+        "text": "3.3% (2025 est.)"
+      }
+    },
+    "Children under the age of 5 years underweight": {
+      "text": "1.3% (2016 est.)"
+    },
+    "Currently married women (ages 15-49)": {
+      "text": "54.8% (2022 est.)"
+    },
+    "Child marriage": {
+      "women married by age 15": {
+        "text": "3.6% (2016)"
+      },
+      "women married by age 18": {
+        "text": "21.6% (2016)"
+      }
+    },
+    "Education expenditure": {
+      "Education expenditure (% GDP)": {
+        "text": "3.4% of GDP (2023 est.)"
+      },
+      "Education expenditure (% national budget)": {
+        "text": "11.7% national budget (2025 est.)"
+      }
+    },
+    "Literacy": {
+      "total population": {
+        "text": "94.9% (2024 est.)"
+      },
+      "male": {
+        "text": "95.4% (2024 est.)"
+      },
+      "female": {
+        "text": "94.3% (2024 est.)"
+      }
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "deforestation; water pollution; toxic dumping in rivers and streams; loss of wetlands; inadequate means for waste disposal in urban areas"
+    },
+    "International environmental agreements": {
+      "party to": {
+        "text": "Biodiversity, Climate Change, Climate Change-Kyoto Protocol, Climate Change-Paris Agreement, Comprehensive Nuclear Test Ban, Desertification, Endangered Species, Hazardous Wastes, Law of the Sea, Ozone Layer Protection, Wetlands"
+      },
+      "signed, but not ratified": {
+        "text": "Nuclear Test Ban, Tropical Timber 2006"
+      }
+    },
+    "Climate": {
+      "text": "subtropical to temperate; substantial rainfall in the eastern portions, becoming semiarid in the far west"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "54.1% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 11.5% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0.2% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 42.4% (2023 est.)"
+      },
+      "forest": {
+        "text": "36.9% (2023 est.)"
+      },
+      "other": {
+        "text": "7% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "63.1% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "1.64% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "7.509 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from coal and metallurgical coke": {
+        "text": "2,000 metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "7.507 million metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Particulate matter emissions": {
+      "text": "12.5 micrograms per cubic meter (2019 est.)"
+    },
+    "Methane emissions": {
+      "energy": {
+        "text": "37.3 kt (2022-2024 est.)"
+      },
+      "agriculture": {
+        "text": "813 kt (2019-2021 est.)"
+      },
+      "waste": {
+        "text": "101.2 kt (2019-2021 est.)"
+      },
+      "other": {
+        "text": "10 kt (2019-2021 est.)"
+      }
+    },
+    "Waste and recycling": {
+      "municipal solid waste generated annually": {
+        "text": "1.819 million tons (2024 est.)"
+      },
+      "percent of municipal solid waste recycled": {
+        "text": "18.1% (2022 est.)"
+      }
+    },
+    "Total water withdrawal": {
+      "municipal": {
+        "text": "362 million cubic meters (2022 est.)"
+      },
+      "industrial": {
+        "text": "154 million cubic meters (2022 est.)"
+      },
+      "agricultural": {
+        "text": "1.897 billion cubic meters (2022 est.)"
+      }
+    },
+    "Total renewable water resources": {
+      "text": "387.77 billion cubic meters (2022 est.)"
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "Republic of Paraguay"
+      },
+      "conventional short form": {
+        "text": "Paraguay"
+      },
+      "local long form": {
+        "text": "Rep&uacute;blica del Paraguay"
+      },
+      "local short form": {
+        "text": "Paraguay"
+      },
+      "etymology": {
+        "text": "derives from the river of the same name; the river's name may come from the Guarani words <em>para </em>(water or river) and <em>guay </em>(born)"
+      }
+    },
+    "Government type": {
+      "text": "presidential republic"
+    },
+    "Capital": {
+      "name": {
+        "text": "Asunci&oacute;n"
+      },
+      "geographic coordinates": {
+        "text": "25 16 S, 57 40 W"
+      },
+      "time difference": {
+        "text": "UTC-3 (2 hour ahead of Washington, DC, during Standard Time)"
+      },
+      "etymology": {
+        "text": "the name means \"assumption\" in Spanish; the Spanish founded the city on August 15, 1537, the Catholic feast day for the Assumption of the Virgin Mary&nbsp;"
+      }
+    },
+    "Administrative divisions": {
+      "text": "17 departments (<em>departamentos</em>, singular - <em>departamento</em>) and 1 capital city*; Alto Paraguay, Alto Parana, Amambay, Asuncion*, Boquerón, Caaguazú, Caazapá, Canindeyú, Central, Concepcion, Cordillera, Guairá, Itapúa, Misiones, Ñeembucú, Paraguarí, Presidente Hayes, San Pedro"
+    },
+    "Legal system": {
+      "text": "civil law system with influences from Argentine, Spanish, Roman, and French civil law models; Supreme Court of Justice reviews legislative acts"
+    },
+    "Constitution": {
+      "history": {
+        "text": "several previous; latest approved and promulgated 20 June 1992"
+      },
+      "amendment process": {
+        "text": "proposed at the initiative of at least one quarter of either chamber of the National Congress, by the president of the republic, or by petition of at least 30,000 voters; passage requires a two-thirds majority vote by both chambers and approval in a referendum"
+      }
+    },
+    "International law organization participation": {
+      "text": "accepts compulsory ICJ jurisdiction; accepts ICCt jurisdiction"
+    },
+    "Citizenship": {
+      "citizenship by birth": {
+        "text": "yes"
+      },
+      "citizenship by descent only": {
+        "text": "at least one parent must be a native-born citizen of Paraguay"
+      },
+      "dual citizenship recognized": {
+        "text": "yes"
+      },
+      "residency requirement for naturalization": {
+        "text": "3 years"
+      }
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal and compulsory until the age of 75"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "President Santiago PE&Ntilde;A Palacios (since 15 August 2023)"
+      },
+      "head of government": {
+        "text": "President Santiago PE&Ntilde;A Palacios (since 15 August 2023)"
+      },
+      "cabinet": {
+        "text": "Council of Ministers appointed by the president"
+      },
+      "election/appointment process": {
+        "text": "president and vice president directly elected on the same ballot by simple-majority popular vote for a single 5-year term"
+      },
+      "most recent election date": {
+        "text": "30 April 2023"
+      },
+      "election results": {
+        "text": "<br><em>2023: </em>Santiago PEÑA Palacios elected president; percent of vote - Santiago PEÑA Palacios (ANR) 43.9%, Efraín ALEGRE (PLRA) 28.3%, Paraguayo \"Payo\" CUBAS Colomés (PCN) 23.6%, other 4.2%<em><br><br>2018:</em> Mario ABDO BENÍTEZ elected president; percent of vote - Mario ABDO BENÍTEZ (ANR) 49%, Efraín ALEGRE (PLRA) 45.1%, other 5.9%"
+      },
+      "expected date of next election": {
+        "text": "April 2028"
+      },
+      "note": "<strong>note</strong>: the president is both chief of state and head of government"
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "Congress (Congreso)"
+      },
+      "legislative structure": {
+        "text": "bicameral"
+      }
+    },
+    "Legislative branch - lower chamber": {
+      "chamber name": {
+        "text": "Chamber of Deputies (Cámara de Diputados)"
+      },
+      "number of seats": {
+        "text": "80 (all directly elected)"
+      },
+      "electoral system": {
+        "text": "proportional representation"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "5 years"
+      },
+      "most recent election date": {
+        "text": "4/30/2023"
+      },
+      "parties elected and seats per party": {
+        "text": "National Republican Association/Colorado Party (ANR) (48); Authentic Radical Liberal Party (PLRA) - Alliances (23); National Crusade Party (CN) (4); Other (5)"
+      },
+      "percentage of women in chamber": {
+        "text": "23.8%"
+      },
+      "expected date of next election": {
+        "text": "April 2028"
+      }
+    },
+    "Legislative branch - upper chamber": {
+      "chamber name": {
+        "text": "Senate (Cámara de Senadores)"
+      },
+      "number of seats": {
+        "text": "45 (all directly elected)"
+      },
+      "electoral system": {
+        "text": "proportional representation"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "5 years"
+      },
+      "most recent election date": {
+        "text": "4/30/2023"
+      },
+      "parties elected and seats per party": {
+        "text": "National Republican Association/Colorado Party (ANR) (23); Authentic Radical Liberal Party (PLRA) - Alliances (12); National Crusade Party (CN) (5); Other (5)"
+      },
+      "percentage of women in chamber": {
+        "text": "22.2%"
+      },
+      "expected date of next election": {
+        "text": "April 2028"
+      }
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "Supreme Court of Justice or Corte Suprema de Justicia (consists of 9 justices divided 3 each into the Constitutional Court, Civil and Commercial Chamber, and Criminal Division)"
+      },
+      "judge selection and term of office": {
+        "text": "justices proposed by the Council of Magistrates or Consejo de la Magistratura, a 6-member independent body, and appointed by the Chamber of Senators with presidential concurrence; judges can serve until mandatory retirement at age 75"
+      },
+      "subordinate courts": {
+        "text": "appellate courts; first instance courts; minor courts, including justices of the peace"
+      }
+    },
+    "Political parties": {
+      "text": "Asociacion Nacional Republicana (National Republican Association) - Colorado Party or ANR<br>Avanza Pais coalition or AP<br>Frente Guasu (Broad Front coalition) or FG<br>GANAR Alliance (Great Renewed National Alliance) (alliance between PLRA and Guasú Front)<br>Movimiento Hagamos or MH<br>Movimiento Union Nacional de Ciudadanos Eticos (National Union of Ethical Citizens) or UNACE<br>Partido Cruzada Nacional (National Crusade Party) or PCN; note - formerly Movimiento Cruzada Nacional<br>Partido del Movimiento al Socialismo or P-MAS<br>Partido Democratica Progresista (Progressive Democratic Party) or PDP<br>Partido Encuentro Nacional or PEN<br>Partido Liberal Radical Autentico (Authentic Radical Liberal Party) or PLRA<br>Partido Pais Solidario or PPS<br>Partido Popular Tekojoja or PPT<br>Patria Querida (Beloved Fatherland Party) or PPQ"
+    },
+    "Diplomatic representation in the US": {
+      "chief of mission": {
+        "text": "Ambassador Gustavo Alfredo LEITE Gusinky (since 5 September 2025)"
+      },
+      "chancery": {
+        "text": "2209 Massachusetts Avenue, NW, Washington DC&nbsp; 20008"
+      },
+      "telephone": {
+        "text": "[1] (202) 483-6960"
+      },
+      "FAX": {
+        "text": "[1] (202) 234-4508"
+      },
+      "email address and website": {
+        "text": "<br>gabineteembaparusa@mre.gov.py<br><br>Embajada de la República del Paraguay ante los Estados Unidos de América :: The Embassy (mre.gov.py)"
+      },
+      "consulate(s) general": {
+        "text": "Los Angeles, Miami, New York"
+      }
+    },
+    "Diplomatic representation from the US": {
+      "chief of mission": {
+        "text": "Ambassador (vacant); Charg&eacute; d&rsquo;Affaires Robert ALTER (since July 2025)"
+      },
+      "embassy": {
+        "text": "1776 Mariscal Lopez Avenue, Asuncion"
+      },
+      "mailing address": {
+        "text": "3020 Asuncion Place, Washington DC&nbsp; 20521-3020"
+      },
+      "telephone": {
+        "text": "[595] (21) 248-3000"
+      },
+      "FAX": {
+        "text": "[595] (21) 213-728"
+      },
+      "email address and website": {
+        "text": "<br>ParaguayACS@state.gov<br><br>https://py.usembassy.gov/"
+      }
+    },
+    "International organization participation": {
+      "text": "CAN (associate), CD, CELAC, FAO, G-11, G-77, IADB, IAEA, IBRD, ICAO, ICC (national committees), ICCt, ICRM, IDA, IFAD, IFC, IFRCS, ILO, IMF, IMO, Interpol, IOC, IOM, IPU, ISO (correspondent), ITSO, ITU, ITUC (NGOs), LAES, LAIA, Mercosur, MIGA, MINURSO, MINUSTAH, MONUSCO, NAM (observer), OAS, OPANAL, OPCW, Pacific Alliance (observer), PCA, PROSUR, UN, UNASUR, UNCTAD, UNESCO, UNFICYP, UNHRC, UNIDO, Union Latina, UNISFA, UNMIL, UNMISS, UNOCI, UNOOSA, UNWTO, UPU, WCO, WHO, WIPO, WMO, WTO"
+    },
+    "Independence": {
+      "text": "14-15 May 1811 (from Spain)",
+      "note": "<strong>note:</strong> the uprising against Spanish authorities took place during the night of 14-15 May 1811, so both days are celebrated in Paraguay"
+    },
+    "National holiday": {
+      "text": "Independence Day, 14-15 May (1811) (observed 15 May); 14 May is celebrated as Flag Day"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> three equal horizontal bands of red (top), white, and blue, with an emblem centered on the white band; the emblem on one side of the flag is the national coat of arms, which has a five-pointed yellow star in a green wreath with the words REPUBLICA DEL PARAGUAY around it, all inside two circles; the other side of the flag has a circular treasury seal (a yellow lion below a red Cap of Liberty and the words PAZ Y JUSTICIA)<br><br><strong>meaning:</strong> red stands for bravery and patriotism, white for integrity and peace, and blue for liberty and generosity",
+      "note": "<strong>note 1:</strong> resembles the flag of the Netherlands, which does not have a central emblem<br><br><strong>note 2:</strong> one of three national flags that differ on each side -- the others are Moldova and Saudi Arabia"
+    },
+    "National symbol(s)": {
+      "text": "lion"
+    },
+    "National color(s)": {
+      "text": "red, white, blue"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"Paraguayos, Republica o muerte!\" (Paraguayans, the Republic or Death!)"
+      },
+      "lyrics/music": {
+        "text": "Francisco Esteban ACUNA de Figueroa/Remberto GIMENEZ&nbsp; &nbsp;"
+      },
+      "history": {
+        "text": "adopted 1846 (lyrics) and 1934 (music)&nbsp;"
+      }
+    },
+    "National heritage": {
+      "total World Heritage Sites": {
+        "text": "1 (cultural)"
+      },
+      "selected World Heritage Site locales": {
+        "text": "Jesuit Missions of La Sant&iacute;sima Trinidad de Paran&aacute; and Jes&uacute;s de Tavarangue"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "upper middle-income South American economy; COVID-19 hit while still recovering from 2019 Argentina-driven recession; global hydroelectricity leader; major corruption and money-laundering locale; highly agrarian economy; significant income inequality"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2024": {
+        "text": "$112.919 billion (2024 est.)"
+      },
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$108.316 billion (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$103.159 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "Real GDP growth rate": {
+      "Real GDP growth rate 2024": {
+        "text": "4.2% (2024 est.)"
+      },
+      "Real GDP growth rate 2023": {
+        "text": "5% (2023 est.)"
+      },
+      "Real GDP growth rate 2022": {
+        "text": "0.2% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual GDP % growth based on constant local currency"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2024": {
+        "text": "$16,300 (2024 est.)"
+      },
+      "Real GDP per capita 2023": {
+        "text": "$15,800 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$15,300 (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$44.458 billion (2024 est.)",
+      "note": "<b>note:</b> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2024": {
+        "text": "3.8% (2024 est.)"
+      },
+      "Inflation rate (consumer prices) 2023": {
+        "text": "4.6% (2023 est.)"
+      },
+      "Inflation rate (consumer prices) 2022": {
+        "text": "9.8% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual % change based on consumer prices"
+    },
+    "GDP - composition, by sector of origin": {
+      "agriculture": {
+        "text": "10.7% (2024 est.)"
+      },
+      "industry": {
+        "text": "32.5% (2024 est.)"
+      },
+      "services": {
+        "text": "48.7% (2024 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to non-allocated consumption not captured in sector-reported data"
+    },
+    "GDP - composition, by end use": {
+      "household consumption": {
+        "text": "67% (2024 est.)"
+      },
+      "government consumption": {
+        "text": "12.6% (2024 est.)"
+      },
+      "investment in fixed capital": {
+        "text": "21% (2024 est.)"
+      },
+      "investment in inventories": {
+        "text": "1.8% (2024 est.)"
+      },
+      "exports of goods and services": {
+        "text": "37.2% (2024 est.)"
+      },
+      "imports of goods and services": {
+        "text": "-39.6% (2024 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to rounding or gaps in data collection"
+    },
+    "Agricultural products": {
+      "text": "soybeans, sugarcane, maize, cassava, wheat, rice, milk, beef, oranges, bananas (2023)",
+      "note": "<b>note:</b> top ten agricultural products based on tonnage"
+    },
+    "Industries": {
+      "text": "sugar processing, cement, textiles, beverages, wood products, steel, base metals, electric power"
+    },
+    "Industrial production growth rate": {
+      "text": "2.2% (2024 est.)",
+      "note": "<b>note:</b> annual % change in industrial value added based on constant local currency"
+    },
+    "Labor force": {
+      "text": "3.502 million (2024 est.)",
+      "note": "<b>note:</b> number of people ages 15 or older who are employed or seeking work"
+    },
+    "Unemployment rate": {
+      "Unemployment rate 2024": {
+        "text": "6.1% (2024 est.)"
+      },
+      "Unemployment rate 2023": {
+        "text": "5.8% (2023 est.)"
+      },
+      "Unemployment rate 2022": {
+        "text": "6.8% (2022 est.)"
+      },
+      "note": "<b>note:</b> % of labor force seeking employment"
+    },
+    "Youth unemployment rate (ages 15-24)": {
+      "total": {
+        "text": "14.1% (2024 est.)"
+      },
+      "male": {
+        "text": "11% (2024 est.)"
+      },
+      "female": {
+        "text": "18.8% (2024 est.)"
+      },
+      "note": "<b>note:</b> % of labor force ages 15-24 seeking employment"
+    },
+    "Population below poverty line": {
+      "text": "24.7% (2022 est.)",
+      "note": "<b>note:</b> % of population with income below national poverty line"
+    },
+    "Gini Index coefficient - distribution of family income": {
+      "Gini Index coefficient - distribution of family income 2023": {
+        "text": "44.4 (2023 est.)"
+      },
+      "note": "<b>note:</b> index (0-100) of income distribution; higher values represent greater inequality"
+    },
+    "Average household expenditures": {
+      "on food": {
+        "text": "29.3% of household expenditures (2023 est.)"
+      },
+      "on alcohol and tobacco": {
+        "text": "4.2% of household expenditures (2023 est.)"
+      }
+    },
+    "Household income or consumption by percentage share": {
+      "lowest 10%": {
+        "text": "1.8% (2023 est.)"
+      },
+      "highest 10%": {
+        "text": "34.4% (2023 est.)"
+      },
+      "note": "<b>note:</b> % share of income accruing to lowest and highest 10% of population"
+    },
+    "Remittances": {
+      "Remittances 2024": {
+        "text": "2% of GDP (2024 est.)"
+      },
+      "Remittances 2023": {
+        "text": "1.7% of GDP (2023 est.)"
+      },
+      "Remittances 2022": {
+        "text": "1.4% of GDP (2022 est.)"
+      },
+      "note": "<b>note:</b> personal transfers and compensation between resident and non-resident individuals/households/entities"
+    },
+    "Budget": {
+      "revenues": {
+        "text": "$7.751 billion (2023 est.)"
+      },
+      "expenditures": {
+        "text": "$9.397 billion (2023 est.)"
+      },
+      "note": "<b>note:</b> central government revenues (excluding grants) and expenditures converted to US dollars at average official exchange rate for year indicated"
+    },
+    "Public debt": {
+      "Public debt 2016": {
+        "text": "18.9% of GDP (2016 est.)"
+      }
+    },
+    "Taxes and other revenues": {
+      "text": "10.1% (of GDP) (2023 est.)",
+      "note": "<b>note:</b> central government tax revenue as a % of GDP"
+    },
+    "Current account balance": {
+      "Current account balance 2024": {
+        "text": "-$1.666 billion (2024 est.)"
+      },
+      "Current account balance 2023": {
+        "text": "-$176.597 million (2023 est.)"
+      },
+      "Current account balance 2022": {
+        "text": "-$2.948 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - net trade and primary/secondary income in current dollars"
+    },
+    "Exports": {
+      "Exports 2024": {
+        "text": "$17.395 billion (2024 est.)"
+      },
+      "Exports 2023": {
+        "text": "$18.581 billion (2023 est.)"
+      },
+      "Exports 2022": {
+        "text": "$14.971 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - exports of goods and services in current dollars"
+    },
+    "Exports - partners": {
+      "text": "Argentina 33%, Brazil 25%, Chile 10%, USA 2%, Uruguay 2% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "soybeans, beef, electricity, corn, soybean meal (2023)",
+      "note": "<b>note:</b> top five export commodities based on value in dollars"
+    },
+    "Imports": {
+      "Imports 2024": {
+        "text": "$18.377 billion (2024 est.)"
+      },
+      "Imports 2023": {
+        "text": "$17.848 billion (2023 est.)"
+      },
+      "Imports 2022": {
+        "text": "$17.088 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - imports of goods and services in current dollars"
+    },
+    "Imports - partners": {
+      "text": "China 33%, Brazil 24%, USA 8%, Argentina 7%, Germany 2% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "broadcasting equipment, refined petroleum, fertilizers, cars, pesticides (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Reserves of foreign exchange and gold": {
+      "Reserves of foreign exchange and gold 2023": {
+        "text": "$9.886 billion (2023 est.)"
+      },
+      "Reserves of foreign exchange and gold 2022": {
+        "text": "$9.519 billion (2022 est.)"
+      },
+      "Reserves of foreign exchange and gold 2021": {
+        "text": "$9.661 billion (2021 est.)"
+      },
+      "note": "<b>note:</b> holdings of gold (year-end prices)/foreign exchange/special drawing rights in current dollars"
+    },
+    "Debt - external": {
+      "Debt - external 2023": {
+        "text": "$13.783 billion (2023 est.)"
+      },
+      "note": "<b>note:</b> present value of external debt in current US dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "guarani (PYG) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "7,560.248 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "7,288.872 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "6,982.752 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "6,774.163 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "6,771.097 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "100% (2022 est.)"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "8.928 million kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "14.835 billion kWh (2023 est.)"
+      },
+      "exports": {
+        "text": "24.202 billion kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "5.209 billion kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "hydroelectricity": {
+        "text": "99.4% of total installed capacity (2023 est.)"
+      },
+      "biomass and waste": {
+        "text": "0.5% of total installed capacity (2023 est.)"
+      }
+    },
+    "Coal": {
+      "consumption": {
+        "text": "700 metric tons (2023 est.)"
+      },
+      "exports": {
+        "text": "10 metric tons (2023 est.)"
+      },
+      "imports": {
+        "text": "100 metric tons (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "total petroleum production": {
+        "text": "2,000 bbl/day (2023 est.)"
+      },
+      "refined petroleum consumption": {
+        "text": "52,000 bbl/day (2023 est.)"
+      }
+    },
+    "Energy consumption per capita": {
+      "Total energy consumption per capita 2023": {
+        "text": "25.733 million Btu/person (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "206,000 (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "3 (2023 est.)"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "8.67 million (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "127 (2023 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "6 privately owned TV stations; about 75 commercial and community radio stations; 1 state-owned radio network (2019)"
+    },
+    "Internet country code": {
+      "text": ".py"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "78% (2023 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "878,000 (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "13 (2023 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "ZP"
+    },
+    "Airports": {
+      "text": "83 (2025)"
+    },
+    "Heliports": {
+      "text": "29 (2025)"
+    },
+    "Railways": {
+      "total": {
+        "text": "30 km (2014)"
+      },
+      "standard gauge": {
+        "text": "30 km (2014) 1.435-m gauge"
+      }
+    },
+    "Merchant marine": {
+      "total": {
+        "text": "108 (2023)"
+      },
+      "by type": {
+        "text": "container ship 2, general cargo 22, oil tanker 5, other 79"
+      }
+    },
+    "Ports": {
+      "total ports": {
+        "text": "1 (2024)"
+      },
+      "large": {
+        "text": "0"
+      },
+      "medium": {
+        "text": "0"
+      },
+      "small": {
+        "text": "0"
+      },
+      "very small": {
+        "text": "1"
+      },
+      "ports with oil terminals": {
+        "text": "0"
+      },
+      "key ports": {
+        "text": "Puerto de Asuncion"
+      }
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "Armed Forces of Paraguay (Fuerzas Armadas de Paraguay; aka Armed Forces of the Nation or Fuerzas Armadas de la Nación): Paraguayan Army (Ejército Paraguayo), Paraguayan Navy (Armada Paraguaya; includes marines), Paraguayan Air Force (Fuerza Aérea Paraguaya)<br><br>Ministry of Internal Affairs: National Police of Paraguay (Policía Nacional del Paraguay, PNP) (2025)"
+    },
+    "Military expenditures": {
+      "Military Expenditures 2024": {
+        "text": "0.8% of GDP (2024 est.)"
+      },
+      "Military Expenditures 2023": {
+        "text": "0.8% of GDP (2023 est.)"
+      },
+      "Military Expenditures 2022": {
+        "text": "0.8% of GDP (2022 est.)"
+      },
+      "Military Expenditures 2021": {
+        "text": "1% of GDP (2021 est.)"
+      },
+      "Military Expenditures 2020": {
+        "text": "1% of GDP (2020 est.)"
+      }
+    },
+    "Military and security service personnel strengths": {
+      "text": "approximately 15,000 active duty Armed Forces (2025)"
+    },
+    "Military equipment inventories and acquisitions": {
+      "text": "the military's inventory is comprised of mostly older or obsolescent equipment from a variety of foreign suppliers, particularly Brazil and the US; in recent years, the military has received small quantities of more modern equipment, such as light attack aircraft from Brazil and secondhand helicopters from Taiwan (2025)"
+    },
+    "Military service age and obligation": {
+      "text": "18-25 years of age for voluntary service for men and women; all men 18-25 are required to perform military service for at least 12 months (2025)"
+    },
+    "Military - note": {
+      "text": "the Paraguayan military is responsible for external defense and has a role in domestic security duties; it provides support for natural disasters and cooperates with the National Police and other internal security organizations in combating the Paraguayan People’s Army (Ejército del Pueblo Paraguayo or EPP) and transnational criminal organizations, largely narcotics traffickers; the EPP is a small, domestic criminal/guerrilla group operating in the rural northern part of the country along the border with Brazil; the activities of the EPP and its offshoots—Marsical López’s Army (EML) and the Armed Peasant Association (ACA)—have consisted largely of isolated attacks on remote police and army posts, or against ranchers and peasants accused of aiding Paraguayan security forces<br><br>the Paraguayan military has deployed small numbers of troops on UN peacekeeping missions and cooperates with neighboring countries, such as Argentina and Brazil, on security issues, particularly organized crime and narco-trafficking in what is known as the Tri-Border Area; Paraguay has not fought a war against a neighboring country since the Chaco War with Bolivia in the 1930s (2025)"
+    }
+  },
+  "Space": {
+    "Space agency/agencies": {
+      "text": "Space Agency of Paraguay (Agencia Especial del Paraguay, AEP; established 2014) (2025)"
+    },
+    "Space program overview": {
+      "text": "has a small, recently established space program focused on the acquisition of satellites, satellite data, and the technologies and capabilities to manufacture satellites, as well as promoting domestic expertise and industry; a priority is acquiring remote sensing capabilities to support socio-economic development, including resource mapping, weather, and crop monitoring; has built a cube satellite with foreign assistance; operates satellites; cooperates with foreign space agencies and industries, including those of India, Japan, Taiwan, the US, and member states of the Latin American and Caribbean Space Agency (2025)"
+    },
+    "Key space-program milestones": {
+      "text": "2017 - organized country’s first international conference on space issues<br><br>2021 - first research/technology-demonstrator cube satellite (Guaranisat-1) built jointly with Japan, launched by US, and deployed from International Space Station; signed protocols for the establishment of the Latin American and Caribbean Space Agency<br><br>2025 - developing Guarani-Sat-2, which will be Paraguay's second satellite and the first designed and built domestically"
+    }
+  },
+  "Terrorism": {
+    "Terrorist group(s)": {
+      "text": "Hizballah",
+      "note": "<strong>note:</strong> details about the history, aims, leadership, organization, areas of operation, tactics, targets, weapons, size, and sources of support of the group(s) appear(s) in the Terrorism reference guide"
+    }
+  },
+  "Transnational Issues": {
+    "Refugees and internally displaced persons": {
+      "refugees": {
+        "text": "7,649 (2024 est.)"
+      },
+      "IDPs": {
+        "text": "141 (2024 est.)"
+      },
+      "stateless persons": {
+        "text": "5 (2024 est.)"
+      }
+    }
+  }
+}

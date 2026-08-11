@@ -1,0 +1,1263 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "<p>Italy became a nation-state in 1861 when the regional states of the peninsula, along with Sardinia and Sicily, were united under King Victor EMMANUEL II. An era of parliamentary government came to a close in the early 1920s when Benito MUSSOLINI established a Fascist dictatorship. His alliance with Nazi Germany led to Italy's defeat in World War II. A democratic republic replaced the monarchy in 1946, and economic revival followed. Italy is a charter member of NATO, as well as the European Economic Community (EEC) and its successors, the EC and the EU. It has been at the forefront of European economic and political unification, joining the Economic and Monetary Union in 1999. Persistent problems include sluggish economic growth, high youth and female unemployment, organized crime, corruption, and economic disparities between southern Italy and the more prosperous north.</p>"
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Southern Europe, a peninsula extending into the central Mediterranean Sea, northeast of Tunisia"
+    },
+    "Geographic coordinates": {
+      "text": "42 50 N, 12 50 E"
+    },
+    "Map references": {
+      "text": "Europe"
+    },
+    "Area": {
+      "total ": {
+        "text": "301,340 sq km"
+      },
+      "land": {
+        "text": "294,140 sq km"
+      },
+      "water": {
+        "text": "7,200 sq km"
+      },
+      "note": "<strong>note:</strong> includes Sardinia and Sicily"
+    },
+    "Area - comparative": {
+      "text": "almost twice the size of Georgia; slightly larger than Arizona"
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "1,836.4 km"
+      },
+      "border countries": {
+        "text": "Austria 404 km; France 476 km; Holy See (Vatican City) 3.4 km; San Marino 37 km; Slovenia 218 km; Switzerland 698 km"
+      }
+    },
+    "Coastline": {
+      "text": "7,600 km"
+    },
+    "Maritime claims": {
+      "territorial sea": {
+        "text": "12 nm"
+      },
+      "continental shelf": {
+        "text": "200-m depth or to the depth of exploitation"
+      }
+    },
+    "Climate": {
+      "text": "predominantly Mediterranean; alpine in far north; hot, dry in south"
+    },
+    "Terrain": {
+      "text": "mostly rugged and mountainous; some plains, coastal lowlands"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Mont Blanc (Monte Bianco) de Courmayeur (a secondary peak of Mont Blanc) 4,748 m"
+      },
+      "lowest point": {
+        "text": "Mediterranean Sea 0 m"
+      },
+      "mean elevation": {
+        "text": "538 m"
+      }
+    },
+    "Natural resources": {
+      "text": "coal, antimony, mercury, zinc, potash, marble, barite, asbestos, pumice, fluorspar, feldspar, pyrite (sulfur), natural gas and crude oil reserves, fish, arable land"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "44.3% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 24% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 8.1% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 12.2% (2023 est.)"
+      },
+      "forest": {
+        "text": "31.8% (2023 est.)"
+      },
+      "other": {
+        "text": "24% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "24,460 sq km (2021)"
+    },
+    "Major watersheds (area sq km)": {
+      "Atlantic Ocean drainage": {
+        "text": "Rhine-Maas (198,735 sq km), <em>(Black Sea)</em> Danube (795,656 sq km), <em>(Adriatic Sea)</em> Po (76,997 sq km), <em>(Mediterranean Sea) </em>Rhone (100,543 sq km)"
+      }
+    },
+    "Population distribution": {
+      "text": "a fairly even population distribution exists throughout most of the country, with coastal areas, the Po River Valley, and urban centers (particularly Milan, Rome, and Naples) attracting larger and denser populations"
+    },
+    "Natural hazards": {
+      "text": "regional risks include landslides, mudflows, avalanches, earthquakes, volcanic eruptions, flooding; land subsidence in Venice <br><br><strong>volcanism:</strong> significant volcanic activity; Etna (3,330 m) is Europe's most active volcano, and its flank eruptions pose a threat to nearby Sicilian villages; Etna, along with the famous Vesuvius, have both been deemed Decade Volcanoes by the International Association of Volcanology and Chemistry of the Earth's Interior, worthy of study due to their explosive history and close proximity to human populations; Stromboli, on its namesake island, has also been continuously active with moderate volcanic activity; other historically active volcanoes include Campi Flegrei, Ischia, Larderello, Pantelleria, Vulcano, and Vulsini"
+    },
+    "Geography - note": {
+      "text": "strategic location dominating central Mediterranean, as well as southern sea and air approaches to Western Europe"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "60,924,851 (2025 est.)"
+      },
+      "male": {
+        "text": "29,383,949"
+      },
+      "female": {
+        "text": "31,540,902"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Italian(s)"
+      },
+      "adjective": {
+        "text": "Italian"
+      }
+    },
+    "Ethnic groups": {
+      "text": "Italian (includes small clusters of German-, French-, and Slovene-Italians in the north, Albanian-Italians, Croat-Italians, and Greek-Italians in the south)"
+    },
+    "Languages": {
+      "Languages": {
+        "text": "Italian (official), German (parts of Trentino-Alto Adige region are predominantly German-speaking), French (small French-speaking minority in Valle d'Aosta region), Slovene (Slovene-speaking minority in the Trieste-Gorizia area), Croatian (in Molise)"
+      },
+      "major-language sample(s)": {
+        "text": "<br>L'Almanacco dei fatti del mondo, l'indispensabile fonte per le informazioni di base. (Italian)<br><br>The World Factbook, the indispensable source for basic information."
+      }
+    },
+    "Religions": {
+      "text": "Christian 80.8% (overwhelmingly Roman Catholic with very small groups of Jehovah's Witnesses and Protestants), Muslim 4.9%, unaffiliated 13.4%, other 0.9% (2020 est.)"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "11.9% (male 3,699,167/female 3,531,734)"
+      },
+      "15-64 years": {
+        "text": "64.5% (male 19,378,160/female 19,958,137)"
+      },
+      "65 years and over": {
+        "text": "23.6% (2024 est.) (male 6,336,738/female 8,060,995)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "55.3 (2025 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "18.1 (2025 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "37.2 (2025 est.)"
+      },
+      "potential support ratio": {
+        "text": "2.7 (2025 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "48.8 years (2025 est.)"
+      },
+      "male": {
+        "text": "47.4 years"
+      },
+      "female": {
+        "text": "49.4 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "-0.05% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "7.13 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "11.2 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "3.55 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "a fairly even population distribution exists throughout most of the country, with coastal areas, the Po River Valley, and urban centers (particularly Milan, Rome, and Naples) attracting larger and denser populations"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "72% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.27% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "4.316 million ROME (capital), 3.155 million Milan, 2.179 million Naples, 1.802 million Turin, 913,000 Bergamo, 850,000 Palermo (2023)"
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.06 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1.05 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "0.97 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "0.79 male(s)/female"
+      },
+      "total population": {
+        "text": "0.93 male(s)/female (2024 est.)"
+      }
+    },
+    "Mother's mean age at first birth": {
+      "text": "31.4 years (2020 est.)"
+    },
+    "Maternal mortality ratio": {
+      "text": "6 deaths/100,000 live births (2023 est.)"
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "3 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "3.2 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "2.9 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "83 years (2024 est.)"
+      },
+      "male": {
+        "text": "80.7 years"
+      },
+      "female": {
+        "text": "85.5 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "1.27 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "0.62 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: total": {
+        "text": "total: 99.9% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0.1% of population (2022 est.)"
+      }
+    },
+    "Health expenditure": {
+      "Health expenditure (as % of GDP)": {
+        "text": "9% of GDP (2022)"
+      },
+      "Health expenditure (as % of national budget)": {
+        "text": "11.8% of national budget (2022 est.)"
+      }
+    },
+    "Physician density": {
+      "text": "4.19 physicians/1,000 population (2022)"
+    },
+    "Hospital bed density": {
+      "text": "3.2 beds/1,000 population (2020 est.)"
+    },
+    "Sanitation facility access": {
+      "improved: urban": {
+        "text": "urban: 100% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 100% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 100% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 0% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 0% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0% of population (2022 est.)"
+      }
+    },
+    "Obesity - adult prevalence rate": {
+      "text": "19.9% (2016)"
+    },
+    "Alcohol consumption per capita": {
+      "total": {
+        "text": "7.65 liters of pure alcohol (2019 est.)"
+      },
+      "beer": {
+        "text": "1.99 liters of pure alcohol (2019 est.)"
+      },
+      "wine": {
+        "text": "4.83 liters of pure alcohol (2019 est.)"
+      },
+      "spirits": {
+        "text": "0.83 liters of pure alcohol (2019 est.)"
+      },
+      "other alcohols": {
+        "text": "0 liters of pure alcohol (2019 est.)"
+      }
+    },
+    "Tobacco use": {
+      "total": {
+        "text": "19.8% (2025 est.)"
+      },
+      "male": {
+        "text": "23.2% (2025 est.)"
+      },
+      "female": {
+        "text": "16.6% (2025 est.)"
+      }
+    },
+    "Currently married women (ages 15-49)": {
+      "text": "51.8% (2023 est.)"
+    },
+    "Education expenditure": {
+      "Education expenditure (% GDP)": {
+        "text": "4.1% of GDP (2022 est.)"
+      },
+      "Education expenditure (% national budget)": {
+        "text": "7.4% national budget (2022 est.)"
+      }
+    },
+    "Literacy": {
+      "total population": {
+        "text": "99.3% (2019 est.)"
+      },
+      "male": {
+        "text": "99.5% (2019 est.)"
+      },
+      "female": {
+        "text": "99.2% (2019 est.)"
+      }
+    },
+    "School life expectancy (primary to tertiary education)": {
+      "total": {
+        "text": "17 years (2023 est.)"
+      },
+      "male": {
+        "text": "16 years (2023 est.)"
+      },
+      "female": {
+        "text": "17 years (2023 est.)"
+      }
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "air pollution from industrial emissions; water pollution from industrial and agricultural effluents, as well as acid rain; inadequate industrial waste treatment and disposal facilities"
+    },
+    "International environmental agreements": {
+      "party to": {
+        "text": "Air Pollution, Air Pollution-Nitrogen Oxides, Air Pollution-Persistent Organic Pollutants, Air Pollution-Sulphur 85, Air Pollution-Sulphur 94, Air Pollution-Volatile Organic Compounds, Antarctic-Environmental Protection, Antarctic-Marine Living Resources, Antarctic Seals, Antarctic Treaty, Biodiversity, Climate Change, Climate Change-Kyoto Protocol, Climate Change-Paris Agreement, Comprehensive Nuclear Test Ban, Desertification, Endangered Species, Environmental Modification, Hazardous Wastes, Law of the Sea, Marine Dumping-London Convention, Marine Dumping-London Protocol, Nuclear Test Ban, Ozone Layer Protection, Ship Pollution, Tropical Timber 2006, Wetlands, Whaling"
+      },
+      "signed, but not ratified": {
+        "text": "Air Pollution-Heavy Metals, Air Pollution-Multi-effect Protocol"
+      }
+    },
+    "Climate": {
+      "text": "predominantly Mediterranean; alpine in far north; hot, dry in south"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "44.3% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 24% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 8.1% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 12.2% (2023 est.)"
+      },
+      "forest": {
+        "text": "31.8% (2023 est.)"
+      },
+      "other": {
+        "text": "24% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "72% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.27% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "307.442 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from coal and metallurgical coke": {
+        "text": "26.15 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "162.688 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from consumed natural gas": {
+        "text": "118.604 million metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Particulate matter emissions": {
+      "text": "12.3 micrograms per cubic meter (2019 est.)"
+    },
+    "Methane emissions": {
+      "energy": {
+        "text": "276.4 kt (2022-2024 est.)"
+      },
+      "agriculture": {
+        "text": "764.9 kt (2019-2021 est.)"
+      },
+      "waste": {
+        "text": "523.4 kt (2019-2021 est.)"
+      },
+      "other": {
+        "text": "35.3 kt (2019-2021 est.)"
+      }
+    },
+    "Waste and recycling": {
+      "municipal solid waste generated annually": {
+        "text": "30.088 million tons (2024 est.)"
+      },
+      "percent of municipal solid waste recycled": {
+        "text": "39.9% (2022 est.)"
+      }
+    },
+    "Total water withdrawal": {
+      "municipal": {
+        "text": "9.148 billion cubic meters (2022)"
+      },
+      "industrial": {
+        "text": "7.7 billion cubic meters (2022 est.)"
+      },
+      "agricultural": {
+        "text": "17 billion cubic meters (2022 est.)"
+      }
+    },
+    "Total renewable water resources": {
+      "text": "191.3 billion cubic meters (2022 est.)"
+    },
+    "Geoparks": {
+      "total global geoparks and regional networks": {
+        "text": "12 (2025)"
+      },
+      "global geoparks and regional networks": {
+        "text": "Adamello-Brenta; Alpi Apuane; Aspromonte; Beigua; Cilento, Vallo di Diano e Alburni; Madonie; Maiella; MurGEopark; Pollino; Rocca di Cerere; Sesia Val Grande; Tuscan Mining Park (2025)"
+      }
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "Italian Republic"
+      },
+      "conventional short form": {
+        "text": "Italy"
+      },
+      "local long form": {
+        "text": "Repubblica Italiana"
+      },
+      "local short form": {
+        "text": "Italia"
+      },
+      "former": {
+        "text": "Kingdom of Italy"
+      },
+      "etymology": {
+        "text": "derivation is unclear; traditionally said to come from the Vitali, a tribe that settled in what is now Calabria, and whose name is believed to be linked to the Latin word <em>vitulus</em>, or \"calf;\" alternatively, the name may derive from a local ruler known to the Romans as Italus"
+      }
+    },
+    "Government type": {
+      "text": "parliamentary republic"
+    },
+    "Capital": {
+      "name": {
+        "text": "Rome"
+      },
+      "geographic coordinates": {
+        "text": "41 54 N, 12 29 E"
+      },
+      "time difference": {
+        "text": "UTC+1 (6 hours ahead of Washington, DC, during Standard Time)"
+      },
+      "daylight saving time": {
+        "text": "+1hr, begins last Sunday in March; ends last Sunday in October"
+      },
+      "etymology": {
+        "text": "by tradition, named after Romulus, one of the legendary founders of the city, but the name Romulus may instead derive from the city's name; the name Rome may come from an Etruscan name for the Tiber River, which was Roma or Ruma"
+      }
+    },
+    "Administrative divisions": {
+      "text": "15 regions (<em>regioni</em>, singular - <em>regione</em>) and 5 autonomous regions (<em>regioni autonome</em>, singular - <em>regione autonoma</em>) <br><br><strong>regions:</strong> Abruzzo, Basilicata, Calabria, Campania, Emilia-Romagna, Lazio (Latium), Liguria, Lombardia, Marche, Molise, Piemonte (Piedmont), Puglia (Apulia), Toscana (Tuscany), Umbria, Veneto <br><br><strong>autonomous regions:</strong> Friuli Venezia Giulia, Sardegna (Sardinia), Sicilia (Sicily), Trentino-Alto Adige (Trentino-South Tyrol) or Trentino-Suedtirol (German), Valle d'Aosta (Aosta Valley) or Vallée d'Aoste (French)"
+    },
+    "Legal system": {
+      "text": "civil law system; Constitutional Court reviews legislation under certain conditions"
+    },
+    "Constitution": {
+      "history": {
+        "text": "previous 1848 (originally for the Kingdom of Sardinia and adopted by the Kingdom of Italy in 1861); latest enacted 22 December 1947, adopted 27 December 1947, entered into force 1 January 1948"
+      },
+      "amendment process": {
+        "text": "proposed by both houses of Parliament; passage requires two successive debates and approval by absolute majority of each house on the second vote; a referendum is only required when requested by one fifth of the members of either house, by voter petition, or by 5 Regional Councils (elected legislative assemblies of the 15 first-level administrative regions and 5 autonomous regions of Italy); referendum not required if an amendment has been approved by a two-thirds majority in each house in the second vote"
+      }
+    },
+    "International law organization participation": {
+      "text": "accepts compulsory ICJ jurisdiction with reservations; accepts ICCt jurisdiction"
+    },
+    "Citizenship": {
+      "citizenship by birth": {
+        "text": "no"
+      },
+      "citizenship by descent only": {
+        "text": "at least one parent must be a citizen of Italy"
+      },
+      "dual citizenship recognized": {
+        "text": "yes"
+      },
+      "residency requirement for naturalization": {
+        "text": "4 years for EU nationals, 5 years for refugees and specified exceptions, 10 years for all others"
+      }
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal except in senatorial elections, where minimum age is 25"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "President Sergio MATTARELLA (since 3 February 2015)"
+      },
+      "head of government": {
+        "text": "Prime Minister Giorgia MELONI (since 22 October 2022); the prime minister's official title is President of the Council of Ministers"
+      },
+      "cabinet": {
+        "text": "Council of Ministers proposed by the prime minister, who is known officially as the President of the Council of Ministers and locally as the premier; nominated by the president"
+      },
+      "election/appointment process": {
+        "text": "president indirectly elected by an electoral college consisting of both houses of Parliament and 58 regional representatives for a 7-year term (no term limits); prime minister appointed by the president, confirmed by parliament"
+      },
+      "most recent election date": {
+        "text": "24-29 January 2022 (eight rounds)"
+      },
+      "election results": {
+        "text": "<br><em>2022:</em> Sergio MATTARELLA (independent) reelected president; electoral college vote count in eighth round - 759 out of 1,009 (505 vote threshold)<br><br><em>2015: </em>Sergio MATTARELLA (independent) elected president; electoral college vote count in fourth round - 665 out of 995 (505 vote threshold)"
+      },
+      "expected date of next election": {
+        "text": "2029"
+      }
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "Parliament (Il Parlamento)"
+      },
+      "legislative structure": {
+        "text": "bicameral"
+      }
+    },
+    "Legislative branch - lower chamber": {
+      "chamber name": {
+        "text": "Chamber of Deputies (Camera dei Deputati)"
+      },
+      "number of seats": {
+        "text": "400 (all directly elected)"
+      },
+      "electoral system": {
+        "text": "mixed system"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "5 years"
+      },
+      "most recent election date": {
+        "text": "9/25/2022"
+      },
+      "parties elected and seats per party": {
+        "text": "Coalition Brothers of Italy (FdI) - Lega - Forza Italia - Us Moderates (Noi moderati, NM) (237); Democratic Party - Democratic and Progressive Italy (PD-IDP) - Greens and Left Alliance (AVS) - +EUROPA\" - Civic Commitment (IC) (84); Five Star Movement (M5s) (52); Action - Italia Viva (21); Other (6)"
+      },
+      "percentage of women in chamber": {
+        "text": "32.8%"
+      },
+      "expected date of next election": {
+        "text": "September 2027"
+      }
+    },
+    "Legislative branch - upper chamber": {
+      "chamber name": {
+        "text": "Senate (Senato della Repubblica)"
+      },
+      "number of seats": {
+        "text": "205 (200 directly elected; 5 appointed)"
+      },
+      "electoral system": {
+        "text": "mixed system"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "5 years"
+      },
+      "most recent election date": {
+        "text": "9/25/2022"
+      },
+      "parties elected and seats per party": {
+        "text": "Coalition Brothers of Italy (FdI) - Lega - Forza Italia - Us Moderates (Noi moderati, NM) (115); Democratic Party - Democratic and Progressive Italy (PD-IDP) - Greens and Left Alliance (AVS) - +EUROPA\" - Civic Commitment (IC) (44); Five Star Movement (M5s) (28); Other (13)"
+      },
+      "percentage of women in chamber": {
+        "text": "36.3%"
+      },
+      "expected date of next election": {
+        "text": "September 2027"
+      }
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "Supreme Court of Cassation or Corte Suprema di Cassazione (consists of the first president, deputy president, 54 justices presiding over 6 civil and 7 criminal divisions, and 288 judges; an additional 30 judges of lower courts serve as supporting judges; cases normally heard by 5-judge panels; more complex cases heard by 9-judge panels); Constitutional Court or Corte Costituzionale (consists of the court president and 14 judges)"
+      },
+      "judge selection and term of office": {
+        "text": "Supreme Court judges appointed by the High Council of the Judiciary, headed by the president of the republic; judges may serve for life; Constitutional Court judges - 5 appointed by the president, 5 elected by Parliament, 5 elected by select higher courts; judges serve up to 9 years"
+      },
+      "subordinate courts": {
+        "text": "various lower civil and criminal courts (primary and secondary tribunals and courts of appeal)"
+      }
+    },
+    "Political parties": {
+      "text": "Action-Italia Viva <br>Associative Movement of Italians Abroad or MAIE <br>Brothers of Italy or FdI <br>Democratic Party or PD <br>Five Star Movement or M5S <br>Forza Italia or FI <br>Free and Equal (Liberi e Uguali) or LeU <br>Greens and Left Alliance or AVS <br>League or Lega <br>More Europe or +EU  <br>South calls North or ScN <br>South Tyrolean Peoples Party or SVP <br>Us Moderates or NM<br>other minor parties"
+    },
+    "Diplomatic representation in the US": {
+      "chief of mission": {
+        "text": "Ambassador Marco PERONACI (since 5 September 2025)"
+      },
+      "chancery": {
+        "text": "3000 Whitehaven Street NW, Washington, DC 20008"
+      },
+      "telephone": {
+        "text": "[1] (202) 612-4400"
+      },
+      "FAX": {
+        "text": "[1] (202) 518-2154"
+      },
+      "email address and website": {
+        "text": "<br>washington.ambasciata@esteri.it<br><br>https://ambwashingtondc.esteri.it/ambasciata_washington/en/"
+      },
+      "consulate(s) general": {
+        "text": "Boston, Chicago, Houston, Miami, New York, Los Angeles, Philadelphia, San Francisco"
+      },
+      "consulate(s)": {
+        "text": "Detroit"
+      }
+    },
+    "Diplomatic representation from the US": {
+      "chief of mission": {
+        "text": "Ambassador Tilman J. FERTITTA (since 6 May 2025); note - also accredited to San Marino"
+      },
+      "embassy": {
+        "text": "via Vittorio Veneto 121, 00187 Roma"
+      },
+      "mailing address": {
+        "text": "9500 Rome Place, Washington DC&nbsp; 20521-9500"
+      },
+      "telephone": {
+        "text": "[39] 06-46741"
+      },
+      "FAX": {
+        "text": "[39] 06-4674-2244"
+      },
+      "email address and website": {
+        "text": "<br>uscitizenrome@state.gov<br><br>https://it.usembassy.gov/"
+      },
+      "consulate(s) general": {
+        "text": "Florence, Milan, Naples"
+      }
+    },
+    "International organization participation": {
+      "text": "ADB (nonregional member), AfDB (nonregional member), Arctic Council (observer), Australia Group, BIS, BSEC (observer), CBSS (observer), CD, CDB, CE, CEI, CERN, EAPC, EBRD, ECB, EIB, EITI (implementing country), EMU, ESA, EU, FAO, FATF, G-7, G-8, G-10, G-20, IADB, IAEA, IBRD, ICAO, ICC (national committees), ICCt, ICRM, IDA, IEA, IFAD, IFC, IFRCS, IGAD (partners), IHO, ILO, IMF, IMO, IMSO, Interpol, IOC, IOM, IPU, ISO, ITSO, ITU, ITUC (NGOs), LAIA (observer), MIGA, MINURSO, NATO, NEA, NSG, OAS (observer), OECD, OPCW, OSCE, Pacific Alliance (observer), Paris Club, PCA, PIF (partner), Schengen Convention, SELEC (observer), SICA (observer), UN, UNCTAD, UNESCO, UNHCR, UNIDO, UNIFIL, Union Latina, UNMOGIP, UNOOSA, UNRWA, UNTSO, UNWTO, UPU, Wassenaar Arrangement, WCO, WHO, WIPO, WMO, WTO, ZC"
+    },
+    "Independence": {
+      "text": "17 March 1861 ",
+      "note": "<strong>note:</strong> the Kingdom of Italy proclaimed on 17 March 1861, but Italy was not fully unified until 1871"
+    },
+    "National holiday": {
+      "text": "Republic Day, 2 June (1946)"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> three equal vertical bands of green (left side), white, and red<br><br><strong>meaning:</strong> colors are those of Milan (red and white) combined with the green uniform color of the Milanese civic guard<br><br><strong>history:</strong> design inspired by the French flag that Napoleon brought to Italy in 1797",
+      "note": "<strong>note:</strong> similar to the flags of Mexico (longer, darker shades of green and red, and has its coat of arms centered on the white band), Ireland (longer and with orange instead of red), and Cote d'Ivoire (colors reversed)"
+    },
+    "National symbol(s)": {
+      "text": "five-pointed white star (Stella d'Italia)"
+    },
+    "National color(s)": {
+      "text": "red, white, green"
+    },
+    "National coat of arms": {
+      "text": "this coat of arms has been a symbol of the Italian Republic since May 5, 1948, when Paolo Paschetto&rsquo;s design won a two-year public competition; the olive branch symbolizes national and global peace; the oak branch stands for the strength and the dignity of the Italian people, and the steel cog-wheel for their hard work; the single star represents Italy&rsquo;s solidarity"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"Il Canto degli Italiani\" (The Song of the Italians)"
+      },
+      "lyrics/music": {
+        "text": "Goffredo MAMELI/Michele NOVARO"
+      },
+      "history": {
+        "text": "adopted 2005; the anthem, originally written in 1847, is also known as \"L'Inno di Mameli\" (Mameli's Hymn), and \"Fratelli d'Italia\" (Brothers of Italy)"
+      }
+    },
+    "National heritage": {
+      "total World Heritage Sites": {
+        "text": "61 (55 cultural, 6 natural)"
+      },
+      "selected World Heritage Site locales": {
+        "text": "Historic Center of Rome (c); Archaeological Areas of Pompeii, Herculaneum, and Torre Annunziata (c); Venice and its Lagoon (c); Historic Center of Florence (c); Piazza del Duomo, Pisa (c); Historic Centre of Naples (c); Portovenere, Cinque Terre, and the Islands (Palmaria, Tino and Tinetto)(c); Mount Etna (n); Cultural landscape of the Benedictine settlements in medieval Italy (c); Church and Dominican Convent of Santa Maria delle Grazie with “The Last Supper” by Leonardo da Vinci (c); City of Vicenza and the Palladian Villas of the Veneto (c); Crespi d'Adda (c); Early Christian Monuments of Ravenna (c); Historic Centre of the City of Pienza (c); Cathedral, Torre Civica and Piazza Grande, Modena (c); Costiera Amalfitana (c); Villa Romana del Casale (c); Archaeological Area and the Patriarchal Basilica of Aquileia (c); Cilento and Vallo di Diano National Park with the Archeological Sites of Paestum and Velia, and the Certosa di Padula (c); Historic Centre of Urbino (c); Villa Adriana (Tivoli) (c); Assisi, the Basilica of San Francesco and Other Franciscan Sites (c); City of Verona (c); Isole Eolie (Aeolian Islands) (n); Etruscan Necropolises of Cerveteri and Tarquinia (c); Val d'Orcia (c); Mantua and Sabbioneta (c); The Dolomites (n); Prehistoric Pile Dwellings around the Alps (c); Medici Villas and Gardens in Tuscany (c); Venetian Works of Defence between the 16th and 17th Centuries: Stato da Terra – Western Stato da Mar (c); Padua’s fourteenth-century fresco cycles (c); The Porticoes of Bologna (c); Evaporitic Karst and Caves of Northern Apennines (n); Via Appia: Regina Viarum (c); Funerary Tradition in the Prehistory of Sardinia – The domus de janas (c)"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "<p>high-income, core EU economy; strong services, manufacturing, and tourism sectors; modest growth supported by net exports, low inflation, and public investments via EU funds; tight labor market with aging workforce and shortages in specialized skills; high public debt levels</p>"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2024": {
+        "text": "$3.133 trillion (2024 est.)"
+      },
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$3.11 trillion (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$3.088 trillion (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "Real GDP growth rate": {
+      "Real GDP growth rate 2024": {
+        "text": "0.7% (2024 est.)"
+      },
+      "Real GDP growth rate 2023": {
+        "text": "0.7% (2023 est.)"
+      },
+      "Real GDP growth rate 2022": {
+        "text": "4.8% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual GDP % growth based on constant local currency"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2024": {
+        "text": "$53,100 (2024 est.)"
+      },
+      "Real GDP per capita 2023": {
+        "text": "$52,700 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$52,300 (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$2.373 trillion (2024 est.)",
+      "note": "<b>note:</b> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2024": {
+        "text": "1% (2024 est.)"
+      },
+      "Inflation rate (consumer prices) 2023": {
+        "text": "5.6% (2023 est.)"
+      },
+      "Inflation rate (consumer prices) 2022": {
+        "text": "8.2% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual % change based on consumer prices"
+    },
+    "GDP - composition, by sector of origin": {
+      "agriculture": {
+        "text": "2% (2024 est.)"
+      },
+      "industry": {
+        "text": "21.7% (2024 est.)"
+      },
+      "services": {
+        "text": "65.6% (2024 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to non-allocated consumption not captured in sector-reported data"
+    },
+    "GDP - composition, by end use": {
+      "household consumption": {
+        "text": "58.3% (2023 est.)"
+      },
+      "government consumption": {
+        "text": "17.8% (2023 est.)"
+      },
+      "investment in fixed capital": {
+        "text": "22.5% (2023 est.)"
+      },
+      "investment in inventories": {
+        "text": "0.4% (2023 est.)"
+      },
+      "exports of goods and services": {
+        "text": "33.5% (2023 est.)"
+      },
+      "imports of goods and services": {
+        "text": "-32.1% (2023 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to rounding or gaps in data collection"
+    },
+    "Agricultural products": {
+      "text": "milk, wheat, grapes, tomatoes, maize, olives, apples, oranges, sugar beets, rice (2023)",
+      "note": "<b>note:</b> top ten agricultural products based on tonnage"
+    },
+    "Industries": {
+      "text": "tourism, machinery, iron and steel, chemicals, food processing, textiles, motor vehicles, clothing, footwear, ceramics"
+    },
+    "Industrial production growth rate": {
+      "text": "0.2% (2024 est.)",
+      "note": "<b>note:</b> annual % change in industrial value added based on constant local currency"
+    },
+    "Labor force": {
+      "text": "25.828 million (2024 est.)",
+      "note": "<b>note:</b> number of people ages 15 or older who are employed or seeking work"
+    },
+    "Unemployment rate": {
+      "Unemployment rate 2024": {
+        "text": "6.8% (2024 est.)"
+      },
+      "Unemployment rate 2023": {
+        "text": "7.7% (2023 est.)"
+      },
+      "Unemployment rate 2022": {
+        "text": "8.1% (2022 est.)"
+      },
+      "note": "<b>note:</b> % of labor force seeking employment"
+    },
+    "Youth unemployment rate (ages 15-24)": {
+      "total": {
+        "text": "21.8% (2024 est.)"
+      },
+      "male": {
+        "text": "19.9% (2024 est.)"
+      },
+      "female": {
+        "text": "24.8% (2024 est.)"
+      },
+      "note": "<b>note:</b> % of labor force ages 15-24 seeking employment"
+    },
+    "Population below poverty line": {
+      "text": "20.1% (2021 est.)",
+      "note": "<b>note:</b> % of population with income below national poverty line"
+    },
+    "Gini Index coefficient - distribution of family income": {
+      "Gini Index coefficient - distribution of family income 2022": {
+        "text": "33.7 (2022 est.)"
+      },
+      "note": "<b>note:</b> index (0-100) of income distribution; higher values represent greater inequality"
+    },
+    "Average household expenditures": {
+      "on food": {
+        "text": "14.7% of household expenditures (2023 est.)"
+      },
+      "on alcohol and tobacco": {
+        "text": "3.8% of household expenditures (2023 est.)"
+      }
+    },
+    "Household income or consumption by percentage share": {
+      "lowest 10%": {
+        "text": "2.5% (2022 est.)"
+      },
+      "highest 10%": {
+        "text": "25.3% (2022 est.)"
+      },
+      "note": "<b>note:</b> % share of income accruing to lowest and highest 10% of population"
+    },
+    "Remittances": {
+      "Remittances 2024": {
+        "text": "0.5% of GDP (2024 est.)"
+      },
+      "Remittances 2023": {
+        "text": "0.5% of GDP (2023 est.)"
+      },
+      "Remittances 2022": {
+        "text": "0.5% of GDP (2022 est.)"
+      },
+      "note": "<b>note:</b> personal transfers and compensation between resident and non-resident individuals/households/entities"
+    },
+    "Budget": {
+      "revenues": {
+        "text": "$935.038 billion (2023 est.)"
+      },
+      "expenditures": {
+        "text": "$1.104 trillion (2023 est.)"
+      },
+      "note": "<b>note:</b> central government revenues (excluding grants) and expenditures converted to US dollars at average official exchange rate for year indicated"
+    },
+    "Public debt": {
+      "Public debt 2017": {
+        "text": "131.8% of GDP (2017 est.)"
+      },
+      "note": "<strong>note:</strong> Italy reports its data on public debt according to guidelines set out in the Maastricht Treaty; general government gross debt is defined in the Maastricht Treaty as consolidated general government gross debt at nominal value, outstanding at the end of the year, in the following categories of government liabilities (as defined in ESA95): currency and deposits (AF.2), securities other than shares excluding financial derivatives (AF.3, excluding AF.34), and loans (AF.4); the general government sector comprises central, state, and local government and social security funds"
+    },
+    "Taxes and other revenues": {
+      "text": "24.8% (of GDP) (2023 est.)",
+      "note": "<b>note:</b> central government tax revenue as a % of GDP"
+    },
+    "Current account balance": {
+      "Current account balance 2024": {
+        "text": "$26.76 billion (2024 est.)"
+      },
+      "Current account balance 2023": {
+        "text": "$3.261 billion (2023 est.)"
+      },
+      "Current account balance 2022": {
+        "text": "-$36.325 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - net trade and primary/secondary income in current dollars"
+    },
+    "Exports": {
+      "Exports 2024": {
+        "text": "$778.898 billion (2024 est.)"
+      },
+      "Exports 2023": {
+        "text": "$774.311 billion (2023 est.)"
+      },
+      "Exports 2022": {
+        "text": "$737.083 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - exports of goods and services in current dollars"
+    },
+    "Exports - partners": {
+      "text": "Germany 11%, USA 11%, France 10%, Spain 5%, UK 5% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "packaged medicine, garments, cars, refined petroleum, vehicle parts/accessories (2023)",
+      "note": "<b>note:</b> top five export commodities based on value in dollars"
+    },
+    "Imports": {
+      "Imports 2024": {
+        "text": "$717.278 billion (2024 est.)"
+      },
+      "Imports 2023": {
+        "text": "$739.646 billion (2023 est.)"
+      },
+      "Imports 2022": {
+        "text": "$775.518 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - imports of goods and services in current dollars"
+    },
+    "Imports - partners": {
+      "text": "Germany 15%, France 9%, China 8%, Netherlands 6%, Spain 5% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "natural gas, crude petroleum, cars, packaged medicine, garments (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Reserves of foreign exchange and gold": {
+      "Reserves of foreign exchange and gold 2024": {
+        "text": "$290.547 billion (2024 est.)"
+      },
+      "Reserves of foreign exchange and gold 2023": {
+        "text": "$247.396 billion (2023 est.)"
+      },
+      "Reserves of foreign exchange and gold 2022": {
+        "text": "$224.581 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> holdings of gold (year-end prices)/foreign exchange/special drawing rights in current dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "euros (EUR) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "0.924 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "0.925 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "0.95 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "0.845 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "0.876 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "100% (2022 est.)"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "128.692 million kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "290.664 billion kWh (2023 est.)"
+      },
+      "exports": {
+        "text": "3.32 billion kWh (2023 est.)"
+      },
+      "imports": {
+        "text": "54.572 billion kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "17.62 billion kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "56% of total installed capacity (2023 est.)"
+      },
+      "solar": {
+        "text": "12% of total installed capacity (2023 est.)"
+      },
+      "wind": {
+        "text": "9.1% of total installed capacity (2023 est.)"
+      },
+      "hydroelectricity": {
+        "text": "14.7% of total installed capacity (2023 est.)"
+      },
+      "geothermal": {
+        "text": "2.1% of total installed capacity (2023 est.)"
+      },
+      "biomass and waste": {
+        "text": "6.2% of total installed capacity (2023 est.)"
+      }
+    },
+    "Nuclear energy": {
+      "Number of nuclear reactors permanently shut down": {
+        "text": "4 (2025)"
+      }
+    },
+    "Coal": {
+      "production": {
+        "text": "1.572 million metric tons (2023 est.)"
+      },
+      "consumption": {
+        "text": "12.424 million metric tons (2023 est.)"
+      },
+      "exports": {
+        "text": "304,000 metric tons (2023 est.)"
+      },
+      "imports": {
+        "text": "12.069 million metric tons (2023 est.)"
+      },
+      "proven reserves": {
+        "text": "609.999 million metric tons (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "total petroleum production": {
+        "text": "111,000 bbl/day (2023 est.)"
+      },
+      "refined petroleum consumption": {
+        "text": "1.245 million bbl/day (2024 est.)"
+      },
+      "crude oil estimated reserves": {
+        "text": "497.934 million barrels (2021 est.)"
+      }
+    },
+    "Natural gas": {
+      "production": {
+        "text": "2.778 billion cubic meters (2023 est.)"
+      },
+      "consumption": {
+        "text": "61.906 billion cubic meters (2023 est.)"
+      },
+      "exports": {
+        "text": "2.609 billion cubic meters (2023 est.)"
+      },
+      "imports": {
+        "text": "61.851 billion cubic meters (2023 est.)"
+      },
+      "proven reserves": {
+        "text": "45.76 billion cubic meters (2021 est.)"
+      }
+    },
+    "Energy consumption per capita": {
+      "Total energy consumption per capita 2023": {
+        "text": "96.797 million Btu/person (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "20.107 million (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "34 (2023 est.)"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "78.7 million (2024 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "133 (2024 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "two Italian media giants dominate, with 3 national terrestrial stations;&nbsp; privately owned companies have 3 national terrestrial stations; a large number of private stations, a satellite TV network; 3 AM/FM nationwide radio stations; about 1,300 commercial radio stations"
+    },
+    "Internet country code": {
+      "text": ".it"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "87% (2023 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "20.1 million (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "34 (2023 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "I"
+    },
+    "Airports": {
+      "text": "655 (2025)"
+    },
+    "Heliports": {
+      "text": "163 (2025)"
+    },
+    "Railways": {
+      "total": {
+        "text": "18,475 km (2020) 12,936 km electrified"
+      },
+      "note": "1289.3 0.950-mm gauge (151.3 km electrified)"
+    },
+    "Merchant marine": {
+      "total": {
+        "text": "1,276 (2023)"
+      },
+      "by type": {
+        "text": "bulk carrier 17, container ship 6, general cargo 109, oil tanker 95, other 1,049"
+      }
+    },
+    "Ports": {
+      "total ports": {
+        "text": "123 (2024)"
+      },
+      "large": {
+        "text": "12"
+      },
+      "medium": {
+        "text": "11"
+      },
+      "small": {
+        "text": "71"
+      },
+      "very small": {
+        "text": "28"
+      },
+      "size unknown": {
+        "text": "1"
+      },
+      "ports with oil terminals": {
+        "text": "33"
+      },
+      "key ports": {
+        "text": "Brindisi, Civitavecchia, Genova, Gioia Tauro, La Spezia, Livorno, Messina, Napoli, Porto di Lido-Venezia, Siracusa, Taranto, Trieste"
+      }
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "Italian Armed Forces (Forze Armate Italiane): Army (Esercito Italiano, EI), Navy (Marina Militare Italiana, MMI; includes aviation, marines), Italian Air Force (Aeronautica Militare Italiana, AMI); Carabinieri Corps (Arma dei Carabinieri, CC) (2025)",
+      "note": "<strong>note 1:</strong> the National (or State) Police and Carabinieri (gendarmerie or military police) maintain internal security; the National Police reports to the Ministry of Interior while the Carabinieri reports to the Ministry of Defense but is also under the coordination of the Ministry of Interior; the Carabinieri is primarily a domestic police force organized along military lines, with some overseas responsibilities<br><br><strong>note 2:</strong> the Financial Guard (Guardia di Finanza) under the Ministry of Economy and Finance is a force with military status and nationwide remit for financial crime investigations, including narcotics trafficking, smuggling, and illegal immigration"
+    },
+    "Military expenditures": {
+      "Military Expenditures 2025": {
+        "text": "2% of GDP (2025 est.)"
+      },
+      "Military Expenditures 2024": {
+        "text": "1.5% of GDP (2024 est.)"
+      },
+      "Military Expenditures 2023": {
+        "text": "1.5% of GDP (2023 est.)"
+      },
+      "Military Expenditures 2022": {
+        "text": "1.5% of GDP (2022 est.)"
+      },
+      "Military Expenditures 2021": {
+        "text": "1.5% of GDP (2021 est.)"
+      }
+    },
+    "Military and security service personnel strengths": {
+      "text": "approximately 170,000 active-duty military personnel; approximately 105,000 Carabinieri (2025)"
+    },
+    "Military equipment inventories and acquisitions": {
+      "text": "the military's inventory includes a mix of domestically manufactured, imported, and jointly produced weapons systems; imports come mostly from Europe and the US; the Italian defense industry is capable of producing equipment across all the military domains with particular strengths in aircraft, armored vehicles, and naval vessels; it also participates in joint development and production of advanced weapons systems with other European countries and the US (2025)"
+    },
+    "Military service age and obligation": {
+      "text": "17 or 18 years of age for voluntary military service for men and women ; voluntary service is a minimum of 12 months with the option to extend in the Armed Forces or compete for positions in other government security organizations; conscription abolished 2004 (2025)",
+      "note": "<strong>note:</strong> women serve in all military branches; as of 2023, women made up about 8% of the military's full-time personnel"
+    },
+    "Military deployments": {
+      "text": "Italy has on average about 8,000 military personnel deployed in support of NATO, UN, and other foreign missions; significant ground troop deployments include Bulgaria (750), Hungary (250), Kosovo (870), Latvia (300), and Lebanon (875); in addition, air and naval units are deployed in support of NATO missions (2025)",
+      "note": "<strong>note</strong><strong>:</strong> since 1960, Italy has committed more than 60,000 troops to UN missions, and it hosts a training center in Vicenza for police personnel destined for peacekeeping missions"
+    },
+    "Military - note": {
+      "text": "the Italian military is responsible for Italy’s national defense and security and fulfilling the country’s commitments to the EU, NATO, the UN, and other multinational military, security, and humanitarian operations; it also has some domestic security duties; key areas of emphasis for Italy’s security policy and multinational cooperation are Europe’s eastern and southern flanks, including the Mediterranean Sea, East and North Africa, and the Middle East and its adjacent waters<br><br>Italy has been an active member of NATO since its founding in 1948, and the Alliance is a cornerstone of Rome’s national security strategy; it is one of NATO’s leading contributors of military forces and participates in such Alliance missions as Air Policing in the Baltics, the Enhanced Forward Presence in Eastern Europe, and maritime patrols in the Mediterranean and beyond; it hosts NATO’s Joint Force Command in Naples and a NATO Rapid Deployable Corps headquarters in Milan <br><br>Italy is also active in European/EU defense cooperation and integration, including hosting the headquarters for the EU’s Mediterranean naval operations force in Rome; in addition, Italy has close defense ties with the US and hosts several US military air, army, and naval bases and facilities (2025)"
+    }
+  },
+  "Space": {
+    "Space agency/agencies": {
+      "text": "Italian Space Agency (L&rsquo;Agenzia Spaziale Italiana or ASI; established 1988) (2025)"
+    },
+    "Space launch site(s)": {
+      "text": "the Broglio (aka San Marco, Malindi) Space Center, located near Malindi, Kenya, served from 1967 to 1988 as an Italian and international satellite launch facility; in 2020, Italy concluded a deal with Kenya to conduct rocket launches from the site again in the future; the Italian Space Agency has utilized the site as a satellite ground station since 2004<br><br>the Italian Government has designated the Taranto-Grottaglie Airport as a future spaceport and signed framework agreements with commercial space companies that could lead to suborbital and orbital launches from what would be called the Grottaglie Spaceport (2025)"
+    },
+    "Space program overview": {
+      "text": "one of the top contributors to the ESA; designs, builds, launches, and operates communications, remote sensing (RS), and scientific satellites; designs and manufactures probes, rockets, and orbital satellite launch vehicles (SLVs); researches, develops, and builds a range of other space-related technologies and participates in a wide array of international programs; hosts the ESA Center for Earth Observation; has astronaut cadre in the ESA astronaut corps; has cooperated with a variety of foreign space agencies and industries, including those of Argentina, Brazil, Canada, China, Israel, Japan, Kenya, Mexico, Russia, South Korea, Thailand, the UAE, and the US; participates in international projects such as the International Space Station; has considerable commercial space industries encompassing a wide range of capabilities (2025)"
+    },
+    "Key space-program milestones": {
+      "text": "1964 - first domestically manufactured science satellite (San Marco-1) launched by the US<br><br>1977 - first domestically built telecommunications/research satellite (Sirio) launched by the US<br><br>1990s-2011 - participated in US Space Shuttle program, resulting in first Italian astronaut in space (1992)<br><br>1998-present - participated in International Space Station, including the first European astronaut on the station (2001), first Italian to command it (2019-2020), and first woman to command the station (2022)<br><br>2012 - first launch of Italian-designed VEGA 3-stage satellite launch vehicle (SLV) for ESA<br><br>2020 - signed US-led Artemis Accords for space and lunar exploration <br><br>2023 - first Italian all-electric satellite (MicroHETSat) built for the ESA and launched by the US; began developing a habitat for the US-led Artemis Lunar Gateway project<br><br>2025 - passed a national space law to govern Italian space operations"
+    }
+  },
+  "Terrorism": {
+    "Terrorist group(s)": {
+      "text": "Islamic State of Iraq and ash-Sham (ISIS)",
+      "note": "<strong>note:</strong> details about the history, aims, leadership, organization, areas of operation, tactics, targets, weapons, size, and sources of support of the group(s) appear(s) in the Terrorism reference guide"
+    }
+  },
+  "Transnational Issues": {
+    "Refugees and internally displaced persons": {
+      "refugees": {
+        "text": "520,127 (2024 est.)"
+      },
+      "stateless persons": {
+        "text": "3,000 (2024 est.)"
+      }
+    }
+  }
+}

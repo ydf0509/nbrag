@@ -1,0 +1,1265 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "<p>The Dutch United Provinces declared their independence from Spain in 1581; during the 17th century, they became a leading seafaring and commercial power, with settlements and colonies around the world. After 18 years of French domination, the Netherlands regained its independence in 1813. In 1830, Belgium seceded and formed a separate kingdom. The Netherlands remained neutral in World War I but suffered German invasion and occupation in World War II. A modern, industrialized nation, the Netherlands is also a large exporter of agricultural products. The country was a founding member of NATO and the EEC (now the EU) and participated in the introduction of the euro in 1999. In 2010, the former Netherlands Antilles was dissolved and the three smallest islands -- Bonaire, Sint Eustatius, and Saba -- became special municipalities in the Netherlands administrative structure. The larger islands of Sint Maarten and Curacao joined the Netherlands and Aruba as constituent countries forming the Kingdom of the Netherlands.</p> <p>In 2018, the Sint Eustatius island council (governing body) was dissolved and replaced by a government commissioner to restore the integrity of public administration. According to the Dutch Government, the intervention will be as \"short as possible and as long as needed.\"</p>"
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Western Europe, bordering the North Sea, between Belgium and Germany"
+    },
+    "Geographic coordinates": {
+      "text": "52 31 N, 5 46 E"
+    },
+    "Map references": {
+      "text": "Europe"
+    },
+    "Area": {
+      "total ": {
+        "text": "41,543 sq km"
+      },
+      "land": {
+        "text": "33,893 sq km"
+      },
+      "water": {
+        "text": "7,650 sq km"
+      }
+    },
+    "Area - comparative": {
+      "text": "slightly less than twice the size of New Jersey"
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "1,053 km"
+      },
+      "border countries": {
+        "text": "Belgium 478 km; Germany 575 km"
+      }
+    },
+    "Coastline": {
+      "text": "451 km"
+    },
+    "Maritime claims": {
+      "territorial sea": {
+        "text": "12 nm"
+      },
+      "contiguous zone": {
+        "text": "24 nm"
+      },
+      "exclusive fishing zone": {
+        "text": "200 nm"
+      }
+    },
+    "Climate": {
+      "text": "temperate; marine; cool summers and mild winters"
+    },
+    "Terrain": {
+      "text": "mostly coastal lowland and reclaimed land (polders); some hills in southeast"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Mount Scenery (on the island of Saba in the Caribbean, now considered an integral part of the Netherlands following the dissolution of the Netherlands Antilles) 862 m"
+      },
+      "lowest point": {
+        "text": "Zuidplaspolder -7 m"
+      },
+      "mean elevation": {
+        "text": "30 m"
+      },
+      "note": "<strong>note:</strong> the highest point on continental Netherlands is Vaalserberg at 322 m"
+    },
+    "Natural resources": {
+      "text": "natural gas, petroleum, peat, limestone, salt, sand and gravel, arable land"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "53.5% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 30% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 1.1% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 22.5% (2023 est.)"
+      },
+      "forest": {
+        "text": "10.9% (2023 est.)"
+      },
+      "other": {
+        "text": "35.5% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "2,969 sq km (2019)"
+    },
+    "Major rivers (by length in km)": {
+      "text": "Rijn (Rhine) river mouth (shared with Switzerland [s], Germany, and France) - 1,233 km<br><br><strong>note:</strong> [s] after country name indicates river source; [m] after country name indicates river mouth"
+    },
+    "Major watersheds (area sq km)": {
+      "Atlantic Ocean drainage": {
+        "text": "Rhine-Maas (198,735 sq km)"
+      }
+    },
+    "Population distribution": {
+      "text": "an area known as the Randstad, anchored by the cities of Amsterdam, Rotterdam, the Hague, and Utrecht, is the most densely populated region; the north tends to be less dense, but sizeable communities can be found throughout the entire country"
+    },
+    "Natural hazards": {
+      "text": "flooding <br><br><strong>volcanism:</strong> Mount Scenery (887 m), located on the island of Saba in the Caribbean, last erupted in 1640; Round Hill (601 m), a dormant volcano also known as \"The Quill,\" is located on the island of St. Eustatius in the Caribbean; these islands are at the northern end of the volcanic island arc of the Lesser Antilles that extends south to Grenada"
+    },
+    "Geography - note": {
+      "text": "located at mouths of three major European rivers (Rhine (Rijn), Meuse (Maas), and Scheldt (Schelde)); about a quarter of the country lies below sea level and only about half of the land exceeds one meter above sea level"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "17,833,885 (2025 est.)"
+      },
+      "male": {
+        "text": "8,874,366"
+      },
+      "female": {
+        "text": "8,959,519"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Dutchman(men), Dutchwoman(women)"
+      },
+      "adjective": {
+        "text": "Dutch"
+      }
+    },
+    "Ethnic groups": {
+      "text": "Dutch 75.4%, EU (excluding Dutch) 6.4%, Turkish 2.4%, Moroccan 2.4%, Surinamese 2.1%, Indonesian 2%, other 9.3% (2021 est.)"
+    },
+    "Languages": {
+      "Languages": {
+        "text": "Dutch (official), Frisian (official in Fryslan province)"
+      },
+      "major-language sample(s)": {
+        "text": "Het Wereld Feitenboek, een onmisbare bron van informatie. (Dutch)<br><br>The World Factbook, the indispensable source for basic information."
+      },
+      "note": "<strong>note: </strong>Frisian, Low Saxon, Limburgish, Romani, and Yiddish have protected status; Dutch is the official language of the three special municipalities of the Caribbean Netherlands; English is a recognized regional language on Sint Eustatius and Saba; Papiamento is a recognized regional language on Bonaire"
+    },
+    "Religions": {
+      "text": "Roman Catholic 20.1%, Protestant 14.8% (includes Dutch Reformed, Protestant Church of The Netherlands, Calvinist), Muslim 5%, other 5.9% (includes Hindu, Buddhist, Jewish), none 54.1% (2019 est.)"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "15.2% (male 1,384,142/female 1,312,455)"
+      },
+      "15-64 years": {
+        "text": "64.1% (male 5,750,034/female 5,640,691)"
+      },
+      "65 years and over": {
+        "text": "20.7% (2024 est.) (male 1,709,924/female 1,975,132)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "56.8 (2025 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "23.7 (2025 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "33 (2025 est.)"
+      },
+      "potential support ratio": {
+        "text": "3 (2025 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "42.2 years (2025 est.)"
+      },
+      "male": {
+        "text": "40.9 years"
+      },
+      "female": {
+        "text": "43.5 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "0.3% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "10.68 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "9.7 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "2.01 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "an area known as the Randstad, anchored by the cities of Amsterdam, Rotterdam, the Hague, and Utrecht, is the most densely populated region; the north tends to be less dense, but sizeable communities can be found throughout the entire country"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "93.2% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.59% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "1.174 million AMSTERDAM (capital), 1.018 million Rotterdam (2023)"
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.05 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1.05 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "1.02 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "0.87 male(s)/female"
+      },
+      "total population": {
+        "text": "0.99 male(s)/female (2024 est.)"
+      }
+    },
+    "Mother's mean age at first birth": {
+      "text": "30.2 years (2020 est.)"
+    },
+    "Maternal mortality ratio": {
+      "text": "4 deaths/100,000 live births (2023 est.)"
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "3.6 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "3.9 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "3.3 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "81.9 years (2024 est.)"
+      },
+      "male": {
+        "text": "80.3 years"
+      },
+      "female": {
+        "text": "83.5 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "1.62 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "0.79 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: urban": {
+        "text": "urban: 100% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 100% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 100% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 0% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 0% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0% of population (2022 est.)"
+      }
+    },
+    "Health expenditure": {
+      "Health expenditure (as % of GDP)": {
+        "text": "11.3% of GDP (2021)"
+      },
+      "Health expenditure (as % of national budget)": {
+        "text": "15.9% of national budget (2022 est.)"
+      }
+    },
+    "Physician density": {
+      "text": "3.88 physicians/1,000 population (2022)"
+    },
+    "Hospital bed density": {
+      "text": "2.9 beds/1,000 population (2020 est.)"
+    },
+    "Sanitation facility access": {
+      "improved: urban": {
+        "text": "urban: 100% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 100% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 100% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 0% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 0% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0% of population (2022 est.)"
+      }
+    },
+    "Obesity - adult prevalence rate": {
+      "text": "20.4% (2016)"
+    },
+    "Alcohol consumption per capita": {
+      "total": {
+        "text": "8.23 liters of pure alcohol (2019 est.)"
+      },
+      "beer": {
+        "text": "3.95 liters of pure alcohol (2019 est.)"
+      },
+      "wine": {
+        "text": "2.92 liters of pure alcohol (2019 est.)"
+      },
+      "spirits": {
+        "text": "1.36 liters of pure alcohol (2019 est.)"
+      },
+      "other alcohols": {
+        "text": "0 liters of pure alcohol (2019 est.)"
+      }
+    },
+    "Tobacco use": {
+      "total": {
+        "text": "18.7% (2025 est.)"
+      },
+      "male": {
+        "text": "21% (2025 est.)"
+      },
+      "female": {
+        "text": "16.4% (2025 est.)"
+      }
+    },
+    "Currently married women (ages 15-49)": {
+      "text": "53.5% (2023 est.)"
+    },
+    "Education expenditure": {
+      "Education expenditure (% GDP)": {
+        "text": "5.2% of GDP (2022 est.)"
+      },
+      "Education expenditure (% national budget)": {
+        "text": "12% national budget (2022 est.)"
+      }
+    },
+    "School life expectancy (primary to tertiary education)": {
+      "total": {
+        "text": "19 years (2021 est.)"
+      },
+      "male": {
+        "text": "18 years (2021 est.)"
+      },
+      "female": {
+        "text": "19 years (2021 est.)"
+      }
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "water pollution, including industrial and agricultural chemicals in rivers; air pollution from vehicles and refining activities"
+    },
+    "International environmental agreements": {
+      "party to": {
+        "text": "Air Pollution, Air Pollution-Heavy Metals, Air Pollution-Multi-effect Protocol, Air Pollution-Nitrogen Oxides, Air Pollution-Persistent Organic Pollutants, Air Pollution-Sulphur 85, Air Pollution-Sulphur 94, Air Pollution-Volatile Organic Compounds, Antarctic-Environmental Protection, Antarctic-Marine Living Resources, Antarctic Treaty, Biodiversity, Climate Change, Climate Change-Kyoto Protocol, Climate Change-Paris Agreement, Comprehensive Nuclear Test Ban, Desertification, Endangered Species, Environmental Modification, Hazardous Wastes, Law of the Sea, Marine Dumping-London Convention, Marine Dumping-London Protocol, Marine Life Conservation, Nuclear Test Ban, Ozone Layer Protection, Ship Pollution, Tropical Timber 2006, Wetlands, Whaling"
+      },
+      "signed, but not ratified": {
+        "text": "none of the selected agreements"
+      }
+    },
+    "Climate": {
+      "text": "temperate; marine; cool summers and mild winters"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "53.5% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 30% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 1.1% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 22.5% (2023 est.)"
+      },
+      "forest": {
+        "text": "10.9% (2023 est.)"
+      },
+      "other": {
+        "text": "35.5% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "93.2% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.59% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "188.191 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from coal and metallurgical coke": {
+        "text": "23.701 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "112.037 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from consumed natural gas": {
+        "text": "52.454 million metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Particulate matter emissions": {
+      "text": "10 micrograms per cubic meter (2019 est.)"
+    },
+    "Methane emissions": {
+      "energy": {
+        "text": "63.1 kt (2022-2024 est.)"
+      },
+      "agriculture": {
+        "text": "449 kt (2019-2021 est.)"
+      },
+      "waste": {
+        "text": "123.3 kt (2019-2021 est.)"
+      },
+      "other": {
+        "text": "17.4 kt (2019-2021 est.)"
+      }
+    },
+    "Waste and recycling": {
+      "municipal solid waste generated annually": {
+        "text": "8.805 million tons (2024 est.)"
+      },
+      "percent of municipal solid waste recycled": {
+        "text": "28.3% (2022 est.)"
+      }
+    },
+    "Total water withdrawal": {
+      "municipal": {
+        "text": "2.185 billion cubic meters (2022)"
+      },
+      "industrial": {
+        "text": "5.784 billion cubic meters (2022)"
+      },
+      "agricultural": {
+        "text": "265.086 million cubic meters (2022)"
+      }
+    },
+    "Total renewable water resources": {
+      "text": "91 billion cubic meters (2022 est.)"
+    },
+    "Geoparks": {
+      "total global geoparks and regional networks": {
+        "text": "2 (2024)"
+      },
+      "global geoparks and regional networks": {
+        "text": "De Hondsrug; Schelde Delta (includes Belgium) (2024)"
+      }
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "Kingdom of the Netherlands"
+      },
+      "conventional short form": {
+        "text": "Netherlands"
+      },
+      "local long form": {
+        "text": "Koninkrijk der Nederlanden"
+      },
+      "local short form": {
+        "text": "Nederland"
+      },
+      "abbreviation": {
+        "text": "NL"
+      },
+      "etymology": {
+        "text": "the English name is derived from the country's Dutch name, which means \"the lowlands\" and describes the geographic area; only about half the Netherlands is more than 1 meter (3.3 ft) above sea level"
+      }
+    },
+    "Government type": {
+      "text": "parliamentary constitutional monarchy; part of the Kingdom of the Netherlands"
+    },
+    "Capital": {
+      "name": {
+        "text": "Amsterdam"
+      },
+      "geographic coordinates": {
+        "text": "52 21 N, 4 55 E"
+      },
+      "time difference": {
+        "text": "UTC+1 (6 hours ahead of Washington, DC, during Standard Time)"
+      },
+      "daylight saving time": {
+        "text": "+1hr, begins last Sunday in March; ends last Sunday in October"
+      },
+      "time zone note": {
+        "text": "time descriptions apply to the continental Netherlands only, for the constituent countries in the Caribbean, the time difference is UTC-4"
+      },
+      "etymology": {
+        "text": "the name is derived from the Dutch name of the local river, the Amstel, and the Dutch word <em>dam</em>, which has the same meaning in English; the river name is said to derive from the Germanic words <em>ama </em>(current) and <em>stelle </em>(place)"
+      },
+      "note": "<strong>note:</strong> The Hague is the seat of government"
+    },
+    "Administrative divisions": {
+      "text": "12 provinces (<em>provincies</em>, singular - <em>provincie</em>), 3 public entities* (<em>openbare lichamen</em>, singular - <em>openbaar lichaam</em> (Dutch); <em>entidatnan publiko</em>, singular - <em>entidat publiko</em> (Papiamento)); Bonaire*, Drenthe, Flevoland, Fryslan (Friesland), Gelderland, Groningen, Limburg, Noord-Brabant (North Brabant), Noord-Holland (North Holland), Overijssel, Saba*, Sint Eustatius*, Utrecht, Zeeland (Zealand), Zuid-Holland (South Holland)",
+      "note": "<strong>note 1:</strong> the Netherlands is one of four constituent countries of the Kingdom of the Netherlands; the other three, Aruba, Curacao, and Sint Maarten, are Caribbean islands; all four are considered equal partners, but the Netherlands makes up about 98% of the Kingdom's total land area and population and administers most of the Kingdom's affairs  <br><br><strong>note 2:</strong> although Bonaire, Saba, and Sint Eustatius are officially incorporated into the country of the Netherlands under the broad designation of \"public entities,\" Dutch government sources often call them \"special municipalities;\" Bonaire, Saba, and Sint Eustatius are collectively referred to as the Caribbean Netherlands"
+    },
+    "Legal system": {
+      "text": "civil law system based on the French system; constitution does not permit judicial review of acts of the States General"
+    },
+    "Constitution": {
+      "history": {
+        "text": "many previous to adoption of the \"Basic Law of the Kingdom of the Netherlands\" on 24 August 1815; revised 8 times, the latest in 1983"
+      },
+      "amendment process": {
+        "text": "proposed as an Act of Parliament by or on behalf of the king or by the Second Chamber of the States General; the Second Chamber is dissolved after its first reading of the Act; passage requires a second reading by both the First Chamber and the newly elected Second Chamber, followed by at least two-thirds majority vote of both chambers, and ratification by the king"
+      }
+    },
+    "International law organization participation": {
+      "text": "accepts compulsory ICJ jurisdiction with reservations; accepts ICCt jurisdiction"
+    },
+    "Citizenship": {
+      "citizenship by birth": {
+        "text": "no"
+      },
+      "citizenship by descent only": {
+        "text": "at least one parent must be a citizen of the Netherlands"
+      },
+      "dual citizenship recognized": {
+        "text": "no"
+      },
+      "residency requirement for naturalization": {
+        "text": "5 years"
+      }
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "King WILLEM-ALEXANDER (since 30 April 2013)"
+      },
+      "head of government": {
+        "text": "Caretaker Prime Minister Dick SCHOOF (since 3 June 2025)"
+      },
+      "cabinet": {
+        "text": "Council of Ministers appointed by the monarch"
+      },
+      "election/appointment process": {
+        "text": "the monarchy is hereditary; following Second Chamber elections, the monarch usually appoints the leader of the majority party or majority coalition as prime minister; deputy prime ministers are also appointed by the monarch"
+      },
+      "note": "<strong>note:</strong> Prime Minister Dick SCHOOF resigned on 3 June 2025 after a party withdrew from his governing coalition, but he will continue in a caretaker capacity until new elections are held, probably in the fall of 2025"
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "States General (Staten-Generaal)"
+      },
+      "legislative structure": {
+        "text": "bicameral"
+      }
+    },
+    "Legislative branch - lower chamber": {
+      "chamber name": {
+        "text": "House of Representatives (Tweede Kamer der Staten-Generaal)"
+      },
+      "number of seats": {
+        "text": "150 (all directly elected)"
+      },
+      "electoral system": {
+        "text": "proportional representation"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "4 years"
+      },
+      "most recent election date": {
+        "text": "10/29/2025"
+      },
+      "parties elected and seats per party": {
+        "text": "Democrats 66 (D66) (26); Party for Freedom (PVV) (26); People's Party for Freedom and Democracy (VVD) (22); Green Left - Labour Party (PvdA) (20); Christian Democratic Appeal (CDA) (18); JA21 (9); Other (29)"
+      },
+      "percentage of women in chamber": {
+        "text": "42.7%"
+      },
+      "expected date of next election": {
+        "text": "October 2029"
+      }
+    },
+    "Legislative branch - upper chamber": {
+      "chamber name": {
+        "text": "Senate (Eerste Kamer der Staten-Generaal)"
+      },
+      "number of seats": {
+        "text": "75 (all indirectly elected)"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "4 years"
+      },
+      "most recent election date": {
+        "text": "5/30/2023"
+      },
+      "percentage of women in chamber": {
+        "text": "40%"
+      },
+      "expected date of next election": {
+        "text": "May 2027"
+      }
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "Supreme Court or Hoge Raad (consists of 41 judges: the president, 6 vice presidents, 31 justices, and 3 justices in exceptional service); the court is divided into criminal, civil, tax, and ombuds chambers"
+      },
+      "judge selection and term of office": {
+        "text": "justices appointed by the monarch from a list provided by the House of Representatives of the States General; justices appointed for life or until mandatory retirement at age 70"
+      },
+      "subordinate courts": {
+        "text": "courts of appeal; district courts, each with up to 5 subdistrict courts; Netherlands Commercial Court"
+      }
+    },
+    "Political parties": {
+      "text": "Christian Democratic Appeal or CDA <br>Christian Union or CU<br>Correct Answer 2021 or JA21<br>Democrats 66 or D66 <br>Denk <br>Farmer-Citizen Movement or BBB <br>50Plus <br>Forum for Democracy or FvD <br>Green Left (GroenLinks) or GL <br>Labor Party or PvdA <br>New Social Contract or NSC <br>Party for Freedom or PVV <br>Party for the Animals or PvdD <br>People's Party for Freedom and Democracy or VVD <br>Reformed Political Party or SGP <br>Socialist Party or SP <br>Together or BIJ1 <br>Volt Netherlands or Volt "
+    },
+    "Diplomatic representation in the US": {
+      "chief of mission": {
+        "text": "Ambassador Birgitta TAZELAAR (since 15 September 2023)"
+      },
+      "chancery": {
+        "text": "4200 Linnean Avenue NW, Washington, DC 20008"
+      },
+      "telephone": {
+        "text": "[1] (202) 244-5300"
+      },
+      "FAX": {
+        "text": "[1] (202) 362-3430"
+      },
+      "email address and website": {
+        "text": "<br>was@minbuza.nl<br><br>https://www.netherlandsworldwide.nl/countries/united-states/about-us/embassy-in-washington-dc"
+      },
+      "consulate(s) general": {
+        "text": "Atlanta, Chicago, Miami, New York, San Francisco"
+      }
+    },
+    "Diplomatic representation from the US": {
+      "chief of mission": {
+        "text": "Ambassador Joseph POPOLO (since 29 October 2025)"
+      },
+      "embassy": {
+        "text": "John Adams Park 1, 2244 BZ Wassenaar"
+      },
+      "mailing address": {
+        "text": "5780 Amsterdam Place, Washington DC&nbsp; 20521-5780"
+      },
+      "telephone": {
+        "text": "[31] (70) 310-2209"
+      },
+      "FAX": {
+        "text": "[31] (70) 310-2207"
+      },
+      "email address and website": {
+        "text": "<br>AmsterdamUSC@state.gov<br><br>https://nl.usembassy.gov/"
+      },
+      "consulate(s) general": {
+        "text": "Amsterdam"
+      }
+    },
+    "International organization participation": {
+      "text": "ADB (nonregional member), AfDB (nonregional member), Arctic Council (observer), Australia Group, Benelux, BIS, CBSS (observer), CD, CE, CERN, EAPC, EBRD, ECB, EIB, EITI (implementing country), EMU, ESA, EU, FAO, FATF, G-10, IADB, IAEA, IBRD, ICAO, ICC (national committees), ICCt, ICRM, IDA, IEA, IFAD, IFC, IFRCS, IGAD (partners), IHO, ILO, IMF, IMO, IMSO, Interpol, IOC, IOM, IPU, ISO, ITSO, ITU, ITUC (NGOs), MIGA, NATO, NEA, NSG, OAS (observer), OECD, OPCW, OSCE, Pacific Alliance (observer), Paris Club, PCA, Schengen Convention, SELEC (observer), UN, UNCTAD, UNESCO, UNHCR, UNHRC, UNIDO, UNMISS, UNOOSA, UNRWA, UN Security Council (temporary), UNTSO, UNWTO, UPU, Wassenaar Arrangement, WCO, WHO, WIPO, WMO, WTO, ZC"
+    },
+    "Independence": {
+      "text": "26 July 1581 ",
+      "note": "<strong>note:</strong> the northern provinces of the Low Countries formally declared their independence with an Act of Abjuration in 1581, but, it was not until 30 January 1648 and the Peace of Westphalia that Spain recognized this independence"
+    },
+    "National holiday": {
+      "text": "King's Day (birthday of King WILLEM-ALEXANDER), 27 April (1967)",
+      "note": "<strong>note:</strong> observed on the ruling monarch's birthday; celebrated on 26 April if 27 April is a Sunday"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> three equal horizontal bands of bright red (top), white, and cobalt blue<br><br><strong>history:</strong> the colors come from WILLIAM I, Prince of Orange; originally the upper band was orange, but the dye would turn red over time, so red was eventually made the permanent color",
+      "note": "<strong>note: </strong>similar to the flag of Luxembourg, which uses a lighter blue and is wider"
+    },
+    "National symbol(s)": {
+      "text": "lion, daisy"
+    },
+    "National color(s)": {
+      "text": "orange"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"Het Wilhelmus\" (The William)"
+      },
+      "lyrics/music": {
+        "text": "Philips VAN MARNIX van Sint Aldegonde (presumed)/unknown"
+      },
+      "history": {
+        "text": "adopted 1932, in use since the 17th century&nbsp;"
+      }
+    },
+    "National heritage": {
+      "total World Heritage Sites": {
+        "text": "13 (12 cultural, 1 natural)"
+      },
+      "selected World Heritage Site locales": {
+        "text": "Schokland and Surroundings (c); Dutch Water Defense Lines (c); Van Nellefabriek (c); Mill Network at Kinderdijk-Elshout (c); Droogmakerij de Beemster (Beemster Polder) (c); Rietveld Schröderhuis (Rietveld Schröder House) (c); Wadden Sea (n); Seventeenth Century Canal Ring Area of Amsterdam inside the Singelgracht (c); Colonies of Benevolence (c); Frontiers of the Roman Empire - The Lower German Limes (c)"
+      },
+      "note": "<strong>note: </strong>includes one site in Curacao"
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "<p>high-income, core EU- and eurozone-member economy; strong services, logistics, and tech sectors; strongly trade-oriented with heightened risks from global tensions; declining inflation aided by easing energy prices and wage growth; rising but manageable deficits and public debt; strong ratings for innovation, competitiveness, and business climate</p>"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2024": {
+        "text": "$1.276 trillion (2024 est.)"
+      },
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$1.263 trillion (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$1.263 trillion (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "Real GDP growth rate": {
+      "Real GDP growth rate 2024": {
+        "text": "1% (2024 est.)"
+      },
+      "Real GDP growth rate 2023": {
+        "text": "0.1% (2023 est.)"
+      },
+      "Real GDP growth rate 2022": {
+        "text": "5% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual GDP % growth based on constant local currency"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2024": {
+        "text": "$70,900 (2024 est.)"
+      },
+      "Real GDP per capita 2023": {
+        "text": "$70,700 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$71,300 (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$1.228 trillion (2024 est.)",
+      "note": "<b>note:</b> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2024": {
+        "text": "3.3% (2024 est.)"
+      },
+      "Inflation rate (consumer prices) 2023": {
+        "text": "3.8% (2023 est.)"
+      },
+      "Inflation rate (consumer prices) 2022": {
+        "text": "10% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual % change based on consumer prices"
+    },
+    "GDP - composition, by sector of origin": {
+      "agriculture": {
+        "text": "1.7% (2024 est.)"
+      },
+      "industry": {
+        "text": "17.9% (2024 est.)"
+      },
+      "services": {
+        "text": "70.3% (2024 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to non-allocated consumption not captured in sector-reported data"
+    },
+    "GDP - composition, by end use": {
+      "household consumption": {
+        "text": "42.1% (2023 est.)"
+      },
+      "government consumption": {
+        "text": "24.5% (2023 est.)"
+      },
+      "investment in fixed capital": {
+        "text": "20.1% (2023 est.)"
+      },
+      "investment in inventories": {
+        "text": "-0.1% (2023 est.)"
+      },
+      "exports of goods and services": {
+        "text": "88.5% (2023 est.)"
+      },
+      "imports of goods and services": {
+        "text": "-77.4% (2023 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to rounding or gaps in data collection"
+    },
+    "Agricultural products": {
+      "text": "milk, sugar beets, potatoes, onions, pork, wheat, chicken, tomatoes, carrots/turnips, beef (2023)",
+      "note": "<b>note:</b> top ten agricultural products based on tonnage"
+    },
+    "Industries": {
+      "text": "agroindustries, metal and engineering products, electrical machinery and equipment, chemicals, petroleum, construction, microelectronics, fishing"
+    },
+    "Industrial production growth rate": {
+      "text": "-1.5% (2024 est.)",
+      "note": "<b>note:</b> annual % change in industrial value added based on constant local currency"
+    },
+    "Labor force": {
+      "text": "10.315 million (2024 est.)",
+      "note": "<b>note:</b> number of people ages 15 or older who are employed or seeking work"
+    },
+    "Unemployment rate": {
+      "Unemployment rate 2024": {
+        "text": "3.6% (2024 est.)"
+      },
+      "Unemployment rate 2023": {
+        "text": "3.6% (2023 est.)"
+      },
+      "Unemployment rate 2022": {
+        "text": "3.6% (2022 est.)"
+      },
+      "note": "<b>note:</b> % of labor force seeking employment"
+    },
+    "Youth unemployment rate (ages 15-24)": {
+      "total": {
+        "text": "8.2% (2024 est.)"
+      },
+      "male": {
+        "text": "8.4% (2024 est.)"
+      },
+      "female": {
+        "text": "7.9% (2024 est.)"
+      },
+      "note": "<b>note:</b> % of labor force ages 15-24 seeking employment"
+    },
+    "Population below poverty line": {
+      "text": "14.5% (2021 est.)",
+      "note": "<b>note:</b> % of population with income below national poverty line"
+    },
+    "Gini Index coefficient - distribution of family income": {
+      "Gini Index coefficient - distribution of family income 2021": {
+        "text": "25.7 (2021 est.)"
+      },
+      "note": "<b>note:</b> index (0-100) of income distribution; higher values represent greater inequality"
+    },
+    "Average household expenditures": {
+      "on food": {
+        "text": "11.7% of household expenditures (2023 est.)"
+      },
+      "on alcohol and tobacco": {
+        "text": "3% of household expenditures (2023 est.)"
+      }
+    },
+    "Household income or consumption by percentage share": {
+      "lowest 10%": {
+        "text": "3.6% (2021 est.)"
+      },
+      "highest 10%": {
+        "text": "21.4% (2021 est.)"
+      },
+      "note": "<b>note:</b> % share of income accruing to lowest and highest 10% of population"
+    },
+    "Remittances": {
+      "Remittances 2024": {
+        "text": "0.4% of GDP (2024 est.)"
+      },
+      "Remittances 2023": {
+        "text": "0.4% of GDP (2023 est.)"
+      },
+      "Remittances 2022": {
+        "text": "0.4% of GDP (2022 est.)"
+      },
+      "note": "<b>note:</b> personal transfers and compensation between resident and non-resident individuals/households/entities"
+    },
+    "Budget": {
+      "revenues": {
+        "text": "$451.11 billion (2023 est.)"
+      },
+      "expenditures": {
+        "text": "$455.334 billion (2023 est.)"
+      },
+      "note": "<b>note:</b> central government revenues (excluding grants) and expenditures converted to US dollars at average official exchange rate for year indicated"
+    },
+    "Public debt": {
+      "Public debt 2017": {
+        "text": "56.5% of GDP (2017 est.)"
+      },
+      "note": "<strong>note:</strong> data cover general government debt and include debt instruments issued (or owned) by government entities other than the treasury; the data include treasury debt held by foreign entities; the data include debt issued by subnational entities, as well as intragovernmental debt; intragovernmental debt consists of treasury borrowings from surpluses in the social funds, such as for retirement, medical care, and unemployment, debt instruments for the social funds are not sold at public auctions"
+    },
+    "Taxes and other revenues": {
+      "text": "24.8% (of GDP) (2023 est.)",
+      "note": "<b>note:</b> central government tax revenue as a % of GDP"
+    },
+    "Current account balance": {
+      "Current account balance 2024": {
+        "text": "$121.825 billion (2024 est.)"
+      },
+      "Current account balance 2023": {
+        "text": "$113.676 billion (2023 est.)"
+      },
+      "Current account balance 2022": {
+        "text": "$69.676 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - net trade and primary/secondary income in current dollars"
+    },
+    "Exports": {
+      "Exports 2024": {
+        "text": "$1.032 trillion (2024 est.)"
+      },
+      "Exports 2023": {
+        "text": "$1.022 trillion (2023 est.)"
+      },
+      "Exports 2022": {
+        "text": "$1.007 trillion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - exports of goods and services in current dollars"
+    },
+    "Exports - partners": {
+      "text": "Germany 16%, Belgium 15%, France 11%, Italy 6%, USA 6% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "refined petroleum, vaccines, machinery, crude petroleum, broadcasting equipment (2023)",
+      "note": "<b>note:</b> top five export commodities based on value in dollars"
+    },
+    "Imports": {
+      "Imports 2024": {
+        "text": "$884.154 billion (2024 est.)"
+      },
+      "Imports 2023": {
+        "text": "$893.132 billion (2023 est.)"
+      },
+      "Imports 2022": {
+        "text": "$915.294 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - imports of goods and services in current dollars"
+    },
+    "Imports - partners": {
+      "text": "Germany 16%, Belgium 10%, China 10%, USA 10%, UK 5% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "crude petroleum, refined petroleum, broadcasting equipment, cars, natural gas (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Reserves of foreign exchange and gold": {
+      "Reserves of foreign exchange and gold 2024": {
+        "text": "$79.129 billion (2024 est.)"
+      },
+      "Reserves of foreign exchange and gold 2023": {
+        "text": "$69.83 billion (2023 est.)"
+      },
+      "Reserves of foreign exchange and gold 2022": {
+        "text": "$63.353 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> holdings of gold (year-end prices)/foreign exchange/special drawing rights in current dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "euros (EUR) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "0.924 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "0.925 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "0.95 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "0.845 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "0.876 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "100% (2022 est.)"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "59.982 million kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "108.141 billion kWh (2023 est.)"
+      },
+      "exports": {
+        "text": "25.206 billion kWh (2023 est.)"
+      },
+      "imports": {
+        "text": "19.547 billion kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "4.936 billion kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "46.8% of total installed capacity (2023 est.)"
+      },
+      "nuclear": {
+        "text": "3.2% of total installed capacity (2023 est.)"
+      },
+      "solar": {
+        "text": "17.2% of total installed capacity (2023 est.)"
+      },
+      "wind": {
+        "text": "24.6% of total installed capacity (2023 est.)"
+      },
+      "hydroelectricity": {
+        "text": "0.1% of total installed capacity (2023 est.)"
+      },
+      "biomass and waste": {
+        "text": "8.2% of total installed capacity (2023 est.)"
+      }
+    },
+    "Nuclear energy": {
+      "Number of operational nuclear reactors": {
+        "text": "1 (2025)"
+      },
+      "Net capacity of operational nuclear reactors": {
+        "text": "0.48GW (2025 est.)"
+      },
+      "Percent of total electricity production": {
+        "text": "3.2% (2023 est.)"
+      },
+      "Number of nuclear reactors permanently shut down": {
+        "text": "1 (2025)"
+      }
+    },
+    "Coal": {
+      "production": {
+        "text": "1.761 million metric tons (2023 est.)"
+      },
+      "consumption": {
+        "text": "12.796 million metric tons (2023 est.)"
+      },
+      "exports": {
+        "text": "13.586 million metric tons (2023 est.)"
+      },
+      "imports": {
+        "text": "24.663 million metric tons (2023 est.)"
+      },
+      "proven reserves": {
+        "text": "3.247 billion metric tons (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "total petroleum production": {
+        "text": "70,000 bbl/day (2023 est.)"
+      },
+      "refined petroleum consumption": {
+        "text": "840,000 bbl/day (2024 est.)"
+      },
+      "crude oil estimated reserves": {
+        "text": "137.747 million barrels (2021 est.)"
+      }
+    },
+    "Natural gas": {
+      "production": {
+        "text": "11.788 billion cubic meters (2023 est.)"
+      },
+      "consumption": {
+        "text": "31.288 billion cubic meters (2023 est.)"
+      },
+      "exports": {
+        "text": "45.129 billion cubic meters (2023 est.)"
+      },
+      "imports": {
+        "text": "66.783 billion cubic meters (2023 est.)"
+      },
+      "proven reserves": {
+        "text": "132.608 billion cubic meters (2021 est.)"
+      }
+    },
+    "Energy consumption per capita": {
+      "Total energy consumption per capita 2023": {
+        "text": "185.536 million Btu/person (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "4.262 million (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "24 (2023 est.)"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "23.4 million (2024 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "129 (2024 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "more than 90% of households are connected to cable or satellite TV systems with a wide range of domestic and foreign channels; public service broadcast system includes multiple broadcasters, 3 with a national reach and the remainder in regional and local markets; 2 nationwide commercial TV companies, each with 3 or more stations, and many commercial TV stations in regional and local markets; nearly 600 radio stations with a mix of public and private stations&nbsp;"
+    },
+    "Internet country code": {
+      "text": ".nl"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "97% (2023 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "7.83 million (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "43 (2023 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "PH"
+    },
+    "Airports": {
+      "text": "44 (2025)",
+      "note": "<strong>note:</strong> Includes 3 airports in Bonaire, Sint Eustatius and Saba"
+    },
+    "Heliports": {
+      "text": "194 (2025)"
+    },
+    "Railways": {
+      "total": {
+        "text": "3,055 km (2020) 2,310 km electrified"
+      }
+    },
+    "Merchant marine": {
+      "total": {
+        "text": "1,187 (2023)"
+      },
+      "by type": {
+        "text": "bulk carrier 11, container ship 36, general cargo 521, oil tanker 27, other 592"
+      }
+    },
+    "Ports": {
+      "total ports": {
+        "text": "18 (2024)"
+      },
+      "large": {
+        "text": "2"
+      },
+      "medium": {
+        "text": "4"
+      },
+      "small": {
+        "text": "5"
+      },
+      "very small": {
+        "text": "7"
+      },
+      "ports with oil terminals": {
+        "text": "12"
+      },
+      "key ports": {
+        "text": "Amsterdam, Dordrecht, Europoort, Rotterdam, Terneuzen, Vlissingen"
+      }
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "Netherlands (Dutch) Armed Forces (Nederlandse Krijgsmacht): Royal Netherlands Army, Royal Netherlands Navy (includes Marine Corps), Royal Netherlands Air Force, Royal Netherlands Marechaussee (Military Constabulary) (2025)",
+      "note": "<strong>note 1:</strong> the Netherlands Coast Guard and the Dutch Caribbean Coast Guard are civilian in nature but managed by the Royal Netherlands Navy<br><br><strong>note 2: </strong>the core missions of the Royal Netherlands Marechaussee are border security, security and surveillance, and international and military police tasks<br><br><strong>note 3:</strong> the Netherlands (or National) Police maintain internal security and report to the Ministry of Justice and Security, which oversees law enforcement organizations, as do the justice ministries in Aruba, Curacao, and Sint Maarten"
+    },
+    "Military expenditures": {
+      "Military Expenditures 2025": {
+        "text": "2.5% of GDP (2025 est.)"
+      },
+      "Military Expenditures 2024": {
+        "text": "2% of GDP (2024 est.)"
+      },
+      "Military Expenditures 2023": {
+        "text": "1.6% of GDP (2023 est.)"
+      },
+      "Military Expenditures 2022": {
+        "text": "1.4% of GDP (2022 est.)"
+      },
+      "Military Expenditures 2021": {
+        "text": "1.3% of GDP (2021 est.)"
+      }
+    },
+    "Military and security service personnel strengths": {
+      "text": "approximately 43,000 active-duty professional military personnel (2025)"
+    },
+    "Military equipment inventories and acquisitions": {
+      "text": "the military's inventory consists of a mix of domestically produced and modern European- and US-sourced equipment; the Netherlands has an advanced domestic defense industry that focuses on armored vehicles, naval ships, and air defense systems; it also participates with the US and other European countries on joint development and production of advanced weapons systems (2025)"
+    },
+    "Military service age and obligation": {
+      "text": "17 years of age for voluntary service for men and women; the military is an all-volunteer force; conscription remains in place, but the requirement to show up for compulsory military service was suspended in 1997 (2025)"
+    },
+    "Military deployments": {
+      "text": "350 Lithuania (NATO); 150 Romania (NATO); approximately 800 deployed to Dutch territories in the Caribbean (2025)",
+      "note": "<strong>note: </strong> the Netherlands contributes naval assets to support freedom of the sea missions in such places as the Red Sea and the Strait of Hormuz; it also assists with monitoring the airspace of the eastern flank of NATO territory by means of fighter aircraft and provides some ground personnel to a variety of other NATO, UN, and EU security missions"
+    },
+    "Military - note": {
+      "text": "the Dutch military is charged with the three core tasks of defending the country’s national territory and that of its allies, enforcing the national and international rule of law, and providing assistance during disasters and other crises; it also has some domestic security duties, including in the Dutch Caribbean territories; the military operates globally but rarely carries out its operations independently, focusing instead on working through NATO and bilaterally with regional partners; it has particularly close ties with Belgium, Denmark, Germany, and the UK, including some combined military units and staffs<br><br>the Netherlands has been a member of NATO since its founding in 1949, and the Dutch military is involved in NATO missions and operations with air, ground, and naval forces, including air policing missions over the Benelux countries and Eastern Europe, NATO’s Enhanced Forward Presence initiative in the Baltic States and Eastern Europe, and several NATO naval flotillas, as well as standby units for NATO’s rapid response force; the military has previously deployed forces to NATO-led operations in Afghanistan, Iraq, and Kosovo and also contributes to EU- and UN-led missions; Royal Netherlands Marechaussee detachments have been included in international police units deployed by NATO (2025)"
+    }
+  },
+  "Space": {
+    "Space agency/agencies": {
+      "text": "Netherlands Space Office (NSO; established 2009) (2025)"
+    },
+    "Space program overview": {
+      "text": "has a national space program focused on developing advanced space technologies and services based on satellite data; builds and operates a range of satellites, including communications and remote sensing (RS); researches and develops technologies related to astrophysics, atmospheric measuring instruments, planetary/exoplanetary research, propulsion systems, RS, robotics, and telecommunications; founding member of the ESA and active in the EU space community; hosts the ESA's main research and technology center; participates in building European satellite launch vehicles and a range of other European space programs, such as Copernicus Earth observation and the Galileo global navigation satellite system; participates in international programs, including the International Space Station and the Square Kilometer Array project; works with other foreign space agencies and industries, including those of Japan and the US; has a robust commercial space sector&nbsp; (2025)"
+    },
+    "Key space-program milestones": {
+      "text": "1960s - established space program<br><br>1974-1983 - developed advanced astronomical observatory satellites jointly with US, including the Astronomical Netherlands Satellite and the Infrared Astronomical Satellite <br><br>1985 - first Dutch citizen in space on the US Space Shuttle<br><br>2023 - signed US-led Artemis Accords for space and lunar exploration<br><br>2025 - launched the first of four planned synthetic aperture radar (SAR) remote sensing satellites"
+    }
+  },
+  "Terrorism": {
+    "Terrorist group(s)": {
+      "text": "Islamic State of Iraq and ash-Sham (ISIS)",
+      "note": "<strong>note:</strong> details about the history, aims, leadership, organization, areas of operation, tactics, targets, weapons, size, and sources of support of the group(s) appear(s) in the Terrorism reference guide"
+    }
+  },
+  "Transnational Issues": {
+    "Refugees and internally displaced persons": {
+      "refugees": {
+        "text": "310,239 (2024 est.)"
+      },
+      "stateless persons": {
+        "text": "4,428 (2024 est.)"
+      }
+    },
+    "Illicit drugs": {
+      "USG identification": {
+        "text": "<br>major precursor-chemical producer (2025)"
+      }
+    }
+  }
+}

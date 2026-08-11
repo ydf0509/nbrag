@@ -1,0 +1,1041 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "<p>Between A.D. 800 and 1100, immigrant Muslim Arabs and Persians set up coastal trading posts along the Gulf of Aden and the Indian Ocean, solidifying present-day Somalia’s close trading relationship with the Arab Peninsula. In the late 19th century, Britain, France, and Italy established colonies in the Somali Peninsula that lasted until 1960, when British Somaliland gained independence and joined with Italian Somaliland to form the Republic of Somalia. <br><br>The country functioned as a parliamentary democracy until 1969, when General Mohamed SIAD Barre took control in a coup, beginning a 22-year socialist dictatorship. In an effort to centralize power, SIAD called for the eradication of the clan, the key cultural and social organizing principle in Somali society. Resistance to SIAD’s socialist leadership, which was causing a rapid deterioration of the country, prompted allied clan militias to overthrow SIAD in 1991, resulting in state collapse. Subsequent fighting between rival clans for resources and territory overwhelmed the country, causing a manmade famine and prompting international intervention. Beginning in 1993, the UN spearheaded an international humanitarian mission, but the international community largely withdrew by 1995 after an incident that became known as Black Hawk Down, in which two US military helicopters were shot down in Mogadishu. The fighting and subsequent siege and rescue resulted in 21 deaths and 82 wounded among the international forces.<br><br>International peace conferences in the 2000s resulted in a number of transitional governments that operated outside Somalia. Left largely to themselves, Somalis in the country established alternative governance structures; some areas formed their own administrations, such as Somaliland and Puntland, while others developed localized institutions. Many local populations turned to sharia courts, an Islamic judicial system that implements religious law. Several of these courts came together in 2006 to form the Islamic Courts Union (ICU). The ICU established order in many areas of central and southern Somalia, including Mogadishu, but was forced out when Ethiopia intervened militarily in 2006 on behalf of the Somali Transitional Federal Government (TFG). As the TFG settled in the capital, the ICU fled to rural areas or left Somalia altogether, but the organization reemerged less than a year later as the Islamic insurgent and terrorist movement al-Shabaab, which is still active today. <br><br>In 2007, the African Union (AU) established a peacekeeping force, took over security responsibility for the country, and gave the TFG space to develop Somalia’s new government. By 2012, Somali powerbrokers agreed on a provisional constitution with a loose federal structure and established a central government in Mogadishu called the Somali Federal Government (SFG). Since then, the country has seen several interim regional administrations and three presidential elections, but significant governance and security problems remain because al-Shabaab still controls large portions of the country.</p>"
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Eastern Africa, bordering the Gulf of Aden and the Indian Ocean, east of Ethiopia"
+    },
+    "Geographic coordinates": {
+      "text": "10 00 N, 49 00 E"
+    },
+    "Map references": {
+      "text": "Africa"
+    },
+    "Area": {
+      "total ": {
+        "text": "637,657 sq km"
+      },
+      "land": {
+        "text": "627,337 sq km"
+      },
+      "water": {
+        "text": "10,320 sq km"
+      }
+    },
+    "Area - comparative": {
+      "text": "almost five times the size of Alabama; slightly smaller than Texas"
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "2,385 km"
+      },
+      "border countries": {
+        "text": "Djibouti 61 km; Ethiopia 1,640 km; Kenya 684 km"
+      }
+    },
+    "Coastline": {
+      "text": "3,025 km"
+    },
+    "Maritime claims": {
+      "territorial sea": {
+        "text": "200 nm; note: the US does not recognize this claim"
+      },
+      "exclusive economic zone": {
+        "text": "200 nm"
+      }
+    },
+    "Climate": {
+      "text": "principally desert; northeast monsoon (December to February), moderate temperatures in north and hot in south; southwest monsoon (May to October), torrid in the north and hot in the south, irregular rainfall, hot and humid periods (tangambili) between monsoons"
+    },
+    "Terrain": {
+      "text": "mostly flat to undulating plateau rising to hills in north"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Mount Shimbiris 2,460 m"
+      },
+      "lowest point": {
+        "text": "Indian Ocean 0 m"
+      },
+      "mean elevation": {
+        "text": "410 m"
+      }
+    },
+    "Natural resources": {
+      "text": "uranium and largely unexploited reserves of iron ore, tin, gypsum, bauxite, copper, salt, natural gas, likely oil reserves"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "70.3% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 1.8% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 68.5% (2023 est.)"
+      },
+      "forest": {
+        "text": "7.9% (2023 est.)"
+      },
+      "other": {
+        "text": "21.7% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "2,000 sq km (2012)"
+    },
+    "Major aquifers": {
+      "text": "Ogaden-Juba Basin"
+    },
+    "Population distribution": {
+      "text": "distribution varies greatly throughout the country; least densely populated areas are in the northeast and central regions, as well as areas along the Kenyan border; most populated areas are in and around the cities of Mogadishu, Marka, Boorama, Hargeysa, and Baidoa, as shown on this population distribution map"
+    },
+    "Natural hazards": {
+      "text": "recurring droughts; frequent dust storms over eastern plains in summer; floods during rainy season"
+    },
+    "Geography - note": {
+      "text": "strategic location on Horn of Africa along southern approaches to Bab el Mandeb and route through Red Sea and Suez Canal"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "20,324,160 (2025 est.)"
+      },
+      "male": {
+        "text": "10,170,863"
+      },
+      "female": {
+        "text": "10,153,297"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Somali(s)"
+      },
+      "adjective": {
+        "text": "Somali"
+      }
+    },
+    "Ethnic groups": {
+      "text": "predominantly Somali with lesser numbers of Arabs, Bantus, and others"
+    },
+    "Languages": {
+      "Languages": {
+        "text": "Somali (official), Arabic (official), Italian, English"
+      },
+      "major-language sample(s)": {
+        "text": "<br>Buugga Xaqiiqda Aduunka, waa laga maarmaanka macluumaadka assasiga. (Somali)<br><br>The World Factbook, the indispensable source for basic information."
+      }
+    },
+    "Religions": {
+      "text": "Muslim 99.9% (Sunni Muslim 98.1%, Shia Muslim 1.2%, Islamic schismatic 0.6%), ethnic religionist 0.1% (2020 est.)"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "41.4% (male 2,689,086/female 2,694,372)"
+      },
+      "15-64 years": {
+        "text": "55.8% (male 3,699,721/female 3,568,163)"
+      },
+      "65 years and over": {
+        "text": "2.8% (2024 est.) (male 157,505/female 208,426)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "100.5 (2025 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "97.1 (2025 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "3.3 (2025 est.)"
+      },
+      "potential support ratio": {
+        "text": "29.9 (2025 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "15.7 years (2025 est.)"
+      },
+      "male": {
+        "text": "19.3 years"
+      },
+      "female": {
+        "text": "18.9 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "3.32% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "46.36 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "11.22 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "-1.91 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "distribution varies greatly throughout the country; least densely populated areas are in the northeast and central regions, as well as areas along the Kenyan border; most populated areas are in and around the cities of Mogadishu, Marka, Boorama, Hargeysa, and Baidoa, as shown on this population distribution map"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "47.9% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "4.2% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "2.610 million MOGADISHU (capital), 1.127 million Hargeysa (2023)"
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.03 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "1.04 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "0.76 male(s)/female"
+      },
+      "total population": {
+        "text": "1.01 male(s)/female (2024 est.)"
+      }
+    },
+    "Maternal mortality ratio": {
+      "text": "563 deaths/100,000 live births (2023 est.)"
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "81.5 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "93.2 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "73.7 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "56.5 years (2024 est.)"
+      },
+      "male": {
+        "text": "54.1 years"
+      },
+      "female": {
+        "text": "59 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "6.38 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "3.14 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: urban": {
+        "text": "urban: 80.1% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 38.6% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 58.3% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 19.9% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 61.4% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 41.7% of population (2022 est.)"
+      }
+    },
+    "Health expenditure": {
+      "text": "2.5% of national budget (2022 est.)"
+    },
+    "Physician density": {
+      "text": "0.05 physicians/1,000 population (2014)"
+    },
+    "Hospital bed density": {
+      "text": "0.9 beds/1,000 population (2019 est.)"
+    },
+    "Sanitation facility access": {
+      "improved: urban": {
+        "text": "urban: 82.9% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 34.8% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 57.6% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 17.1% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 65.2% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 42.4% of population (2022 est.)"
+      }
+    },
+    "Obesity - adult prevalence rate": {
+      "text": "8.3% (2016)"
+    },
+    "Alcohol consumption per capita": {
+      "total": {
+        "text": "0 liters of pure alcohol (2019 est.)"
+      },
+      "beer": {
+        "text": "0 liters of pure alcohol (2019 est.)"
+      },
+      "wine": {
+        "text": "0 liters of pure alcohol (2019 est.)"
+      },
+      "spirits": {
+        "text": "0 liters of pure alcohol (2019 est.)"
+      },
+      "other alcohols": {
+        "text": "0 liters of pure alcohol (2019 est.)"
+      }
+    },
+    "Currently married women (ages 15-49)": {
+      "text": "62.4% (2019 est.)"
+    },
+    "Education expenditure": {
+      "Education expenditure (% GDP)": {
+        "text": "0% of GDP (2023 est.)"
+      },
+      "Education expenditure (% national budget)": {
+        "text": "8.1% national budget (2025 est.)"
+      }
+    },
+    "Literacy": {
+      "total population": {
+        "text": "54.1% (2022 est.)"
+      },
+      "male": {
+        "text": "64.5% (2022 est.)"
+      },
+      "female": {
+        "text": "43.9% (2022 est.)"
+      }
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "water scarcity; contaminated water; improper waste disposal; deforestation; land degradation; overgrazing; soil erosion; desertification"
+    },
+    "International environmental agreements": {
+      "party to": {
+        "text": "Biodiversity, Climate Change, Climate Change-Kyoto Protocol, Climate Change-Paris Agreement, Desertification, Endangered Species, Hazardous Wastes, Law of the Sea, Ozone Layer Protection"
+      },
+      "signed, but not ratified": {
+        "text": "Nuclear Test Ban"
+      }
+    },
+    "Climate": {
+      "text": "principally desert; northeast monsoon (December to February), moderate temperatures in north and hot in south; southwest monsoon (May to October), torrid in the north and hot in the south, irregular rainfall, hot and humid periods (tangambili) between monsoons"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "70.3% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 1.8% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 68.5% (2023 est.)"
+      },
+      "forest": {
+        "text": "7.9% (2023 est.)"
+      },
+      "other": {
+        "text": "21.7% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "47.9% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "4.2% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "838,000 metric tonnes of CO2 (2023 est.)"
+      },
+      "from coal and metallurgical coke": {
+        "text": "10 metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "838,000 metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Particulate matter emissions": {
+      "text": "14.3 micrograms per cubic meter (2019 est.)"
+    },
+    "Waste and recycling": {
+      "municipal solid waste generated annually": {
+        "text": "2.326 million tons (2024 est.)"
+      }
+    },
+    "Total water withdrawal": {
+      "municipal": {
+        "text": "15 million cubic meters (2022 est.)"
+      },
+      "industrial": {
+        "text": "2 million cubic meters (2022 est.)"
+      },
+      "agricultural": {
+        "text": "3.281 billion cubic meters (2022 est.)"
+      }
+    },
+    "Total renewable water resources": {
+      "text": "14.7 billion cubic meters (2022 est.)"
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "Federal Republic of Somalia"
+      },
+      "conventional short form": {
+        "text": "Somalia"
+      },
+      "local long form": {
+        "text": "Jamhuuriyadda Federaalka Soomaaliya (Somali)/ Jumhuriyat as Sumal al Fidiraliyah (Arabic)"
+      },
+      "local short form": {
+        "text": "Soomaaliya (Somali)/ As Sumal (Arabic)"
+      },
+      "former": {
+        "text": "British Somaliland, Italian Somaliland, Somali Republic, Somali Democratic Republic"
+      },
+      "etymology": {
+        "text": "the name means \"Land of the Somali,\" a local ethnic group; the origin of the group's name is unclear but may come from 1) a Cushitic word meaning \"dark,\" 2) the local phrase <em>soo mal</em>, meaning \"go and milk\" (referring to offering guests milk), 3) the name of a local chief, or 4) the Arabic <em>zamla</em>, meaning \"cattle\""
+      }
+    },
+    "Government type": {
+      "text": "federal parliamentary republic"
+    },
+    "Capital": {
+      "name": {
+        "text": "Mogadishu"
+      },
+      "geographic coordinates": {
+        "text": "2 04 N, 45 20 E"
+      },
+      "time difference": {
+        "text": "UTC+3 (8 hours ahead of Washington, DC, during Standard Time)"
+      },
+      "etymology": {
+        "text": "the name is probably derived from the Arabic word <em>mukaddas</em>, meaning \"holy\""
+      }
+    },
+    "Administrative divisions": {
+      "text": "18 regions (<em>gobollo</em>, singular - <em>gobol</em>); Awdal, Bakool, Banaadir, Bari, Bay, Galguduud, Gedo, Hiiraan, Jubbada Dhexe (Middle Jubba), Jubbada Hoose (Lower Jubba), Mudug, Nugaal, Sanaag, Shabeellaha Dhexe (Middle Shabeelle), Shabeellaha Hoose (Lower Shabeelle), Sool, Togdheer, Woqooyi Galbeed"
+    },
+    "Legal system": {
+      "text": "mixed system of civil law, Islamic (sharia) law, and customary law (referred to as Xeer)"
+    },
+    "Constitution": {
+      "history": {
+        "text": "previous 1961, 1979; latest drafted 12 June 2012, adopted 1 August 2012&nbsp;"
+      },
+      "amendment process": {
+        "text": "proposed by the federal government, by members of the state governments, the Federal Parliament, or by public petition; proposals require review by a joint committee of Parliament with inclusion of public comments and state legislatures&rsquo; comments; passage requires at least two-thirds majority vote in both houses of Parliament and approval by a majority of votes cast in a referendum; constitutional clauses on Islamic principles, the federal system, human rights and freedoms, powers and authorities of the government branches, and inclusion of women in national institutions cannot be amended"
+      }
+    },
+    "International law organization participation": {
+      "text": "accepts compulsory ICJ jurisdiction with reservations; non-party state to the ICCt"
+    },
+    "Citizenship": {
+      "citizenship by birth": {
+        "text": "no"
+      },
+      "citizenship by descent only": {
+        "text": "the father must be a citizen of Somalia"
+      },
+      "dual citizenship recognized": {
+        "text": "no"
+      },
+      "residency requirement for naturalization": {
+        "text": "7 years"
+      }
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal&nbsp;suffrage starting with 24 June 2024 local elections"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "President HASSAN SHEIKH Mohamud (since 23 May 2022)"
+      },
+      "head of government": {
+        "text": "Prime Minister Hamza Abdi BARRE (since 25 June 2022)"
+      },
+      "cabinet": {
+        "text": "Cabinet appointed by the prime minister, approved by the House of the People"
+      },
+      "election/appointment process": {
+        "text": "president indirectly elected by the Federal Parliament by two-thirds majority vote in 2 rounds, if needed, for a single 4-year term; prime minister appointed by the president, approved by the House of the People"
+      },
+      "most recent election date": {
+        "text": "15 May 2022"
+      },
+      "election results": {
+        "text": "<em><br>2022:</em> HASSAN SHEIKH Mohamud elected president in third round - Federal Parliament percent of vote in first round - Said ABDULLAHI DENI (Kaah) 20.2%, Mohamed ABDULLAHI Mohamed \"Farmaajo\" (TPP) 18.3%, HASSAN SHEIKH Mohamud (PDP) 16.2%, Hassan Ali KHAYRE (independent) 14.6%, other 30.7%; Federal Parliament percent of vote in second round - HASSAN SHEIKH Mohamud 34.1%, Mohamed ABDULLAHI Mohamed \"Farmaajo\" 25.7%, Said ABDULLAHI DENI 21%, Hassan Ali KHAYRE 19.2%; Federal Parliament percent of vote in third round - HASSAN SHEIKH Mohamud  66%, Mohamed ABDULLAHI Mohamed \"Farmaajo\" 34%"
+      },
+      "expected date of next election": {
+        "text": "2026"
+      }
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "Federal Parliament"
+      },
+      "legislative structure": {
+        "text": "bicameral"
+      },
+      "note": "<strong>note:</strong> despite the formation of political parties in 2020, the 2021 parliamentary elections maintained a primarily clan-based system of appointments; seats in the legislature were apportioned to Somali member states and not by party representation <br><br><br><br><br>"
+    },
+    "Legislative branch - lower chamber": {
+      "chamber name": {
+        "text": "House of the People (Golaha Shacabka)"
+      },
+      "number of seats": {
+        "text": "275 (all indirectly elected)"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "5 years"
+      },
+      "most recent election date": {
+        "text": "11/1/2021 to 5/5/2022"
+      },
+      "percentage of women in chamber": {
+        "text": "19%"
+      },
+      "expected date of next election": {
+        "text": "October 2026"
+      }
+    },
+    "Legislative branch - upper chamber": {
+      "chamber name": {
+        "text": "Upper House (Aqalka Sare)"
+      },
+      "number of seats": {
+        "text": "54 (all indirectly elected)"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "5 years"
+      },
+      "most recent election date": {
+        "text": "7/27/2021 to 11/13/2021"
+      },
+      "percentage of women in chamber": {
+        "text": "25.9%"
+      },
+      "expected date of next election": {
+        "text": "July 2026"
+      }
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "the provisional constitution stipulates the establishment of the Constitutional Court (consists of 5 judges, including the chief judge and deputy chief judge)"
+      },
+      "judge selection and term of office": {
+        "text": "judges appointed by the president on proposal of the Judicial Service Commission, a 9-member judicial and administrative body; judge tenure NA"
+      },
+      "subordinate courts": {
+        "text": "federal courts; federal member state-level courts; military courts; sharia courts"
+      },
+      "note": "<strong>note:</strong> under the terms of the 2004 Transitional National Charter, a Supreme Court based in Mogadishu and the Appeal Court were established, but most regions have reverted to local forms of conflict resolution, whether secular, Somali customary law, or Islamic law"
+    },
+    "Political parties": {
+      "text": "Cosmopolitan Democratic Party<br>Green Party<br>Himilo Qaran Party<br>Ilays Party<br>Justice and Reconciliation Party<br>National Progressive Party<br>Peace and Unity Party<br>Qaransoor Party<br>Qiimo Qaran Party<br>Security and Justice Party<br>Social Justice Party<br>Somali Labour Party<br>Somali Republic Party<br>Somali Social Unity Party or SSUP<br>Union for Peace and Development Party or PDP<br>Wadajir Party",
+      "note": "<strong>note:</strong> in 2017 an independent electoral commission (the NIEC) was inaugurated with a mandate to oversee the process of registration of political parties in the country; as of 2021, the NIEC had registered a total of 110 parties"
+    },
+    "Diplomatic representation in the US": {
+      "chief of mission": {
+        "text": "Ambassador DAHIR Hassan Abdi (since 18 September 2024)"
+      },
+      "chancery": {
+        "text": "1609 22nd Street NW, Washington, DC 20008"
+      },
+      "telephone": {
+        "text": "[1] (202) 853-9164"
+      },
+      "email address and website": {
+        "text": "<br>washingtonembassy@mfa.gov.so<br><br>https://usa.mfa.gov.so/"
+      }
+    },
+    "Diplomatic representation from the US": {
+      "chief of mission": {
+        "text": "Ambassador Richard H. RILEY (since 20 June 2024)"
+      },
+      "embassy": {
+        "text": "Mogadishu, (reopened October 2019 on the grounds of the Mogadishu Airport)"
+      },
+      "mailing address": {
+        "text": "P.O. Box 606 Village Market<br>00621 Nairobi, Kenya"
+      },
+      "telephone": {
+        "text": "[254] 20 363-6451"
+      },
+      "email address and website": {
+        "text": "<br>SomaliaPublicAffairs@state.gov<br><br>https://so.usembassy.gov/"
+      }
+    },
+    "International organization participation": {
+      "text": "ACP, AfDB, AFESD, AMF, AU, CAEU (candidate), EAC, FAO, G-77, IBRD, ICAO, ICRM, IDA, IDB, IFAD, IFC, IFRCS, IGAD, ILO, IMF, IMO, Interpol, IOC, IOM, IPU, ITSO, ITU, LAS, NAM, OIC, OPCW, OPCW (signatory), UN, UNCTAD, UNESCO, UNHCR, UNHRC, UNIDO, UPU, WFTU (NGOs), WHO, WIPO, WMO"
+    },
+    "Independence": {
+      "text": "1 July 1960 (from a merger of British Somaliland, which became independent from the UK on 26 June 1960, and Italian Somaliland, which became independent from the Italian-administered UN trusteeship on 1 July 1960 to form the Somali Republic)"
+    },
+    "National holiday": {
+      "text": "Foundation of the Somali Republic, 1 July (1960); note - 26 June (1960) in Somaliland"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> light blue with a large white five-pointed star in the center<br><br><strong>meaning: </strong>the blue field was originally influenced by the UN flag but today is said to represent the sky and the Indian Ocean; the five points of the star represent the regions in the horn of Africa where Somali people live: the former British Somaliland and Italian Somaliland (which together make up Somalia), Djibouti, Ogaden (Ethiopia), and the Northeast Province (Kenya)"
+    },
+    "National symbol(s)": {
+      "text": "leopard"
+    },
+    "National color(s)": {
+      "text": "blue, white"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"Qolobaa Calankeed\" (Every Nation Has Its Own Flag)"
+      },
+      "lyrics/music": {
+        "text": "Abdullahi QARSHE"
+      },
+      "history": {
+        "text": "adopted 2012"
+      }
+    },
+    "Government - note": {
+      "text": "regional and local governing bodies continue to exist and control various areas of the country, including the self-declared Republic of Somaliland in northwestern Somalia"
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "low-income African Horn economy; 30 years of war and instability crippled economic potential; high remittances for basic survival; new fiscal federalism approach; cleared some unsustainable debt; environmentally fragile; digitally driven urbanization efforts"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2024": {
+        "text": "$26.77 billion (2024 est.)"
+      },
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$25.747 billion (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$24.706 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "Real GDP growth rate": {
+      "Real GDP growth rate 2024": {
+        "text": "4% (2024 est.)"
+      },
+      "Real GDP growth rate 2023": {
+        "text": "4.2% (2023 est.)"
+      },
+      "Real GDP growth rate 2022": {
+        "text": "2.7% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual GDP % growth based on constant local currency"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2024": {
+        "text": "$1,400 (2024 est.)"
+      },
+      "Real GDP per capita 2023": {
+        "text": "$1,400 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$1,400 (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$12.109 billion (2024 est.)",
+      "note": "<b>note:</b> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2022": {
+        "text": "6.8% (2022 est.)"
+      },
+      "Inflation rate (consumer prices) 2021": {
+        "text": "4.6% (2021 est.)"
+      },
+      "Inflation rate (consumer prices) 2020": {
+        "text": "4.3% (2020 est.)"
+      },
+      "note": "<strong>note:</strong> annual % change based on consumer prices"
+    },
+    "GDP - composition, by end use": {
+      "household consumption": {
+        "text": "124% (2024 est.)"
+      },
+      "government consumption": {
+        "text": "7.6% (2024 est.)"
+      },
+      "investment in fixed capital": {
+        "text": "22.7% (2024 est.)"
+      },
+      "investment in inventories": {
+        "text": "0% (2024 est.)"
+      },
+      "exports of goods and services": {
+        "text": "20% (2024 est.)"
+      },
+      "imports of goods and services": {
+        "text": "-74.3% (2024 est.)"
+      },
+      "note": "<strong>note:</strong> figures may not total 100% due to rounding or gaps in data collection"
+    },
+    "Agricultural products": {
+      "text": "camel milk, milk, goat milk, sheep milk, sugarcane, fruits, sorghum, cassava, vegetables, maize (2023)",
+      "note": "<b>note:</b> top ten agricultural products based on tonnage"
+    },
+    "Industries": {
+      "text": "light industries, including sugar refining, textiles, wireless communication"
+    },
+    "Labor force": {
+      "text": "3.439 million (2024 est.)",
+      "note": "<b>note:</b> number of people ages 15 or older who are employed or seeking work"
+    },
+    "Unemployment rate": {
+      "Unemployment rate 2024": {
+        "text": "18.9% (2024 est.)"
+      },
+      "Unemployment rate 2023": {
+        "text": "19% (2023 est.)"
+      },
+      "Unemployment rate 2022": {
+        "text": "19.1% (2022 est.)"
+      },
+      "note": "<b>note:</b> % of labor force seeking employment"
+    },
+    "Youth unemployment rate (ages 15-24)": {
+      "total": {
+        "text": "33.9% (2024 est.)"
+      },
+      "male": {
+        "text": "32.1% (2024 est.)"
+      },
+      "female": {
+        "text": "37% (2024 est.)"
+      },
+      "note": "<b>note:</b> % of labor force ages 15-24 seeking employment"
+    },
+    "Population below poverty line": {
+      "text": "54.4% (2022 est.)",
+      "note": "<b>note:</b> % of population with income below national poverty line"
+    },
+    "Remittances": {
+      "Remittances 2023": {
+        "text": "15.8% of GDP (2023 est.)"
+      },
+      "Remittances 2022": {
+        "text": "17% of GDP (2022 est.)"
+      },
+      "Remittances 2021": {
+        "text": "18.3% of GDP (2021 est.)"
+      },
+      "note": "<b>note:</b> personal transfers and compensation between resident and non-resident individuals/households/entities"
+    },
+    "Public debt": {
+      "Public debt 2014": {
+        "text": "93% of GDP (2014 est.)"
+      }
+    },
+    "Taxes and other revenues": {
+      "text": "0% (of GDP) (2023 est.)",
+      "note": "<b>note:</b> central government tax revenue as a % of GDP"
+    },
+    "Exports": {
+      "Exports 2024": {
+        "text": "$2.424 billion (2024 est.)"
+      },
+      "Exports 2023": {
+        "text": "$2.164 billion (2023 est.)"
+      },
+      "Exports 2022": {
+        "text": "$1.804 billion (2022 est.)"
+      },
+      "note": "<strong>note:</strong> GDP expenditure basis - exports of goods and services in current dollars"
+    },
+    "Exports - partners": {
+      "text": "UAE 35%, Saudi Arabia 27%, Oman 18%, Djibouti 8%, India 3% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "sheep and goats, gold, postage stamps/documents, other animals, cattle (2023)",
+      "note": "<b>note:</b> top five export commodities based on value in dollars"
+    },
+    "Imports": {
+      "Imports 2024": {
+        "text": "$9.002 billion (2024 est.)"
+      },
+      "Imports 2023": {
+        "text": "$8.002 billion (2023 est.)"
+      },
+      "Imports 2022": {
+        "text": "$7.456 billion (2022 est.)"
+      },
+      "note": "<strong>note:</strong> GDP expenditure basis - imports of goods and services in current dollars"
+    },
+    "Imports - partners": {
+      "text": "UAE 29%, China 19%, India 15%, Turkey 8%, Oman 5% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "raw sugar, tobacco, broadcasting equipment, rice, milk (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Debt - external": {
+      "Debt - external 2023": {
+        "text": "$2.563 billion (2023 est.)"
+      },
+      "note": "<strong>note:</strong> present value of external debt in current US dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "Somali shillings (SOS) per US dollar -"
+      },
+      "Exchange rates 2017": {
+        "text": "23,097.987 (2017 est.)"
+      },
+      "Exchange rates 2016": {
+        "text": "23,061.784 (2016 est.)"
+      },
+      "Exchange rates 2015": {
+        "text": "22,254.236 (2015 est.)"
+      },
+      "Exchange rates 2014": {
+        "text": "20,230.929 (2014 est.)"
+      },
+      "Exchange rates 2013": {
+        "text": "19,283.8 (2013 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "48.9% (2022 est.)"
+      },
+      "electrification - urban areas": {
+        "text": "76.7%"
+      },
+      "electrification - rural areas": {
+        "text": "30.6%"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "156,000 kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "396.792 million kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "15.408 million kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "82.5% of total installed capacity (2023 est.)"
+      },
+      "solar": {
+        "text": "16% of total installed capacity (2023 est.)"
+      },
+      "wind": {
+        "text": "1.5% of total installed capacity (2023 est.)"
+      }
+    },
+    "Coal": {
+      "imports": {
+        "text": "4 metric tons (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "refined petroleum consumption": {
+        "text": "6,000 bbl/day (2023 est.)"
+      }
+    },
+    "Natural gas": {
+      "proven reserves": {
+        "text": "5.663 billion cubic meters (2021 est.)"
+      }
+    },
+    "Energy consumption per capita": {
+      "Total energy consumption per capita 2023": {
+        "text": "649,000 Btu/person (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "91,000 (2022 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "1 (2022 est.) less than 1"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "9.91 million (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "54 (2023 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "2 private TV stations rebroadcast Al-Jazeera and CNN; 1 state-operated TV station and 1 private TV station; state-operated Radio Mogadishu; 1 SW and roughly 10 private FM radio stations in Mogadishu; several radio stations in central and southern regions; transmissions of at least 2 international broadcasters available (2019)"
+    },
+    "Internet country code": {
+      "text": ".so"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "28% (2022 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "119,000 (2022 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "1 (2022 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "6O"
+    },
+    "Airports": {
+      "text": "40 (2025)"
+    },
+    "Merchant marine": {
+      "total": {
+        "text": "4 (2023)"
+      },
+      "by type": {
+        "text": "general cargo 1, other 3"
+      }
+    },
+    "Ports": {
+      "total ports": {
+        "text": "6 (2024)"
+      },
+      "large": {
+        "text": "1"
+      },
+      "medium": {
+        "text": "0"
+      },
+      "small": {
+        "text": "2"
+      },
+      "very small": {
+        "text": "3"
+      },
+      "ports with oil terminals": {
+        "text": "2"
+      },
+      "key ports": {
+        "text": "Baraawe, Berbera, Boosaaso, Kismaayo, Marka, Muqdisho"
+      }
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "Somali Armed Forces (SAF; aka Somali Defense Force): Somali National Army (SNA; aka Land Forces), Somali Navy, Somali Air Force<br><br>Ministry of Internal Security: Somali National Police (SNP, includes Coast Guard, commando unit) (2025)",
+      "note": "<strong>note 1:</strong> Somalia has numerous militias and regional/state forces operating throughout the country; the militias include clan- and warlord-based forces, as well as some that are externally sponsored; regional forces include semi-official paramilitary and special police forces (\"darwish\")<br><br><strong>note 2: </strong>Somaliland and Puntland have separate military, security, and paramilitary forces"
+    },
+    "Military expenditures": {
+      "Military Expenditures 2021": {
+        "text": "6% of GDP (2021 est.)"
+      },
+      "Military Expenditures 2020": {
+        "text": "6% of GDP (2020 est.)"
+      },
+      "Military Expenditures 2019": {
+        "text": "5.6% of GDP (2019 est.)"
+      },
+      "Military Expenditures 2018": {
+        "text": "6% of GDP (2018 est.)"
+      },
+      "Military Expenditures 2017": {
+        "text": "5.9% of GDP (2017 est.)"
+      }
+    },
+    "Military and security service personnel strengths": {
+      "text": "estimated 20,000 active Somali Armed Forces (2025)",
+      "note": "<strong>note: </strong>tens of thousands of militia forces are also active in Somalia"
+    },
+    "Military equipment inventories and acquisitions": {
+      "text": "the SNA's inventory is a mix of older and donated (typically secondhand) equipment from a variety of suppliers, including Italy, Russia, South Africa, T&uuml;rkiye, the UK, and the US (2025)"
+    },
+    "Military service age and obligation": {
+      "text": "18-22 for voluntary military service for men and women in the Somali Armed Forces; compulsory service is reportedly authorized, but not currently utilized (2025)"
+    },
+    "Military - note": {
+      "text": "the primary responsibility of the Somali National Army (SNA) is combating the al-Shabaab terrorist group, which controls large portions of central and southern Somalia and continues to conduct attacks targeting both military and civilian sites, including military bases, government institutions, and civilian gatherings; the SNA is supported by the National Police, regional/state security forces, and allied militias, as well as international forces; some African Union (AU) countries have provided military assistance to the SNA since 2007 under the AU Mission in Somalia (AMISOM, 2007-2022), the AU Transition Mission in Somalia (ATMIS, 2022-2024), and the AU Support and Stabilization Mission in Somalia (AUSSOM, January 2025-present); Turkey and the US have also provided military support to SNA operations<br><br>Turkey and the US have formed and trained SNA units, including the US-backed Danab (\"Lightning\") Brigade and the Turkish-trained Gorgor (\"Eagle\") brigades; SNA soldiers have also received training from Egypt, Eritrea, Ethiopia, the EU, Uganda, UAE, and the UK (2025)"
+    }
+  },
+  "Terrorism": {
+    "Terrorist group(s)": {
+      "text": "al-Shabaab; Islamic State of Iraq and ash-Sham – Somalia",
+      "note": "<strong>note:</strong> details about the history, aims, leadership, organization, areas of operation, tactics, targets, weapons, size, and sources of support of the group(s) appear(s) in the Terrorism reference guide"
+    }
+  },
+  "Transnational Issues": {
+    "Refugees and internally displaced persons": {
+      "refugees": {
+        "text": "41,763 (2024 est.)"
+      },
+      "IDPs": {
+        "text": "3,869,345 (2024 est.)"
+      }
+    },
+    "Trafficking in persons": {
+      "tier rating": {
+        "text": "Special Case; for more details, go to: https://www.state.gov/reports/2025-trafficking-in-persons-report/somalia/"
+      }
+    }
+  }
+}

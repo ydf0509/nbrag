@@ -1,0 +1,1154 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "<p>Chad emerged from a collection of powerful states that controlled the Sahelian belt starting around the 9th century. These states focused on controlling trans-Saharan trade routes and profited mostly from the slave trade. The Kanem-Bornu Empire, centered around the Lake Chad Basin, existed between the 9th and 19th centuries, and at its peak, the empire controlled territory stretching from southern Chad to southern Libya and included portions of modern-day Algeria, Cameroon, Niger, Nigeria, and Sudan. The Sudanese warlord Rabih AZ-ZUBAYR used an army comprised largely of slaves to conquer the Kanem-Bornu Empire in the late 19th century. In southeastern Chad, the Bagirmi and Ouaddai (Wadai) kingdoms emerged in the 15th and 16th centuries and lasted until the arrival of the French in the 19th and 20th centuries. France began moving into the region in the late 1880s and defeated the Bagirmi kingdom in 1897, Rabih AZ-ZUBAYR in 1900, and the Ouddai kingdom in 1909. In the arid regions of northern Chad and southern Libya, an Islamic order called the Sanusiyya (Sanusi) relied heavily on the trans-Saharan slave trade and had upwards of 3 million followers by the 1880s. The French defeated the Sanusiyya in 1910 after years of intermittent war. By 1910, France had incorporated the northern arid region, the Lake Chad Basin, and southeastern Chad into French Equatorial Africa.  </p> <p>Chad achieved its independence in 1960 and then saw three decades of instability, oppressive rule, civil war, and a Libyan invasion. With the help of the French military and several African countries, Chadian leaders expelled Libyan forces during the 1987 \"Toyota War,\" so named for the use of Toyota pickup trucks as fighting vehicles. In 1990, Chadian general Idriss DEBY led a rebellion against President Hissene HABRE. Under DEBY, Chad approved a constitution and held elections in 1996. Shortly after DEBY was killed during a rebel incursion in 2021, a group of military officials -- led by DEBY’s son, Mahamat Idriss DEBY -- took control of the government. The military officials dismissed the National Assembly, suspended the Constitution, and formed a Transitional Military Council (TMC), while pledging to hold democratic elections by October 2022. A national dialogue in August-October 2022 culminated in decisions to extend the transition for up to two years, dissolve the TMC, and appoint Mahamat DEBY as Transitional President; the transitional authorities held a constitutional referendum in December 2023 and claimed 86 percent of votes were in favor of the new constitution. The transitional authorities have announced plans to hold elections by October 2024.</p> <p>Chad has faced widespread poverty, an economy severely weakened by volatile international oil prices, terrorist-led insurgencies in the Lake Chad Basin, and several waves of rebellions in northern and eastern Chad. In 2015, the government imposed a state of emergency in the Lake Chad Basin following multiple attacks by the terrorist group Boko Haram, now known as ISIS-West Africa. The same year, Boko Haram conducted bombings in N'Djamena. In 2019, the Chadian government also declared a state of emergency in the Sila and Ouaddai regions bordering Sudan and in the Tibesti region bordering Niger, where rival ethnic groups are still fighting. The army has suffered heavy losses to Islamic terror groups in the Lake Chad Basin. </p>"
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Central Africa, south of Libya"
+    },
+    "Geographic coordinates": {
+      "text": "15 00 N, 19 00 E"
+    },
+    "Map references": {
+      "text": "Africa"
+    },
+    "Area": {
+      "total ": {
+        "text": "1.284 million sq km"
+      },
+      "land": {
+        "text": "1,259,200 sq km"
+      },
+      "water": {
+        "text": "24,800 sq km"
+      }
+    },
+    "Area - comparative": {
+      "text": "almost nine times the size of New York state; slightly more than three times the size of California"
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "6,406 km"
+      },
+      "border countries": {
+        "text": "Cameroon 1,116 km; Central African Republic 1,556 km; Libya 1,050 km; Niger 1,196 km; Nigeria 85 km; Sudan 1,403 km"
+      }
+    },
+    "Coastline": {
+      "text": "0 km (landlocked)"
+    },
+    "Maritime claims": {
+      "text": "none (landlocked)"
+    },
+    "Climate": {
+      "text": "tropical in south, desert in north"
+    },
+    "Terrain": {
+      "text": "broad, arid plains in center, desert in north, mountains in northwest, lowlands in south"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Emi Koussi 3,445 m"
+      },
+      "lowest point": {
+        "text": "Djourab 160 m"
+      },
+      "mean elevation": {
+        "text": "543 m"
+      }
+    },
+    "Natural resources": {
+      "text": "petroleum, uranium, natron, kaolin, fish (Lake Chad), gold, limestone, sand and gravel, salt"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "40% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 4.2% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 35.7% (2023 est.)"
+      },
+      "forest": {
+        "text": "3.1% (2023 est.)"
+      },
+      "other": {
+        "text": "57% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "300 sq km (2012)"
+    },
+    "Major lakes (area sq km)": {
+      "fresh water lake(s)": {
+        "text": "Lake Chad (endorheic lake shared with Niger, Nigeria, and Cameroon) - 10,360-25,900 sq km<br>note - area varies by season and year to year"
+      }
+    },
+    "Major watersheds (area sq km)": {
+      "Atlantic Ocean drainage": {
+        "text": "Niger (2,261,741 sq km)"
+      },
+      "Internal (endorheic basin) drainage": {
+        "text": "Lake Chad (2,497,738 sq km)"
+      }
+    },
+    "Major aquifers": {
+      "text": "Lake Chad Basin, Nubian Aquifer System"
+    },
+    "Population distribution": {
+      "text": "the population is unevenly distributed due to contrasts in climate and physical geography; the highest density is found in the southwest, particularly around Lake Chad and points south; the dry Saharan zone to the north is the least densely populated, as shown in this population distribution map"
+    },
+    "Natural hazards": {
+      "text": "hot, dry, dusty harmattan winds occur in north; periodic droughts; locust plagues"
+    },
+    "Geography - note": {
+      "text": "<strong>note 1:</strong> Chad is the largest of Africa's 16 landlocked countries <br><br><strong>note 2:</strong> a wide variety of animals lived in modern-day Chad during the African Humid Period, including elephants, giraffes, hippos, and antelope; the last remnant of this \"Green Sahara\" exists in the Lakes of Ounianga in northern Chad, a series of 18 interconnected freshwater, saline, and hypersaline lakes  <br><br><strong>note 3:</strong> Lake Chad, the most significant water body in the Sahel, is a remnant of a former inland sea, paleolake Mega-Chad; at its greatest extent, sometime before 5000 B.C., Lake Mega-Chad was the largest of four Saharan paleolakes that existed during the African Humid Period; it covered an area of about 400,000 sq km (150,000 sq mi), roughly the size of today's Caspian Sea"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "19,674,004 (2025 est.)"
+      },
+      "male": {
+        "text": "9,756,129"
+      },
+      "female": {
+        "text": "9,917,875"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Chadian(s)"
+      },
+      "adjective": {
+        "text": "Chadian"
+      }
+    },
+    "Ethnic groups": {
+      "text": "Sara (Ngambaye/Sara/Madjingaye/Mbaye) 30.5%, Kanembu/Bornu/Buduma 9.8%, Arab 9.7%, Wadai/Maba/Masalit/Mimi 7%, Gorane 5.8%, Masa/Musseye/Musgum 4.9%, Bulala/Medogo/Kuka 3.7%, Marba/Lele/Mesme 3.5%, Mundang 2.7%, Bidiyo/Migaama/Kenga/Dangleat 2.5%, Dadjo/Kibet/Muro 2.4%, Tupuri/Kera 2%, Gabri/Kabalaye/Nanchere/Somrai 2%, Fulani/Fulbe/Bodore 1.8%, Karo/Zime/Peve 1.3%, Baguirmi/Barma 1.2%, Zaghawa/Bideyat/Kobe 1.1%, Tama/Assongori/Mararit 1.1%, Mesmedje/Massalat/Kadjakse 0.8%, other&nbsp; 4.6%, unspecified 1.7% (2014-15 est.)"
+    },
+    "Languages": {
+      "Languages": {
+        "text": "French (official), Arabic (official), Sara (in south), more than 120 languages and dialects"
+      },
+      "major-language sample(s)": {
+        "text": "<br>The World Factbook, une source indispensable d'informations de base. (French)<br><br>كتاب حقائق العالم، المصدر الذي لا يمكن الاستغناء عنه للمعلومات الأساسية (Arabic)<br><br>The World Factbook, the indispensable source for basic information."
+      }
+    },
+    "Religions": {
+      "text": "Muslim 52.1%, Protestant 23.9%, Roman Catholic 20%, animist 0.3%, other Christian 0.2%, none 2.8%, unspecified 0.7% (2014-15 est.)"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "45.8% (male 4,428,132/female 4,323,398)"
+      },
+      "15-64 years": {
+        "text": "51.7% (male 4,831,744/female 5,031,383)"
+      },
+      "65 years and over": {
+        "text": "2.5% (2024 est.) (male 204,823/female 274,115)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "92.1 (2025 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "87.2 (2025 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "4.9 (2025 est.)"
+      },
+      "potential support ratio": {
+        "text": "20.6 (2025 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "16.9 years (2025 est.)"
+      },
+      "male": {
+        "text": "16.3 years"
+      },
+      "female": {
+        "text": "17.2 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "2.98% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "38.62 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "8.75 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "-0.12 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "the population is unevenly distributed due to contrasts in climate and physical geography; the highest density is found in the southwest, particularly around Lake Chad and points south; the dry Saharan zone to the north is the least densely populated, as shown in this population distribution map"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "24.4% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "4.1% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "1.592 million N'DJAMENA (capital) (2023)"
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.04 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1.02 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "0.96 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "0.75 male(s)/female"
+      },
+      "total population": {
+        "text": "0.98 male(s)/female (2024 est.)"
+      }
+    },
+    "Mother's mean age at first birth": {
+      "text": "18.1 years (2014/15 est.)",
+      "note": "<strong>note:</strong> data represents median age at first birth among women 20-49"
+    },
+    "Maternal mortality ratio": {
+      "text": "748 deaths/100,000 live births (2023 est.)"
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "61.1 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "68.1 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "56.7 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "60 years (2024 est.)"
+      },
+      "male": {
+        "text": "58.1 years"
+      },
+      "female": {
+        "text": "62 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "5.13 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "2.51 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: urban": {
+        "text": "urban: 77.9% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 43.8% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 52% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 22.1% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 56.2% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 48% of population (2022 est.)"
+      }
+    },
+    "Health expenditure": {
+      "Health expenditure (as % of GDP)": {
+        "text": "5.2% of GDP (2021)"
+      },
+      "Health expenditure (as % of national budget)": {
+        "text": "7.3% of national budget (2022 est.)"
+      }
+    },
+    "Physician density": {
+      "text": "0.09 physicians/1,000 population (2023)"
+    },
+    "Hospital bed density": {
+      "text": "0.4 beds/1,000 population (2017 est.)"
+    },
+    "Sanitation facility access": {
+      "improved: urban": {
+        "text": "urban: 56.4% of population (2022 est.)"
+      },
+      "improved: rural": {
+        "text": "rural: 6.3% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 18.4% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 43.6% of population (2022 est.)"
+      },
+      "unimproved: rural": {
+        "text": "rural: 93.7% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 81.6% of population (2022 est.)"
+      }
+    },
+    "Obesity - adult prevalence rate": {
+      "text": "6.1% (2016)"
+    },
+    "Alcohol consumption per capita": {
+      "total": {
+        "text": "0.55 liters of pure alcohol (2019 est.)"
+      },
+      "beer": {
+        "text": "0.37 liters of pure alcohol (2019 est.)"
+      },
+      "wine": {
+        "text": "0.01 liters of pure alcohol (2019 est.)"
+      },
+      "spirits": {
+        "text": "0.01 liters of pure alcohol (2019 est.)"
+      },
+      "other alcohols": {
+        "text": "0.16 liters of pure alcohol (2019 est.)"
+      }
+    },
+    "Tobacco use": {
+      "total": {
+        "text": "6.5% (2025 est.)"
+      },
+      "male": {
+        "text": "11.8% (2025 est.)"
+      },
+      "female": {
+        "text": "1.3% (2025 est.)"
+      }
+    },
+    "Children under the age of 5 years underweight": {
+      "text": "18.2% (2022 est.)"
+    },
+    "Currently married women (ages 15-49)": {
+      "text": "72.6% (2019 est.)"
+    },
+    "Child marriage": {
+      "women married by age 15": {
+        "text": "24.2% (2019)"
+      },
+      "women married by age 18": {
+        "text": "60.6% (2019)"
+      },
+      "men married by age 18": {
+        "text": "8.1% (2019)"
+      }
+    },
+    "Education expenditure": {
+      "Education expenditure (% GDP)": {
+        "text": "3.2% of GDP (2023 est.)"
+      },
+      "Education expenditure (% national budget)": {
+        "text": "16.5% national budget (2023 est.)"
+      }
+    },
+    "Literacy": {
+      "total population": {
+        "text": "30.6% (2019 est.)"
+      },
+      "male": {
+        "text": "44.5% (2019 est.)"
+      },
+      "female": {
+        "text": "18.6% (2019 est.)"
+      }
+    },
+    "School life expectancy (primary to tertiary education)": {
+      "total": {
+        "text": "7 years (2015 est.)"
+      },
+      "male": {
+        "text": "9 years (2015 est.)"
+      },
+      "female": {
+        "text": "6 years (2015 est.)"
+      }
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "inadequate supplies of potable water; soil and water pollution from improper waste disposal in rural areas and poor farming practices; desertification"
+    },
+    "International environmental agreements": {
+      "party to": {
+        "text": "Biodiversity, Climate Change, Climate Change-Kyoto Protocol, Climate Change-Paris Agreement, Comprehensive Nuclear Test Ban, Desertification, Endangered Species, Hazardous Wastes, Law of the Sea, Nuclear Test Ban, Ozone Layer Protection, Wetlands"
+      },
+      "signed, but not ratified": {
+        "text": "Marine Dumping-London Convention"
+      }
+    },
+    "Climate": {
+      "text": "tropical in south, desert in north"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "40% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 4.2% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 0% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 35.7% (2023 est.)"
+      },
+      "forest": {
+        "text": "3.1% (2023 est.)"
+      },
+      "other": {
+        "text": "57% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "24.4% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "4.1% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "2.054 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from coal and metallurgical coke": {
+        "text": "2 metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "2.054 million metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Particulate matter emissions": {
+      "text": "41.2 micrograms per cubic meter (2019 est.)"
+    },
+    "Methane emissions": {
+      "energy": {
+        "text": "101.8 kt (2022-2024 est.)"
+      },
+      "agriculture": {
+        "text": "1,282.9 kt (2019-2021 est.)"
+      },
+      "waste": {
+        "text": "60.3 kt (2019-2021 est.)"
+      },
+      "other": {
+        "text": "12 kt (2019-2021 est.)"
+      }
+    },
+    "Waste and recycling": {
+      "municipal solid waste generated annually": {
+        "text": "1.359 million tons (2024 est.)"
+      },
+      "percent of municipal solid waste recycled": {
+        "text": "11.1% (2022 est.)"
+      }
+    },
+    "Total water withdrawal": {
+      "municipal": {
+        "text": "103.7 million cubic meters (2022 est.)"
+      },
+      "industrial": {
+        "text": "103.7 million cubic meters (2022 est.)"
+      },
+      "agricultural": {
+        "text": "672.2 million cubic meters (2022 est.)"
+      }
+    },
+    "Total renewable water resources": {
+      "text": "45.7 billion cubic meters (2022 est.)"
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "Republic of Chad"
+      },
+      "conventional short form": {
+        "text": "Chad"
+      },
+      "local long form": {
+        "text": "R&eacute;publique du Tchad/Jumhuriyat Tshad"
+      },
+      "local short form": {
+        "text": "Tchad/Tshad"
+      },
+      "etymology": {
+        "text": "named for Lake Chad, which lies along the country's western border; taken from a local word meaning \"large body of water\" or \"lake\""
+      },
+      "note": "<strong>note:</strong> the only country whose name is composed of a single syllable with a single vowel"
+    },
+    "Government type": {
+      "text": "presidential republic"
+    },
+    "Capital": {
+      "name": {
+        "text": "N'Djamena"
+      },
+      "geographic coordinates": {
+        "text": "12 06 N, 15 02 E"
+      },
+      "time difference": {
+        "text": "UTC+1 (6 hours ahead of Washington, DC, during Standard Time)"
+      },
+      "etymology": {
+        "text": "said to derive its name from a local word meaning \"place of rest\""
+      }
+    },
+    "Administrative divisions": {
+      "text": "23 provinces; Barh-El-Gazel, Batha, Borkou, Chari-Baguirmi, Ennedi-Est, Ennedi-Ouest, Guera, Hadjer-Lamis, Kanem, Lac, Logone Occidental, Logone Oriental, Mandoul, Mayo-Kebbi-Est, Mayo-Kebbi-Ouest, Moyen-Chari, N'Djamena, Ouaddai, Salamat, Sila, Tandjile, Tibesti, Wadi-Fira"
+    },
+    "Legal system": {
+      "text": "mixed system of civil and customary law"
+    },
+    "Constitution": {
+      "history": {
+        "text": "several previous; latest adopted by National Transitional Council 27 June 2023, approved by referendum 17 December, verified by Chad Supreme Court 28 December, promulgated 1 January 2024"
+      },
+      "amendment process": {
+        "text": "previous process: proposed as a revision by the president of the republic after a Council of Ministers (cabinet) decision or by the National Assembly; approval for consideration of a revision requires at least three-fifths majority vote by the Assembly; passage requires approval by referendum or at least two-thirds majority vote by the Assembly"
+      }
+    },
+    "International law organization participation": {
+      "text": "has not submitted an ICJ jurisdiction declaration; accepts ICCt jurisdiction"
+    },
+    "Citizenship": {
+      "citizenship by birth": {
+        "text": "no"
+      },
+      "citizenship by descent only": {
+        "text": "both parents must be citizens of Chad"
+      },
+      "dual citizenship recognized": {
+        "text": "Chadian law does not address dual citizenship"
+      },
+      "residency requirement for naturalization": {
+        "text": "15 years"
+      }
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "President Mahamat Idriss D&Eacute;BY (since 6 May 2024)"
+      },
+      "head of government": {
+        "text": "Prime Minister Allamaye HALINA (since 23 May 2024)"
+      },
+      "cabinet": {
+        "text": "Council of Ministers"
+      },
+      "election/appointment process": {
+        "text": "president directly elected by absolute-majority popular vote in 2 rounds, if needed, for a 5-year term (no term limits)"
+      },
+      "most recent election date": {
+        "text": "6 May 2024"
+      },
+      "election results": {
+        "text": "<em><br>2024: </em>Mahamat Idriss DÉBY elected president; percent of vote - Mahamat Idriss DÉBY (MPS) 61%, Succes MASRA (Transformers) 18.5%, Albert PADACKE 16.9%, other 3.6%<br><em><br></em>"
+      },
+      "expected date of next election": {
+        "text": "TBD"
+      }
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "Parliament"
+      },
+      "legislative structure": {
+        "text": "bicameral"
+      }
+    },
+    "Legislative branch - lower chamber": {
+      "chamber name": {
+        "text": "National Assembly (National Assembly)"
+      },
+      "number of seats": {
+        "text": "188 (all directly elected)"
+      },
+      "electoral system": {
+        "text": "mixed system"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "5 years"
+      },
+      "most recent election date": {
+        "text": "12/29/2024"
+      },
+      "parties elected and seats per party": {
+        "text": "Patriotic Salvation Movement (MPS) (124); Rally of Chadian Nationalists/Awakening (RNDT/ Le R&eacute;veil) (12); Others (27); Other (25)"
+      },
+      "percentage of women in chamber": {
+        "text": "33.5%"
+      },
+      "expected date of next election": {
+        "text": "December 2029"
+      },
+      "note": "<strong>note:</strong> the initial term of the National Assembly was previously established as five years; however the term length will be changed to six years in accordance with constitutional amendments adopted by a joint session of parliament and promulgated by the President of the Republic in October 2025; the date from which the new term is to apply will be decided at a later stage; if the new term of six years is applied to the National Assembly elected in 2024, the next elections will be held in 2030"
+    },
+    "Legislative branch - upper chamber": {
+      "chamber name": {
+        "text": "Senate (Senate)"
+      },
+      "number of seats": {
+        "text": "69 (46 indirectly elected; 23 appointed)"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "6 years"
+      },
+      "most recent election date": {
+        "text": "2/25/2025"
+      },
+      "parties elected and seats per party": {
+        "text": "Patriotic Salvation Movement (MPS) (66); Other (3)"
+      },
+      "percentage of women in chamber": {
+        "text": "36.2%"
+      },
+      "expected date of next election": {
+        "text": "February 2031"
+      },
+      "note": "<strong>note:</strong> 46 of the Senate's 69 seats are determined by election, and the remaining 23 seats are appointed by the President"
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "Supreme Court (consists of the chief justice, 3 chamber presidents, and 12 judges or councilors and divided into 3 chambers); Supreme Council of the Judiciary (consists of the Judiciary president, vice president and 13 members)"
+      },
+      "judge selection and term of office": {
+        "text": "Supreme Court chief justice selected by the president; councilors - 8 designated by the president and 7 by the speaker of the National Assembly; chief justice and councilors appointed for life; Supreme Council of the Judiciary - with the exception of the Judiciary president and vice president, members are elected for single renewable 4-year terms"
+      },
+      "subordinate courts": {
+        "text": "High Court of Justice; Courts of Appeal; tribunals; justices of the peace"
+      }
+    },
+    "Political parties": {
+      "text": "Chadian Convention for Peace and Development or CTPD<br>Federation Action for the Republic or FAR<br>National Rally for Development and Progress or Viva-RNDP<br>National Union for Democracy and Renewal or UNDR<br>Party for Unity and Reconstruction or PUR<br>Patriotic Salvation Movement or MPS <br>Rally for Democracy and Progress or RDP<br>Rally of Chadian Nationalists/Awakening or RNDT/Le Reveil<br>Social Democratic Party for a Change-over of Power or PDSA<br>Union for Democracy and the Republic or UDR<br>Union for Renewal and Democracy or URD<br>Transformers",
+      "note": "<strong>note 1: </strong> 19 additional parties each contributed one member<br><strong><br>note 2: </strong> on 5 October 2021, Interim President Mahamat Idriss DEBY appointed 93 members to the interim National Transitional Council (NTC); 30% of the NTC members were retained from parties previously represented in the National Assembly"
+    },
+    "Diplomatic representation in the US": {
+      "chief of mission": {
+        "text": "Ambassador (vacant); Charg&eacute; d'Affaires ANWAR SADAT Fatahalbab (since 30 July 2025)"
+      },
+      "chancery": {
+        "text": "2401 Massachusetts Avenue NW, Washington, DC 20008"
+      },
+      "telephone": {
+        "text": "[1] (202) 652-1312"
+      },
+      "FAX": {
+        "text": "[1] (202) 578-0431"
+      },
+      "email address and website": {
+        "text": "<br>info@chadembassy.us<br><br>https://chadembassy.us/"
+      }
+    },
+    "Diplomatic representation from the US": {
+      "chief of mission": {
+        "text": "Ambassador (vacant); Charg&eacute; d&rsquo;Affaires William FLENS (since July 2025)"
+      },
+      "embassy": {
+        "text": "Rond-Point Chagoua, B.P. 413, N&rsquo;Djamena"
+      },
+      "mailing address": {
+        "text": "2410 N'Djamena Place, Washington DC&nbsp; 20521-2410"
+      },
+      "telephone": {
+        "text": "[235] 6885-1065"
+      },
+      "FAX": {
+        "text": "[235] 2253-9102"
+      },
+      "email address and website": {
+        "text": "<br>NdjamenaACS@state.gov<br><br>https://td.usembassy.gov/"
+      }
+    },
+    "International organization participation": {
+      "text": "ACP, AfDB, AU, BDEAC, CEMAC, EITI (compliant country), FAO, FZ, G-77, IAEA, IBRD, ICAO, ICCt, ICRM, IDA, IDB, IFAD, IFC, IFRCS, ILO, IMF, Interpol, IOC, IOM, IPU, ITSO, ITU, ITUC (NGOs), LCBC, MIGA, MNJTF, NAM, OIC, OIF, OPCW, UN, UNCTAD, UNESCO, UNIDO, UNOCI, UNOOSA, UNWTO, UPU, WCO, WHO, WIPO, WMO, WTO"
+    },
+    "Independence": {
+      "text": "11 August 1960 (from France)"
+    },
+    "National holiday": {
+      "text": "Independence Day, 11 August (1960)"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> three equal vertical bands of blue (left side), gold, and red<br><br><strong>meaning:</strong> combines the blue and red French (former colonial) colors with the red and yellow Pan-African colors; blue stands for the sky, hope, and the south of the country; gold for the sun and the desert in the north; red for progress, unity, and sacrifice",
+      "note": "<strong>note:</strong> almost identical to the flag of Romania, but with a darker shade of blue; also similar to the flags of Andorra and Moldova, both of which have a national coat of arms centered in the yellow band; design based on France's flag"
+    },
+    "National symbol(s)": {
+      "text": "goat (north), lion (south)"
+    },
+    "National color(s)": {
+      "text": "blue, yellow, red"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"La Tchadienne\" (The Chadian)"
+      },
+      "lyrics/music": {
+        "text": "Louis GIDROL and his students/Paul VILLARD"
+      },
+      "history": {
+        "text": "adopted 1960"
+      }
+    },
+    "National heritage": {
+      "total World Heritage Sites": {
+        "text": "2 (1 natural, 1 mixed)"
+      },
+      "selected World Heritage Site locales": {
+        "text": "Lakes of Ounianga (n); Ennedi Massif: Natural and Cultural Landscape (m)"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "<p>oil-dependent economy challenged by market fluctuations, regional instability, refugee influx, and climate vulnerability; high levels of extreme poverty and food insecurity; recent growth driven by oil and agricultural recovery; debt-restructuring agreement under G20 Common Framework</p>"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2024": {
+        "text": "$52.895 billion (2024 est.)"
+      },
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$51.03 billion (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$49.012 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "Real GDP growth rate": {
+      "Real GDP growth rate 2024": {
+        "text": "3.7% (2024 est.)"
+      },
+      "Real GDP growth rate 2023": {
+        "text": "4.1% (2023 est.)"
+      },
+      "Real GDP growth rate 2022": {
+        "text": "12.9% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual GDP % growth based on constant local currency"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2024": {
+        "text": "$2,600 (2024 est.)"
+      },
+      "Real GDP per capita 2023": {
+        "text": "$2,600 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$2,700 (2022 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$20.626 billion (2024 est.)",
+      "note": "<b>note:</b> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2024": {
+        "text": "8.9% (2024 est.)"
+      },
+      "Inflation rate (consumer prices) 2023": {
+        "text": "10.8% (2023 est.)"
+      },
+      "Inflation rate (consumer prices) 2022": {
+        "text": "5.8% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual % change based on consumer prices"
+    },
+    "GDP - composition, by sector of origin": {
+      "agriculture": {
+        "text": "32.2% (2024 est.)"
+      },
+      "industry": {
+        "text": "29.7% (2024 est.)"
+      },
+      "services": {
+        "text": "31.6% (2024 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to non-allocated consumption not captured in sector-reported data"
+    },
+    "GDP - composition, by end use": {
+      "household consumption": {
+        "text": "61.3% (2024 est.)"
+      },
+      "government consumption": {
+        "text": "8.7% (2024 est.)"
+      },
+      "investment in fixed capital": {
+        "text": "14.4% (2024 est.)"
+      },
+      "investment in inventories": {
+        "text": "3.4% (2024 est.)"
+      },
+      "exports of goods and services": {
+        "text": "28.1% (2024 est.)"
+      },
+      "imports of goods and services": {
+        "text": "-17.2% (2024 est.)"
+      },
+      "note": "<strong>note:</strong> figures may not total 100% due to rounding or gaps in data collection"
+    },
+    "Agricultural products": {
+      "text": "sorghum, groundnuts, millet, beef, cereals, yams, sugarcane, maize, cassava, milk (2023)",
+      "note": "<b>note:</b> top ten agricultural products based on tonnage"
+    },
+    "Industries": {
+      "text": "oil, cotton textiles, brewing, natron (sodium carbonate), soap, cigarettes, construction materials"
+    },
+    "Industrial production growth rate": {
+      "text": "5.1% (2024 est.)",
+      "note": "<b>note:</b> annual % change in industrial value added based on constant local currency"
+    },
+    "Labor force": {
+      "text": "6.6 million (2024 est.)",
+      "note": "<b>note:</b> number of people ages 15 or older who are employed or seeking work"
+    },
+    "Unemployment rate": {
+      "Unemployment rate 2024": {
+        "text": "1.1% (2024 est.)"
+      },
+      "Unemployment rate 2023": {
+        "text": "1.1% (2023 est.)"
+      },
+      "Unemployment rate 2022": {
+        "text": "1.1% (2022 est.)"
+      },
+      "note": "<b>note:</b> % of labor force seeking employment"
+    },
+    "Youth unemployment rate (ages 15-24)": {
+      "total": {
+        "text": "1.5% (2024 est.)"
+      },
+      "male": {
+        "text": "2.1% (2024 est.)"
+      },
+      "female": {
+        "text": "0.7% (2024 est.)"
+      },
+      "note": "<b>note:</b> % of labor force ages 15-24 seeking employment"
+    },
+    "Population below poverty line": {
+      "text": "44.8% (2022 est.)",
+      "note": "<b>note:</b> % of population with income below national poverty line"
+    },
+    "Gini Index coefficient - distribution of family income": {
+      "Gini Index coefficient - distribution of family income 2022": {
+        "text": "37.4 (2022 est.)"
+      },
+      "note": "<b>note:</b> index (0-100) of income distribution; higher values represent greater inequality"
+    },
+    "Household income or consumption by percentage share": {
+      "lowest 10%": {
+        "text": "2.8% (2022 est.)"
+      },
+      "highest 10%": {
+        "text": "29.5% (2022 est.)"
+      },
+      "note": "<b>note:</b> % share of income accruing to lowest and highest 10% of population"
+    },
+    "Remittances": {
+      "Remittances 2023": {
+        "text": "0% of GDP (2023 est.)"
+      },
+      "Remittances 2022": {
+        "text": "0% of GDP (2022 est.)"
+      },
+      "Remittances 2021": {
+        "text": "0% of GDP (2021 est.)"
+      },
+      "note": "<strong>note:</strong> personal transfers and compensation between resident and non-resident individuals/households/entities"
+    },
+    "Budget": {
+      "revenues": {
+        "text": "$2.129 billion (2020 est.)"
+      },
+      "expenditures": {
+        "text": "$2.15 billion (2020 est.)"
+      },
+      "note": "<b>note:</b> central government revenues and expenses (excluding grants/extrabudgetary units/social security funds) converted to US dollars at average official exchange rate for year indicated"
+    },
+    "Public debt": {
+      "Public debt 2016": {
+        "text": "52.4% of GDP (2016 est.)"
+      }
+    },
+    "Exports": {
+      "Exports 2024": {
+        "text": "$5.799 billion (2024 est.)"
+      },
+      "Exports 2023": {
+        "text": "$5.7 billion (2023 est.)"
+      },
+      "Exports 2022": {
+        "text": "$5.658 billion (2022 est.)"
+      },
+      "note": "<strong>note: </strong>GDP expenditure basis - exports of goods and services in current dollars"
+    },
+    "Exports - partners": {
+      "text": "UAE 26%, China 19%, Germany 17%, Netherlands 13%, France 10% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "crude petroleum, gold, oil seeds, gum resins, cotton (2023)",
+      "note": "<b>note:</b> top five export commodities based on value in dollars"
+    },
+    "Imports": {
+      "Imports 2024": {
+        "text": "$3.557 billion (2024 est.)"
+      },
+      "Imports 2023": {
+        "text": "$3.271 billion (2023 est.)"
+      },
+      "Imports 2022": {
+        "text": "$2.898 billion (2022 est.)"
+      },
+      "note": "<strong>note: </strong>GDP expenditure basis - imports of goods and services in current dollars"
+    },
+    "Imports - partners": {
+      "text": "China 28%, UAE 23%, Turkey 10%, France 9%, India 5% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "jewelry, broadcasting equipment, packaged medicine, cars, refined petroleum (2023)",
+      "note": "<strong>note:</strong> top five import commodities based on value in dollars"
+    },
+    "Reserves of foreign exchange and gold": {
+      "Reserves of foreign exchange and gold 2023": {
+        "text": "$1.05 billion (2023 est.)"
+      },
+      "Reserves of foreign exchange and gold 2022": {
+        "text": "$1.013 billion (2022 est.)"
+      },
+      "Reserves of foreign exchange and gold 2021": {
+        "text": "$211.591 million (2021 est.)"
+      },
+      "note": "<b>note:</b> holdings of gold (year-end prices)/foreign exchange/special drawing rights in current dollars"
+    },
+    "Debt - external": {
+      "Debt - external 2023": {
+        "text": "$2.286 billion (2023 est.)"
+      },
+      "note": "<b>note:</b> present value of external debt in current US dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "Cooperation Financiere en Afrique Centrale francs (XAF) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "606.345 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "606.57 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "623.76 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "554.531 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "575.586 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "11.7% (2022 est.)"
+      },
+      "electrification - urban areas": {
+        "text": "46.3%"
+      },
+      "electrification - rural areas": {
+        "text": "1.3%"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "167,000 kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "282.103 million kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "109.04 million kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "94.3% of total installed capacity (2023 est.)"
+      },
+      "solar": {
+        "text": "0.8% of total installed capacity (2023 est.)"
+      },
+      "wind": {
+        "text": "2.3% of total installed capacity (2023 est.)"
+      },
+      "biomass and waste": {
+        "text": "2.6% of total installed capacity (2023 est.)"
+      }
+    },
+    "Coal": {
+      "imports": {
+        "text": "20 metric tons (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "total petroleum production": {
+        "text": "124,000 bbl/day (2023 est.)"
+      },
+      "refined petroleum consumption": {
+        "text": "15,000 bbl/day (2023 est.)"
+      },
+      "crude oil estimated reserves": {
+        "text": "1.5 billion barrels (2021 est.)"
+      }
+    },
+    "Energy consumption per capita": {
+      "Total energy consumption per capita 2023": {
+        "text": "1.502 million Btu/person (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "(2024 est.) The telephone system is down. No data is available for the year 2024."
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "(2024 est.) The telephone system is down. No data is available for the year 2024."
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "14.8 million (2024 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "73 (2024 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "1 state-owned TV station; 2 privately-owned TV stations; state-owned radio network, Radiodiffusion Nationale Tchadienne (RNT), operates national and regional stations; over 10 private radio stations; some stations rebroadcast programs from international broadcasters (2017)"
+    },
+    "Internet country code": {
+      "text": ".td"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "13% (2023 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "0 (2022 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "(2022 est.) less than 1"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "TT"
+    },
+    "Airports": {
+      "text": "44 (2025)"
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "Chadian National Army (Armee Nationale du Tchad, ANT): Ground Forces (l'Armee de Terre, AdT), Chadian Air Force (l'Armee de l'Air Tchadienne, AAT), Chadian National Gendarmerie; General Direction of the Security Services of State Institutions (Direction Generale des Services de Securite des Institutions de l'Etat, GDSSIE)<br><br>Ministry of Public Security and Immigration: National Nomadic Guard of Chad (GNNT) (2025)",
+      "note": "<strong>note 1:</strong> the GDSSIE is the presidential guard force and is considered to be Chad's elite military unit; it is reportedly a division-sized force with infantry, armor, and special forces/anti-terrorism regiments (known as the Special Anti-Terrorist Group or SATG, aka Division of Special Anti-Terrorist Groups or DGSAT); it reports directly to the president<br><br><strong>note 2:</strong> the Chadian National Police are under the Ministry of Public Security and Immigration; border security duties are shared by the ANT, Customs (Ministry of Public Security and Immigration), the National Gendarmerie, and the GNNT"
+    },
+    "Military expenditures": {
+      "Military Expenditures 2024": {
+        "text": "3% of GDP (2024 est.)"
+      },
+      "Military Expenditures 2023": {
+        "text": "2.9% of GDP (2023 est.)"
+      },
+      "Military Expenditures 2022": {
+        "text": "2.6% of GDP (2022 est.)"
+      },
+      "Military Expenditures 2021": {
+        "text": "2.5% of GDP (2021 est.)"
+      },
+      "Military Expenditures 2020": {
+        "text": "2.9% of GDP (2020 est.)"
+      }
+    },
+    "Military and security service personnel strengths": {
+      "text": "estimated 35-40,000 active Chadian National Army personnel (2025)",
+      "note": "<strong>note: </strong> in 2021, Chad pledged to increase the size of the military to 60,000"
+    },
+    "Military equipment inventories and acquisitions": {
+      "text": "the ANT has a mix of older, secondhand, and some more modern armaments from a variety of suppliers, including Brazil, China, France, Russia/former Soviet Union, T&uuml;rkiye, Ukraine, and the UAE (2025)"
+    },
+    "Military service age and obligation": {
+      "text": "18-25 for voluntary service; men subject to 18-36 months of compulsory service at age 20; women are subject to 12 months of compulsory military or civic service at age 21 (2025)"
+    },
+    "Military deployments": {
+      "text": "<strong>note:</strong> Chad has committed approximately 1,000-1,500 troops to the Multinational Joint Task Force (MNJTF) against Boko Haram and other terrorist groups operating in the general area of the Lake Chad Basin and along Nigeria's northeast border; national MNJTF troop contingents are deployed within their own territories, although cross‐border operations are conducted periodically"
+    },
+    "Military - note": {
+      "text": "internal security is the primary focus of the Chadian National Army, and it is actively engaged in counterinsurgency operations against multiple terrorist and rebel groups; the terrorist groups Boko Haram and Islamic State of Iraq and ash-Sham in West Africa operate in the Lake Chad Basin area; meanwhile, a number of anti-government militias operate in northern Chad, some from bases in southern Libya, including the FACT (Front pour le Changement et la Concorde au Tchad), the Military Command Council for the Salvation of the Republic (le Conseil de Commandement Militaire pour le salut de la République or CCSMR), the Union of Forces for Democracy and Development (le Union des Forces pour la Démocratie et le Développement or UFDD), and the Union of Resistance Forces (le Union des Forces de la Résistance UFR); former Chadian President Idriss DEBY<strong> </strong>was killed in April 2021 during fighting between the FACT and government forces (2025)"
+    }
+  },
+  "Terrorism": {
+    "Terrorist group(s)": {
+      "text": "Boko Haram; Islamic State of Iraq and ash-Sham - West Africa (ISIS-WA)",
+      "note": "<strong>note:</strong> details about the history, aims, leadership, organization, areas of operation, tactics, targets, weapons, size, and sources of support of the group(s) appear(s) in the Terrorism reference guide"
+    }
+  },
+  "Transnational Issues": {
+    "Refugees and internally displaced persons": {
+      "refugees": {
+        "text": "1,286,645 (2024 est.)"
+      },
+      "IDPs": {
+        "text": "1,542,532 (2024 est.)"
+      }
+    },
+    "Trafficking in persons": {
+      "tier rating": {
+        "text": "Tier 3 — Chad does not fully meet the minimum standards for the elimination of trafficking and is not making significant efforts to do so, therefore, Chad was downgraded to Tier 3; for more details, go to: https://www.state.gov/reports/2025-trafficking-in-persons-report/chad/"
+      }
+    }
+  }
+}

@@ -1,0 +1,1134 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "As a result of its location at the crossroads of three continents, the area that is modern-day Lebanon is rich in cultural and religious diversity. This region was subject to various foreign conquerors for much of its history, including the Romans, Arabs, and Ottomans. Following World War I, France acquired a mandate over the northern portion of the former Ottoman Empire province of Syria. From it the French demarcated the region of Lebanon in 1920, and it gained independence in 1943. Lebanon subsequently experienced periods of political turmoil interspersed with prosperity built on its position as a regional center for finance and trade.<br><br>The country's 1975-90 civil war, which resulted in an estimated 120,000 fatalities, was followed by years of social and political instability, and sectarianism remains a key element of Lebanese political life. The Israeli defense forces, which occupied parts of Lebanon during the civil war, did not completely withdraw until 2000. Neighboring Syria influenced Lebanon's foreign and domestic policies while its military occupied Lebanon from 1976 until 2005, but its influence diminished significantly after 2005. Over 1.5 million Syrian refugees fled to Lebanon after the start of the Syrian conflict in 2011. Hizballah -- a major Lebanese political party, militia, and US-designated foreign terrorist organization -- and Israel continued attacks and counterattacks against each other after Syria's withdrawal and fought a brief war in 2006. After HAMAS attacked Israel on 7 October 2023, the intensity and frequency of these cross-border attacks increased substantially into a cycle of hostilities, mostly limited to the border areas as of January 2024. Lebanon's borders with Syria and Israel remain unresolved.<br><br>Lebanon's prosperity has significantly diminished since the beginning of the country's economic crisis in 2019, which has crippled its economy, shut down its previously lucrative banking sector, reduced the value of its currency, and caused many Lebanese to emigrate in search of better prospects."
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Middle East, bordering the Mediterranean Sea, between Israel and Syria"
+    },
+    "Geographic coordinates": {
+      "text": "33 50 N, 35 50 E"
+    },
+    "Map references": {
+      "text": "Middle East"
+    },
+    "Area": {
+      "total ": {
+        "text": "10,400 sq km"
+      },
+      "land": {
+        "text": "10,230 sq km"
+      },
+      "water": {
+        "text": "170 sq km"
+      }
+    },
+    "Area - comparative": {
+      "text": "about one-third the size of Maryland"
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "484 km"
+      },
+      "border countries": {
+        "text": "Israel 81 km; Syria 403 km"
+      }
+    },
+    "Coastline": {
+      "text": "225 km"
+    },
+    "Maritime claims": {
+      "territorial sea": {
+        "text": "12 nm"
+      }
+    },
+    "Climate": {
+      "text": "Mediterranean; mild to cool, wet winters with hot, dry summers; the Lebanon Mountains experience heavy winter snows"
+    },
+    "Terrain": {
+      "text": "narrow coastal plain; El Beqaa (Bekaa Valley) separates Lebanon and Anti-Lebanon Mountains"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Qornet es Saouda 3,088 m"
+      },
+      "lowest point": {
+        "text": "Mediterranean Sea 0 m"
+      },
+      "mean elevation": {
+        "text": "1,250 m"
+      }
+    },
+    "Natural resources": {
+      "text": "limestone, iron ore, salt, water-surplus state in a water-deficit region, arable land"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "65.9% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 13.1% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 13.7% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 39.1% (2023 est.)"
+      },
+      "forest": {
+        "text": "13.8% (2023 est.)"
+      },
+      "other": {
+        "text": "20.3% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "1,040 sq km (2012)"
+    },
+    "Population distribution": {
+      "text": "the majority of people live on or near the Mediterranean coast, particularly in and around the capital of Beirut"
+    },
+    "Natural hazards": {
+      "text": "earthquakes; dust storms, sandstorms"
+    },
+    "Geography - note": {
+      "text": "smallest country in continental Asia; Nahr el Litani is the only major river in Near East not crossing an international boundary"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "5,364,482 (2024 est.)"
+      },
+      "male": {
+        "text": "2,678,543"
+      },
+      "female": {
+        "text": "2,685,939"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Lebanese (singular and plural)"
+      },
+      "adjective": {
+        "text": "Lebanese"
+      }
+    },
+    "Ethnic groups": {
+      "text": "Arab 95%, Armenian 4%, other 1%",
+      "note": "<strong>note:</strong> many Christian Lebanese do not identify as Arab but rather as descendants of the ancient Canaanites and prefer to be called Phoenicians"
+    },
+    "Languages": {
+      "Languages": {
+        "text": "Arabic (official), French, English, Armenian"
+      },
+      "major-language sample(s)": {
+        "text": "<br>كتاب حقائق العالم، المصدر الذي لا يمكن الاستغناء عنه للمعلومات الأساسية (Arabic)<br><br>The World Factbook, une source indispensable d'informations de base. (French)<br><br>The World Factbook, the indispensable source for basic information."
+      }
+    },
+    "Religions": {
+      "text": "Muslim 67.8% (31.9% Sunni, 31.2% Shia, smaller percentages of Alawites and Ismailis), Christian 32.4% (Maronite Catholics are the largest Christian group), Druze 4.5%, very small numbers of Jews, Baha'is, Buddhists, and Hindus (2020 est.)",
+      "note": "<strong>note:</strong> data represent the religious affiliation of the citizen population (data do not include Lebanon's sizable Syrian and Palestinian refugee populations); 18 religious sects recognized"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "18.9% (male 519,352/female 495,591)"
+      },
+      "15-64 years": {
+        "text": "71.6% (male 1,939,311/female 1,900,574)"
+      },
+      "65 years and over": {
+        "text": "9.5% (2024 est.) (male 219,880/female 289,774)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "50.3 (2024 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "39 (2024 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "11.3 (2024 est.)"
+      },
+      "potential support ratio": {
+        "text": "8.8 (2024 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "29.4 years (2025 est.)"
+      },
+      "male": {
+        "text": "35.6 years"
+      },
+      "female": {
+        "text": "36.9 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "-0.77% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "16.73 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "6.23 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "-18.23 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "the majority of people live on or near the Mediterranean coast, particularly in and around the capital of Beirut"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "89.4% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "-1.23% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "2.421 million BEIRUT (capital) (2023)"
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.05 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1.05 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "1.02 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "0.76 male(s)/female"
+      },
+      "total population": {
+        "text": "1 male(s)/female (2024 est.)"
+      }
+    },
+    "Maternal mortality ratio": {
+      "text": "15 deaths/100,000 live births (2023 est.)"
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "7.3 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "7.3 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "6.2 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "79.2 years (2024 est.)"
+      },
+      "male": {
+        "text": "77.8 years"
+      },
+      "female": {
+        "text": "80.7 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "2.2 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "1.07 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: total": {
+        "text": "total: 92.6% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 7.4% of population (2022 est.)"
+      }
+    },
+    "Health expenditure": {
+      "Health expenditure (as % of GDP)": {
+        "text": "10.1% of GDP (2021)"
+      },
+      "Health expenditure (as % of national budget)": {
+        "text": "15.5% of national budget (2022 est.)"
+      }
+    },
+    "Physician density": {
+      "text": "2.68 physicians/1,000 population (2020)"
+    },
+    "Hospital bed density": {
+      "text": "2.7 beds/1,000 population (2021 est.)"
+    },
+    "Sanitation facility access": {
+      "improved: total": {
+        "text": "total: 100% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0% of population (2022 est.)"
+      }
+    },
+    "Obesity - adult prevalence rate": {
+      "text": "32% (2016)"
+    },
+    "Alcohol consumption per capita": {
+      "total": {
+        "text": "1.14 liters of pure alcohol (2019 est.)"
+      },
+      "beer": {
+        "text": "0.38 liters of pure alcohol (2019 est.)"
+      },
+      "wine": {
+        "text": "0.21 liters of pure alcohol (2019 est.)"
+      },
+      "spirits": {
+        "text": "0.53 liters of pure alcohol (2019 est.)"
+      },
+      "other alcohols": {
+        "text": "0.02 liters of pure alcohol (2019 est.)"
+      }
+    },
+    "Tobacco use": {
+      "total": {
+        "text": "34.1% (2025 est.)"
+      },
+      "male": {
+        "text": "43.8% (2025 est.)"
+      },
+      "female": {
+        "text": "25.4% (2025 est.)"
+      }
+    },
+    "Children under the age of 5 years underweight": {
+      "text": "5.1% (2023 est.)"
+    },
+    "Currently married women (ages 15-49)": {
+      "text": "52.4% (2019 est.)"
+    },
+    "Child marriage": {
+      "women married by age 15": {
+        "text": "1.4% (2016)"
+      },
+      "women married by age 18": {
+        "text": "6% (2016)"
+      }
+    },
+    "Education expenditure": {
+      "Education expenditure (% GDP)": {
+        "text": "1.2% of GDP (2024 est.)"
+      },
+      "Education expenditure (% national budget)": {
+        "text": "8.6% national budget (2025 est.)"
+      }
+    },
+    "Literacy": {
+      "total population": {
+        "text": "92% (2019 est.)"
+      },
+      "male": {
+        "text": "94.8% (2019 est.)"
+      },
+      "female": {
+        "text": "89.5% (2019 est.)"
+      }
+    },
+    "School life expectancy (primary to tertiary education)": {
+      "total": {
+        "text": "11 years (2023 est.)"
+      },
+      "male": {
+        "text": "12 years"
+      },
+      "female": {
+        "text": "11 years (2014)"
+      }
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "deforestation; soil deterioration, erosion; desertification; species loss; air pollution in Beirut from vehicular traffic and the burning of industrial wastes; pollution of coastal waters from raw sewage and oil spills; waste-water management"
+    },
+    "International environmental agreements": {
+      "party to": {
+        "text": "Biodiversity, Climate Change, Climate Change-Kyoto Protocol, Climate Change-Paris Agreement, Comprehensive Nuclear Test Ban, Desertification, Endangered Species, Hazardous Wastes, Law of the Sea, Nuclear Test Ban, Ozone Layer Protection, Ship Pollution, Wetlands"
+      },
+      "signed, but not ratified": {
+        "text": "Environmental Modification, Marine Life Conservation"
+      }
+    },
+    "Climate": {
+      "text": "Mediterranean; mild to cool, wet winters with hot, dry summers; the Lebanon Mountains experience heavy winter snows"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "65.9% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 13.1% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 13.7% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 39.1% (2023 est.)"
+      },
+      "forest": {
+        "text": "13.8% (2023 est.)"
+      },
+      "other": {
+        "text": "20.3% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "89.4% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "-1.23% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "17.484 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from coal and metallurgical coke": {
+        "text": "375,000 metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "17.109 million metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Particulate matter emissions": {
+      "text": "23.8 micrograms per cubic meter (2019 est.)"
+    },
+    "Methane emissions": {
+      "energy": {
+        "text": "7.9 kt (2022-2024 est.)"
+      },
+      "agriculture": {
+        "text": "11.8 kt (2019-2021 est.)"
+      },
+      "waste": {
+        "text": "105.3 kt (2019-2021 est.)"
+      },
+      "other": {
+        "text": "0.7 kt (2019-2021 est.)"
+      }
+    },
+    "Waste and recycling": {
+      "municipal solid waste generated annually": {
+        "text": "2.04 million tons (2024 est.)"
+      },
+      "percent of municipal solid waste recycled": {
+        "text": "15% (2022 est.)"
+      }
+    },
+    "Total water withdrawal": {
+      "municipal": {
+        "text": "240 million cubic meters (2022 est.)"
+      },
+      "industrial": {
+        "text": "900 million cubic meters (2022 est.)"
+      },
+      "agricultural": {
+        "text": "700 million cubic meters (2022 est.)"
+      }
+    },
+    "Total renewable water resources": {
+      "text": "4.503 billion cubic meters (2022 est.)"
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "Lebanese Republic"
+      },
+      "conventional short form": {
+        "text": "Lebanon"
+      },
+      "local long form": {
+        "text": "Al Jumhuriyah al Lubnaniyah"
+      },
+      "local short form": {
+        "text": "Lubnan"
+      },
+      "former": {
+        "text": "Greater Lebanon"
+      },
+      "etymology": {
+        "text": "derives from the Semitic root <em>lbn, </em>meaning \"white,\" and probably refers to the country's snow-capped mountains"
+      }
+    },
+    "Government type": {
+      "text": "parliamentary democratic republic"
+    },
+    "Capital": {
+      "name": {
+        "text": "Beirut"
+      },
+      "geographic coordinates": {
+        "text": "33 52 N, 35 30 E"
+      },
+      "time difference": {
+        "text": "UTC+2 (7 hours ahead of Washington, DC, during Standard Time)"
+      },
+      "daylight saving time": {
+        "text": "+1hr, begins last Sunday in March; ends last Sunday in October"
+      },
+      "etymology": {
+        "text": "derived from the Phoenician or Hebrew word <em>be'erot</em>, meaning \"the wells,\" which were the only source of water in the region"
+      }
+    },
+    "Administrative divisions": {
+      "text": "8 governorates (<em>mohafazat</em>, singular - <em>mohafazah</em>); Aakkar, Baalbek-Hermel, Beqaa (Bekaa), Beyrouth (Beirut), Liban-Nord (North Lebanon), Liban-Sud (South Lebanon), Mont-Liban (Mount Lebanon), Nabatiye"
+    },
+    "Legal system": {
+      "text": "mixed system of civil law based on the French civil code, Ottoman legal tradition, and religious laws covering personal status, marriage, divorce, and other family relations of the Jewish, Islamic, and Christian communities"
+    },
+    "Constitution": {
+      "history": {
+        "text": "drafted 15 May 1926, adopted 23 May 1926"
+      },
+      "amendment process": {
+        "text": "proposed by the president of the republic and introduced as a government bill to the National Assembly or proposed by at least 10 members of the Assembly and agreed upon by two thirds of its members; if proposed by the National Assembly, review and approval by two-thirds majority of the Cabinet is required; if approved, the proposal is next submitted to the Cabinet for drafting as an amendment; Cabinet approval requires at least two-thirds majority, followed by submission to the National Assembly for discussion and vote; passage requires at least two-thirds majority vote of a required two-thirds quorum of the Assembly membership and promulgation by the president"
+      }
+    },
+    "International law organization participation": {
+      "text": "has not submitted an ICJ jurisdiction declaration; non-party state to the ICCt"
+    },
+    "Citizenship": {
+      "citizenship by birth": {
+        "text": "no"
+      },
+      "citizenship by descent only": {
+        "text": "the father must be a citizen of Lebanon"
+      },
+      "dual citizenship recognized": {
+        "text": "yes"
+      },
+      "residency requirement for naturalization": {
+        "text": "unknown"
+      }
+    },
+    "Suffrage": {
+      "text": "21 years of age; authorized for all men and women regardless of religion; excludes persons convicted of felonies and other crimes or those imprisoned; excludes all military and security service personnel regardless of rank"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "President Joseph AOUN (since 9 January 2025)"
+      },
+      "head of government": {
+        "text": "Prime Minister Nawaf SALAM (since 8 February 2025)"
+      },
+      "cabinet": {
+        "text": "Cabinet chosen by the prime minister in consultation with the president and the National Assembly"
+      },
+      "election/appointment process": {
+        "text": "president indirectly elected by a qualified majority of two-thirds of Parliament members in the first round and, if needed, a two-thirds quorum of members by simple-majority popular vote for a 6-year term (eligible for non-consecutive terms); prime minister appointed by the president in consultation with the National Assembly"
+      },
+      "most recent election date": {
+        "text": "9 January 2025"
+      },
+      "election results": {
+        "text": "<em><br>2025: </em>Joseph AOUN elected president in second round; National Assembly vote - 99 of 128<br><em><br>2016:</em> Michel AWN elected president in second round; National Assembly vote - Michel AWN (FPM) 83; the president elected in its 46th attempt on 31 October 2016"
+      },
+      "expected date of next election": {
+        "text": "2031"
+      }
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "National Assembly (Majlis Al-Nuwwab)"
+      },
+      "legislative structure": {
+        "text": "unicameral"
+      },
+      "number of seats": {
+        "text": "128 (all directly elected)"
+      },
+      "electoral system": {
+        "text": "proportional representation"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "4 years"
+      },
+      "most recent election date": {
+        "text": "5/15/2022"
+      },
+      "parties elected and seats per party": {
+        "text": "Strong Republic (19); Strong Lebanon (18); Development and Liberation (15); Loyalty to the Resistance (15); Independent Deputies (9); Democratic Gathering (8); Independents (20); Other (24)"
+      },
+      "percentage of women in chamber": {
+        "text": "6.3%"
+      },
+      "expected date of next election": {
+        "text": "May 2026"
+      },
+      "note": "<strong>note 1:</strong> Lebanon’s constitution states that the Parliament cannot conduct regular business until it elects a president when the position is vacant <br><strong><br>note 2:</strong> seats are apportioned evenly between Christians and Muslims"
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "Court of Cassation or Supreme Court (organized into 8 chambers, each with a presiding judge and 2 associate judges); Constitutional Council (consists of 10 members)"
+      },
+      "judge selection and term of office": {
+        "text": "Court of Cassation judges appointed by Supreme Judicial Council, a 10-member body headed by the chief justice, and includes other judicial officials; judge tenure NA; Constitutional Council members appointed - 5 by the Council of Ministers and 5 by parliament; members serve 5-year terms"
+      },
+      "subordinate courts": {
+        "text": "Courts of Appeal; Courts of First Instance; specialized tribunals, religious courts; military courts"
+      }
+    },
+    "Political parties": {
+      "text": "Al-Ahbash (Association of Islamic Charitable Projects) or AICP<br>Amal Movement (\"Hope Movement\")<br>Azm Movement<br>Ba’th Arab Socialist Party of Lebanon<br>Free Patriotic Movement or FPM<br>Future Movement Bloc or FM<br>Hizballah<br>Islamic Action Front or IAF<br>Kata'ib Party<br>Lebanese Democratic Party<br>Lebanese Forces or LF<br>Marada Movement<br>Progressive Socialist Party or PSP<br>Social Democrat Hunshaqian Party<br>Syrian Social Nationalist Party or SSNP<br>Tashnaq or Armenian Revolutionary Federation"
+    },
+    "Diplomatic representation in the US": {
+      "chief of mission": {
+        "text": "Ambassador Nada HAMADEH (since 5 September 2025)"
+      },
+      "chancery": {
+        "text": "2560 28th Street NW, Washington, DC 20008"
+      },
+      "telephone": {
+        "text": "[1] (202) 939-6300"
+      },
+      "FAX": {
+        "text": "[1] (202) 939-6324"
+      },
+      "email address and website": {
+        "text": "<br>info@lebanonembassyus.org<br><br>http://www.lebanonembassyus.org/"
+      },
+      "consulate(s) general": {
+        "text": "Detroit, New York, Los Angeles"
+      }
+    },
+    "Diplomatic representation from the US": {
+      "chief of mission": {
+        "text": "Ambassador Michel ISSA (since 17 November 2025)"
+      },
+      "embassy": {
+        "text": "Awkar facing the Municipality<br>P.O. Box 70-840 Antelias, Beirut"
+      },
+      "mailing address": {
+        "text": "6070 Beirut Place, Washington DC&nbsp; 20521-6070"
+      },
+      "telephone": {
+        "text": "[961] (04) 543-600"
+      },
+      "FAX": {
+        "text": "[961] (4) 544-019"
+      },
+      "email address and website": {
+        "text": "<br>BeirutACS@state.gov<br><br>https://lb.usembassy.gov/"
+      }
+    },
+    "International organization participation": {
+      "text": "ABEDA, AFESD, AMF, CAEU, FAO, G-24, G-77, IAEA, IBRD, ICAO, ICC (national committees), ICRM, IDA, IDB, IFAD, IFC, IFRCS, ILO, IMF, IMO, IMSO, Interpol, IOC, IPU, ISO, ITSO, ITU, LAS, MIGA, NAM, OAS (observer), OIC, OIF, OPCW, PCA, UN, UNCTAD, UNESCO, UNHCR, UNIDO, UNOOSA, UNRWA, UNWTO, UPU, WCO, WFTU (NGOs), WHO, WIPO, WMO, WTO (observer)"
+    },
+    "Independence": {
+      "text": "22 November 1943 (from League of Nations mandate under French administration)"
+    },
+    "National holiday": {
+      "text": "Independence Day, 22 November (1943)"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> three horizontal bands consisting of red (top), white (middle, double-width), and red (bottom), with a green cedar tree centered on the white band<br><br><strong>meaning:</strong> red stands for blood shed for liberation, and white for peace, the snow of the mountains, and purity; the green cedar tree is the national symbol and represents eternity, steadiness, happiness, and prosperity"
+    },
+    "National symbol(s)": {
+      "text": "cedar tree"
+    },
+    "National color(s)": {
+      "text": "red, white, green"
+    },
+    "National coat of arms": {
+      "text": "<p> Lebanon has had many coats of arms since declaring independence in 1943, but none were officially adopted. The current version is a variation of the national flag. Red stands for the blood shed for liberation, and white for peace, purity, and mountain snow. The cedar tree is the national symbol, embodying eternity, steadiness, happiness, and prosperity.</p>"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"Kulluna lil-watan\" (All of Us, For Our Country!)"
+      },
+      "lyrics/music": {
+        "text": "Rachid NAKHLE/Wadih SABRA"
+      },
+      "history": {
+        "text": "adopted 1927"
+      }
+    },
+    "National heritage": {
+      "total World Heritage Sites": {
+        "text": "6 (all cultural)"
+      },
+      "selected World Heritage Site locales": {
+        "text": "Anjar; Baalbek; Byblos; Tyre; Ouadi Qadisha (the Holy Valley) and the Forest of the Cedars of God (Horsh Arz el-Rab); Rachid Karami International Fair-Tripoli"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "lower middle-income Middle Eastern economy; hyperinflation and sharp poverty increases; banks have ceased lending; economic contraction, destroyed infrastructure, and reduced consumer demand resulting from Israel-Hezbollah conflict"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$65.415 billion (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$65.917 billion (2022 est.)"
+      },
+      "Real GDP (purchasing power parity) 2021": {
+        "text": "$66.329 billion (2021 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "Real GDP growth rate": {
+      "Real GDP growth rate 2023": {
+        "text": "-0.8% (2023 est.)"
+      },
+      "Real GDP growth rate 2022": {
+        "text": "-0.6% (2022 est.)"
+      },
+      "Real GDP growth rate 2021": {
+        "text": "-7% (2021 est.)"
+      },
+      "note": "<b>note:</b> annual GDP % growth based on constant local currency"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2023": {
+        "text": "$11,300 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$11,500 (2022 est.)"
+      },
+      "Real GDP per capita 2021": {
+        "text": "$11,600 (2021 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$20.079 billion (2023 est.)",
+      "note": "<b>note:</b> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2024": {
+        "text": "45.2% (2024 est.)"
+      },
+      "Inflation rate (consumer prices) 2023": {
+        "text": "221.3% (2023 est.)"
+      },
+      "Inflation rate (consumer prices) 2022": {
+        "text": "171.2% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual % change based on consumer prices"
+    },
+    "GDP - composition, by sector of origin": {
+      "agriculture": {
+        "text": "1% (2023 est.)"
+      },
+      "industry": {
+        "text": "2.1% (2023 est.)"
+      },
+      "services": {
+        "text": "42.4% (2023 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to non-allocated consumption not captured in sector-reported data"
+    },
+    "GDP - composition, by end use": {
+      "household consumption": {
+        "text": "136% (2023 est.)"
+      },
+      "government consumption": {
+        "text": "5.2% (2023 est.)"
+      },
+      "investment in fixed capital": {
+        "text": "1.9% (2023 est.)"
+      },
+      "investment in inventories": {
+        "text": "0% (2023 est.)"
+      },
+      "exports of goods and services": {
+        "text": "30.6% (2023 est.)"
+      },
+      "imports of goods and services": {
+        "text": "-73.7% (2023 est.)"
+      },
+      "note": "<strong>note:</strong> figures may not total 100% due to rounding or gaps in data collection"
+    },
+    "Agricultural products": {
+      "text": "potatoes, milk, tomatoes, apples, oranges, olives, cucumbers/gherkins, chicken, lemons/limes, wheat (2023)",
+      "note": "<b>note:</b> top ten agricultural products based on tonnage"
+    },
+    "Industries": {
+      "text": "banking, tourism, real estate and construction, food processing, wine, jewelry, cement, textiles, mineral and chemical products, wood and furniture products, oil refining, metal fabricating"
+    },
+    "Industrial production growth rate": {
+      "text": "0.1% (2023 est.)",
+      "note": "<b>note:</b> annual % change in industrial value added based on constant local currency"
+    },
+    "Labor force": {
+      "text": "1.939 million (2023 est.)",
+      "note": "<b>note:</b> number of people ages 15 or older who are employed or seeking work"
+    },
+    "Unemployment rate": {
+      "Unemployment rate 2023": {
+        "text": "11.6% (2023 est.)"
+      },
+      "Unemployment rate 2022": {
+        "text": "11.6% (2022 est.)"
+      },
+      "Unemployment rate 2021": {
+        "text": "12.7% (2021 est.)"
+      },
+      "note": "<b>note:</b> % of labor force seeking employment"
+    },
+    "Youth unemployment rate (ages 15-24)": {
+      "total": {
+        "text": "23.6% (2023 est.)"
+      },
+      "male": {
+        "text": "24.4% (2023 est.)"
+      },
+      "female": {
+        "text": "21.9% (2023 est.)"
+      },
+      "note": "<b>note:</b> % of labor force ages 15-24 seeking employment"
+    },
+    "Average household expenditures": {
+      "on food": {
+        "text": "37.1% of household expenditures (2023 est.)"
+      },
+      "on alcohol and tobacco": {
+        "text": "0.7% of household expenditures (2023 est.)"
+      }
+    },
+    "Remittances": {
+      "Remittances 2023": {
+        "text": "33.3% of GDP (2023 est.)"
+      },
+      "Remittances 2022": {
+        "text": "30.7% of GDP (2022 est.)"
+      },
+      "Remittances 2021": {
+        "text": "27.5% of GDP (2021 est.)"
+      },
+      "note": "<b>note:</b> personal transfers and compensation between resident and non-resident individuals/households/entities"
+    },
+    "Budget": {
+      "revenues": {
+        "text": "$12.73 billion (2021 est.)"
+      },
+      "expenditures": {
+        "text": "$11.853 billion (2021 est.)"
+      },
+      "note": "<b>note:</b> central government revenues and expenses (excluding grants/extrabudgetary units/social security funds) converted to US dollars at average official exchange rate for year indicated"
+    },
+    "Public debt": {
+      "Public debt 2017": {
+        "text": "146.8% of GDP (2017 est.)"
+      },
+      "note": "<strong>note:</strong> data cover central government debt and exclude debt instruments issued (or owned) by government entities other than the treasury; the data include treasury debt held by foreign entities; the data include debt issued by subnational entities, as well as intragovernmental debt; intragovernmental debt consists of treasury borrowings from surpluses in the social funds, such as for retirement, medical care, and unemployment"
+    },
+    "Taxes and other revenues": {
+      "text": "5.7% (of GDP) (2021 est.)",
+      "note": "<b>note:</b> central government tax revenue as a % of GDP"
+    },
+    "Current account balance": {
+      "Current account balance 2023": {
+        "text": "-$5.643 billion (2023 est.)"
+      },
+      "Current account balance 2022": {
+        "text": "-$7.265 billion (2022 est.)"
+      },
+      "Current account balance 2021": {
+        "text": "-$4.556 billion (2021 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - net trade and primary/secondary income in current dollars"
+    },
+    "Exports": {
+      "Exports 2023": {
+        "text": "$11.77 billion (2023 est.)"
+      },
+      "Exports 2022": {
+        "text": "$12.445 billion (2022 est.)"
+      },
+      "Exports 2021": {
+        "text": "$9.684 billion (2021 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - exports of goods and services in current dollars"
+    },
+    "Exports - partners": {
+      "text": "UAE 26%, Egypt 7%, Turkey 5%, Iraq 5%, USA 4% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "jewelry, cars, diamonds, scrap iron, gold (2023)",
+      "note": "<b>note:</b> top five export commodities based on value in dollars"
+    },
+    "Imports": {
+      "Imports 2023": {
+        "text": "$23.313 billion (2023 est.)"
+      },
+      "Imports 2022": {
+        "text": "$24.536 billion (2022 est.)"
+      },
+      "Imports 2021": {
+        "text": "$17.667 billion (2021 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - imports of goods and services in current dollars"
+    },
+    "Imports - partners": {
+      "text": "Switzerland 12%, China 11%, Greece 9%, Turkey 8%, Italy 6% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "refined petroleum, gold, cars, packaged medicine, garments (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Reserves of foreign exchange and gold": {
+      "Reserves of foreign exchange and gold 2024": {
+        "text": "$33.301 billion (2024 est.)"
+      },
+      "Reserves of foreign exchange and gold 2023": {
+        "text": "$27.49 billion (2023 est.)"
+      },
+      "Reserves of foreign exchange and gold 2022": {
+        "text": "$32.513 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> holdings of gold (year-end prices)/foreign exchange/special drawing rights in current dollars"
+    },
+    "Debt - external": {
+      "Debt - external 2023": {
+        "text": "$41.936 billion (2023 est.)"
+      },
+      "note": "<b>note:</b> present value of external debt in current US dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "Lebanese pounds (LBP) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "89,500 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "13,875.625 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "1,507.5 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "1,507.5 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "1,507.5 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "100% (2022 est.)"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "5.161 million kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "4.077 billion kWh (2023 est.)"
+      },
+      "imports": {
+        "text": "797 million kWh (2021 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "436.839 million kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "52.6% of total installed capacity (2023 est.)"
+      },
+      "solar": {
+        "text": "31% of total installed capacity (2023 est.)"
+      },
+      "wind": {
+        "text": "0.1% of total installed capacity (2023 est.)"
+      },
+      "hydroelectricity": {
+        "text": "15.5% of total installed capacity (2023 est.)"
+      },
+      "biomass and waste": {
+        "text": "0.7% of total installed capacity (2023 est.)"
+      }
+    },
+    "Coal": {
+      "consumption": {
+        "text": "166,000 metric tons (2023 est.)"
+      },
+      "exports": {
+        "text": "47 metric tons (2022 est.)"
+      },
+      "imports": {
+        "text": "164,000 metric tons (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "refined petroleum consumption": {
+        "text": "115,000 bbl/day (2023 est.)"
+      }
+    },
+    "Energy consumption per capita": {
+      "Total energy consumption per capita 2023": {
+        "text": "43.105 million Btu/person (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "875,000 (2021 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "16 (2022 est.)"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "4.29 million (2021 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "77 (2021 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "7 TV stations, 1 of which is state-owned; more than 30 radio stations, 1 of which is state-owned; satellite and cable TV services available; transmissions of at least 2 international broadcasters are accessible through partner stations (2019)"
+    },
+    "Internet country code": {
+      "text": ".lb"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "84% (2023 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "419,000 (2022 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "7 (2022 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "OD"
+    },
+    "Airports": {
+      "text": "8 (2025)"
+    },
+    "Heliports": {
+      "text": "27 (2025)"
+    },
+    "Railways": {
+      "total": {
+        "text": "401 km (2017)"
+      },
+      "standard gauge": {
+        "text": "319 km (2017) 1.435-m gauge"
+      },
+      "narrow gauge": {
+        "text": "82 km (2017) 1.050-m gauge"
+      },
+      "note": "<strong>note:</strong> rail system is still unusable due to damage sustained from fighting in the 1980s and in 2006"
+    },
+    "Merchant marine": {
+      "total": {
+        "text": "51 (2023)"
+      },
+      "by type": {
+        "text": "bulk carrier 2, container ship 1, general cargo 30, oil tanker 1, other 17"
+      }
+    },
+    "Ports": {
+      "total ports": {
+        "text": "5 (2024)"
+      },
+      "large": {
+        "text": "1"
+      },
+      "medium": {
+        "text": "1"
+      },
+      "small": {
+        "text": "0"
+      },
+      "very small": {
+        "text": "3"
+      },
+      "ports with oil terminals": {
+        "text": "3"
+      },
+      "key ports": {
+        "text": "Bayrut, Sayda, Selaata, Sidon/zahrani Terminal, Tarabulus"
+      }
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "Lebanese Armed Forces (LAF): Army Command (includes Presidential Guard Brigade, Land Border Regiments), Naval Forces, Air Forces<br><br>Ministry of Interior: General Directorate of Internal Security Forces (law enforcement; includes Mobile Gendarmerie), General Directorate for Public Security (border control, some domestic security duties) (2025)",
+      "note": "<strong>note:</strong> the commander of the LAF is also the head of the Army; the LAF patrols external borders, while official border checkpoints are under the authority of Directorate for General Security"
+    },
+    "Military expenditures": {
+      "Military Expenditures 2022": {
+        "text": "2.9% of GDP (2022 est.)"
+      },
+      "Military Expenditures 2021": {
+        "text": "3.2% of GDP (2021 est.)"
+      },
+      "Military Expenditures 2020": {
+        "text": "3% of GDP (2020 est.)"
+      },
+      "Military Expenditures 2019": {
+        "text": "4.7% of GDP (2019 est.)"
+      },
+      "Military Expenditures 2018": {
+        "text": "5.1% of GDP (2018 est.)"
+      }
+    },
+    "Military and security service personnel strengths": {
+      "text": "approximately 70,000 active Lebanese Armed Forces (2025)"
+    },
+    "Military equipment inventories and acquisitions": {
+      "text": "the LAF's inventory is comprised of mostly older or secondhand equipment from an array of countries, such as France, Germany, Russia, and especially the US (2025)"
+    },
+    "Military service age and obligation": {
+      "text": "18-25 years of age for voluntary military service for men and women; no conscription (2026)"
+    },
+    "Military - note": {
+      "text": "the primary responsibilities of the Lebanese Armed Forces (LAF) are defense against external attack, border security, protecting the country’s territorial waters, and assisting with internal security and development projects<br><br>the LAF’s domestic security responsibilities include countering narcotics trafficking and smuggling, managing protests, conducting search and rescue, and intervening to prevent violence between rival political factions; in recent years, the military has faced a financial crisis as government debt and national economic difficulties have undercut its ability to train and fully pay and supply personnel; the UN, as well as individual countries such as France, Qatar, and the US have provided financial assistance <br><br>the UN Interim Force in Lebanon (UNIFIL) has operated in the southern part of the country since 1978; it has approximately 10,500 personnel assigned and includes a maritime task force; the terrorist group Hizballah maintains thousands of fighters and militia in Lebanon, primarily in the south (see Terrorist Organizations in References) (2025)"
+    }
+  },
+  "Terrorism": {
+    "Terrorist group(s)": {
+      "text": "Abdallah Azzam Brigades; al-Aqsa Martyrs Brigade; Asbat al-Ansar; HAMAS; Hizballah; Islamic Revolutionary Guard Corps (IRGC)/Qods Force; Islamic State of Iraq and ash-Sham (ISIS); Palestine Liberation Front (PLF); Popular Front for the Liberation of Palestine (PFLP); PFLP-General Command (PFLP-GC)",
+      "note": "<strong>note:</strong> details about the history, aims, leadership, organization, areas of operation, tactics, targets, weapons, size, and sources of support of the group(s) appear(s) in the Terrorism reference guide"
+    }
+  },
+  "Transnational Issues": {
+    "Refugees and internally displaced persons": {
+      "refugees": {
+        "text": "765,390 (2024 est.)"
+      },
+      "IDPs": {
+        "text": "984,514 (2024 est.)"
+      },
+      "stateless persons": {
+        "text": "40,000 (2024 est.)"
+      }
+    }
+  }
+}

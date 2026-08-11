@@ -1,0 +1,1202 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "<p>The first recorded kingdom (Choson) on the Korean Peninsula dates from approximately 2300 B.C. Over the subsequent centuries, three main kingdoms -- Kogoryo, Baekche, and Silla -- were established on the Peninsula. By the 5th century A.D., Kogoryo emerged as the most powerful, with control over much of the Peninsula and part of Manchuria (modern-day northeast China). However, Silla allied with the Chinese to create the first unified Korean state in 688. Following the collapse of Silla in the 9th century, Korea was unified under the Koryo (Goryeo; 918-1392) and the Chosen (Joseon; 1392-1910) dynasties.</p> <p>Korea became the object of intense imperialistic rivalry among the Chinese (its traditional benefactor), Japanese, and Russian empires in the latter half of the 19th and early 20th centuries. After the Sino-Japanese War (1894-95) and the Russo-Japanese War (1904-1905), Korea was occupied by Imperial Japan. In 1910, Japan formally annexed the entire Peninsula. Korea regained its independence after Japan's surrender to the US and its allies in 1945. A US-supported democratic government (Republic of Korea, ROK) was set up in the southern half of the Korean Peninsula, while a communist-style government backed by the Soviet Union was installed in the north (North Korea; aka Democratic People's Republic of Korea, DPRK). During the Korean War (1950-53), US troops and UN forces fought alongside ROK soldiers to defend South Korea from a North Korean invasion supported by communist China and the Soviet Union. After the 1953 armistice, the two Koreas were separated by a demilitarized zone.<br><br>Syngman RHEE led the country as its first president from 1948 to 1960. PARK Chung-hee took over leadership of the country in a 1961 coup. During his controversial rule (1961-79), South Korea achieved rapid economic growth, with per capita income rising to roughly 17 times the level of North Korea by 1979. PARK was assassinated in 1979, and subsequent years were marked by political turmoil and continued military rule as the country's pro-democracy movement grew. South Korea held its first free presidential election under a revised democratic constitution in 1987, with former South Korean Army general ROH Tae-woo winning a close race. In 1993, KIM Young-sam became the first civilian president of South Korea's new democratic era. President KIM Dae-jung (1998-2003) won the Nobel Peace Prize in 2000 for his contributions to South Korean democracy and his \"Sunshine Policy\" of engagement with North Korea. President PARK Geun-hye, daughter of former South Korean President PARK Chung-hee, took office in 2013 as South Korea's first female leader. In 2016, the National Assembly passed an impeachment motion against PARK over her alleged involvement in a corruption and influence-peddling scandal, triggering an early presidential election in 2017 won by MOON Jae-in. In 2022, longtime prosecutor and political newcomer YOON Suk Yeol won the presidency by the slimmest margin in South Korean history.</p> <p>Discord and tensions with North Korea, punctuated by North Korean military provocations, missile launches, and nuclear tests, have permeated inter-Korean relations for years. Relations remained strained, despite a period of respite in 2018-2019 ushered in by North Korea's participation in the 2018 Winter Olympic and Paralympic Games in South Korea and high-level diplomatic meetings, including historic US-North Korea summits. In 2024, Pyongyang announced it was ending all economic cooperation with South Korea, a move that followed earlier proclamations that it was scrapping a 2018 military pact to de-escalate tensions along their militarized border, abandoning the country’s decades-long pursuit of peaceful unification with South Korea, and designating the South as North Korea’s “principal enemy.”</p>"
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Eastern Asia, southern half of the Korean Peninsula bordering the Sea of Japan and the Yellow Sea"
+    },
+    "Geographic coordinates": {
+      "text": "37 00 N, 127 30 E"
+    },
+    "Map references": {
+      "text": "Asia"
+    },
+    "Area": {
+      "total ": {
+        "text": "99,720 sq km"
+      },
+      "land": {
+        "text": "96,920 sq km"
+      },
+      "water": {
+        "text": "2,800 sq km"
+      }
+    },
+    "Area - comparative": {
+      "text": "slightly smaller than Pennsylvania; slightly larger than Indiana"
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "237 km"
+      },
+      "border countries": {
+        "text": "North Korea 237 km"
+      }
+    },
+    "Coastline": {
+      "text": "2,413 km"
+    },
+    "Maritime claims": {
+      "territorial sea": {
+        "text": "12 nm; between 3 nm and 12 nm in the Korea Strait"
+      },
+      "contiguous zone": {
+        "text": "24 nm"
+      },
+      "exclusive economic zone": {
+        "text": "200 nm"
+      },
+      "continental shelf": {
+        "text": "not specified"
+      }
+    },
+    "Climate": {
+      "text": "temperate, with rainfall heavier in summer than winter; cold winters"
+    },
+    "Terrain": {
+      "text": "mostly hills and mountains; wide coastal plains in west and south"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Halla-san 1,950 m"
+      },
+      "lowest point": {
+        "text": "Sea of Japan 0 m"
+      },
+      "mean elevation": {
+        "text": "282 m"
+      }
+    },
+    "Natural resources": {
+      "text": "coal, tungsten, graphite, molybdenum, lead, hydropower potential"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "16.1% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 14.9% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 2.1% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 0.6% (2023 est.)"
+      },
+      "forest": {
+        "text": "64.4% (2023 est.)"
+      },
+      "other": {
+        "text": "19.5% (2023 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "7,780 sq km (2012)"
+    },
+    "Population distribution": {
+      "text": "the population is primarily concentrated in the lowland areas, where density is high; Gyeonggi Province in the northwest, which surrounds the capital of Seoul and contains the port of Incheon, is the most densely populated province; Gangwon in the northeast is the least populated"
+    },
+    "Natural hazards": {
+      "text": "occasional typhoons bring high winds and floods; low-level seismic activity common in southwest <br><br><strong>volcanism:</strong> Halla (1,950 m) is considered historically active; it has not erupted in many centuries"
+    },
+    "Geography - note": {
+      "text": "strategic location on Korea Strait; about 3,000 mostly small and uninhabited islands lie off the western and southern coasts"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "51,486,343 (2025 est.)"
+      },
+      "male": {
+        "text": "25,636,127"
+      },
+      "female": {
+        "text": "25,850,216"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Korean(s)"
+      },
+      "adjective": {
+        "text": "Korean"
+      }
+    },
+    "Ethnic groups": {
+      "text": "Korean"
+    },
+    "Languages": {
+      "Languages": {
+        "text": "Korean, English&nbsp;"
+      },
+      "major-language sample(s)": {
+        "text": "<br>월드 팩트북, 필수적인 기본 정보 제공처 (Korean)<br><br>The World Factbook, the indispensable source for basic information."
+      }
+    },
+    "Religions": {
+      "text": "Protestant 17%, Buddhist 16%, Catholic 6%, none 60% (2021 est.)",
+      "note": "<strong>note:</strong> many people also carry on at least some Confucian traditions and practices"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "11.3% (male 3,024,508/female 2,873,523)"
+      },
+      "15-64 years": {
+        "text": "69.4% (male 18,653,915/female 17,465,817)"
+      },
+      "65 years and over": {
+        "text": "19.3% (2024 est.) (male 4,440,688/female 5,623,348)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "44.9 (2025 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "14.7 (2025 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "30.2 (2025 est.)"
+      },
+      "potential support ratio": {
+        "text": "3.3 (2025 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "47 years (2025 est.)"
+      },
+      "male": {
+        "text": "44 years"
+      },
+      "female": {
+        "text": "47.3 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "-0.09% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "4.29 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "6.94 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "1.76 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Population distribution": {
+      "text": "the population is primarily concentrated in the lowland areas, where density is high; Gyeonggi Province in the northwest, which surrounds the capital of Seoul and contains the port of Incheon, is the most densely populated province; Gangwon in the northeast is the least populated"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "81.5% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.31% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "9.988 million SEOUL (capital), 3.472 million Busan, 2.849 million Incheon, 2.181 million Daegu (Taegu), 1.577 million Daejon (Taejon), 1.529 million Gwangju (Kwangju) (2023)"
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.05 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1.05 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "1.07 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "0.79 male(s)/female"
+      },
+      "total population": {
+        "text": "1.01 male(s)/female (2024 est.)"
+      }
+    },
+    "Mother's mean age at first birth": {
+      "text": "32.2 years (2019 est.)"
+    },
+    "Maternal mortality ratio": {
+      "text": "4 deaths/100,000 live births (2023 est.)"
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "2.2 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "3 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "2.6 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "83.4 years (2024 est.)"
+      },
+      "male": {
+        "text": "80.3 years"
+      },
+      "female": {
+        "text": "86.6 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "0.68 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "0.33 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: total": {
+        "text": "total: 100% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0% of population (2022 est.)"
+      }
+    },
+    "Health expenditure": {
+      "Health expenditure (as % of GDP)": {
+        "text": "9.7% of GDP (2022)"
+      },
+      "Health expenditure (as % of national budget)": {
+        "text": "14.1% of national budget (2022 est.)"
+      }
+    },
+    "Physician density": {
+      "text": "2.61 physicians/1,000 population (2022)"
+    },
+    "Hospital bed density": {
+      "text": "12.8 beds/1,000 population (2021 est.)"
+    },
+    "Sanitation facility access": {
+      "improved: total": {
+        "text": "total: 99.8% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0.2% of population (2022 est.)"
+      }
+    },
+    "Obesity - adult prevalence rate": {
+      "text": "4.7% (2016)"
+    },
+    "Alcohol consumption per capita": {
+      "total": {
+        "text": "7.74 liters of pure alcohol (2019 est.)"
+      },
+      "beer": {
+        "text": "1.72 liters of pure alcohol (2019 est.)"
+      },
+      "wine": {
+        "text": "0.15 liters of pure alcohol (2019 est.)"
+      },
+      "spirits": {
+        "text": "0.22 liters of pure alcohol (2019 est.)"
+      },
+      "other alcohols": {
+        "text": "5.66 liters of pure alcohol (2019 est.)"
+      }
+    },
+    "Tobacco use": {
+      "total": {
+        "text": "17.4% (2025 est.)"
+      },
+      "male": {
+        "text": "29.7% (2025 est.)"
+      },
+      "female": {
+        "text": "5.2% (2025 est.)"
+      }
+    },
+    "Children under the age of 5 years underweight": {
+      "text": "0.4% (2020 est.)"
+    },
+    "Education expenditure": {
+      "text": "5.8% of GDP (2022 est.)"
+    },
+    "Literacy": {
+      "total population": {
+        "text": "NA"
+      },
+      "male": {
+        "text": "NA"
+      },
+      "female": {
+        "text": "NA"
+      }
+    },
+    "School life expectancy (primary to tertiary education)": {
+      "total": {
+        "text": "17 years (2022 est.)"
+      },
+      "male": {
+        "text": "17 years (2022 est.)"
+      },
+      "female": {
+        "text": "16 years (2022 est.)"
+      }
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "air pollution in large cities; acid rain; water pollution from sewage and industrial effluents; drift-net fishing; solid waste disposal; transboundary air pollution from China"
+    },
+    "International environmental agreements": {
+      "party to": {
+        "text": "Antarctic-Environmental Protection, Antarctic-Marine Living Resources, Antarctic Treaty, Biodiversity, Climate Change, Climate Change-Kyoto Protocol, Climate Change-Paris Agreement, Comprehensive Nuclear Test Ban, Desertification, Endangered Species, Environmental Modification, Hazardous Wastes, Law of the Sea, Marine Dumping-London Convention, Marine Dumping-London Protocol, Nuclear Test Ban, Ozone Layer Protection, Ship Pollution, Tropical Timber 2006, Wetlands, Whaling"
+      },
+      "signed, but not ratified": {
+        "text": "none of the selected agreements"
+      }
+    },
+    "Climate": {
+      "text": "temperate, with rainfall heavier in summer than winter; cold winters"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "16.1% (2023 est.)"
+      },
+      "agricultural land: arable land": {
+        "text": "arable land: 14.9% (2023 est.)"
+      },
+      "agricultural land: permanent crops": {
+        "text": "permanent crops: 2.1% (2023 est.)"
+      },
+      "agricultural land: permanent pasture": {
+        "text": "permanent pasture: 0.6% (2023 est.)"
+      },
+      "forest": {
+        "text": "64.4% (2023 est.)"
+      },
+      "other": {
+        "text": "19.5% (2023 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "81.5% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.31% annual rate of change (2020-25 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "644.231 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from coal and metallurgical coke": {
+        "text": "275.411 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "248.599 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from consumed natural gas": {
+        "text": "120.222 million metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Particulate matter emissions": {
+      "text": "25 micrograms per cubic meter (2019 est.)"
+    },
+    "Methane emissions": {
+      "energy": {
+        "text": "145.7 kt (2022-2024 est.)"
+      },
+      "agriculture": {
+        "text": "500 kt (2019-2021 est.)"
+      },
+      "waste": {
+        "text": "478.6 kt (2019-2021 est.)"
+      },
+      "other": {
+        "text": "27 kt (2019-2021 est.)"
+      }
+    },
+    "Waste and recycling": {
+      "municipal solid waste generated annually": {
+        "text": "20.453 million tons (2024 est.)"
+      },
+      "percent of municipal solid waste recycled": {
+        "text": "67.1% (2022 est.)"
+      }
+    },
+    "Total water withdrawal": {
+      "municipal": {
+        "text": "6.672 billion cubic meters (2022 est.)"
+      },
+      "industrial": {
+        "text": "4.45 billion cubic meters (2022 est.)"
+      },
+      "agricultural": {
+        "text": "15.96 billion cubic meters (2022 est.)"
+      }
+    },
+    "Total renewable water resources": {
+      "text": "69.7 billion cubic meters (2022 est.)"
+    },
+    "Geoparks": {
+      "total global geoparks and regional networks": {
+        "text": "7 (2025)"
+      },
+      "global geoparks and regional networks": {
+        "text": "Cheongsong; Danyang; Gyeongbuk Donghaean; Hantangang; Jeju Island; Jeonbuk West Coast; Mudeungsan (2025)"
+      }
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "Republic of Korea"
+      },
+      "conventional short form": {
+        "text": "South Korea"
+      },
+      "local long form": {
+        "text": "Taehan-min'guk"
+      },
+      "local short form": {
+        "text": "Han'guk"
+      },
+      "abbreviation": {
+        "text": "ROK"
+      },
+      "etymology": {
+        "text": "derived from the Chinese name for Goryeo, which was the Korean dynasty that united the peninsula in the 10th century A.D.; the South Korean name \"Han'guk\" derives from the long form, \"Taehan-min'guk,\" which is itself a derivation from \"Daehan-je'guk,\" which means \"the Great Han Empire\""
+      }
+    },
+    "Government type": {
+      "text": "presidential republic"
+    },
+    "Capital": {
+      "name": {
+        "text": "Seoul"
+      },
+      "geographic coordinates": {
+        "text": "37 33 N, 126 59 E"
+      },
+      "time difference": {
+        "text": "UTC+9 (14 hours ahead of Washington, DC, during Standard Time)"
+      },
+      "etymology": {
+        "text": "the name originates from the Korean word meaning \"capital city;\" it was the capital of the unified Korea from 1392 to 1910"
+      },
+      "note": "<strong>note:</strong> Sejong, located some 120 km (75 mi) south of Seoul, serves as an administrative capital for segments of the South Korean government"
+    },
+    "Administrative divisions": {
+      "text": "9 provinces (<em>do</em>, singular and plural), 6 metropolitan cities (<em>gwangyeoksi</em>, singular and plural), 1 special city (<em>teugbyeolsi</em>), and 1 special self-governing city (<em>teukbyeoljachisi</em>) <br><br><strong>provinces:</strong> Chungcheongbuk-do (North Chungcheong), Chungcheongnam-do (South Chungcheong), Gangwon-do, Gyeongsangbuk-do (North Gyeongsang), Gyeonggi-do, Gyeongsangnam-do (South Gyeongsang), Jeju-do (Jeju), Jeollabuk-do (North Jeolla), Jeollanam-do (South Jeolla) <br><br><strong>metropolitan cities:</strong> Busan (Pusan), Daegu (Taegu), Daejeon (Taejon), Gwangju (Kwangju), Incheon (Inch'on), Ulsan <br><br><strong>special city:</strong> Seoul <br><br><strong>special self-governing city:</strong> Sejong"
+    },
+    "Legal system": {
+      "text": "mixed system combining European civil law, Anglo-American law, and Chinese classical thought"
+    },
+    "Constitution": {
+      "history": {
+        "text": "several previous; latest passed by National Assembly 12 October 1987, approved in referendum 28 October 1987, effective 25 February 1988"
+      },
+      "amendment process": {
+        "text": "proposed by the president or by majority support of the National Assembly membership; passage requires at least two-thirds majority vote by the Assembly membership, approval in a referendum by more than one half of the votes by more than one half of eligible voters, and promulgation by the president"
+      }
+    },
+    "International law organization participation": {
+      "text": "has not submitted an ICJ jurisdiction declaration; accepts ICCt jurisdiction"
+    },
+    "Citizenship": {
+      "citizenship by birth": {
+        "text": "no"
+      },
+      "citizenship by descent only": {
+        "text": "at least one parent must be a citizen of South Korea"
+      },
+      "dual citizenship recognized": {
+        "text": "no"
+      },
+      "residency requirement for naturalization": {
+        "text": "5 years"
+      }
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "President LEE Jae-myung (since 4 June 2025)"
+      },
+      "head of government": {
+        "text": "Prime Minister KIM Min-seok (since 3 July 2025)"
+      },
+      "cabinet": {
+        "text": "State Council appointed by the president on the prime minister's recommendation"
+      },
+      "election/appointment process": {
+        "text": "president directly elected by simple-majority popular vote for a single 5-year term; prime minister appointed by president with consent of the National Assembly"
+      },
+      "most recent election date": {
+        "text": "3 June 2025 (special snap election in the wake of the impeachment of former President YOON Suk-yeol)"
+      },
+      "election results": {
+        "text": "<em>2025: </em>LEE Jae-myung elected president; LEE Jae-myung (DPK) 49.4%, KIM Moon-soo (PPP) 41.2%, LEE Jun-seok (New Reform Party) 8.3%<br><em><br>2022</em>: YOON Suk-yeol elected president; YOON Suk-yeol (PPP) 48.6%, LEE Jae-myung (DPK) 47.8%; other 3.6%"
+      },
+      "expected date of next election": {
+        "text": "2030"
+      },
+      "note": "<strong>note: </strong>the president is both chief of state and head of government; the prime minister serves as the principal executive assistant to the president, similar to the role of a vice president"
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "National Assembly (Kuk Hoe)"
+      },
+      "legislative structure": {
+        "text": "unicameral"
+      },
+      "number of seats": {
+        "text": "300 (all directly elected)"
+      },
+      "electoral system": {
+        "text": "mixed system"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "4 years"
+      },
+      "most recent election date": {
+        "text": "4/10/2024"
+      },
+      "parties elected and seats per party": {
+        "text": "Democratic Party of Korea (161); People Power Party (90); People Future Party (18); Other (31)"
+      },
+      "percentage of women in chamber": {
+        "text": "20.3%"
+      },
+      "expected date of next election": {
+        "text": "April 2028"
+      }
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "Supreme Court (consists of a chief justice and 13 justices); Constitutional Court (consists of a court head and 8 justices)"
+      },
+      "judge selection and term of office": {
+        "text": "Supreme Court chief justice appointed by the president with the consent of the National Assembly; other justices appointed by the president on the recommendation of the chief justice and consent of the National Assembly; position of the chief justice is a 6-year nonrenewable term; other justices serve 6-year renewable terms; Constitutional Court justices appointed - 3 by the president, 3 by the National Assembly, and 3 by the Supreme Court chief justice; court head serves until retirement at age 70, while other justices serve 6-year renewable terms with mandatory retirement at age 65"
+      },
+      "subordinate courts": {
+        "text": "High Courts; District Courts; Branch Courts (organized under the District Courts); specialized courts for family and administrative issues"
+      }
+    },
+    "Political parties": {
+      "text": "Basic Income Party <br>Democratic Party of Korea or DPK <br>New Future Party<br>New Reform Party <br>Open Democratic Party or ODP <br>People Power Party or PPP <br>Progressive Party or Jinbo Party <br>Rebuilding Korea Party <br>Social Democratic Party <br><br><strong>note:</strong>  the Democratic Alliance coalition consists of the DPK and the smaller Basic Income, Jinbo, Open Democratic, and Social Democratic parties, as well as two independents; for the 2024 election, the Basic Income Party, the ODP, and the Social Democratic Party formed the New Progressive Alliance"
+    },
+    "Diplomatic representation in the US": {
+      "chief of mission": {
+        "text": "Ambassador KANG Kyung-wha (since 16 December 2025)"
+      },
+      "chancery": {
+        "text": "2450 Massachusetts Avenue NW, Washington, DC 20008"
+      },
+      "telephone": {
+        "text": "[1] (202) 939-5600"
+      },
+      "FAX": {
+        "text": "[1] (202) 797-0595"
+      },
+      "email address and website": {
+        "text": "<br>generalusa@mofa.go.kr<br><br>https://overseas.mofa.go.kr/us-en/index.do"
+      },
+      "consulate(s) general": {
+        "text": "Anchorage (AK), Atlanta, Boston, Chicago, Dallas, Hagatna (Guam), Honolulu, Houston, Los Angeles, New York, San Francisco, Seattle, Philadelphia"
+      }
+    },
+    "Diplomatic representation from the US": {
+      "chief of mission": {
+        "text": "Ambassador (vacant); Charg&eacute; d'Affaires James &ldquo;Jim&rdquo; HELLER (since 7 January 2026)"
+      },
+      "embassy": {
+        "text": "188 Sejong-daero, Jongno-gu, Seoul"
+      },
+      "mailing address": {
+        "text": "9600 Seoul Place, Washington, DC&nbsp; 20521-9600"
+      },
+      "telephone": {
+        "text": "[82] (2) 397-4114"
+      },
+      "FAX": {
+        "text": "[82] (2) 397-4101"
+      },
+      "email address and website": {
+        "text": "<br>seoulinfoACS@state.gov<br><br>https://kr.usembassy.gov/"
+      },
+      "consulate(s)": {
+        "text": "Busan"
+      }
+    },
+    "International organization participation": {
+      "text": "ADB, AfDB (nonregional member), APEC, Arctic Council (observer), ARF, ASEAN (dialogue partner), Australia Group, BIS, CABEI, CD, CICA, CP, EAS, EBRD, FAO, FATF, G-20, IADB, IAEA, IBRD, ICAO, ICC (national committees), ICCt, ICRM, IDA, IEA, IFAD, IFC, IFRCS, IHO, ILO, IMF, IMO, IMSO, Interpol, IOC, IOM, IPU, ISO, ITSO, ITU, ITUC (NGOs), LAIA (observer), MIGA, MINURSO, MINUSTAH, NEA, NSG, OAS (observer), OECD, OPCW, OSCE (partner), Pacific Alliance (observer), Paris Club (associate), PCA, PIF (partner), SAARC (observer), SICA (observer), UN, UNAMID, UNCTAD, UNESCO, UNHCR, UNHRC, UNIDO, UNIFIL, UNISFA, UNMIL, UNMISS, UNMOGIP, UNOCI, UNOOSA, UNWTO, UPU, Wassenaar Arrangement, WCO, WHO, WIPO, WMO, WTO, ZC"
+    },
+    "Independence": {
+      "text": "15 August 1945 (from Japan)"
+    },
+    "National holiday": {
+      "text": "Liberation Day, 15 August (1945)"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> white with a red-and-blue yin-yang symbol in the center; a black trigram (<em>kwae</em>) from the ancient I Ching (Book of Changes) is in each corner of the white field<br><br><strong>meaning:</strong> the flag is called Taegukki; white is a traditional Korean color and represents peace and purity; blue stands for the negative cosmic forces of the yin, and red for the opposite positive forces of the yang; each trigram represents one of the universal elements, which together express the principle of movement and harmony"
+    },
+    "National symbol(s)": {
+      "text": "taegeuk (yin-yang symbol), Rose of Sharon (<em>Hibiscus syriacus</em>), Siberian tiger"
+    },
+    "National color(s)": {
+      "text": "red, white, blue, black"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"Aegukga\" (Patriotic Song)"
+      },
+      "lyrics/music": {
+        "text": "YUN Ch'i-Ho or AN Ch'ang-Ho/AHN Eaktay"
+      },
+      "history": {
+        "text": "adopted 1948, well-known by 1910; North Korea's and South Korea's anthems have the same name and a similar melody, but different lyrics"
+      }
+    },
+    "National heritage": {
+      "total World Heritage Sites": {
+        "text": "17 (15 cultural, 2 natural)"
+      },
+      "selected World Heritage Site locales": {
+        "text": "Jeju Volcanic Island and Lava Tubes (n); Changdeokgung Palace Complex (c); Jongmyo Shrine (c); Seokguram Grotto and Bulguksa Temple (c); Hwaseong Fortress (c); Gochang, Hwasun, and Ganghwa Dolmen Sites (c); Gyeongju Historic Areas (c); Namhansanseong (c); Baekje Historic Areas (c); Sansa, Buddhist Mountain Monasteries in Korea (c); Royal Tombs of the Joseon Dynasty (c); Petroglyphs along the Bangucheon Stream (c)"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "<p>high-income, export- and technology-oriented East Asian economy; manufacturing led by semiconductor and automotive industries; slow growth amid declining construction investment, export risks, and recent political instability; aging workforce; increased restraint in fiscal policy while maintaining industry support initiatives</p>"
+    },
+    "Real GDP (purchasing power parity)": {
+      "Real GDP (purchasing power parity) 2023": {
+        "text": "$2.607 trillion (2023 est.)"
+      },
+      "Real GDP (purchasing power parity) 2022": {
+        "text": "$2.572 trillion (2022 est.)"
+      },
+      "Real GDP (purchasing power parity) 2021": {
+        "text": "$2.507 trillion (2021 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "Real GDP growth rate": {
+      "Real GDP growth rate 2023": {
+        "text": "1.4% (2023 est.)"
+      },
+      "Real GDP growth rate 2022": {
+        "text": "2.6% (2022 est.)"
+      },
+      "Real GDP growth rate 2021": {
+        "text": "4.3% (2021 est.)"
+      },
+      "note": "<b>note:</b> annual GDP % growth based on constant local currency"
+    },
+    "Real GDP per capita": {
+      "Real GDP per capita 2023": {
+        "text": "$50,400 (2023 est.)"
+      },
+      "Real GDP per capita 2022": {
+        "text": "$49,800 (2022 est.)"
+      },
+      "Real GDP per capita 2021": {
+        "text": "$48,400 (2021 est.)"
+      },
+      "note": "<b>note:</b> data in 2021 dollars"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$1.713 trillion (2023 est.)",
+      "note": "<b>note:</b> data in current dollars at official exchange rate"
+    },
+    "Inflation rate (consumer prices)": {
+      "Inflation rate (consumer prices) 2024": {
+        "text": "2.3% (2024 est.)"
+      },
+      "Inflation rate (consumer prices) 2023": {
+        "text": "3.6% (2023 est.)"
+      },
+      "Inflation rate (consumer prices) 2022": {
+        "text": "5.1% (2022 est.)"
+      },
+      "note": "<b>note:</b> annual % change based on consumer prices"
+    },
+    "GDP - composition, by sector of origin": {
+      "agriculture": {
+        "text": "1.6% (2023 est.)"
+      },
+      "industry": {
+        "text": "31.6% (2023 est.)"
+      },
+      "services": {
+        "text": "58.4% (2023 est.)"
+      },
+      "note": "<b>note:</b> figures may not total 100% due to non-allocated consumption not captured in sector-reported data"
+    },
+    "GDP - composition, by end use": {
+      "household consumption": {
+        "text": "48.9% (2023 est.)"
+      },
+      "government consumption": {
+        "text": "18.9% (2023 est.)"
+      },
+      "investment in fixed capital": {
+        "text": "32.2% (2023 est.)"
+      },
+      "investment in inventories": {
+        "text": "-0.1% (2023 est.)"
+      },
+      "exports of goods and services": {
+        "text": "44% (2023 est.)"
+      },
+      "imports of goods and services": {
+        "text": "-43.9% (2023 est.)"
+      },
+      "note": "<strong>note:</strong> figures may not total 100% due to rounding or gaps in data collection"
+    },
+    "Agricultural products": {
+      "text": "rice, vegetables, cabbages, milk, onions, pork, chicken, eggs, tangerines/mandarins, potatoes (2023)",
+      "note": "<b>note:</b> top ten agricultural products based on tonnage"
+    },
+    "Industries": {
+      "text": "electronics, telecommunications, automobile production, chemicals, shipbuilding, steel"
+    },
+    "Industrial production growth rate": {
+      "text": "1.1% (2023 est.)",
+      "note": "<b>note:</b> annual % change in industrial value added based on constant local currency"
+    },
+    "Labor force": {
+      "text": "29.713 million (2024 est.)",
+      "note": "<b>note:</b> number of people ages 15 or older who are employed or seeking work"
+    },
+    "Unemployment rate": {
+      "Unemployment rate 2024": {
+        "text": "2.7% (2024 est.)"
+      },
+      "Unemployment rate 2023": {
+        "text": "2.7% (2023 est.)"
+      },
+      "Unemployment rate 2022": {
+        "text": "2.9% (2022 est.)"
+      },
+      "note": "<b>note:</b> % of labor force seeking employment"
+    },
+    "Youth unemployment rate (ages 15-24)": {
+      "total": {
+        "text": "5.9% (2024 est.)"
+      },
+      "male": {
+        "text": "6% (2024 est.)"
+      },
+      "female": {
+        "text": "5.8% (2024 est.)"
+      },
+      "note": "<b>note:</b> % of labor force ages 15-24 seeking employment"
+    },
+    "Gini Index coefficient - distribution of family income": {
+      "Gini Index coefficient - distribution of family income 2021": {
+        "text": "32.9 (2021 est.)"
+      },
+      "note": "<b>note:</b> index (0-100) of income distribution; higher values represent greater inequality"
+    },
+    "Average household expenditures": {
+      "on food": {
+        "text": "12.3% of household expenditures (2023 est.)"
+      },
+      "on alcohol and tobacco": {
+        "text": "1.5% of household expenditures (2023 est.)"
+      }
+    },
+    "Household income or consumption by percentage share": {
+      "lowest 10%": {
+        "text": "2.9% (2021 est.)"
+      },
+      "highest 10%": {
+        "text": "24.6% (2021 est.)"
+      },
+      "note": "<b>note:</b> % share of income accruing to lowest and highest 10% of population"
+    },
+    "Remittances": {
+      "Remittances 2023": {
+        "text": "0.4% of GDP (2023 est.)"
+      },
+      "Remittances 2022": {
+        "text": "0.5% of GDP (2022 est.)"
+      },
+      "Remittances 2021": {
+        "text": "0.4% of GDP (2021 est.)"
+      },
+      "note": "<b>note:</b> personal transfers and compensation between resident and non-resident individuals/households/entities"
+    },
+    "Budget": {
+      "revenues": {
+        "text": "$513.21 billion (2023 est.)"
+      },
+      "expenditures": {
+        "text": "$532.023 billion (2023 est.)"
+      },
+      "note": "<b>note:</b> central government revenues (excluding grants) and expenditures converted to US dollars at average official exchange rate for year indicated"
+    },
+    "Public debt": {
+      "Public debt 2023": {
+        "text": "52.3% of GDP (2023 est.)"
+      },
+      "note": "<b>note:</b> central government debt as a % of GDP"
+    },
+    "Taxes and other revenues": {
+      "text": "15.7% (of GDP) (2023 est.)",
+      "note": "<b>note:</b> central government tax revenue as a % of GDP"
+    },
+    "Current account balance": {
+      "Current account balance 2024": {
+        "text": "$99.043 billion (2024 est.)"
+      },
+      "Current account balance 2023": {
+        "text": "$32.822 billion (2023 est.)"
+      },
+      "Current account balance 2022": {
+        "text": "$25.829 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - net trade and primary/secondary income in current dollars"
+    },
+    "Exports": {
+      "Exports 2024": {
+        "text": "$835.149 billion (2024 est.)"
+      },
+      "Exports 2023": {
+        "text": "$769.243 billion (2023 est.)"
+      },
+      "Exports 2022": {
+        "text": "$825.961 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - exports of goods and services in current dollars"
+    },
+    "Exports - partners": {
+      "text": "China 25%, USA 18%, Hong Kong 4%, Japan 4%, Taiwan 4% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "integrated circuits, cars, refined petroleum, plastics, machine parts (2023)",
+      "note": "<b>note:</b> top five export commodities based on value in dollars"
+    },
+    "Imports": {
+      "Imports 2024": {
+        "text": "$758.724 billion (2024 est.)"
+      },
+      "Imports 2023": {
+        "text": "$758.41 billion (2023 est.)"
+      },
+      "Imports 2022": {
+        "text": "$817.594 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> balance of payments - imports of goods and services in current dollars"
+    },
+    "Imports - partners": {
+      "text": "China 31%, USA 13%, Japan 9%, Germany 5%, Australia 4% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "integrated circuits, natural gas, crude petroleum, machinery, cars (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Reserves of foreign exchange and gold": {
+      "Reserves of foreign exchange and gold 2024": {
+        "text": "$418.219 billion (2024 est.)"
+      },
+      "Reserves of foreign exchange and gold 2023": {
+        "text": "$420.93 billion (2023 est.)"
+      },
+      "Reserves of foreign exchange and gold 2022": {
+        "text": "$423.366 billion (2022 est.)"
+      },
+      "note": "<b>note:</b> holdings of gold (year-end prices)/foreign exchange/special drawing rights in current dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "South Korean won (KRW) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "1,363.375 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "1,305.662 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "1,291.447 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "1,143.952 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "1,180.266 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "100% (2022 est.)"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "151.139 million kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "575.359 billion kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "19.688 billion kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "61.5% of total installed capacity (2023 est.)"
+      },
+      "nuclear": {
+        "text": "30.3% of total installed capacity (2023 est.)"
+      },
+      "solar": {
+        "text": "5.3% of total installed capacity (2023 est.)"
+      },
+      "wind": {
+        "text": "0.6% of total installed capacity (2023 est.)"
+      },
+      "hydroelectricity": {
+        "text": "0.4% of total installed capacity (2023 est.)"
+      },
+      "tide and wave": {
+        "text": "0.1% of total installed capacity (2023 est.)"
+      },
+      "biomass and waste": {
+        "text": "1.8% of total installed capacity (2023 est.)"
+      }
+    },
+    "Nuclear energy": {
+      "Number of operational nuclear reactors": {
+        "text": "26 (2025)"
+      },
+      "Number of nuclear reactors under construction": {
+        "text": "2 (2025)"
+      },
+      "Net capacity of operational nuclear reactors": {
+        "text": "25.57GW (2025 est.)"
+      },
+      "Percent of total electricity production": {
+        "text": "30.7% (2023 est.)"
+      },
+      "Number of nuclear reactors permanently shut down": {
+        "text": "2 (2025)"
+      }
+    },
+    "Coal": {
+      "production": {
+        "text": "16.081 million metric tons (2023 est.)"
+      },
+      "consumption": {
+        "text": "136.817 million metric tons (2023 est.)"
+      },
+      "exports": {
+        "text": "500 metric tons (2023 est.)"
+      },
+      "imports": {
+        "text": "122.845 million metric tons (2023 est.)"
+      },
+      "proven reserves": {
+        "text": "326 million metric tons (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "total petroleum production": {
+        "text": "38,000 bbl/day (2023 est.)"
+      },
+      "refined petroleum consumption": {
+        "text": "2.542 million bbl/day (2024 est.)"
+      }
+    },
+    "Natural gas": {
+      "production": {
+        "text": "55.127 million cubic meters (2021 est.)"
+      },
+      "consumption": {
+        "text": "57.314 billion cubic meters (2023 est.)"
+      },
+      "exports": {
+        "text": "93.639 million cubic meters (2022 est.)"
+      },
+      "imports": {
+        "text": "60.025 billion cubic meters (2023 est.)"
+      },
+      "proven reserves": {
+        "text": "7.079 billion cubic meters (2021 est.)"
+      }
+    },
+    "Energy consumption per capita": {
+      "Total energy consumption per capita 2023": {
+        "text": "234.668 million Btu/person (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "22.155 million (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "43 (2023 est.)"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "89.2 million (2024 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "173 (2024 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "multiple national TV networks, with 2 of the 3 largest networks publicly operated; the largest privately owned network, Seoul Broadcasting Service (SBS), has ties with other commercial TV networks; cable and satellite TV subscription services available; publicly operated radio broadcast networks and many privately owned radio broadcasting networks, each with multiple affiliates, and independent local stations"
+    },
+    "Internet country code": {
+      "text": ".kr"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "97% (2023 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "24.1 million (2023 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "47 (2023 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "HL"
+    },
+    "Airports": {
+      "text": "92 (2025)"
+    },
+    "Heliports": {
+      "text": "1,280 (2025)"
+    },
+    "Railways": {
+      "total": {
+        "text": "3,979 km (2016)"
+      },
+      "standard gauge": {
+        "text": "3,979 km (2016) 1.435-m gauge (2,727 km electrified)"
+      }
+    },
+    "Merchant marine": {
+      "total": {
+        "text": "2,149 (2023)"
+      },
+      "by type": {
+        "text": "bulk carrier 93, container ship 115, general cargo 362, oil tanker 219, other 1,360"
+      }
+    },
+    "Ports": {
+      "total ports": {
+        "text": "15 (2024)"
+      },
+      "large": {
+        "text": "2"
+      },
+      "medium": {
+        "text": "5"
+      },
+      "small": {
+        "text": "4"
+      },
+      "very small": {
+        "text": "4"
+      },
+      "ports with oil terminals": {
+        "text": "10"
+      },
+      "key ports": {
+        "text": "Busan, Gwangyang Hang, Inchon, Masan, Mokpo, Pyeongtaek Hang, Ulsan"
+      }
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "Armed Forces of the Republic of Korea: Republic of Korea Army (ROKA), Republic of Korea Navy (ROKN, includes Marine Corps, ROKMC), Republic of Korea Air Force (ROKAF)<br><br>Ministry of Maritime Affairs and Fisheries: Korea Coast Guard; Ministry of Interior and Safety: Korean National Police Agency (2025)"
+    },
+    "Military expenditures": {
+      "Military Expenditures 2025": {
+        "text": "2.3% of GDP (2025 est.)"
+      },
+      "Military Expenditures 2024": {
+        "text": "2.4% of GDP (2024 est.)"
+      },
+      "Military Expenditures 2023": {
+        "text": "2.4% of GDP (2023 est.)"
+      },
+      "Military Expenditures 2022": {
+        "text": "2.4% of GDP (2022 est.)"
+      },
+      "Military Expenditures 2021": {
+        "text": "2.4% of GDP (2021 est.)"
+      }
+    },
+    "Military and security service personnel strengths": {
+      "text": "approximately 500,000 active Armed Forces (365,000 Army; 70,000 Navy, including about 30,000 Marines; 65,000 Air Force) (2025)"
+    },
+    "Military equipment inventories and acquisitions": {
+      "text": "the South Korean military is equipped with a mix of mostly modern domestically produced and imported weapons systems; the US is the leading provider of foreign arms; South Korea's defense industry produces a range of military hardware for both domestic use and export, including aircraft, armored fighting vehicles, artillery, missiles, and naval vessels; it also jointly produces equipment with other countries (2025)"
+    },
+    "Military service age and obligation": {
+      "text": "18-29 years of age for voluntary military service for men and women; mandatory military service for all eligible men 18-35 years of age (typically served from 20-28 years of age); compulsory service obligation is 18-21 months based on the branch of service and up to 36 months for alternative service (2025)",
+      "note": "<strong>note:</strong> women, in service since 1950, are able to serve in all branches and as of 2024 more than 15,000 served in the armed forces"
+    },
+    "Military deployments": {
+      "text": "250 Lebanon (UNIFIL); 275 South Sudan (UNMISS); approximately 150 United Arab Emirates (2025)"
+    },
+    "Military - note": {
+      "text": "the South Korean military is responsible for external defense and is primarily focused on the threat from North Korea; it participates in bilateral and multinational exercises and deploys abroad for international missions, including peacekeeping and other security operations<br><br>South Korea's primary defense partner is the US, and the 1953 US-South Korea Mutual Defense Treaty is a cornerstone of the country's national security; the Treaty committed the US to provide assistance in the event of an attack and gave the US permission to station land, air, and sea forces in and about the territory of South Korea as determined by mutual agreement; South Korea hosts approximately 28,000 US military troops and regularly conducts bilateral exercises with the US military; South Korea has Major Non-NATO Ally (MNNA) status with the US, a designation under US law that provides foreign partners with certain benefits in the areas of defense trade and security cooperation; the South Korean military has assisted the US in conflicts in Afghanistan (5,000 troops; 2001-2014), Iraq (20,000 troops; 2003-2008), and Vietnam (325,000 troops; 1964-1973)<br><br>in 2016, South Korea concluded an agreement with the EU for participation in EU Common Security and Defense Policy (CSDP) missions and operations, such as EU counter-piracy operations off the coast of East Africa; South Korea has had a relationship with NATO since 2005, and in 2022 established a mission to the NATO headquarters to further cooperation; it has participated in NATO-led missions and exercises, including in Afghanistan and the Gulf of Aden (2025)"
+    }
+  },
+  "Space": {
+    "Space agency/agencies": {
+      "text": "Korea AeroSpace Administration (KASA; established 2024); Korea Aerospace Research Institute (KARI; established 1989 and previously acted as South Korea's space agency) (2025)"
+    },
+    "Space launch site(s)": {
+      "text": "Naro Space Center (South Jeolla province) (2025)"
+    },
+    "Space program overview": {
+      "text": "has an ambitious space program focused on developing satellites, satellite launch vehicles (SLVs), and interplanetary probes; has a national space strategy; manufactures and operates satellites, including those with communications, remote sensing (RS), scientific, and multipurpose capabilities; manufactures and launches SLVs; developing interplanetary space vehicles, including orbital probes and landers; participates in international programs and works with an array of foreign space agencies and industries, including those of Australia, the ESA, individual ESA member states (particularly France, Germany, Italy, Spain, UK), India, Indonesia, Israel, Japan, Peru, Russia, UAE, and the US; has an active commercial space industry (2025)"
+    },
+    "Key space-program milestones": {
+      "text": "1992 - first domestically made technology-demonstrator satellite (KITSAT-1) launched on European rocket<br><br>1993-1998 - launched first single-stage sounding rocket (KSR-1) and first two-stage sounding rocket (KSR-2)<br><br>1999 - first domestically built multi-purpose satellite (KOMPSAT-1, aka Arirang-1) launched by US<br><br>2008 - first South Korean astronaut in space on International Space Station<br><br>2013 - first successful satellite launch of two-stage Korean Space Launch Vehicle-I (KSLV-I; aka Naro)<br><br>2021 - maiden launch of three-stage KSLV-II (aka Nuri); signed the US-led Artemis Accords for space and lunar exploration<br><br>2022 - first successful attempt to place satellites into orbit on the KSLV-II/Nuri; domestically made lunar orbiter (Danuri) reached Moon's orbit; began development of the Korea Positioning System (KPS) satellite navigational network<br><br>2024 - third successful launch of Nuri SLV placed eight small satellites in orbit, including a remote sensing satellite (NexSat-2) with radar imaging technology"
+    }
+  },
+  "Transnational Issues": {
+    "Refugees and internally displaced persons": {
+      "refugees": {
+        "text": "40,084 (2024 est.)"
+      },
+      "stateless persons": {
+        "text": "248 (2024 est.)"
+      }
+    },
+    "Illicit drugs": {
+      "USG identification": {
+        "text": "<br>major precursor-chemical producer (2025)"
+      }
+    }
+  }
+}

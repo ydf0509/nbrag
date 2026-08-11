@@ -1,0 +1,536 @@
+# Macau
+
+> GEC code: `mc` · Region: east-n-southeast-asia · Source: CIA World Factbook (factbook.json, CC0)
+
+## Introduction
+
+### Background
+
+Portuguese ships began arriving in 1513. In the 1550s, Portuguese paying tribute to China settled in Macau, which became the official entrepôt for all international trade with China and Japan and the first European settlement in the Far East.  The first governor was appointed in the 17th century, but the Portuguese remained largely under the control of the Chinese. In the 1930s and ’40s Macau was declared a neutral territory during the Sino-Japanese War and World War II and became a refuge for both Chinese and Europeans. Portugal officially made Macau an overseas province in 1951.  
+
+In April 1987, Portugal and China reached an agreement to return Macau to Chinese rule in 1999, using the Hong Kong Joint Declaration between China and the UK as a model. In this agreement, China promised that, under its "one country, two systems" formula, China's political and economic system would not be imposed on Macau, and that Macau would enjoy a "high degree of autonomy" in all matters except foreign affairs and defense for the next 50 years. However, after China's multi-year crackdown against the pro-democracy movement in nearby Hong Kong, the governments of China and the Macau Special Administrative Region worked to limit Macau's political autonomy by suppressing opposition activity in the 2021 legislative elections.
+
+## Geography
+
+- **Location:** Eastern Asia, bordering the South China Sea and China
+
+- **Geographic coordinates:** 22 10 N, 113 33 E
+
+- **Map references:** Southeast Asia
+
+### Area
+
+- **total :** 28 sq km
+- **land:** 28.2 sq km
+- **water:** 0 sq km
+
+- **Area - comparative:** less than one-sixth the size of Washington, D.C.
+
+### Land boundaries
+
+- **total:** 3 km
+- **regional borders:** China 3 km
+
+- **Coastline:** 41 km
+
+- **Maritime claims:** not specified
+
+- **Climate:** subtropical; marine with cool winters, warm summers
+
+- **Terrain:** generally flat
+
+### Elevation
+
+- **highest point:** Alto Coloane 172 m
+- **lowest point:** South China Sea 0 m
+
+- **Natural resources:** NEGL
+
+### Land use
+
+- **agricultural land:** 0% (2022 est.)
+- **forest:** 0% (2022 est.)
+- **other:** 100% (2022 est.)
+
+- **Irrigated land:** 0 sq km (2012)
+
+- **Population distribution:** population fairly equally distributed
+
+- **Natural hazards:** typhoons
+
+- **Geography - note:** primarily urban; an area of land reclaimed from the sea measuring 5.2 sq km (2 sq mi) and known as Cotai now connects the islands of Coloane and Taipa; the island area is connected to the mainland peninsula by three bridges
+
+## People and Society
+
+### Population
+
+- **total:** 644,426 (2024 est.)
+- **male:** 304,988
+- **female:** 339,438
+
+### Nationality
+
+- **noun:** Chinese
+- **adjective:** Chinese
+
+- **Ethnic groups:** Chinese 89.4%, Chinese and Portuguese 1%, Portuguese 0.8%, Chinese and non-Portuguese 0.2%, Portuguese and others 0.2%, other 8.5% (2021 est.)
+
+### Languages
+
+- **Languages:** Cantonese 81%, Mandarin 4.7%, other Chinese dialects 5.4%, English 3.6%, Tagalog 2.9%, Portuguese 0.6%, other 1.8% (2021 est.)
+- **major-language sample(s):**
+世界概况, 必須擁有的基本資料参考书 (Cantonese) 
+The World Factbook, the indispensable source for basic information.
+- **note:** **note:** Chinese and Portuguese are official languages; Macanese or Patua, a Portuguese-based Creole, is also spoken
+
+- **Religions:** folk religion 58.9%, Buddhist 17.3%, Christian 7.2%, other 1.2%, none 15.4% (2020 est.)
+
+### Age structure
+
+- **0-14 years:** 14.4% (male 47,346/female 45,216)
+- **15-64 years:** 69.9% (male 210,059/female 240,577)
+- **65 years and over:** 15.7% (2024 est.) (male 47,583/female 53,645)
+
+### Dependency ratios
+
+- **total dependency ratio:** 43 (2024 est.)
+- **youth dependency ratio:** 20.5 (2024 est.)
+- **elderly dependency ratio:** 22.5 (2024 est.)
+- **potential support ratio:** 4.5 (2024 est.)
+
+### Median age
+
+- **total:** 43 years (2025 est.)
+- **male:** 41.5 years
+- **female:** 43.1 years
+
+- **Population growth rate:** 0.64% (2025 est.)
+
+- **Birth rate:** 8.31 births/1,000 population (2025 est.)
+
+- **Death rate:** 5.02 deaths/1,000 population (2025 est.)
+
+- **Net migration rate:** 3.08 migrant(s)/1,000 population (2025 est.)
+
+- **Population distribution:** population fairly equally distributed
+
+### Urbanization
+
+- **urban population:** 100% of total population (2023)
+- **rate of urbanization:** 1.46% annual rate of change (2020-25 est.)
+
+- **Major urban areas - population:** 682,000 Macau (2023)
+
+### Sex ratio
+
+- **at birth:** 1.05 male(s)/female
+- **0-14 years:** 1.05 male(s)/female
+- **15-64 years:** 0.87 male(s)/female
+- **65 years and over:** 0.89 male(s)/female
+- **total population:** 0.9 male(s)/female (2024 est.)
+
+### Infant mortality rate
+
+- **total:** 4.3 deaths/1,000 live births (2025 est.)
+- **male:** 4.5 deaths/1,000 live births
+- **female:** 4.3 deaths/1,000 live births
+
+### Life expectancy at birth
+
+- **total population:** 85.3 years (2024 est.)
+- **male:** 82.5 years
+- **female:** 88.3 years
+
+- **Total fertility rate:** 1.25 children born/woman (2025 est.)
+
+- **Gross reproduction rate:** 0.61 (2025 est.)
+
+- **Drinking water source:** - **improved: urban:** urban: 100% of population
+
+- **Education expenditure:** 6.3% of GDP (2020 est.)
+
+### School life expectancy (primary to tertiary education)
+
+- **total:** 18 years
+- **male:** 17 years
+- **female:** 19 years (2021)
+
+## Environment
+
+- **Environmental issues:** air pollution; coastal water pollution; solid-waste disposal; noise pollution
+
+- **Climate:** subtropical; marine with cool winters, warm summers
+
+### Land use
+
+- **agricultural land:** 0% (2022 est.)
+- **forest:** 0% (2022 est.)
+- **other:** 100% (2022 est.)
+
+### Urbanization
+
+- **urban population:** 100% of total population (2023)
+- **rate of urbanization:** 1.46% annual rate of change (2020-25 est.)
+
+### Carbon dioxide emissions
+
+- **total emissions:** 1.595 million metric tonnes of CO2 (2023 est.)
+- **from coal and metallurgical coke:** -1,239 metric tonnes of CO2 (2023 est.)
+- **from petroleum and other liquids:** 1.358 million metric tonnes of CO2 (2023 est.)
+- **from consumed natural gas:** 238,000 metric tonnes of CO2 (2023 est.)
+
+- **Waste and recycling:** - **municipal solid waste generated annually:** 377,900 tons (2024 est.)
+
+## Government
+
+### Country name
+
+- **conventional long form:** Macau Special Administrative Region
+- **conventional short form:** Macau
+- **official long form:** Aomen Tebie Xingzhengqu (Chinese)/ Regiao Administrativa Especial de Macau (Portuguese)
+- **official short form:** Aomen (Chinese)/ Macau (Portuguese)
+- **etymology:** name derived from the Chinese *ama-gao*, or “Bay of Ama,” for Ama, the patron goddess of sailors
+
+- **Government type:** executive-led limited democracy; a special administrative region of the People's Republic of China
+
+- **Dependency status:** special administrative region of the People's Republic of China
+
+- **Legal system:** civil law system based on the Portuguese model
+
+### Constitution
+
+- **history:** previous 1976 (Organic Statute of Macau, under Portuguese authority); latest adopted 31 March 1993, effective 20 December 1999 (Basic Law of the Macau Special Administrative Region of the People's Republic of China serves as Macau's constitution)
+- **amendment process:**
+proposed by the Standing Committee of the National People’s Congress (NPC), the People’s Republic of China State Council, and the Macau Special Administrative Region; submittal of proposals to the NPC requires two-thirds majority vote by the Legislative Assembly of Macau, approval by two thirds of Macau's deputies to the NPC, and consent of the Macau chief executive; final passage requires approval by the NPC
+
+- **Citizenship:** see China
+
+### Suffrage
+
+18 years of age in direct elections for some legislative positions, universal for permanent residents living in Macau for the past 7 years
+> note: **note:** indirect elections are limited to organizations registered as "corporate voters" and an election committee for the chief executive drawn from broad regional groupings, municipal organizations, central government bodies, and elected Macau officials
+
+### Executive branch
+
+- **chief of state:** President of China XI Jinping (since 14 March 2013)
+- **head of government:** Chief Executive Sam Hou FAI (since 20 December 2024)
+- **cabinet:** Executive Council appointed by the chief executive
+- **election/appointment process:** president indirectly elected by National People's Congress for a 5-year term (eligible for a second term); chief executive chosen by a 400-member Election Committee for a 5-year term (eligible for a second term)
+- **most recent election date:**
+*president:* 10 March 2023
+
+*chief executive:* 13 October 2024
+- **election results:**
+*
+2024:* Sam Hou FAI (unopposed; received 394 out of 400 votes)
+
+*2019:* HO lat Seng (unopposed; received 392 out of 400 votes)
+- **expected date of next election:**
+*president: *March 2028
+
+*chief executive:* 2029
+
+### Legislative branch
+
+- **legislature name:** Legislative Assembly (Regiao Administrativa Especial de Macau)
+- **legislative structure:** unicameral
+- **number of seats:** 33 (14 directly elected, 12 indirectly elected, 7 appointed)
+- **electoral system:** mixed
+- **scope of elections:** full renewal
+- **term in office:** 4 years
+- **most recent election date:** 9/12/2021
+- **parties elected and seats per party:** United Citizens Association of Macau (ACUM) (3); Union for Development (UPD) (2); Macau-Guangdong Union (UGM) (2); Union for Promoting Progress (UPP) (2); Alliance for a Happy Home (ABL) (2); New Hope (NE) (2); Association of Synergy of Macau (PS) (1)
+- **expected date of next election:** September 2025
+
+### Judicial branch
+
+- **highest court(s):** Court of Final Appeal of Macau Special Administrative Region (consists of the court president and 2 associate justices)
+- **judge selection and term of office:** justices appointed by the Macau chief executive upon the recommendation of an independent commission of judges, lawyers, and "eminent" persons; judge tenure NA
+- **subordinate courts:** Court of Second Instance; Court of First instance; Lower Court; Administrative Court
+
+### Political parties
+
+Alliance for a Happy Home or ABL
+Association of Synergy of Macau ("Synergy Power" or Poder da Singeria) or PS 
+Macau-Guangdong Union or UGM 
+New Hope or NE 
+Union for Development or UPD 
+Union for Promoting Progress or UPP or UNIPRO 
+United Citizens Association of Macau or ACUM
+> note: **note:** there is no political party ordinance, so there are no registered political parties; politically active groups register as societies or companies
+
+- **Diplomatic representation in the US:** none (Special Administrative Region of China)
+
+- **Diplomatic representation from the US:** - **embassy:** the US has no offices in Macau; US Consulate General in Hong Kong is accredited to Macau
+
+- **International organization participation:** ICC (national committees), IHO, IMF, IMO (associate), Interpol (subbureau), ISO (correspondent), UNESCO (associate), UNWTO (associate), UPU, WCO, WMO, WTO
+
+- **Independence:** none (special administrative region of China)
+
+### National holiday
+
+National Day (anniversary of the Founding of the People's Republic of China), 1 October (1949)
+> note: **note:** 20 December (1999) is celebrated as Macau Special Administrative Region Establishment Day
+
+### Flag
+
+**description:** green with a lotus flower above a stylized bridge and water in white, under an arc of five five-pointed gold stars
+
+**meaning:** the lotus is the national floral emblem, and the three petals represent the country's peninsula and two islands; the five stars echo the Chinese flag
+
+- **National symbol(s):** lotus blossom
+
+- **National color(s):** green, white, yellow
+
+### National anthem(s)
+
+- **title:** "Yiyongjun Jinxingqu" (The March of the Volunteers)
+- **lyrics/music:** TIAN Han/NIE Er
+- **history:** official anthem, as a Special Administrative Region of China
+
+## Economy
+
+- **Economic overview:** high-income, Chinese special administrative region economy; known for apparel exports and gambling tourism; currency pegged to Hong Kong dollar; significant recession due to 2015 Chinese anticorruption campaign; COVID-19 further halved economic activity
+
+### Real GDP (purchasing power parity)
+
+- **Real GDP (purchasing power parity) 2024:** $77.524 billion (2024 est.)
+- **Real GDP (purchasing power parity) 2023:** $71.248 billion (2023 est.)
+- **Real GDP (purchasing power parity) 2022:** $40.699 billion (2022 est.)
+- **note:** note: data in 2021 dollars
+
+### Real GDP growth rate
+
+- **Real GDP growth rate 2024:** 8.8% (2024 est.)
+- **Real GDP growth rate 2023:** 75.1% (2023 est.)
+- **Real GDP growth rate 2022:** -19.6% (2022 est.)
+- **note:** note: annual GDP % growth based on constant local currency
+
+### Real GDP per capita
+
+- **Real GDP per capita 2024:** $112,800 (2024 est.)
+- **Real GDP per capita 2023:** $105,000 (2023 est.)
+- **Real GDP per capita 2022:** $60,100 (2022 est.)
+- **note:** note: data in 2021 dollars
+
+### GDP (official exchange rate)
+
+$50.183 billion (2024 est.)
+> note: note: data in current dollars at official exchange rate
+
+### Inflation rate (consumer prices)
+
+- **Inflation rate (consumer prices) 2023:** 0.5% (2023 est.)
+- **Inflation rate (consumer prices) 2022:** 1% (2022 est.)
+- **Inflation rate (consumer prices) 2021:** 0% (2021 est.)
+- **note:** note: annual % change based on consumer prices
+
+### GDP - composition, by sector of origin
+
+- **industry:** 5.4% (2023 est.)
+- **services:** 91.4% (2023 est.)
+- **note:** **note:** figures may not total 100% due to non-allocated consumption not captured in sector-reported data
+
+### GDP - composition, by end use
+
+- **household consumption:** 29% (2024 est.)
+- **government consumption:** 12.2% (2024 est.)
+- **investment in fixed capital:** 13.8% (2024 est.)
+- **investment in inventories:** 0.7% (2024 est.)
+- **exports of goods and services:** 89.8% (2024 est.)
+- **imports of goods and services:** -45.4% (2024 est.)
+- **note:** note: figures may not total 100% due to rounding or gaps in data collection
+
+### Agricultural products
+
+pork, chicken, beef, eggs, pork offal, pork fat, pepper, beef offal, cattle hides, goose meat (2023)
+> note: note: top ten agricultural products based on tonnage
+
+- **Industries:** tourism, gambling, clothing, textiles, electronics, footwear, toys
+
+### Industrial production growth rate
+
+6.8% (2023 est.)
+> note: note: annual % change in industrial value added based on constant local currency
+
+### Labor force
+
+382,100 (2024 est.)
+> note: note: number of people ages 15 or older who are employed or seeking work
+
+### Unemployment rate
+
+- **Unemployment rate 2024:** 2.5% (2024 est.)
+- **Unemployment rate 2023:** 2.3% (2023 est.)
+- **Unemployment rate 2022:** 2.5% (2022 est.)
+- **note:** note: % of labor force seeking employment
+
+### Youth unemployment rate (ages 15-24)
+
+- **total:** 7.2% (2024 est.)
+- **male:** 9.4% (2024 est.)
+- **female:** 5.6% (2024 est.)
+- **note:** note: % of labor force ages 15-24 seeking employment
+
+### Remittances
+
+- **Remittances 2023:** 0.2% of GDP (2023 est.)
+- **Remittances 2022:** 0.4% of GDP (2022 est.)
+- **Remittances 2021:** 0.2% of GDP (2021 est.)
+- **note:** note: personal transfers and compensation between resident and non-resident individuals/households/entities
+
+### Budget
+
+- **revenues:** $12.513 billion (2023 est.)
+- **expenditures:** $11.509 billion (2023 est.)
+- **note:** note: central government revenues (excluding grants) and expenditures converted to US dollars at average official exchange rate for year indicated
+
+- **Public debt:** - **Public debt 2016:** 0% of GDP (2016 est.)
+
+### Taxes and other revenues
+
+22.8% (of GDP) (2023 est.)
+> note: note: central government tax revenue as a % of GDP
+
+### Current account balance
+
+- **Current account balance 2023:** $14.38 billion (2023 est.)
+- **Current account balance 2022:** $3.476 billion (2022 est.)
+- **Current account balance 2021:** $2.705 billion (2021 est.)
+- **note:** note: balance of payments - net trade and primary/secondary income in current dollars
+
+### Exports
+
+- **Exports 2023:** $41.839 billion (2023 est.)
+- **Exports 2022:** $21.097 billion (2022 est.)
+- **Exports 2021:** $28.163 billion (2021 est.)
+- **note:** note: balance of payments - exports of goods and services in current dollars
+
+### Exports - partners
+
+Hong Kong 73%, China 6%, USA 6%, Philippines 3%, Singapore 1% (2023)
+> note: note: top five export partners based on percentage share of exports
+
+### Exports - commodities
+
+jewelry, garments, broadcasting equipment, precious metal watches, video and card games (2023)
+> note: note: top five export commodities based on value in dollars
+
+### Imports
+
+- **Imports 2023:** $23.205 billion (2023 est.)
+- **Imports 2022:** $20.923 billion (2022 est.)
+- **Imports 2021:** $23.77 billion (2021 est.)
+- **note:** note: balance of payments - imports of goods and services in current dollars
+
+### Imports - partners
+
+China 36%, Hong Kong 17%, USA 6%, France 6%, Japan 5% (2023)
+> note: note: top five import partners based on percentage share of imports
+
+### Imports - commodities
+
+jewelry, garments, trunks and cases, broadcasting equipment, electricity (2023)
+> note: note: top five import commodities based on value in dollars
+
+### Reserves of foreign exchange and gold
+
+- **Reserves of foreign exchange and gold 2024:** $29.392 billion (2024 est.)
+- **Reserves of foreign exchange and gold 2023:** $27.771 billion (2023 est.)
+- **Reserves of foreign exchange and gold 2022:** $25.971 billion (2022 est.)
+- **note:** note: holdings of gold (year-end prices)/foreign exchange/special drawing rights in current dollars
+
+### Exchange rates
+
+- **Currency:** patacas (MOP) per US dollar -
+- **Exchange rates 2024:** 8.037 (2024 est.)
+- **Exchange rates 2023:** 8.063 (2023 est.)
+- **Exchange rates 2022:** 8.065 (2022 est.)
+- **Exchange rates 2021:** 8.006 (2021 est.)
+- **Exchange rates 2020:** 7.989 (2020 est.)
+
+## Energy
+
+- **Electricity access:** - **electrification - total population:** 100% (2022 est.)
+
+### Electricity
+
+- **installed generating capacity:** 427,000 kW (2023 est.)
+- **consumption:** 5.659 billion kWh (2023 est.)
+- **imports:** 5.327 billion kWh (2023 est.)
+- **transmission/distribution losses:** 161.125 million kWh (2023 est.)
+
+### Electricity generation sources
+
+- **fossil fuels:** 58.5% of total installed capacity (2023 est.)
+- **biomass and waste:** 41.5% of total installed capacity (2023 est.)
+
+### Coal
+
+- **exports:** 600 metric tons (2023 est.)
+- **imports:** 7 metric tons (2023 est.)
+
+- **Petroleum:** - **refined petroleum consumption:** 11,000 bbl/day (2023 est.)
+
+### Natural gas
+
+- **consumption:** 121.747 million cubic meters (2023 est.)
+- **imports:** 121.716 million cubic meters (2023 est.)
+
+- **Energy consumption per capita:** - **Total energy consumption per capita 2023:** 64.641 million Btu/person (2023 est.)
+
+## Communications
+
+### Telephones - fixed lines
+
+- **total subscriptions:** 87,000 (2023 est.)
+- **subscriptions per 100 inhabitants:** 12 (2023 est.)
+
+### Telephones - mobile cellular
+
+- **total subscriptions:** 1.37 million (2023 est.)
+- **subscriptions per 100 inhabitants:** 175 (2022 est.)
+
+- **Broadcast media:** local government dominates broadcast media; 2 TV stations operated by the government, with one broadcasting in Portuguese and the other in Cantonese and Mandarin; 1 cable TV and 4 satellite TV services available; 3 radio stations broadcasting, of which 2 are government-operated (2019)
+
+- **Internet country code:** .mo
+
+- **Internet users:** - **percent of population:** 89% (2023 est.)
+
+### Broadband - fixed subscriptions
+
+- **total:** 212,000 (2023 est.)
+- **subscriptions per 100 inhabitants:** 30 (2023 est.)
+
+## Transportation
+
+- **Civil aircraft registration country code prefix:** B-M
+
+- **Airports:** 1 (2025)
+
+- **Heliports:** 4 (2025)
+
+### Merchant marine
+
+- **total:** 5 (2023)
+- **by type:** other 5
+
+### Ports
+
+- **total ports:** 1 (2024)
+- **large:** 0
+- **medium:** 1
+- **small:** 0
+- **very small:** 0
+- **ports with oil terminals:** 1
+- **key ports:** Macau
+
+## Military and Security
+
+- **Military and security forces:** Macau Public Security Police Force
+
+- **Military - note:** defense is the responsibility of China; the Chinese People's Liberation Army (PLA) maintains a garrison in Macau
+
+## Transnational Issues
+
+- **Trafficking in persons:** - **tier rating:** Tier 3 — Macau does not fully meet the minimum standards for the elimination of trafficking and is not making significant efforts to do so, therefore, Macau remained on Tier 3; for more details, go to: https://www.state.gov/reports/2025-trafficking-in-persons-report/macau

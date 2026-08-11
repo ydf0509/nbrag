@@ -1,0 +1,824 @@
+# Thailand
+
+> GEC code: `th` · Region: east-n-southeast-asia · Source: CIA World Factbook (factbook.json, CC0)
+
+## Introduction
+
+### Background
+
+Two unified Thai kingdoms emerged in the mid-13th century. The Sukhothai Kingdom, located in the south-central plains, gained its independence from the Khmer Empire to the east. By the late 13th century, Sukhothai’s territory extended into present-day Burma and Laos. Sukhothai lasted until the mid-15th century. The Thai Lan Na Kingdom was established in the north with its capital at Chang Mai; the Burmese conquered Lan Na in the 16th century. The Ayutthaya Kingdom (14th-18th centuries) succeeded the Sukhothai and would become known as the Siamese Kingdom. During the Ayutthaya period, the Thai/Siamese peoples consolidated their hold on what is present-day central and north-central Thailand. Following a military defeat at the hands of the Burmese in 1767, the Siamese Kingdom rose to new heights under the military ruler TAKSIN, who defeated the Burmese occupiers and expanded the kingdom’s territory into modern-day northern Thailand (formerly the Lan Na Kingdom), Cambodia, Laos, and the Malay Peninsula. In the mid-1800s, Western pressure led to Siam signing trade treaties that reduced the country’s sovereignty and independence. In the 1890s and 1900s, the British and French forced the kingdom to cede Cambodian, Laotian, and Malay territories that had been under Siamese control. Following a bloodless revolution in 1932 that led to the establishment of a constitutional monarchy, Thailand's political history was marked by a series of mostly bloodless coups with power concentrated among military and bureaucratic elites. Periods of civilian rule were unstable. The Cold War era saw a communist insurgency and the rise of strongman leaders. Thailand became a US treaty ally in 1954 after sending troops to Korea and later fighting alongside the US in Vietnam. In the 21st century, Thailand has experienced additional turmoil, including a military coup in 2006 that ousted then Prime Minister THAKSIN Chinnawat and large-scale street protests led by competing political factions in 2008-2010. In 2011, THAKSIN's youngest sister, YINGLAK Chinnawat, led the Puea Thai Party to an electoral win and assumed control of the government. In 2014, after months of major anti-government protests in Bangkok, the Constitutional Court removed YINGLAK from office, and the Army, led by Gen. PRAYUT Chan-ocha, then staged a coup against the caretaker government. The military-affiliated National Council for Peace and Order (NCPO) ruled the country under PRAYUT for more than four years, drafting a new constitution that allowed the military to appoint the entire 250-member Senate and required a joint meeting of the House and Senate to select the prime minister -- which effectively gave the military a veto on the selection. King PHUMIPHON Adunyadet passed away in 2016 after 70 years on the throne; his only son, WACHIRALONGKON (aka King RAMA X), formally ascended the throne in 2019. The same year, a long-delayed election allowed PRAYUT to continue his premiership, although the results were disputed and widely viewed as skewed in favor of the party aligned with the military. The country again experienced major anti-government protests in 2020. The reformist Move Forward Party won the most seats in the 2023 election but was unable to form a government, and Srettha THRAVISIN from the Pheu Thai Party replaced PRAYUT as prime minister after forming a coalition of moderate and conservative parties.
+
+## Geography
+
+- **Location:** Southeastern Asia, bordering the Andaman Sea and the Gulf of Thailand, southeast of Burma
+
+- **Geographic coordinates:** 15 00 N, 100 00 E
+
+- **Map references:** Southeast Asia
+
+### Area
+
+- **total :** 513,120 sq km
+- **land:** 510,890 sq km
+- **water:** 2,230 sq km
+
+- **Area - comparative:** about three times the size of Florida; slightly more than twice the size of Wyoming
+
+### Land boundaries
+
+- **total:** 5,673 km
+- **border countries:** Burma 2,416 km; Cambodia 817 km; Laos 1,845 km; Malaysia 595 km
+
+- **Coastline:** 3,219 km
+
+### Maritime claims
+
+- **territorial sea:** 12 nm
+- **exclusive economic zone:** 200 nm
+- **continental shelf:** 200-m depth or to the depth of exploitation
+
+- **Climate:** tropical; rainy, warm, cloudy southwest monsoon (mid-May to September); dry, cool northeast monsoon (November to mid-March); southern isthmus always hot and humid
+
+- **Terrain:** central plain; Khorat Plateau in the east; mountains elsewhere
+
+### Elevation
+
+- **highest point:** Doi Inthanon 2,565 m
+- **lowest point:** Gulf of Thailand 0 m
+- **mean elevation:** 287 m
+
+- **Natural resources:** tin, rubber, natural gas, tungsten, tantalum, timber, lead, fish, gypsum, lignite, fluorite, arable land
+
+### Land use
+
+- **agricultural land:** 43.8% (2023 est.)
+- **agricultural land: arable land:** arable land: 31% (2023 est.)
+- **agricultural land: permanent crops:** permanent crops: 11.2% (2023 est.)
+- **agricultural land: permanent pasture:** permanent pasture: 1.6% (2023 est.)
+- **forest:** 39% (2023 est.)
+- **other:** 17.2% (2023 est.)
+
+- **Irrigated land:** 64,150 sq km (2012)
+
+- **Major lakes (area sq km):** - **salt water lake(s):** Thalesap Songkhla - 1,290 sq km
+
+### Major rivers (by length in km)
+
+Mae Nam Khong (Mekong) (shared with China [s], Burma, Laos, Cambodia, and Vietnam [m]) - 4,350 km; Salween (shared with China [s] and Burma [m]) - 3,060 km; Mun - 1,162 km
+
+**note:** [s] after country name indicates river source; [m] after country name indicates river mouth
+
+### Major watersheds (area sq km)
+
+- **Indian Ocean drainage:** Salween (271,914 sq km)
+- **Pacific Ocean drainage:** Mekong (805,604 sq km)
+
+- **Population distribution:** highest population density is found in and around Bangkok; significant population clusters throughout large parts of the country, particularly north and northeast of Bangkok and in the extreme southern region of the country
+
+- **Natural hazards:** land subsidence in Bangkok area resulting from the depletion of the water table; droughts
+
+- **Geography - note:** controls only land route from Asia to Malaysia and Singapore
+
+## People and Society
+
+### Population
+
+- **total:** 70,025,248 (2025 est.)
+- **male:** 34,101,016
+- **female:** 35,924,232
+
+### Nationality
+
+- **noun:** Thai (singular and plural)
+- **adjective:** Thai
+
+### Ethnic groups
+
+Thai 97.5%, Burmese 1.3%, other 1.1%, unspecified <0.1% (2015 est.)
+> note: **note:** data represent population by nationality
+
+### Languages
+
+- **Languages:** Thai (official) only 90.7%, Thai and other languages 6.4%, only other languages 2.9% (includes Malay, Burmese); English is a secondary language among the elite (2010 est.)
+- **major-language sample(s):**
+สารานุกรมโลก - แหล่งข้อมูลพื้นฐานที่สำคัญ (Thai)
+
+The World Factbook, the indispensable source for basic information.
+- **note:** **note:** data represent population by language(s) spoken at home
+
+- **Religions:** Buddhist 92.5%, Muslim 5.4%, Christian 1.2%, other 0.9% (includes animist, Confucian, Hindu, Jewish, Sikh, and Taoist) (2021 est.)
+
+### Age structure
+
+- **0-14 years:** 15.8% (male 5,669,592/female 5,394,398)
+- **15-64 years:** 69% (male 23,681,528/female 24,597,535)
+- **65 years and over:** 15.1% (2024 est.) (male 4,714,191/female 5,863,754)
+
+### Dependency ratios
+
+- **total dependency ratio:** 45.9 (2025 est.)
+- **youth dependency ratio:** 22.9 (2025 est.)
+- **elderly dependency ratio:** 23.1 (2025 est.)
+- **potential support ratio:** 4.3 (2025 est.)
+
+### Median age
+
+- **total:** 41.9 years (2025 est.)
+- **male:** 40.2 years
+- **female:** 42.7 years
+
+- **Population growth rate:** 0.13% (2025 est.)
+
+- **Birth rate:** 9.82 births/1,000 population (2025 est.)
+
+- **Death rate:** 8.08 deaths/1,000 population (2025 est.)
+
+- **Net migration rate:** -0.41 migrant(s)/1,000 population (2025 est.)
+
+- **Population distribution:** highest population density is found in and around Bangkok; significant population clusters throughout large parts of the country, particularly north and northeast of Bangkok and in the extreme southern region of the country
+
+### Urbanization
+
+- **urban population:** 53.6% of total population (2023)
+- **rate of urbanization:** 1.43% annual rate of change (2020-25 est.)
+
+- **Major urban areas - population:** 11.070 million BANGKOK (capital), 1.454 Chon Buri, 1.359 million Samut Prakan, 1.213 million Chiang Mai, 1.005 million Songkla, 1.001 million Nothaburi (2023)
+
+### Sex ratio
+
+- **at birth:** 1.05 male(s)/female
+- **0-14 years:** 1.05 male(s)/female
+- **15-64 years:** 0.96 male(s)/female
+- **65 years and over:** 0.8 male(s)/female
+- **total population:** 0.95 male(s)/female (2024 est.)
+
+- **Mother's mean age at first birth:** 23.3 years (2009 est.)
+
+- **Maternal mortality ratio:** 34 deaths/100,000 live births (2023 est.)
+
+### Infant mortality rate
+
+- **total:** 6.2 deaths/1,000 live births (2025 est.)
+- **male:** 6.9 deaths/1,000 live births
+- **female:** 5.6 deaths/1,000 live births
+
+### Life expectancy at birth
+
+- **total population:** 78.2 years (2024 est.)
+- **male:** 75.2 years
+- **female:** 81.3 years
+
+- **Total fertility rate:** 1.55 children born/woman (2025 est.)
+
+- **Gross reproduction rate:** 0.75 (2025 est.)
+
+### Drinking water source
+
+- **improved: urban:** urban: 100% of population (2022 est.)
+- **improved: rural:** rural: 100% of population (2022 est.)
+- **improved: total:** total: 100% of population (2022 est.)
+- **unimproved: urban:** urban: 0% of population (2022 est.)
+- **unimproved: rural:** rural: 0% of population (2022 est.)
+- **unimproved: total:** total: 0% of population (2022 est.)
+
+### Health expenditure
+
+- **Health expenditure (as % of GDP):** 5.2% of GDP (2021)
+- **Health expenditure (as % of national budget):** 16.1% of national budget (2022 est.)
+
+- **Physician density:** 0.54 physicians/1,000 population (2021)
+
+- **Hospital bed density:** 2.3 beds/1,000 population (2021 est.)
+
+### Sanitation facility access
+
+- **improved: urban:** urban: 99.9% of population (2022 est.)
+- **improved: rural:** rural: 100% of population (2022 est.)
+- **improved: total:** total: 100% of population (2022 est.)
+- **unimproved: urban:** urban: 0.1% of population (2022 est.)
+- **unimproved: rural:** rural: 0% of population (2022 est.)
+- **unimproved: total:** total: 0% of population (2022 est.)
+
+- **Obesity - adult prevalence rate:** 10% (2016)
+
+### Alcohol consumption per capita
+
+- **total:** 6.86 liters of pure alcohol (2019 est.)
+- **beer:** 1.85 liters of pure alcohol (2019 est.)
+- **wine:** 0.23 liters of pure alcohol (2019 est.)
+- **spirits:** 4.78 liters of pure alcohol (2019 est.)
+- **other alcohols:** 0 liters of pure alcohol (2019 est.)
+
+### Tobacco use
+
+- **total:** 18.1% (2025 est.)
+- **male:** 36.1% (2025 est.)
+- **female:** 1.6% (2025 est.)
+
+- **Children under the age of 5 years underweight:** 6.7% (2022 est.)
+
+- **Currently married women (ages 15-49):** 52.4% (2022 est.)
+
+### Child marriage
+
+- **women married by age 15:** 5.5% (2022)
+- **women married by age 18:** 17% (2022)
+- **men married by age 18:** 5.8% (2022)
+
+### Education expenditure
+
+- **Education expenditure (% GDP):** 2.5% of GDP (2023 est.)
+- **Education expenditure (% national budget):** 12.6% national budget (2025 est.)
+
+### Literacy
+
+- **total population:** 91.1% (2022 est.)
+- **male:** 90.7% (2022 est.)
+- **female:** 91.5% (2022 est.)
+
+### School life expectancy (primary to tertiary education)
+
+- **total:** 16 years (2023 est.)
+- **male:** 16 years (2023 est.)
+- **female:** 16 years (2023 est.)
+
+## Environment
+
+- **Environmental issues:** air pollution from vehicle emissions; water pollution from organic and factory wastes; water scarcity; deforestation; soil erosion; illegal hunting; hazardous waste disposal
+
+### International environmental agreements
+
+- **party to:** Biodiversity, Climate Change, Climate Change-Kyoto Protocol, Climate Change-Paris Agreement, Comprehensive Nuclear Test Ban, Desertification, Endangered Species, Hazardous Wastes, Law of the Sea, Marine Life Conservation, Nuclear Test Ban, Ozone Layer Protection, Ship Pollution, Tropical Timber 2006, Wetlands
+- **signed, but not ratified:** none of the selected agreements
+
+- **Climate:** tropical; rainy, warm, cloudy southwest monsoon (mid-May to September); dry, cool northeast monsoon (November to mid-March); southern isthmus always hot and humid
+
+### Land use
+
+- **agricultural land:** 43.8% (2023 est.)
+- **agricultural land: arable land:** arable land: 31% (2023 est.)
+- **agricultural land: permanent crops:** permanent crops: 11.2% (2023 est.)
+- **agricultural land: permanent pasture:** permanent pasture: 1.6% (2023 est.)
+- **forest:** 39% (2023 est.)
+- **other:** 17.2% (2023 est.)
+
+### Urbanization
+
+- **urban population:** 53.6% of total population (2023)
+- **rate of urbanization:** 1.43% annual rate of change (2020-25 est.)
+
+### Carbon dioxide emissions
+
+- **total emissions:** 336.693 million metric tonnes of CO2 (2023 est.)
+- **from coal and metallurgical coke:** 79.928 million metric tonnes of CO2 (2023 est.)
+- **from petroleum and other liquids:** 160.931 million metric tonnes of CO2 (2023 est.)
+- **from consumed natural gas:** 95.834 million metric tonnes of CO2 (2023 est.)
+
+- **Particulate matter emissions:** 26.3 micrograms per cubic meter (2019 est.)
+
+### Methane emissions
+
+- **energy:** 708.8 kt (2022-2024 est.)
+- **agriculture:** 2,109.9 kt (2019-2021 est.)
+- **waste:** 635.8 kt (2019-2021 est.)
+- **other:** 57.9 kt (2019-2021 est.)
+
+### Waste and recycling
+
+- **municipal solid waste generated annually:** 26.853 million tons (2024 est.)
+- **percent of municipal solid waste recycled:** 40% (2022 est.)
+
+### Total water withdrawal
+
+- **municipal:** 2.739 billion cubic meters (2022 est.)
+- **industrial:** 2.777 billion cubic meters (2022 est.)
+- **agricultural:** 51.79 billion cubic meters (2022 est.)
+
+- **Total renewable water resources:** 438.61 billion cubic meters (2022 est.)
+
+### Geoparks
+
+- **total global geoparks and regional networks:** 2
+- **global geoparks and regional networks:** Khorat; Satun (2023)
+
+## Government
+
+### Country name
+
+- **conventional long form:** Kingdom of Thailand
+- **conventional short form:** Thailand
+- **local long form:** Ratcha Anachak Thai
+- **local short form:** Prathet Thai
+- **former:** Siam
+- **etymology:** the name means "Land of the Thai," referring to the local population; the people's name comes from the Thai word *tha*, meaning "to be free;" the former name of Siam comes from the Sanskrit word *syama*, meaning "dark"
+
+- **Government type:** constitutional monarchy
+
+### Capital
+
+- **name:** Bangkok
+- **geographic coordinates:** 13 45 N, 100 31 E
+- **time difference:** UTC+7 (12 hours ahead of Washington, DC, during Standard Time)
+- **etymology:**
+the name is from the Thai words *bang *(region) and *kok *(olive trees); the city's full ceremonial name holds the world record for longest place name, Krungthepmahanakhon amonrattanakosin mahintharayutthaya mahadilokphop noppharatratchathaniburirom udomratchaniwetmahasathan amonphimanawatansathit sakkathattiyawitsanukamprasit, which means "City of angels, great city of immortals, magnificent city of the nine gems, seat of the king, city of royal palaces, home of gods incarnate, erected by Vishvakarman at Indra's behest"
+
+### Administrative divisions
+
+76 provinces (*changwat*, singular and plural) and 1 municipality* (*maha nakhon*); Amnat Charoen, Ang Thong, Bueng Kan, Buri Ram, Chachoengsao, Chai Nat, Chaiyaphum, Chanthaburi, Chiang Mai, Chiang Rai, Chon Buri, Chumphon, Kalasin, Kamphaeng Phet, Kanchanaburi, Khon Kaen, Krabi, Krung Thep* (Bangkok), Lampang, Lamphun, Loei, Lop Buri, Mae Hong Son, Maha Sarakham, Mukdahan, Nakhon Nayok, Nakhon Pathom, Nakhon Phanom, Nakhon Ratchasima, Nakhon Sawan, Nakhon Si Thammarat, Nan, Narathiwat, Nong Bua Lamphu, Nong Khai, Nonthaburi, Pathum Thani, Pattani, Phangnga, Phatthalung, Phayao, Phetchabun, Phetchaburi, Phichit, Phitsanulok, Phra Nakhon Si Ayutthaya, Phrae, Phuket, Prachin Buri, Prachuap Khiri Khan, Ranong, Ratchaburi, Rayong, Roi Et, Sa Kaeo, Sakon Nakhon, Samut Prakan, Samut Sakhon, Samut Songkhram, Saraburi, Satun, Sing Buri, Si Sa Ket, Songkhla, Sukhothai, Suphan Buri, Surat Thani, Surin, Tak, Trang, Trat, Ubon Ratchathani, Udon Thani, Uthai Thani, Uttaradit, Yala, Yasothon
+
+- **Legal system:** civil law system with common law influences
+
+### Constitution
+
+- **history:** many previous; latest drafted and presented 29 March 2016, approved by referendum 7 August 2016, signed into law by the king on 6 April 2017
+- **amendment process:** amendments require a majority vote in a joint session of the House and Senate and further require at least one fifth of opposition House members and one third of the Senate vote in favor; a national referendum is additionally required for certain amendments; all amendments require signature by the king
+
+- **International law organization participation:** has not submitted an ICJ jurisdiction declaration; non-party state to the ICCt
+
+### Citizenship
+
+- **citizenship by birth:** no
+- **citizenship by descent only:** at least one parent must be a citizen of Thailand
+- **dual citizenship recognized:** no
+- **residency requirement for naturalization:** 5 years
+
+- **Suffrage:** 18 years of age; universal and compulsory
+
+### Executive branch
+
+- **chief of state:** King WACHIRALONGKON; also spelled Vajiralongkorn (since 1 December 2016)
+- **head of government:** Prime Minister ANUTIN Charnvirakul (since 5 Sep 2025)
+- **cabinet:** Council of Ministers nominated by the prime minister, appointed by the king; a Privy Council advises the king
+- **election/appointment process:** the monarchy is hereditary; prime minister candidate approved by House of Representatives and appointed by the king
+
+### Legislative branch
+
+- **legislature name:** National Assembly (Rathhasapha)
+- **legislative structure:** bicameral
+
+### Legislative branch - lower chamber
+
+- **chamber name:** House of Representatives (Saphaphuthan Ratsadon)
+- **number of seats:** 500 (all directly elected)
+- **electoral system:** mixed system
+- **scope of elections:** full renewal
+- **term in office:** 4 years
+- **most recent election date:** 5/14/2023 (House of Representatives dissolved on 12 December 2025)
+- **parties elected and seats per party:** Move Forward (151); Pheu Thai (141); Bhumjaithai (71); Palang Pracharath (40); United Thai Nation (36); Democrat Party (25); Other (36)
+- **percentage of women in chamber:** 19.6%
+- **expected date of next election:** 8 February 2026
+
+### Legislative branch - upper chamber
+
+- **chamber name:** Senate (Wuthisapha)
+- **number of seats:** 200 (all indirectly elected)
+- **scope of elections:** full renewal
+- **term in office:** 5 years
+- **most recent election date:** 6/9/2024 to 6/26/2024
+- **percentage of women in chamber:** 22.5%
+- **expected date of next election:** June 2029
+- **note:** **note:** Senate members are indirectly elected from 20 eligible groups of professions, including agriculture, artists or athletes, business owners, education, employees or workers, independent professionals, industrialists, law and justice, mass communication, public health, science and technology, tourism-related professions, women, and elderly, disabled, or ethnic groups
+
+### Judicial branch
+
+- **highest court(s):** Supreme Court of Justice (consists of the court president, 6 vice presidents, 60-70 judges, and organized into 10 divisions); Constitutional Court (consists of the court president and 8 judges); Supreme Administrative Court (number of judges determined by Judicial Commission of the Administrative Courts)
+- **judge selection and term of office:**
+Supreme Court judges selected by the Judicial Commission of the Courts of Justice and approved by the monarch; judge term determined by the monarch; Constitutional Court justices - 3 judges drawn from the Supreme Court, 2 judges drawn from the Administrative Court, and 4 judge candidates selected by the Selective Committee for Judges of the Constitutional Court, and confirmed by the Senate; judges appointed by the monarch serve single 9-year terms; Supreme Administrative Court judges selected by the Judicial Commission of the Administrative Courts and appointed by the monarch; judges serve for life
+- **subordinate courts:** courts of first instance and appeals courts within both the judicial and administrative systems; military courts
+
+### Political parties
+
+Bhumjaithai Party or BJT (aka Phumchai Thai Party or PJT; aka Thai Pride Party) 
+Chat Thai Phatthana Party (Thai Nation Development Party) or CTP
+Democrat Party 
+Move Forward Party or MFP (dissolved by order of the Constitutional Court, August 2024)
+Palang Pracharat Party (People's State Power Party) or PPRP 
+Pheu (Puea) Thai Party (For Thais Party) or PTP 
+Prachachat Party or PCC 
+Prachathipat Party (Democrat Party) or DP 
+Thai Sang Thai Party 
+United Thai Nation (Ruam Thai Sang Chat) or UTN
+> note: **note:** more than 50 parties have registered for the February 2026 general election
+
+### Diplomatic representation in the US
+
+- **chief of mission:** Ambassador Dr. SURIYA Chindawongse (since 17 June 2024)
+- **chancery:** 1024 Wisconsin Avenue NW, Suite 401, Washington, DC 20007
+- **telephone:** [1] (202) 944-3600
+- **FAX:** [1] (202) 944-3611
+- **email address and website:**
+thai.wsn@thaiembdc.org
+
+https://washingtondc.thaiembassy.org/en/index
+- **consulate(s) general:** Chicago, Los Angeles, New York
+
+### Diplomatic representation from the US
+
+- **chief of mission:** Ambassador-designate Sean O'NEILL (since 16 December 2025)
+- **embassy:** 95 Wireless Road, Bangkok 10330
+- **mailing address:** 7200 Bangkok Place, Washington DC  20521-7200
+- **telephone:** [66] 2-205-4000
+- **FAX:** [66] 2-205-4103
+- **email address and website:**
+acsbkk@state.gov
+
+https://th.usembassy.gov/
+- **consulate(s) general:** Chiang Mai
+
+### International organization participation
+
+ADB, APEC, ARF, ASEAN, BIMSTEC, BIS, CD, CICA, CP, EAS, FAO, G-77, IAEA, IBRD, ICAO, ICC (national committees), ICRM, IDA, IFAD, IFC, IFRCS, IHO, ILO, IMF, IMO, IMSO, Interpol, IOC, IOM, IPU, ISO, ITSO, ITU, ITUC (NGOs), MIGA, NAM, OAS (observer), OIC (observer), OIF (observer), OPCW, OSCE (partner), PCA, PIF (partner), UN, UNAMID, UNCTAD, UNESCO, UNHCR, UNIDO, UNMOGIP, UNOOSA, UNOCI, UNWTO, UPU, WCO, WFTU (NGOs), WHO, WIPO, WMO, WTO
+
+- **Independence:** 1238 (traditional founding date; never colonized)
+
+- **National holiday:** Birthday of King WACHIRALONGKON, 28 July (1952)
+
+### Flag
+
+**description: **five horizontal bands of red (top), white, blue (double-width), white, and red
+
+**meaning: **red stands for the nation and the blood of life, white for religion and the purity of Buddhism, and blue for the monarchy
+> note: **note:** similar to the flag of Costa Rica, but with the blue and red colors reversed
+
+- **National symbol(s):** garuda (mythical half-man, half-bird figure), elephant
+
+- **National color(s):** red, white, blue
+
+- **National coat of arms:** in 1911, King Vajiravudh (Rama VI) of Thailand officially adopted the Garuda as the national coat of arms and emblem; this mythological half-man, half-bird figure from the Hindu and Buddhist traditions is considered the *vahana *(vehicle) of the god Vishnu (Narayana) and was a symbol of royalty in Thailand for centuries
+
+### National anthem(s)
+
+- **title:** "Phleng Sanlasoen Phra Barami" (A Salute to the Monarch)
+- **lyrics/music:** Narisara  NUWATTIWONG and King VAJIRAVUDH/Pyotr SHCHUROVSKY
+- **history:** royal anthem, played in the presence of the royal family and during certain state ceremonies
+
+### National heritage
+
+- **total World Heritage Sites:** 8 (5 cultural, 3 natural)
+- **selected World Heritage Site locales:**
+Historic City of Ayutthaya (c); Historic Sukhothai and Associated Historic Towns (c); Thungyai-Huai Kha Khaeng Wildlife Sanctuaries (n); Ban Chiang Archaeological Site (c); Dong Phayayen-Khao Yai Forest Complex (n); Kaeng Krachan Forest Complex (n); The Ancient Town of Si Thep and its Associated Dvaravati Monuments (n); Phu Phrabat, a testimony to the Sīma stone tradition of the Dvaravati period (c)
+
+## Economy
+
+- **Economic overview:** upper middle-income Southeast Asian economy; substantial infrastructure; major electronics, food, and automobile parts exporter; globally used currency; extremely low unemployment; ongoing Thailand 4.0 economic development
+
+### Real GDP (purchasing power parity)
+
+- **Real GDP (purchasing power parity) 2024:** $1.558 trillion (2024 est.)
+- **Real GDP (purchasing power parity) 2023:** $1.519 trillion (2023 est.)
+- **Real GDP (purchasing power parity) 2022:** $1.489 trillion (2022 est.)
+- **note:** note: data in 2021 dollars
+
+### Real GDP growth rate
+
+- **Real GDP growth rate 2024:** 2.5% (2024 est.)
+- **Real GDP growth rate 2023:** 2% (2023 est.)
+- **Real GDP growth rate 2022:** 2.6% (2022 est.)
+- **note:** note: annual GDP % growth based on constant local currency
+
+### Real GDP per capita
+
+- **Real GDP per capita 2024:** $21,700 (2024 est.)
+- **Real GDP per capita 2023:** $21,200 (2023 est.)
+- **Real GDP per capita 2022:** $20,800 (2022 est.)
+- **note:** note: data in 2021 dollars
+
+### GDP (official exchange rate)
+
+$526.411 billion (2024 est.)
+> note: note: data in current dollars at official exchange rate
+
+### Inflation rate (consumer prices)
+
+- **Inflation rate (consumer prices) 2024:** 1.4% (2024 est.)
+- **Inflation rate (consumer prices) 2023:** 8.5% (2023 est.)
+- **Inflation rate (consumer prices) 2022:** -1.6% (2022 est.)
+- **note:** note: annual % change based on consumer prices
+
+### GDP - composition, by sector of origin
+
+- **agriculture:** 8.7% (2024 est.)
+- **industry:** 32.1% (2024 est.)
+- **services:** 59.2% (2024 est.)
+- **note:** note: figures may not total 100% due to non-allocated consumption not captured in sector-reported data
+
+### GDP - composition, by end use
+
+- **household consumption:** 58.2% (2024 est.)
+- **government consumption:** 16.7% (2024 est.)
+- **investment in fixed capital:** 22.2% (2024 est.)
+- **investment in inventories:** -0.6% (2024 est.)
+- **exports of goods and services:** 70.1% (2024 est.)
+- **imports of goods and services:** -66.7% (2024 est.)
+- **note:** note: figures may not total 100% due to rounding or gaps in data collection
+
+### Agricultural products
+
+sugarcane, rice, cassava, oil palm fruit, maize, rubber, tropical fruits, chicken, mangoes/guavas, fruits (2023)
+> note: note: top ten agricultural products based on tonnage
+
+### Industries
+
+tourism, textiles and garments, agricultural processing, beverages, tobacco, cement, light manufacturing such as jewelry and electric appliances, computers and parts, integrated circuits, furniture, plastics, automobiles and automotive parts, agricultural machinery, air conditioning and refrigeration, ceramics, aluminum, chemical, environmental management, glass, granite and marble, leather, machinery and metal work, petrochemical, petroleum refining, pharmaceuticals, printing, pulp and paper, rubber, sugar, rice, fishing, cassava, world's second-largest tungsten producer and third-largest tin producer
+
+### Industrial production growth rate
+
+0.9% (2024 est.)
+> note: note: annual % change in industrial value added based on constant local currency
+
+### Labor force
+
+40.623 million (2024 est.)
+> note: note: number of people ages 15 or older who are employed or seeking work
+
+### Unemployment rate
+
+- **Unemployment rate 2024:** 0.7% (2024 est.)
+- **Unemployment rate 2023:** 0.8% (2023 est.)
+- **Unemployment rate 2022:** 1% (2022 est.)
+- **note:** note: % of labor force seeking employment
+
+### Youth unemployment rate (ages 15-24)
+
+- **total:** 4.3% (2024 est.)
+- **male:** 3.1% (2024 est.)
+- **female:** 6% (2024 est.)
+- **note:** note: % of labor force ages 15-24 seeking employment
+
+### Population below poverty line
+
+5.4% (2022 est.)
+> note: note: % of population with income below national poverty line
+
+### Gini Index coefficient - distribution of family income
+
+- **Gini Index coefficient - distribution of family income 2023:** 33.5 (2023 est.)
+- **note:** note: index (0-100) of income distribution; higher values represent greater inequality
+
+### Average household expenditures
+
+- **on food:** 25.9% of household expenditures (2023 est.)
+- **on alcohol and tobacco:** 3% of household expenditures (2023 est.)
+
+### Household income or consumption by percentage share
+
+- **lowest 10%:** 3.4% (2023 est.)
+- **highest 10%:** 26.1% (2023 est.)
+- **note:** note: % share of income accruing to lowest and highest 10% of population
+
+### Remittances
+
+- **Remittances 2024:** 1.8% of GDP (2024 est.)
+- **Remittances 2023:** 1.9% of GDP (2023 est.)
+- **Remittances 2022:** 1.8% of GDP (2022 est.)
+- **note:** note: personal transfers and compensation between resident and non-resident individuals/households/entities
+
+### Budget
+
+- **revenues:** $102.84 billion (2023 est.)
+- **expenditures:** $114.521 billion (2023 est.)
+- **note:** note: central government revenues (excluding grants) and expenditures converted to US dollars at average official exchange rate for year indicated
+
+### Public debt
+
+- **Public debt 2023:** 61.1% of GDP (2023 est.)
+- **note:** note: central government debt as a % of GDP
+
+### Taxes and other revenues
+
+15.4% (of GDP) (2023 est.)
+> note: note: central government tax revenue as a % of GDP
+
+### Current account balance
+
+- **Current account balance 2024:** $11.089 billion (2024 est.)
+- **Current account balance 2023:** $7.412 billion (2023 est.)
+- **Current account balance 2022:** -$17.162 billion (2022 est.)
+- **note:** note: balance of payments - net trade and primary/secondary income in current dollars
+
+### Exports
+
+- **Exports 2024:** $369.191 billion (2024 est.)
+- **Exports 2023:** $337.45 billion (2023 est.)
+- **Exports 2022:** $324.111 billion (2022 est.)
+- **note:** note: balance of payments - exports of goods and services in current dollars
+
+### Exports - partners
+
+USA 18%, China 13%, Japan 7%, Australia 4%, Singapore 4% (2023)
+> note: note: top five export partners based on percentage share of exports
+
+### Exports - commodities
+
+machine parts, integrated circuits, trucks, cars, broadcasting equipment (2023)
+> note: note: top five export commodities based on value in dollars
+
+### Imports
+
+- **Imports 2024:** $351.419 billion (2024 est.)
+- **Imports 2023:** $327.008 billion (2023 est.)
+- **Imports 2022:** $334.44 billion (2022 est.)
+- **note:** note: balance of payments - imports of goods and services in current dollars
+
+### Imports - partners
+
+China 26%, Japan 11%, USA 7%, UAE 6%, Taiwan 5% (2023)
+> note: note: top five import partners based on percentage share of imports
+
+### Imports - commodities
+
+crude petroleum, integrated circuits, natural gas, gold, vehicle parts/accessories (2023)
+> note: note: top five import commodities based on value in dollars
+
+### Reserves of foreign exchange and gold
+
+- **Reserves of foreign exchange and gold 2024:** $236.934 billion (2024 est.)
+- **Reserves of foreign exchange and gold 2023:** $224.47 billion (2023 est.)
+- **Reserves of foreign exchange and gold 2022:** $216.501 billion (2022 est.)
+- **note:** note: holdings of gold (year-end prices)/foreign exchange/special drawing rights in current dollars
+
+### Debt - external
+
+- **Debt - external 2023:** $37.065 billion (2023 est.)
+- **note:** note: present value of external debt in current US dollars
+
+### Exchange rates
+
+- **Currency:** baht per US dollar -
+- **Exchange rates 2024:** 35.294 (2024 est.)
+- **Exchange rates 2023:** 34.802 (2023 est.)
+- **Exchange rates 2022:** 35.061 (2022 est.)
+- **Exchange rates 2021:** 31.977 (2021 est.)
+- **Exchange rates 2020:** 31.294 (2020 est.)
+
+## Energy
+
+### Electricity access
+
+- **electrification - total population:** 99.9% (2022 est.)
+- **electrification - urban areas:** 100%
+- **electrification - rural areas:** 100%
+
+### Electricity
+
+- **installed generating capacity:** 55.971 million kW (2023 est.)
+- **consumption:** 215.281 billion kWh (2023 est.)
+- **exports:** 2.256 billion kWh (2023 est.)
+- **imports:** 35.805 billion kWh (2023 est.)
+- **transmission/distribution losses:** 14.44 billion kWh (2023 est.)
+
+### Electricity generation sources
+
+- **fossil fuels:** 81.9% of total installed capacity (2023 est.)
+- **solar:** 2.7% of total installed capacity (2023 est.)
+- **wind:** 1.8% of total installed capacity (2023 est.)
+- **hydroelectricity:** 3.5% of total installed capacity (2023 est.)
+- **biomass and waste:** 10.1% of total installed capacity (2023 est.)
+
+### Coal
+
+- **production:** 12.812 million metric tons (2023 est.)
+- **consumption:** 42.371 million metric tons (2023 est.)
+- **exports:** 65,000 metric tons (2023 est.)
+- **imports:** 29.757 million metric tons (2023 est.)
+- **proven reserves:** 1.063 billion metric tons (2023 est.)
+
+### Petroleum
+
+- **total petroleum production:** 386,000 bbl/day (2023 est.)
+- **refined petroleum consumption:** 1.397 million bbl/day (2023 est.)
+- **crude oil estimated reserves:** 252.75 million barrels (2021 est.)
+
+### Natural gas
+
+- **production:** 29.614 billion cubic meters (2023 est.)
+- **consumption:** 52.351 billion cubic meters (2023 est.)
+- **imports:** 22.738 billion cubic meters (2023 est.)
+- **proven reserves:** 138.243 billion cubic meters (2021 est.)
+
+- **Energy consumption per capita:** - **Total energy consumption per capita 2023:** 80.602 million Btu/person (2023 est.)
+
+## Communications
+
+### Telephones - fixed lines
+
+- **total subscriptions:** 4.087 million (2023 est.)
+- **subscriptions per 100 inhabitants:** 6 (2023 est.)
+
+### Telephones - mobile cellular
+
+- **total subscriptions:** 115 million (2024 est.)
+- **subscriptions per 100 inhabitants:** 161 (2024 est.)
+
+### Broadcast media
+
+26 digital TV stations and 6 terrestrial TV stations broadcast nationally via relay stations, with 2 of the terrestrial stations military-owned and the other 4 state-owned or state-controlled; some leased to private enterprise; all required to broadcast government-produced news; multi-channel satellite and cable TV subscriptions available; radio frequencies allotted for over 500 government and commercial radio stations; many small community radio stations operate with low-power transmitters (2017)
+
+- **Internet country code:** .th
+
+- **Internet users:** - **percent of population:** 90% (2023 est.)
+
+### Broadband - fixed subscriptions
+
+- **total:** 11.5 million (2023 est.)
+- **subscriptions per 100 inhabitants:** 16 (2023 est.)
+
+## Transportation
+
+- **Civil aircraft registration country code prefix:** HS
+
+- **Airports:** 105 (2025)
+
+- **Heliports:** 5 (2025)
+
+### Railways
+
+- **total:** 4,127 km (2017)
+- **standard gauge:** 84 km (2017) 1.435-m gauge (84 km electrified)
+- **narrow gauge:** 4,043 km (2017) 1.000-m gauge
+
+### Merchant marine
+
+- **total:** 884 (2023)
+- **by type:** bulk carrier 28, container ship 28, general cargo 88, oil tanker 251, other 489
+
+### Ports
+
+- **total ports:** 21 (2024)
+- **large:** 1
+- **medium:** 2
+- **small:** 3
+- **very small:** 15
+- **ports with oil terminals:** 14
+- **key ports:** Bangkok, Laem Chabang, Pattani, Phuket, Sattahip, Si Racha
+
+## Military and Security
+
+### Military and security forces
+
+Royal Thai Armed Forces (RTARF): Royal Thai Army (RTA), Royal Thai Navy (RTN; includes Royal Thai Marine Corps), Royal Thai Air Force (RTAF)
+
+Office of the Prime Minister: Royal Thai Police (2025)
+> note: **note:** official paramilitary forces in Thailand include the Thai Rangers (Thahan Phran or "Hunter Soldiers") under the Army; the Paramilitary Marines under the Navy; the Border Patrol Police (BPP) under the Royal Thai Police; the Volunteer Defense Corps (VDC or *O So*) and National Defense Volunteers (NDV), both under the Ministry of Interior; there are also several government-backed volunteer militias created to provide village security against insurgents in the Deep South or to assist government security forces
+
+### Military expenditures
+
+- **Military Expenditures 2024:** 1.1% of GDP (2024 est.)
+- **Military Expenditures 2023:** 1.3% of GDP (2023 est.)
+- **Military Expenditures 2022:** 1.3% of GDP (2022 est.)
+- **Military Expenditures 2021:** 1.3% of GDP (2021 est.)
+- **Military Expenditures 2020:** 1.4% of GDP (2020 est.)
+
+- **Military and security service personnel strengths:** estimated 350,000 active-duty Armed Forces (250,000 Army; 70,000 Navy; 30,000 Air Force) (2025)
+
+### Military equipment inventories and acquisitions
+
+the RTARF has a diverse array of foreign-supplied armaments, as well as some domestically produced items; its imported weapons and equipment are from a variety of suppliers, including China, several European countries, Israel, Russia, South Korea, and the US; Thailand's domestic defense industry produces such items as armored vehicles, artillery systems, naval vessels, unmanned aerial vehicles, and other military technologies (2025)
+
+### Military service age and obligation
+
+18 years of age for voluntary military service for men and women; all men register at 17 years of age and are subject to selective compulsory military service at 21; volunteer service obligation may be as short as 6-18 months, depending on educational qualifications; conscript service obligation also varies by educational qualifications, but is typically 24 months (2025)
+> note: **note:** serving in the armed forces is a national duty of all Thai citizens; conscription was introduced in 1905; it includes women, however, only men over the age of 21 who have not gone through reserve training are conscripted; conscripts are chosen by lottery (on draft day, eligible draftees can request volunteer service, or they may choose to stay for the conscription lottery)
+
+- **Military deployments:** 280 South Sudan (UNMISS) (2025)
+
+### Military - note
+
+the missions of the Royal Thai Armed Forces (RTARF) include defending the country’s territory and sovereignty, protecting the monarchy, ensuring internal security, and responding to natural disasters; key areas of emphasis are disputed international borders and a low-level insurgency in the country's south; the military has historically had a large role in domestic politics and has attempted as many as 20 coups since the fall of absolute monarchy in 1932, the most recent being in 2014
+
+in July 2025, following months of rising tensions, the RTARF and Cambodian military forces clashed in multiple locations along their disputed border; both sides blamed the other for provoking the five-day conflict, which included cross-border artillery shelling by both sides and air attacks by RTARF fighter aircraft and drones; since 2004, the RTARF and Thai paramilitary forces have combated a separatist insurgency in the southern Thailand provinces of Pattani, Yala, and Narathiwat, as well as parts of Songkhla; the insurgency is rooted in ethnic Malay nationalist resistance to Thai rule that followed the extension of Siamese sovereignty over the Patani Sultanate in the 18th century; the insurgency consists of several armed groups, the largest of which is the Barisan Revolusi Nasional-Koordinasi (BRN-C): insurgent attacks have largely involved bombings; since 2020, Thai officials have been negotiating with BRN, and has parallel talks with an umbrella organization, MARA Pattani, that claims to represent the insurgency groups (2025)
+
+## Space
+
+### Space agency/agencies
+
+Geo-Informatics and Space Technology Development Agency (GISTDA; created in 2000 from the Thailand Remote Sensing Center that was established in 1979); National Space Policy Committee (NSPC) (2025)
+> note: **note:** GISTDA is under the Ministry of Higher Education, Science, Research and Innovation; the NSPC is an advisory body to the prime minister
+
+- **Space launch site(s):** none; in 2023, announced intentions to build a spaceport with South Korean assistance (2025)
+
+### Space program overview
+
+has an ambitious national space program focused on the acquisition, production, and operation of satellites, as well as research and development of related infrastructure, sciences, and technologies; operates communications and remote sensing (RS) satellites; manufactures scientific/research/testing cube satellites and is developing the capabilities to produce RS satellites (has historically built satellites with foreign assistance); works with a range of foreign space agencies and industries, including those of China, France, India, the Netherlands, Pakistan, Russia, South Korea, and the US; founding member of the China-led Asia-Pacific Space Cooperation Organization (APSCO); has a commercial space industry, including Southeast Asia’s first dedicated satellite manufacturing facility, which opened in 2021 (2025)
+
+### Key space-program milestones
+
+1982 - established first satellite ground station
+
+1993 - first foreign-built commercial communications satellite (Thaicom-1) launched on European rocket
+
+2008 - first remote sensing satellite (Theos-1; aka Thaichote) co-developed with France and launched by Russia 
+
+2018 - first domestically produced scientific/research satellite (KNACKSAT) launched by US
+
+2024 - signed memorandum of understanding with China for cooperation on Beijing's lunar research station project and space exploration; signed US-led Artemis Accords
+
+## Transnational Issues
+
+### Refugees and internally displaced persons
+
+- **refugees:** 87,025 (2024 est.)
+- **IDPs:** 19 (2023 est.)
+- **stateless persons:** 612,524 (2024 est.)
+
+- **Illicit drugs:** - **USG identification:** major precursor-chemical producer (2025)

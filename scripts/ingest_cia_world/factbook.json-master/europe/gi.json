@@ -1,0 +1,621 @@
+{
+  "Introduction": {
+    "Background": {
+      "text": "<p>Spain reluctantly ceded the strategically important Gibraltar to Great Britain in the 1713 Treaty of Utrecht, and the British garrison at Gibraltar was formally declared a colony in 1830. In a referendum held in 1967, Gibraltarians voted overwhelmingly to remain a British dependency. After the UK granted Gibraltar autonomy in 1969, Spain closed the border and severed all communication links. Between 1997 and 2002, the UK and Spain held a series of talks on establishing temporary joint sovereignty over Gibraltar. In response to these talks, the Gibraltar Government called a referendum in 2002 in which the majority of citizens voted overwhelmingly against sharing sovereignty with Spain. Since 2004, Spain, the UK, and Gibraltar have held tripartite talks to resolve problems that affect the local population, and work continues on cooperation agreements in areas such as taxation and financial services, communications and maritime security, legal and customs services, environmental protection, and education and visa services. A new noncolonial constitution came into force in 2007, and the European Court of First Instance recognized Gibraltar's right to regulate its own tax regime in 2008. The UK retains responsibility for defense, foreign relations, internal security, and financial stability.</p> <p>Spain and the UK continue to spar over the territory. In 2009, for example, a dispute over Gibraltar's claim to territorial waters extending out three miles gave rise to periodic non-violent maritime confrontations between Spanish and UK naval patrols. Spain renewed its demands for an eventual return of Gibraltar to Spanish control after the UK’s 2016 vote to leave the EU, but London has dismissed any connection between the vote and its sovereignty over Gibraltar. </p>"
+    }
+  },
+  "Geography": {
+    "Location": {
+      "text": "Southwestern Europe, bordering the Strait of Gibraltar, which links the Mediterranean Sea and the North Atlantic Ocean, on the southern coast of Spain"
+    },
+    "Geographic coordinates": {
+      "text": "36 08 N, 5 21 W"
+    },
+    "Map references": {
+      "text": "Europe"
+    },
+    "Area": {
+      "total ": {
+        "text": "7 sq km"
+      },
+      "land": {
+        "text": "6.5 sq km"
+      },
+      "water": {
+        "text": "0 sq km"
+      }
+    },
+    "Area - comparative": {
+      "text": "more than 10 times the size of the National Mall in Washington, D.C."
+    },
+    "Land boundaries": {
+      "total": {
+        "text": "1.2 km"
+      },
+      "border countries": {
+        "text": "Spain 1.2 km"
+      }
+    },
+    "Coastline": {
+      "text": "12 km"
+    },
+    "Maritime claims": {
+      "territorial sea": {
+        "text": "3 nm"
+      }
+    },
+    "Climate": {
+      "text": "Mediterranean with mild winters and warm summers"
+    },
+    "Terrain": {
+      "text": "a narrow coastal lowland borders the Rock of Gibraltar"
+    },
+    "Elevation": {
+      "highest point": {
+        "text": "Rock of Gibraltar 426 m"
+      },
+      "lowest point": {
+        "text": "Mediterranean Sea 0 m"
+      }
+    },
+    "Natural resources": {
+      "text": "none"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "0% (2022 est.)"
+      },
+      "forest": {
+        "text": "0% (2022 est.)"
+      },
+      "other": {
+        "text": "100% (2022 est.)"
+      }
+    },
+    "Irrigated land": {
+      "text": "NA"
+    },
+    "Natural hazards": {
+      "text": "occasional droughts; no streams or large bodies of water on the peninsula (all potable water comes from desalination)"
+    },
+    "Geography - note": {
+      "text": "strategic location on Strait of Gibraltar that links the North Atlantic Ocean and Mediterranean Sea"
+    }
+  },
+  "People and Society": {
+    "Population": {
+      "total": {
+        "text": "29,733 (2025 est.)"
+      },
+      "male": {
+        "text": "14,923"
+      },
+      "female": {
+        "text": "14,810"
+      }
+    },
+    "Nationality": {
+      "noun": {
+        "text": "Gibraltarian(s)"
+      },
+      "adjective": {
+        "text": "Gibraltar"
+      }
+    },
+    "Ethnic groups": {
+      "text": "Gibraltarian 79%, other British 13.2%, Spanish 2.1%, Moroccan 1.6%, other EU 2.4%, other 1.6% (2012 est.)",
+      "note": "<strong>note:</strong> data represent population by nationality"
+    },
+    "Languages": {
+      "text": "English (used in schools and for official purposes), Spanish, Italian, Portuguese"
+    },
+    "Religions": {
+      "text": "Roman Catholic 72.1%, Church of England 7.7%, other Christian 3.8%, Muslim 3.6%, Jewish 2.4%, Hindu 2%, other 1.1%, none 7.1%, unspecified 0.1% (2012 est.)"
+    },
+    "Age structure": {
+      "0-14 years": {
+        "text": "20% (male 3,045/female 2,895)"
+      },
+      "15-64 years": {
+        "text": "62.5% (male 9,383/female 9,179)"
+      },
+      "65 years and over": {
+        "text": "17.5% (2024 est.) (male 2,491/female 2,690)"
+      }
+    },
+    "Dependency ratios": {
+      "total dependency ratio": {
+        "text": "60 (2025 est.)"
+      },
+      "youth dependency ratio": {
+        "text": "32.1 (2025 est.)"
+      },
+      "elderly dependency ratio": {
+        "text": "28 (2025 est.)"
+      },
+      "potential support ratio": {
+        "text": "3.6 (2025 est.)"
+      }
+    },
+    "Median age": {
+      "total": {
+        "text": "37.1 years (2025 est.)"
+      },
+      "male": {
+        "text": "36.2 years"
+      },
+      "female": {
+        "text": "37.5 years"
+      }
+    },
+    "Population growth rate": {
+      "text": "0.16% (2025 est.)"
+    },
+    "Birth rate": {
+      "text": "13.55 births/1,000 population (2025 est.)"
+    },
+    "Death rate": {
+      "text": "8.71 deaths/1,000 population (2025 est.)"
+    },
+    "Net migration rate": {
+      "text": "-3.23 migrant(s)/1,000 population (2025 est.)"
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "100% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.45% annual rate of change (2015-20 est.)"
+      }
+    },
+    "Major urban areas - population": {
+      "text": "35,000 GIBRALTAR (capital) (2018)"
+    },
+    "Sex ratio": {
+      "at birth": {
+        "text": "1.05 male(s)/female"
+      },
+      "0-14 years": {
+        "text": "1.05 male(s)/female"
+      },
+      "15-64 years": {
+        "text": "1.02 male(s)/female"
+      },
+      "65 years and over": {
+        "text": "0.93 male(s)/female"
+      },
+      "total population": {
+        "text": "1.01 male(s)/female (2024 est.)"
+      }
+    },
+    "Infant mortality rate": {
+      "total": {
+        "text": "5.9 deaths/1,000 live births (2025 est.)"
+      },
+      "male": {
+        "text": "6.8 deaths/1,000 live births"
+      },
+      "female": {
+        "text": "5.2 deaths/1,000 live births"
+      }
+    },
+    "Life expectancy at birth": {
+      "total population": {
+        "text": "80.9 years (2024 est.)"
+      },
+      "male": {
+        "text": "78.1 years"
+      },
+      "female": {
+        "text": "83.8 years"
+      }
+    },
+    "Total fertility rate": {
+      "text": "1.88 children born/woman (2025 est.)"
+    },
+    "Gross reproduction rate": {
+      "text": "0.92 (2025 est.)"
+    },
+    "Drinking water source": {
+      "improved: urban": {
+        "text": "urban: 100% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 100% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 0% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0% of population (2022 est.)"
+      }
+    },
+    "Sanitation facility access": {
+      "improved: urban": {
+        "text": "urban: 100% of population (2022 est.)"
+      },
+      "improved: total": {
+        "text": "total: 100% of population (2022 est.)"
+      },
+      "unimproved: urban": {
+        "text": "urban: 0% of population (2022 est.)"
+      },
+      "unimproved: total": {
+        "text": "total: 0% of population (2022 est.)"
+      }
+    },
+    "Education expenditure": {
+      "text": "8.6% national budget (2025 est.)"
+    }
+  },
+  "Environment": {
+    "Environmental issues": {
+      "text": "limited natural freshwater resources"
+    },
+    "Climate": {
+      "text": "Mediterranean with mild winters and warm summers"
+    },
+    "Land use": {
+      "agricultural land": {
+        "text": "0% (2022 est.)"
+      },
+      "forest": {
+        "text": "0% (2022 est.)"
+      },
+      "other": {
+        "text": "100% (2022 est.)"
+      }
+    },
+    "Urbanization": {
+      "urban population": {
+        "text": "100% of total population (2023)"
+      },
+      "rate of urbanization": {
+        "text": "0.45% annual rate of change (2015-20 est.)"
+      }
+    },
+    "Carbon dioxide emissions": {
+      "total emissions": {
+        "text": "15.608 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from petroleum and other liquids": {
+        "text": "15.458 million metric tonnes of CO2 (2023 est.)"
+      },
+      "from consumed natural gas": {
+        "text": "150,000 metric tonnes of CO2 (2023 est.)"
+      }
+    },
+    "Waste and recycling": {
+      "municipal solid waste generated annually": {
+        "text": "17,000 tons (2024 est.)"
+      }
+    }
+  },
+  "Government": {
+    "Country name": {
+      "conventional long form": {
+        "text": "none"
+      },
+      "conventional short form": {
+        "text": "Gibraltar"
+      },
+      "etymology": {
+        "text": "from the Spanish derivation of the Arabic <em>jabal tariq</em>, which means \"Mountain of Tariq\" and refers to the Berber chief who captured the peninsula in A.D. 711"
+      }
+    },
+    "Government type": {
+      "text": "parliamentary democracy (Parliament); self-governing overseas territory of the UK"
+    },
+    "Dependency status": {
+      "text": "overseas territory of the UK"
+    },
+    "Capital": {
+      "name": {
+        "text": "Gibraltar"
+      },
+      "geographic coordinates": {
+        "text": "36 08 N, 5 21 W"
+      },
+      "time difference": {
+        "text": "UTC+1 (6 hours ahead of Washington, DC, during Standard Time)"
+      },
+      "daylight saving time": {
+        "text": "+1hr, begins last Sunday in March; ends last Sunday in October"
+      },
+      "etymology": {
+        "text": "from the Spanish derivation of the Arabic <em>jabal tariq</em>, which means \"Mountain of Tariq\" and refers to the Berber chief who captured the peninsula in A.D. 711"
+      }
+    },
+    "Legal system": {
+      "text": "the laws of the UK apply"
+    },
+    "Constitution": {
+      "history": {
+        "text": "previous 1969; latest passed by referendum 30 November 2006, entered into effect 14 December 2006, entered into force 2 January 2007"
+      },
+      "amendment process": {
+        "text": "proposed by Parliament and requires prior consent of the British monarch (through the Secretary of State); passage requires at least three-fourths majority vote in Parliament followed by simple majority vote in a referendum; note &ndash; only sections 1 through 15 in Chapter 1 (Protection of Fundamental Rights and Freedoms) can be amended by Parliament"
+      }
+    },
+    "Citizenship": {
+      "text": "see United Kingdom"
+    },
+    "Suffrage": {
+      "text": "18 years of age; universal; and British citizens with six months residence or more"
+    },
+    "Executive branch": {
+      "chief of state": {
+        "text": "King CHARLES III (since 8 September 2022); represented by Governor Sir David STEEL (since 11 June 2020)"
+      },
+      "head of government": {
+        "text": "Chief Minister Fabian PICARDO (since 9 December 2011)"
+      },
+      "cabinet": {
+        "text": "Council of Ministers appointed from among the 17 elected members of Parliament by the governor, in consultation with the chief minister"
+      },
+      "election/appointment process": {
+        "text": "the monarchy is hereditary; governor appointed by the monarch; following legislative elections, the governor usually appoints the leader of the majority party or majority coalition as chief minister"
+      }
+    },
+    "Legislative branch": {
+      "legislature name": {
+        "text": "Parliament"
+      },
+      "legislative structure": {
+        "text": "unicameral"
+      },
+      "number of seats": {
+        "text": "18 (17 directly elected, 1 appointed)"
+      },
+      "electoral system": {
+        "text": "plurality/majority"
+      },
+      "scope of elections": {
+        "text": "full renewal"
+      },
+      "term in office": {
+        "text": "4 years"
+      },
+      "most recent election date": {
+        "text": "10/12/2023"
+      },
+      "parties elected and seats per party": {
+        "text": "GSLP-Liberal Alliance (9) (GSLP 7, LPG 2); GSD (8)"
+      },
+      "percentage of women in chamber": {
+        "text": "38.5%"
+      },
+      "expected date of next election": {
+        "text": "October 2027"
+      }
+    },
+    "Judicial branch": {
+      "highest court(s)": {
+        "text": "Court of Appeal (consists of at least 3 judges, including the court president); Supreme Court of Gibraltar (consists of the chief justice and 3 judges)&nbsp;"
+      },
+      "judge selection and term of office": {
+        "text": "Court of Appeal and Supreme Court judges appointed by the governor upon the advice of the Judicial Service Commission, a 7-member body of judges and appointees of the governor; tenure of the Court of Appeal president based on terms of appointment; Supreme Court chief justice and judges normally appointed until retirement at age 67, but tenure can be extended 3 years"
+      },
+      "subordinate courts": {
+        "text": "Court of First Instance; Magistrates' Court; specialized tribunals for issues relating to social security, taxes, and employment"
+      },
+      "note": "<strong>note:</strong> appeals beyond the Court of Appeal are heard by the Judicial Committee of the Privy Council (in London)"
+    },
+    "Political parties": {
+      "text": "Gibraltar Liberal Party or Liberal Party of Gibraltar or LPG <br>Gibraltar Social Democrats or GSD <br>Gibraltar Socialist Labor Party or GSLP <br>GSLP-Liberal Alliance <br>Together Gibraltar or TG "
+    },
+    "Diplomatic representation in the US": {
+      "text": "none (overseas territory of the UK)"
+    },
+    "Diplomatic representation from the US": {
+      "embassy": {
+        "text": "none (overseas territory of the UK)"
+      }
+    },
+    "International organization participation": {
+      "text": "ICC (NGOs), Interpol (subbureau), UPU"
+    },
+    "Independence": {
+      "text": "none (overseas territory of the UK)"
+    },
+    "National holiday": {
+      "text": "National Day, 10 September (1967)",
+      "note": "<strong>note:</strong> day of the national referendum to decide whether to remain with the UK or join Spain"
+    },
+    "Flag": {
+      "text": "<strong>description:</strong> two horizontal bands of white (top, double-width) and red with a three-towered red castle in the center of the white band; a gold key hangs from the castle gate and is centered in the red band<br><br><strong> meaning:</strong> the castle symbolizes Gibraltar as a fortress, and the key represents Gibraltar's strategic importance -- the key to the Mediterranean<br><br><strong>history:</strong> the design comes from Gibraltar's coat of arms, which King Ferdinand and Queen Isabella of Spain granted on 10 July 1502 "
+    },
+    "National symbol(s)": {
+      "text": "Barbary partridge"
+    },
+    "National color(s)": {
+      "text": "red, white, yellow"
+    },
+    "National coat of arms": {
+      "text": "King Ferdinand and Queen Isabella of Spain granted this coat of arms to Gibraltar in 1502; the castle in the center of the shield represents Gibraltar as a fortress, and the gold key represents its strategic position as the gateway to the Mediterranean; below the shield is the national motto, <em>Montis Insignia Calpe</em> (“Badge of the Rock of Gibraltar”); the coat of arms uses the national colors of red, white, and yellow"
+    },
+    "National anthem(s)": {
+      "title": {
+        "text": "\"God Save the King\""
+      },
+      "lyrics/music": {
+        "text": "unknown"
+      },
+      "history": {
+        "text": "official anthem, as an overseas UK territory"
+      }
+    }
+  },
+  "Economy": {
+    "Economic overview": {
+      "text": "British territorial high-income economy; Brexit caused significant economic disruption to longstanding financial services, shipping, and tourism industries; ongoing negotiations to rejoin EU Schengen Area; independent taxation authority"
+    },
+    "GDP (official exchange rate)": {
+      "text": "$2.044 billion (2014 est.)"
+    },
+    "Agricultural products": {
+      "text": "none"
+    },
+    "Industries": {
+      "text": "tourism, banking and finance, ship repairing, tobacco"
+    },
+    "Exports - partners": {
+      "text": "Netherlands 38%, France 26%, Cyprus 7%, Poland 7%, Sweden 6% (2023)",
+      "note": "<b>note:</b> top five export partners based on percentage share of exports"
+    },
+    "Exports - commodities": {
+      "text": "refined petroleum, natural gas, ships, cars, scrap iron (2023)",
+      "note": "<b>note:</b> top five export commodities based on value in dollars"
+    },
+    "Imports - partners": {
+      "text": "Italy 26%, Greece 12%, Spain 10%, Netherlands 9%, India 9% (2023)",
+      "note": "<b>note:</b> top five import partners based on percentage share of imports"
+    },
+    "Imports - commodities": {
+      "text": "refined petroleum, crude petroleum, coal tar oil, natural gas, ships (2023)",
+      "note": "<b>note:</b> top five import commodities based on value in dollars"
+    },
+    "Exchange rates": {
+      "Currency": {
+        "text": "Gibraltar pounds (GIP) per US dollar -"
+      },
+      "Exchange rates 2024": {
+        "text": "0.782 (2024 est.)"
+      },
+      "Exchange rates 2023": {
+        "text": "0.805 (2023 est.)"
+      },
+      "Exchange rates 2022": {
+        "text": "0.811 (2022 est.)"
+      },
+      "Exchange rates 2021": {
+        "text": "0.727 (2021 est.)"
+      },
+      "Exchange rates 2020": {
+        "text": "0.78 (2020 est.)"
+      }
+    }
+  },
+  "Energy": {
+    "Electricity access": {
+      "electrification - total population": {
+        "text": "100% (2022 est.)"
+      }
+    },
+    "Electricity": {
+      "installed generating capacity": {
+        "text": "50,000 kW (2023 est.)"
+      },
+      "consumption": {
+        "text": "213.744 million kWh (2023 est.)"
+      },
+      "transmission/distribution losses": {
+        "text": "6.256 million kWh (2023 est.)"
+      }
+    },
+    "Electricity generation sources": {
+      "fossil fuels": {
+        "text": "100% of total installed capacity (2023 est.)"
+      }
+    },
+    "Petroleum": {
+      "refined petroleum consumption": {
+        "text": "91,000 bbl/day (2023 est.)"
+      }
+    },
+    "Natural gas": {
+      "consumption": {
+        "text": "77.196 million cubic meters (2023 est.)"
+      },
+      "imports": {
+        "text": "77.196 million cubic meters (2023 est.)"
+      }
+    }
+  },
+  "Communications": {
+    "Telephones - fixed lines": {
+      "total subscriptions": {
+        "text": "17,200 (2022 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "46 (2022 est.)"
+      }
+    },
+    "Telephones - mobile cellular": {
+      "total subscriptions": {
+        "text": "36,700 (2022 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "98 (2022 est.)"
+      }
+    },
+    "Broadcast media": {
+      "text": "Gibraltar Broadcasting Corporation (GBC) provides TV and radio services via 1 TV station and 4 radio stations; British Forces Broadcasting Service (BFBS) operates 1 radio station; broadcasts from Spanish radio and TV stations are accessible"
+    },
+    "Internet country code": {
+      "text": ".gi"
+    },
+    "Internet users": {
+      "percent of population": {
+        "text": "94% (2016 est.)"
+      }
+    },
+    "Broadband - fixed subscriptions": {
+      "total": {
+        "text": "23,000 (2022 est.)"
+      },
+      "subscriptions per 100 inhabitants": {
+        "text": "61 (2022 est.)"
+      }
+    }
+  },
+  "Transportation": {
+    "Civil aircraft registration country code prefix": {
+      "text": "VP-G"
+    },
+    "Airports": {
+      "text": "1 (2025)"
+    },
+    "Merchant marine": {
+      "total": {
+        "text": "129 (2023)"
+      },
+      "by type": {
+        "text": "bulk carrier 8, container ship 5, general cargo 31, oil tanker 16, other 69"
+      }
+    },
+    "Ports": {
+      "total ports": {
+        "text": "1 (2024)"
+      },
+      "large": {
+        "text": "0"
+      },
+      "medium": {
+        "text": "1"
+      },
+      "small": {
+        "text": "0"
+      },
+      "very small": {
+        "text": "0"
+      },
+      "ports with oil terminals": {
+        "text": "1"
+      },
+      "key ports": {
+        "text": "Europa Point"
+      }
+    }
+  },
+  "Military and Security": {
+    "Military and security forces": {
+      "text": "Royal Gibraltar Regiment (UK) (2025)"
+    },
+    "Military - note": {
+      "text": "defense is the responsibility of the UK"
+    }
+  },
+  "Transnational Issues": {
+  }
+}

@@ -1,27 +1,29 @@
 ---
 name: nbrag-workflow
-description: 当任务需要从 nbrag 知识库检索知识，或需要精通 nbrag 工具怎么使用时候使用。
+description: 当任务需要从 nbrag 知识库检索知识，或需要精通 nbrag 工具怎么使用怎么传参时候使用。nbrag最常见流程的用法是 nbrag_help -> nbrag_stats -> nbrag_retrieve -> nbrag_read_more_original_text ,其中nbrag_help和nbrag_stats只需要开头调用一次。nbrag_retrieve 和 nbrag_read_more_original_text 检索知识的主力工具。
 ---
 
-# nbrag workflow
+# nbrag 功能说明
 
-nbrag 是给 Agent 使用的通用 Agentic RAG MCP。知识库可以包含代码、文档、法规、医学指南、技术手册或其他文本。
+nbrag 是给 Agent 使用的万能通用 Agentic RAG MCP。知识库可以包含代码、文档、法规、医学指南、技术手册或其他文本。
+llm 通过多轮使用 nbrag的多个工具，自由发挥，从rag知识库中检索知识，然后胡嗲用户问题。。
+工具列表里实际可调用的名称可能带前缀。例如，`nbrag_help` 可能显示为 `mcp__nbrag__nbrag_help`。调用时以当前提供给你的工具列表为准。
 
-工具列表里实际可调用的名称可能带前缀。例如，`nbrag_help` 可能显示为 `mcp__nbrag__nbrag_help`。调用时以当前工具列表为准。
 
 ## 开始使用
 
-首次使用 nbrag 前，调 `nbrag_help()` 获取 nbrag 工具使用指南。成功响应可在同一会话内复用。如果该响应因 context compaction 丢失，或无法确认它是否仍在上下文中，就再次调用。
+首次使用 nbrag 前，调 `nbrag_help()` 获取 nbrag 工具使用指南。
 
-如果 `collection_name` 未知，就调 `nbrag_stats()` 获取准确名称。
+如果不知道用户的提问应该在什么知识库(collection_name) 中去检索，就使用`nbrag_stats()`查看已准备的知识库，这能有效帮助你决定在哪个知识库（collection_name ）中去检索知识。
 
-## 核心工具
+
+## 核心检索工具
 
 nbrag MCP 提供了十几个工具，但最核心的检索路径由 `nbrag_retrieve()` 和 `nbrag_read_more_original_text()` 组成：先检索多个内容块，再围绕有价值的命中读取相邻、更大范围的连续原文。
 
 `nbrag_retrieve()` 是默认的检索工具。它返回的 chunk 和 auto-expanded original-text block 都是有限范围的检索内容，不是完整文件。
 
-如果需要控制 rerank、BM25、文件过滤或 metadata-only 输出，就使用 `nbrag_retrieve_no_expand()`。
+如果需要精确控制 rerank、BM25、文件过滤或 metadata-only 输出，就使用 `nbrag_retrieve_no_expand()`。
 
 如果某个 ranked hit 对回答有用，就复制该 hit 的 `file_path` 和 `line_start`。把复制出的 `line_start` 记作 `hit_line_start`，然后调用：
 
@@ -36,65 +38,14 @@ nbrag_read_more_original_text(
 
 如果缺少前文，就把 `line_start` 往前调小；如果缺少后文，就把 `line_end` 往后调大。如果需要完整文件，就省略 `line_start` 和 `line_end`。
 
-## 工具表
 
-| 场景 | 工具 | 用途 |
-|---|---|---|
-| nbrag 工具使用指南不在上下文 | `nbrag_help()` | 获取工具选择、参数和后续读取说明 |
-| `collection_name` 未知 | `nbrag_stats()` | 查看已准备的知识库 |
-| semantic 或 hybrid retrieval | `nbrag_retrieve()` | 返回 ranked hits 和auto-expanded original-text blocks |
-| 需要检索开关或 metadata-only | `nbrag_retrieve_no_expand()` | 控制 rerank、BM25、文件过滤和 chunk content |
-| lexical-only 诊断 | `nbrag_retrieve_only_bm25()` | 单独检查 BM25 recall |
-| vector-only 诊断 | `nbrag_retrieve_only_vector()` | 单独检查 vector recall |
-| literal 或 regex matching | `nbrag_grep()` | 在 stored original text 中逐行匹配 |
-| 已知 Python symbol | `nbrag_find_definition()` | 查找 Python class、function 或 method definition |
-| 只知道文件名或路径片段 | `nbrag_find_files()` | 获取准确的 full absolute `file_path` |
-| 浏览已导入文件 | `nbrag_list()` | 获取 document inventory、`doc_id` 和 `file_path` |
-| 读取连续原文 | `nbrag_read_more_original_text()` | 读取 overlap-free stored original text，支持指定 line range 或完整文件 |
 
-## `query` 和 `bm25_query`
+## `query` 和 `bm25_query` 参数的说明
 
 `query` 是 vector retrieval 和 reranking 使用的 semantic query。使用语义完整、可读的自然语言问题或陈述。如果知识库是英文内容，请使用英文检索
 
-`bm25_query` 是可选的 lexical-anchor query，只供 BM25 使用。没有可靠 lexical anchors 时可以省略。。如果知识库是英文内容，请使用英文检索
+`bm25_query` 是可选的 lexical-anchor query，只供 BM25 使用。没有可靠 lexical anchors 时可以省略。如果知识库是英文内容，请使用英文检索。
 
-
-如果填写 `bm25_query`，就使用用户原话、可靠的对话上下文或先前检索结果支持的措辞。选择 source text 中可能原样出现、并能区分目标与相近内容的 lexical anchors；它承载的是 source-facing wording。
-
-如果先前结果揭示了更准确的 source wording，就可以在后续检索中更新 `bm25_query`。
-
-如果对话上下文足以确定代词所指对象或明显笔误，就可以在保持用户原意的前提下补全 `query`。如果指代仍不明确，就保留用户当前表达继续检索。
-
-## 检索内容边界
-
-| 返回内容 | 真实边界 |
-|---|---|
-| `<nbrag_chunk_content>` | 一个 RAG chunk，止于 chunk boundary；相邻 chunks 按 ingestion 时配置的 overlap 重叠 |
-| `<nbrag_original_text_content>` under `<nbrag_original_text_expand>` | `nbrag_retrieve()` 自动读取的局部原文，受 `expand_context_chars` 限制 |
-| `<nbrag_original_text_content>` under `<nbrag_match>` | grep 命中行附近的局部原文，受 `match_context_chars` 限制 |
-| `<nbrag_original_text_content>` under `<nbrag_original_text>` | `nbrag_read_more_original_text()` 明确请求的原文窗口；省略两个 line bounds 时才是完整 stored file |
-| `<nbrag_definition_content>` | Python 结果通常是 AST definition；`symbol_type="regex_fallback"` 只是非 Python candidate text |
-
-Chunk overlap 用于提高 retrieval recall。需要连续上下文、引用原文或阅读大文件时，使用 `nbrag_read_more_original_text()`。
-
-## 扩读原文
-
-如果某个 ranked hit 对回答有用，就从该 `<nbrag_ranked_hit>` 的 XML attributes 取 `file_path` 和 `line_start`。把返回的 `line_start` 记作 `hit_line_start`，然后调用：
-
-```text
-nbrag_read_more_original_text(
-    file_path,
-    collection_name,
-    line_start=max(1, hit_line_start - 200),
-    line_end=hit_line_start + 400,
-)
-```
-
-如果缺少前文，就把下一次调用的 `line_start` 调小。如果缺少后文，就把 `line_end` 调大。如果需要完整 stored file，就省略 `line_start` 和 `line_end`。
-
-对于大文件或大范围内容，使用 `nbrag_read_more_original_text()` 按连续 line ranges 阅读。
-
-`expand_context_chars` 控制 `nbrag_retrieve()` 自动返回的 original-text excerpt 长度，不会扩大 chunk。已有相关 hit 后需要更多内容时，调用 `nbrag_read_more_original_text()` 扩大原文范围。
 
 ## 复用 XML attributes
 
@@ -112,13 +63,7 @@ nbrag_read_more_original_text(
 
 `file_path` 使用 nbrag 返回的 full absolute path。如果只知道一部分文件名或路径，就先调 `nbrag_find_files()`。
 
-## `filter_file_path`
 
-`filter_file_path` 会把 retrieval 收窄到一个 stored file。它不是轻量的 ranking preference。
-
-在 hybrid search 中，设置 `filter_file_path` 后，vector retrieval 会限定到该文件，并跳过 cross-file BM25 fusion。返回内容不会额外提供 `bm25="off"` 属性。
-
-`nbrag_retrieve_only_bm25()` 的文件过滤是先做 collection-level BM25 recall，再过滤到目标文件，因此它不等同于真正的 file-local BM25 index。
 
 ## Python definition
 
@@ -144,14 +89,60 @@ nbrag_read_more_original_text(
 3. 如果需要 exact wording，就调 `nbrag_grep(..., filter_file_path=file_path)`。
 4. 如果需要更宽的连续原文，就调 `nbrag_read_more_original_text()`。
 
-### 阅读大文件
 
-1. 调 `nbrag_read_more_original_text(file_path, collection_name, line_start=1, line_end=<reading window end>)`。
-2. 从 `<nbrag_original_text total_lines="..." line_start="..." line_end="...">` 获取当前范围和文件总行数。
-3. 如果还需要后文，就把下一次 `line_start` 设到当前 `line_end` 之后，并继续向后读取。
-4. 如果需要整个文件，就省略 `line_start` 和 `line_end`。
 
-阅读大文件时，使用 `nbrag_read_more_original_text()` 按连续 line ranges 扩读。
+## 示例：双通道、多轮检索与原文扩读
+
+假设一个知识库里面介绍了世界上各国的详细的历史、文化、经济、政治、地理、人口、面积、军事等情况
+
+### 用户在知识库提问 `俄罗斯和美国谁的军事厉害?`
+
+以下示意展示 `query` 与 `bm25_query` 的写法差异、handle 复用和多轮检索。
+
+
+如果同一对象包含多个相对独立的方面，就可以分别构造 `query` 和 `bm25_query` 继续检索。例如，知识库原文可能分别介绍一个国家的武器装备和兵力规模，因此可以针对这两个方面分别检索。
+
+1. 检索俄罗斯的武器装备：
+   ```text
+   nbrag_retrieve(
+       collection_name="<collection>",
+       query="俄罗斯的武器",
+       bm25_query="俄罗斯 潜艇 轰炸机 航母",
+   )
+   ```
+
+2. 如果还需要俄罗斯的兵力规模，就为这个方面构造另一组 `query` 和 `bm25_query`：
+   ```text
+   nbrag_retrieve(
+       collection_name="<collection>",
+       query="俄罗斯的部队人数",
+       bm25_query="俄罗斯 空军 海军 陆军",
+   )
+   ```
+   - `query` 是语义完整的自然语言表达，供 vector retrieval 和 reranking 使用。
+   - `bm25_query` 使用原文中可能原样出现、且与当前检索方面相关的一组关键词锚点，供 BM25 使用；使用多个原文中出现的相关关键词锚点可以覆盖更多原文措辞，增强召回相关度。
+   - 你可以多轮调用工具，根据已检索到知识内容，继续优化拟写使用更好更能提高召回质量的 `query` 和 `bm25_query` 参数 再次调用nbrag相关工具。
+
+3. 如果某个 `<nbrag_ranked_hit file_path="..." line_start="..." ...>` 对回答有用，就复制其 `file_path` 和 `line_start`，调用 `nbrag_read_more_original_text()` 扩读命中点周围的连续原文：
+   ```text
+   nbrag_read_more_original_text(
+       file_path="<hit 的 file_path>",
+       collection_name="<collection>",
+       line_start=max(1, <hit 的 line_start> - 200),
+       line_end=<hit 的 line_start> + 400,
+   )
+   ```
+
+4. 如果还缺另一方的知识，就针对另一方重复上述检索（先查武器，再查部队人数）与扩读。例如：
+   ```text
+   nbrag_retrieve(
+       collection_name="<collection>",
+       query="美国的武器",
+       bm25_query="美国 潜艇 轰炸机 航母",
+   )
+   ```
+
+
 
 ## Recovery
 
@@ -159,14 +150,16 @@ nbrag_read_more_original_text(
 |---|---|
 | `collection_name` 未知或不确定 | `nbrag_stats()` |
 | semantic search 没找到结果 | 保持用户原意改写 `query`；有可靠 lexical anchors 时补 `bm25_query` |
-| 需要 exact wording、编号或原文措辞 | `nbrag_grep()` |
-| grep 没找到，但问题可能是 paraphrase 或 concept | `nbrag_retrieve()` |
-| 只知道部分文件名或路径 | `nbrag_find_files()` |
-| 当前检索结果有用但上下文太短 | `nbrag_read_more_original_text()` |
-| 需要比较 lexical-only 和 vector-only recall | `nbrag_retrieve_only_bm25()` / `nbrag_retrieve_only_vector()` |
+| 如果需要 exact wording、编号或原文措辞 | `nbrag_grep()` |
+| 如果grep 没找到，但问题可能是 paraphrase 或 concept | `nbrag_retrieve()` |
+| 如果只知道部分短文件名或路径 | `nbrag_find_files()` |
+| 如果当前检索结果有用但上下文太短 | `nbrag_read_more_original_text()` |
+| 如果需要比较 lexical-only 和 vector-only recall 哪个召回质量更好 | `nbrag_retrieve_only_bm25()` / `nbrag_retrieve_only_vector()` |
 
-## 作答前检查
+## 写答案前
 
-直接回答前，确认当前检索内容的边界，并判断答案、引用或核查是否依赖边界外内容。
+写答案前，按顺序自检：
 
-如果依赖边界外内容，就用 `nbrag_read_more_original_text()` 读取缺失的连续原文。根据回答、引用和核查所需的知识范围继续检索与扩读。
+1. ai回答用户问题所需的全部知识内容，是否已经通过nbrag检索工具检索完全？
+2. 如果某个检索到的hit对回答有用，就用 `nbrag_read_more_original_text()` 扩读命中点周围的连续原文。
+3. 扩读后还缺，就继续检索或再扩读，直到检索足够的知识库内容。
