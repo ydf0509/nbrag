@@ -1,0 +1,381 @@
+# nbrag
+
+[English](README.en.md) | [简体中文](README.md)
+
+`nbrag` is a PyPI package that builds a local text knowledge base and exposes it through an MCP server for LLM-powered retrieval.
+
+nbrag is an **agentic RAG** system: the LLM actively calls retrieval tools, constructs both semantic vector queries and BM25 lexical queries based on context, and autonomously expands its reading range from retrieved chunks.
+
+This lets it complete extreme multi-hop reasoning tasks across multiple files — far beyond what traditional one-shot RAG can do.
+
+nbrag works with any MCP-compatible agent, including OpenClaw, Codex, Claude Code, Cursor, Trae, Opencode, WorkBuddy, lc-agent, and more.
+
+Use it when you want an MCP client to retrieve knowledge from files you control, such as internal documentation, regulations, manuals, notes, local project docs, or Python source code.
+
+nbrag comes with vector search, BM25 search, and hybrid search built in. Through well-crafted prompts and 10+ MCP tools, an AI agent can retrieve the most relevant knowledge.
+
+## When to use nbrag
+
+`nbrag` is a good fit when you want to:
+
+- index **private or local text** that hosted services cannot see
+- build a **domain-specific knowledge base** from your own files
+- let an MCP client search both **vectorized chunks and stored original text**
+- keep storage **on your own machine**
+
+`nbrag` is text-first. If your source material starts as PDF, Word, images, scans, or web pages, convert it to `.md`, `.txt`, or `.html` before ingestion for the best results.
+
+## Install
+
+```bash
+pip install nbrag
+```
+
+To confirm the package is available:
+
+```bash
+python -m nbrag --help
+```
+
+## Configure the API key
+
+By default, `nbrag` uses SiliconFlow-compatible embedding and rerank endpoints. Set `NBRAG_API_KEY` before ingestion or serving.
+
+Linux/macOS:
+
+```bash
+export NBRAG_API_KEY=sk-xxx
+```
+
+Windows PowerShell:
+
+```powershell
+$env:NBRAG_API_KEY = "sk-xxx"
+```
+
+## Quick start
+
+The normal workflow is:
+
+1. prepare a folder of text files
+2. ingest it with `batch_ingest()`
+3. describe the collection with `set_collection_profile()`
+4. start the MCP server
+5. connect your MCP client
+
+### Minimal ingestion example
+
+Create a script such as `ingest_my_docs.py`:
+
+```python
+from nbrag import batch_ingest, set_collection_profile
+
+batch_ingest(
+    paths=[
+        "D:/docs/company_policies",
+        "D:/docs/product_manuals",
+    ],
+    collection_name="company_knowledge",
+    file_extensions=[".md", ".txt", ".html"],
+    delete_first=True,
+    verbose=True,
+)
+
+set_collection_profile(
+    "company_knowledge",
+    display_name="Company Knowledge Base",
+    description="Internal policies and product manuals.",
+    aliases=["company docs", "policies", "manuals"],
+    tags=["internal", "policy", "manual"],
+)
+```
+
+Run it with Python:
+
+```bash
+python ingest_my_docs.py
+```
+
+A few practical notes:
+
+- `collection_name` is the stable machine-facing identifier （knowledge base name）
+- `file_extensions` lets you limit which text files are ingested
+- `delete_first=True` If you need to adjust parameters, you can fully rebuild this collection. However, if incremental import is supported, avoid deleting it beforehand.
+- `verbose=True` is useful while you are learning or debugging your ingest flow
+
+### Why `set_collection_profile()` matters
+
+Chroma collection names should stay simple and slug-like, such as `company_knowledge`.
+
+`set_collection_profile()` adds the human-facing metadata that helps both people and MCP routing understand what a collection contains:
+
+- `display_name`
+- `description`
+- `aliases`
+- `tags`
+
+That metadata is stored separately from the vector-store internals and is used to make collection selection easier and clearer.
+
+## Python source code uses the same ingestion flow
+
+Python projects do not require a separate ingestion workflow. In practice, you usually only change:
+
+- the folders you ingest
+- the `file_extensions` list, for example `['.py', '.md', '.txt']`
+- the collection description in `set_collection_profile()`
+
+Example:
+
+```python
+from nbrag import batch_ingest, set_collection_profile
+
+batch_ingest(
+    paths=[
+        "D:/projects/my_framework/src",
+        "D:/projects/my_framework/docs",
+    ],
+    collection_name="my_framework",
+    file_extensions=[".py", ".md", ".txt"],
+    delete_first=True,
+    verbose=True,
+)
+
+set_collection_profile(
+    "my_framework",
+    display_name="My Framework Source And Docs",
+    description="Python source and documentation for my_framework.",
+    aliases=["my_framework", "framework source", "framework docs"],
+    tags=["python", "source", "docs"],
+)
+```
+
+### Import a GitHub project into an nbrag knowledge base
+
+`nbrag.contrib.ingest_github_proj` downloads a GitHub repository as a ZIP archive and ingests it directly:
+
+```python
+from nbrag.contrib.ingest_github_proj import ingest_github_proj
+
+ingest_github_proj(
+    "https://github.com/owner/repo",
+    collection_name="repo",
+    relative_paths=["src", "docs"],
+    branch="main",
+    delete_first=True,
+    verbose=True,
+)
+```
+
+### Why use ingest_github_proj
+
+You can use the `ingest-github-proj` skill in `nbrag/.agents/skills/ingest-github-proj/SKILL.md` to have the AI generate GitHub ingestion scripts for you.
+
+It lets you vectorize both the source code and the documentation of a GitHub project into one knowledge base, so the LLM can help you write code with grounded, hallucination-free context. An LLM paired with the nbrag MCP server outperforms one paired with context-only MCP servers like Context7.
+
+## Start the MCP server
+
+### stdio mode
+
+Use stdio when one client owns one server process.
+
+```bash
+python -m nbrag
+```
+
+### HTTP mode
+
+Use HTTP mode when multiple clients or many IDE windows should share one local server process.
+
+```bash
+python -m nbrag --transport streamable-http --port 9101
+```
+
+## Configure MCP clients
+
+### stdio configuration
+
+Point the client at the Python environment where `nbrag` is installed.
+
+Example:
+
+```json
+{
+  "mcpServers": {
+    "nbrag": {
+      "command": "python",
+      "args": ["-m", "nbrag"],
+      "env": {
+        "NBRAG_API_KEY": "sk-xxx"
+      }
+    }
+  }
+}
+```
+
+If your client does not use the same interpreter as your shell, replace `python` with the full interpreter path.
+
+### HTTP configuration
+
+First start the shared local server:
+
+```bash
+python -m nbrag --transport streamable-http --port 9101
+```
+
+Then point the client to:
+
+```json
+{
+  "mcpServers": {
+    "nbrag": {
+      "url": "http://localhost:9101/mcp"
+    }
+  }
+}
+```
+
+## MCP capabilities overview
+
+After the server starts, `nbrag` exposes a set of retrieval-oriented MCP tools. For human readers, the easiest way to think about them is by capability:
+
+| Capability | Representative tools | What it covers |
+|---|---|---|
+| Retrieval | `nbrag_retrieve`, `nbrag_retrieve_no_expand` | semantic and hybrid retrieval over ingested collections |
+| Retrieval inspection | `nbrag_retrieve_only_bm25`, `nbrag_retrieve_only_vector` | inspecting lexical-only or vector-only behavior |
+| Exact text lookup | `nbrag_grep` | line-by-line matching over stored original text |
+| Original text reading | `nbrag_read_more_original_text`, `nbrag_get_file_chunks` | reading stored original files or chunk views |
+| Expansion and lookup | `nbrag_get_adjacent_chunks`, `nbrag_get_chunks_by_lines`, `nbrag_find_files` | expanding context around hits and resolving exact file paths |
+| Inventory and routing | `nbrag_stats`, `nbrag_list` | discovering collections and browsing imported documents |
+
+## Why naive RAG falls short and nbrag wins — a concrete example
+
+Naive RAG's biggest flaw is treating retrieval as a one-shot similarity gamble: the query goes straight to embedding, whatever comes back is what you get, and there is no awareness when it goes wrong.
+
+### A typical conversation
+
+Suppose a knowledge base contains data on countries worldwide: history, area, economy, population, culture, GDP, military strength, weapons, etc.
+
+The user asks two questions in sequence. The first is "Who has a stronger military, the US or China?", the second is "And what about the US vs Russia?" — note the second is deliberately incomplete; the user never spells out "Whose military is stronger, the US or Russia?".
+
+> User: Who has a stronger military, the US or China?
+> User: And what about the US vs Russia?
+
+### Naive RAG: a chain of dead ends
+
+"And what about the US vs Russia?" is a chain of dead ends for naive RAG:
+
+- **Incomplete query sends retrieval off target**: "And what about..." is pure coreference with no "military" signal, so embedding has no idea what to look for, and it returns chunks about population, culture, land area — anything but military strength;
+- **Cannot find text that does not exist**: the knowledge base only has per-country data (US military, Russia military); there is no ready-made "US vs Russia military comparison" passage. Naive RAG can only return chunks that actually exist in the corpus — and the "answer" chunk does not exist at all, so any retrieval comes up empty;
+- **No cross-document assembly**: even if it luckily retrieves a US military chunk, top-k is a single similarity gamble that will not also pull Russia's data. Data for the two sides lives in separate chunks and cannot be stitched into a comparison;
+- **Single-turn, no memory**: round one "US vs China" ends and is gone; round two "US vs Russia" is fully isolated and gambles from scratch, not even knowing the US was already searched;
+- **No self-check, no recovery**: it cannot tell half the answer is missing. Wrong is wrong, one-shot, no second chance.
+
+### Agentic RAG (nbrag): stateful knowledge collection
+
+nbrag turns retrieval from a one-shot pipeline into a multi-round, stateful, self-directed knowledge-collection loop:
+
+1. **Round one decomposes sub-questions and searches both countries**: for "US vs China military", the LLM decomposes "military" into warheads, carriers, submarines, bombers, army/navy/air force headcount, etc., and retrieves both US and China military data into context;
+2. **Round two resolves coreference and only fills in Russia**: "And what about the US vs Russia?" is expanded to "US vs Russia military". The LLM sees the US data is already in context from round one, so it searches only Russia — no redundant US search;
+3. **Every round uses dual-channel retrieval**:
+   - **Semantic channel** (query): "Russian military strength" — handles concepts;
+   - **Lexical anchors** (bm25_query): use `Russia military spending`, `Russia submarines bombers carriers`, `Russia army navy air force` across multiple rounds — handles strong literal tokens. When an incomplete query is semantically unreliable, country names and weapon names act as a fallback;
+4. **Expand on every hit**: useful chunks are auto-expanded to surrounding original text so answers are not cut off at chunk boundaries;
+5. **Knowledge-completeness self-check**: a comparison needs both sides; if some Russian data point is still missing, it keeps searching until the data is complete;
+6. **LLM synthesis**: US data from chunk A, Russia data from chunk B — retrieved separately, then assembled into a data-backed military comparison.
+
+### Comparison
+
+| Dimension | Naive RAG | Agentic RAG (nbrag) |
+| --- | --- | --- |
+| Incomplete query | retrieved as-is, no signal | coreference resolved with context |
+| Retrieval target | most similar text snippets | knowledge that answers when combined |
+| Cross-document synthesis | dies when no comparison passage exists | retrieves each side, then synthesizes |
+| State across turns | none | remembers what was retrieved; round two only adds Russia |
+| Retrieval channel | single vector similarity | semantic query + BM25 lexical anchors, dual-channel |
+| Self-check | does not know what is missing | knows which country's data is missing |
+| Recovery | none, one-shot | multi-round expand, re-check, revise |
+| Final answer | makes it up when no ready-made passage exists | comparison backed by retrieved data |
+
+**In one sentence**: naive RAG retrieves what looks similar and quotes ready-made passages; agentic RAG thinks before searching, searches again when needed, remembers what it already found, and assembles retrieved knowledge into the answer — that is the core gap between nbrag and naive RAG.
+
+Beyond this, nbrag differs in two practical ways:
+
+- you prepare and control the knowledge base yourself
+- retrieval is exposed through MCP tools, so the client can search, refine, inspect original text, and fetch more context when needed
+
+## Configuration reference
+
+Configuration priority:
+
+```text
+CLI arguments > environment variables > YAML config > defaults
+```
+
+### Environment variables
+
+| Variable | Required | Default | Description |
+|---|---:|---|---|
+| `NBRAG_API_KEY` | Yes | | Embedding/rerank API key |
+| `NBRAG_BASE_URL` | No | `https://api.siliconflow.cn/v1` | OpenAI-compatible API base URL |
+| `NBRAG_EMBEDDING_MODEL` | No | `BAAI/bge-m3` | Embedding model |
+| `NBRAG_RERANK_MODEL` | No | `BAAI/bge-reranker-v2-m3` | Rerank model |
+| `NBRAG_DB_PATH` | No | `<project>/rag_db` | ChromaDB and local indexes path |
+| `NBRAG_RAW_FILES_PATH` | No | `<db_path>/raw_files` | Stored original-file snapshot path |
+| `NBRAG_CHUNK_SIZE` | No | `1000` | Chunk size |
+| `NBRAG_CHUNK_OVERLAP` | No | `150` | Chunk overlap |
+
+### YAML config
+
+`nbrag` automatically looks for:
+
+1. `./nbrag_config.yaml`
+2. `./nbrag_config.yml`
+3. `~/.config/nbrag/config.yaml`
+4. `~/.config/nbrag/config.yml`
+
+Example:
+
+```yaml
+embedding:
+  api_key: ${NBRAG_API_KEY}
+  base_url: https://api.siliconflow.cn/v1
+  model: BAAI/bge-m3
+
+rerank:
+  model: BAAI/bge-reranker-v2-m3
+
+storage:
+  db_path: ./rag_db
+
+chunking:
+  chunk_size: 1000
+  chunk_overlap: 150
+```
+
+### CLI
+
+```bash
+python -m nbrag --help
+python -m nbrag --transport stdio
+python -m nbrag --transport streamable-http --port 9101
+python -m nbrag --api-key sk-xxx
+python -m nbrag --db-path /data/rag
+python -m nbrag --config ./nbrag_config.yaml
+```
+
+
+
+## Development
+
+```bash
+git clone https://github.com/ydf0509/nbrag.git
+cd nbrag
+pip install -e ".[dev]"
+
+python -m nbrag
+python -m nbrag --transport streamable-http --port 9101
+```
+
+## License
+
+MIT

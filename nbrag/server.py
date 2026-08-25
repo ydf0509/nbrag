@@ -88,11 +88,11 @@ def nbrag_add_document(
 
 
 class FuncFields:
-    query: str = Field(description="主语义查询，用于向量检索和重排序。写成完整的自然语言问句，不要堆关键词；语义越完整召回越准。精确关键词匹配交给 bm25_query。")
+    query: str = Field(description="主语义查询，用于向量检索和重排序。写成完整的自然语言问句，不要堆关键词；语义越完整召回越准。精确关键词匹配交给 bm25_query。！！注意：如果知识库内容是英文的就使用英文语句查询，知识库内容是中文的就使用中文语句查询。")
     collection_name: str = Field(description="Knowledge base name = collection_name = 知识库名字 (call nbrag_stats() first if unknown)")
     top_k: int = Field(default=20, description="返回的命中数量。通常保持默认值即可，无需修改。")
     filter_file_path: str = Field(default="", description="Optional exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted. When set, retrieval is narrowed to that stored file before ranking. Value comes from the file_path handle returned by nbrag tools.")
-    bm25_query: str = Field(description="可选的精确关键词查询，仅用于 BM25 检索。提供时填原知识库中可能原样出现的核心关键词：术语、别名、编号、缩写、API/类名、标题等。bm25_query可以传递多个核心关键词 用空格隔开，以提高召回相关性")
+    bm25_query: str = Field(description="关键词查询，仅用于 BM25 检索。提供时填原知识库中可能原样出现的核心关键词：术语、别名、编号、缩写、API/类名、标题等。bm25_query可以传递多个核心关键词 用空格隔开，以提高召回相关性。！！注意：如果知识库内容是英文的就使用英文语句查询，知识库内容是中文的就使用中文语句查询。")
     include_content: bool = Field(default=True, description="Include chunk content in each hit. Set false for metadata-only lookup when you only need handles like file_path/doc_id/chunk_index.")
     file_path: str = Field(description="Exact full absolute file_path returned by nbrag tools. Basename or relative path is not accepted")
     
@@ -129,6 +129,7 @@ def nbrag_retrieve_only_bm25(
     collection_name: str = FuncFields.collection_name,
     top_k: int = FuncFields.top_k,
     filter_file_path: str = FuncFields.filter_file_path,
+    
     include_content: bool = FuncFields.include_content,
 ) -> str:
     """BM25-only ranked retrieval.
